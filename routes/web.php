@@ -889,37 +889,38 @@ Route::prefix('admin')->group(function(){
         Route::get('/administator/edit/{id}','Admin\AdministerController@edit')->name('admin.administator.edit');
         Route::post('/administator/update/{id}','Admin\AdministerController@update')->name('admin.administator.update');
         Route::get('/administator/delete/{id}','Admin\AdministerController@delete')->name('admin.administator.delete');
-        //----------------Staff Management----------------
-        //----------------Staff Salary Management----------------
-        Route::get('/designations', [App\Http\Controllers\Admin\DesignationController::class, 'index'])->name('admin.designations.index');
-        Route::post('/designations', [App\Http\Controllers\Admin\DesignationController::class, 'store'])->name('admin.designations.store');
-        Route::post('/designations/update/{id}', [App\Http\Controllers\Admin\DesignationController::class, 'update'])->name('admin.designations.update');
-        Route::get('/designations/delete/{id}', [App\Http\Controllers\Admin\DesignationController::class, 'destroy'])->name('admin.designations.delete');
-
-        Route::get('/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'index'])->name('admin.employees.index');
-        Route::get('/employees/create', [App\Http\Controllers\Admin\EmployeeController::class, 'create'])->name('admin.employees.create');
-        Route::post('/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'store'])->name('admin.employees.store');
-        Route::get('/employees/edit/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'edit'])->name('admin.employees.edit');
-        Route::post('/employees/update/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'update'])->name('admin.employees.update');
-        Route::get('/employees/delete/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'destroy'])->name('admin.employees.delete');
-
-        Route::get('/advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'index'])->name('admin.advance-salaries.index');
-        Route::get('/advance-salaries/create', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'create'])->name('admin.advance-salaries.create');
-        Route::post('/advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'store'])->name('admin.advance-salaries.store');
-        Route::get('/advance-salaries/delete/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'destroy'])->name('admin.advance-salaries.delete');
-        Route::get('/advance-salaries/receipt/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'downloadReceipt'])->name('admin.advance-salaries.receipt');
-        Route::post('/advance-salaries/approve/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'approve'])->name('admin.advance-salaries.approve');
-        Route::post('/advance-salaries/reject/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'reject'])->name('admin.advance-salaries.reject');
-
-        Route::get('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'index'])->name('admin.salaries.index');
-        Route::post('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'store'])->name('admin.salaries.store');
-        Route::get('/salaries/receipt/{id}', [App\Http\Controllers\Admin\SalaryController::class, 'downloadReceipt'])->name('admin.salaries.receipt');
-
-        Route::get('/my-salaries', [App\Http\Controllers\Admin\SalaryController::class, 'mySalariesIndex'])->name('admin.my-salaries.index');
-        Route::get('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceIndex'])->name('admin.my-advance-salaries.index');
-        Route::get('/my-advance-salaries/create', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceCreate'])->name('admin.my-advance-salaries.create');
-        Route::post('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceStore'])->name('admin.my-advance-salaries.store');
     });
+
+    //----------------Staff Management----------------
+    //----------------Staff Salary Management----------------
+    Route::get('/designations', [App\Http\Controllers\Admin\DesignationController::class, 'index'])->name('admin.designations.index');
+    Route::post('/designations', [App\Http\Controllers\Admin\DesignationController::class, 'store'])->name('admin.designations.store');
+    Route::post('/designations/update/{id}', [App\Http\Controllers\Admin\DesignationController::class, 'update'])->name('admin.designations.update');
+    Route::get('/designations/delete/{id}', [App\Http\Controllers\Admin\DesignationController::class, 'destroy'])->name('admin.designations.delete');
+
+    Route::get('/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'index'])->name('admin.employees.index');
+    Route::get('/employees/create', [App\Http\Controllers\Admin\EmployeeController::class, 'create'])->name('admin.employees.create');
+    Route::post('/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'store'])->name('admin.employees.store');
+    Route::get('/employees/edit/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'edit'])->name('admin.employees.edit');
+    Route::post('/employees/update/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'update'])->name('admin.employees.update');
+    Route::get('/employees/delete/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'destroy'])->name('admin.employees.delete');
+
+    Route::get('/advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'index'])->name('admin.advance-salaries.index');
+    Route::get('/advance-salaries/create', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'create'])->name('admin.advance-salaries.create');
+    Route::post('/advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'store'])->name('admin.advance-salaries.store');
+    Route::get('/advance-salaries/delete/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'destroy'])->name('admin.advance-salaries.delete');
+    Route::get('/advance-salaries/receipt/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'downloadReceipt'])->name('admin.advance-salaries.receipt');
+    Route::post('/advance-salaries/approve/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'approve'])->name('admin.advance-salaries.approve');
+    Route::post('/advance-salaries/reject/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'reject'])->name('admin.advance-salaries.reject');
+
+    Route::get('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'index'])->name('admin.salaries.index');
+    Route::post('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'store'])->name('admin.salaries.store');
+    Route::get('/salaries/receipt/{id}', [App\Http\Controllers\Admin\SalaryController::class, 'downloadReceipt'])->name('admin.salaries.receipt');
+
+    Route::get('/my-salaries', [App\Http\Controllers\Admin\SalaryController::class, 'mySalariesIndex'])->name('admin.my-salaries.index');
+    Route::get('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceIndex'])->name('admin.my-advance-salaries.index');
+    Route::get('/my-advance-salaries/create', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceCreate'])->name('admin.my-advance-salaries.create');
+    Route::post('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceStore'])->name('admin.my-advance-salaries.store');
 
 
 
