@@ -5,14 +5,14 @@
     <div class="mr-breadcrumb">
         <div class="row">
             <div class="col-lg-12">
-                <h4 class="heading">{{ __('Advance Payments') }}</h4>
+                <h4 class="heading">{{ __('My Advance Salary History') }}</h4>
                 <ul class="links">
                     <li>
                         <a href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }} </a>
                     </li>
-                    <li><a href="javascript:;">{{ __('Staff Salary') }}</a></li>
+                    <li><a href="javascript:;">{{ __('My Salary') }}</a></li>
                     <li>
-                        <a href="{{ route('admin.advance-salaries.index') }}">{{ __('Advance Payments') }}</a>
+                        <a href="{{ route('admin.my-advance-salaries.index') }}">{{ __('Advance Salary History') }}</a>
                     </li>
                 </ul>
             </div>
@@ -29,8 +29,8 @@
                     
                     <div class="row mb-3 p-3">
                         <div class="col-sm-12 text-right">
-                            <a class="btn btn-primary" href="{{ route('admin.advance-salaries.create') }}">
-                                <i class="fas fa-plus"></i> {{ __('Record Advance Payment') }}
+                            <a class="btn btn-primary" href="{{ route('admin.my-advance-salaries.create') }}">
+                                <i class="fas fa-plus"></i> {{ __('Request Advance Salary') }}
                             </a>
                         </div>
                     </div>
@@ -39,19 +39,17 @@
                         <table class="table table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Employee') }}</th>
                                     <th>{{ __('Year/Month') }}</th>
                                     <th>{{ __('Amount') }}</th>
                                     <th>{{ __('Payment Date') }}</th>
                                     <th>{{ __('Notes') }}</th>
                                     <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Actions') }}</th>
+                                    <th>{{ __('Receipt') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($advances as $advance)
                                     <tr>
-                                        <td>{{ $advance->employee->name ?? '-' }}</td>
                                         <td>{{ $advance->year }} / {{ date('F', mktime(0, 0, 0, $advance->month, 10)) }}</td>
                                         <td>৳{{ number_format($advance->amount, 2) }}</td>
                                         <td>{{ $advance->payment_date ? \Carbon\Carbon::parse($advance->payment_date)->format('d M Y') : 'Pending Approval' }}</td>
@@ -66,39 +64,18 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="action-list d-flex align-items-center" style="gap: 5px;">
-                                                @if($advance->status === 'pending')
-                                                    <form action="{{ route('admin.advance-salaries.approve', $advance->id) }}" method="POST" style="display:inline-block; margin: 0;">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-success btn-sm font-weight-bold" onclick="return confirm('Approve this advance request?');">
-                                                            <i class="fas fa-check"></i> Approve
-                                                        </button>
-                                                    </form>
-                                                    <form action="{{ route('admin.advance-salaries.reject', $advance->id) }}" method="POST" style="display:inline-block; margin: 0;">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-warning btn-sm font-weight-bold" onclick="return confirm('Reject this advance request?');">
-                                                            <i class="fas fa-times"></i> Reject
-                                                        </button>
-                                                    </form>
-                                                @endif
-
-                                                @if($advance->status === 'approved')
-                                                    <a href="{{ route('admin.advance-salaries.receipt', $advance->id) }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-download"></i> Receipt
-                                                    </a>
-                                                @endif
-
-                                                <a href="{{ route('admin.advance-salaries.delete', $advance->id) }}" 
-                                                    onclick="return confirm('Are you sure you want to delete this advance payment record?');" 
-                                                    class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-trash-alt"></i> Delete
+                                            @if($advance->status === 'approved')
+                                                <a href="{{ route('admin.advance-salaries.receipt', $advance->id) }}" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-download"></i> Receipt
                                                 </a>
-                                            </div>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted">No advance payments recorded.</td>
+                                        <td colspan="6" class="text-center text-muted">No advance salary history found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

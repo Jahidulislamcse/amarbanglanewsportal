@@ -24,7 +24,7 @@ class SalaryController extends Controller
         $employees = Employee::with(['designation', 'salaries' => function ($q) use ($year, $month) {
             $q->where('year', $year)->where('month', $month);
         }, 'advanceSalaries' => function ($q) use ($year, $month) {
-            $q->where('year', $year)->where('month', $month);
+            $q->where('year', $year)->where('month', $month)->where('status', 'approved');
         }])->orderBy('name')->get();
 
         return view('admin.salary.salaries.index', compact('employees', 'year', 'month'));
@@ -54,6 +54,7 @@ class SalaryController extends Controller
         $advancePaid = AdvanceSalary::where('employee_id', $employee->id)
             ->where('year', $year)
             ->where('month', $month)
+            ->where('status', 'approved')
             ->sum('amount');
 
         $basicSalary = $employee->salary;
@@ -79,5 +80,12 @@ class SalaryController extends Controller
         $gs = \App\Models\GeneralSettings::find(1);
         $pdf = Pdf::loadView('admin.salary.receipts.salary', compact('salary', 'gs'));
         return $pdf->download('salary_slip_' . $salary->id . '.pdf');
+    }
+
+    public function mySalariesIndex(Request $request)
+    {
+        $employeeId = auth('admin')->id();
+        $salaries = Salary::where('employee_id', $employeeId)->orderByDesc('year')->orderByDesc('month')->paginate(20);
+        return view('admin.salary.my_salaries.index', compact('salaries'));
     }
 }

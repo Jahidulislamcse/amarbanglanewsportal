@@ -38,7 +38,9 @@ class AdvanceSalaryController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        AdvanceSalary::create($request->all());
+        $data = $request->all();
+        $data['status'] = 'approved';
+        AdvanceSalary::create($data);
 
         return redirect()->route('admin.advance-salaries.index')
             ->with('success', 'Advance payment recorded successfully.');
@@ -59,5 +61,60 @@ class AdvanceSalaryController extends Controller
         $gs = \App\Models\GeneralSettings::find(1);
         $pdf = Pdf::loadView('admin.salary.receipts.advance', compact('advance', 'gs'));
         return $pdf->download('advance_receipt_' . $advance->id . '.pdf');
+    }
+
+    public function approve($id)
+    {
+        $advance = AdvanceSalary::findOrFail($id);
+        $advance->update(['status' => 'approved', 'payment_date' => date('Y-m-d')]);
+
+        return redirect()->route('admin.advance-salaries.index')
+            ->with('success', 'Advance request approved successfully.');
+    }
+
+    public function reject($id)
+    {
+        $advance = AdvanceSalary::findOrFail($id);
+        $advance->update(['status' => 'rejected']);
+
+        return redirect()->route('admin.advance-salaries.index')
+            ->with('success', 'Advance request rejected.');
+    }
+
+    public function myAdvanceIndex()
+    {
+        $employeeId = auth('admin')->id();
+        $advances = AdvanceSalary::where('employee_id', $employeeId)->orderByDesc('year')->orderByDesc('month')->paginate(20);
+        return view('admin.salary.my_salaries.advance_index', compact('advances'));
+    }
+
+    public function myAdvanceCreate()
+    {
+        return view('admin.salary.my_salaries.advance_create');
+    }
+
+    public function myAdvanceStore(Request $request)
+    {
+        $request->validate([
+            'year' => 'required|integer|min:2020|max:2100',
+            'month' => 'required|integer|min:1|max:12',
+            'amount' => 'required|numeric|min:0.01',
+            'notes' => 'nullable|string',
+        ]);
+
+        $employeeId = auth('admin')->id();
+
+        AdvanceSalary::create([
+            'employee_id' => $employeeId,
+            'year' => $request->year,
+            'month' => $request->month,
+            'amount' => $request->amount,
+            'payment_date' => date('Y-m-d'),
+            'notes' => $request->notes,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('admin.my-advance-salaries.index')
+            ->with('success', 'Advance salary request submitted successfully.');
     }
 }

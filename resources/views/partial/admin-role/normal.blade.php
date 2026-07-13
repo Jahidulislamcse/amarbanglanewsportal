@@ -343,6 +343,23 @@
 <!--@endif-->
 
 
+<li>
+    <a href="#mySalaryMenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+        <i class="fas fa-money-bill-alt"></i>{{ __('My Salary') }}
+    </a>
+    <ul class="collapse list-unstyled" id="mySalaryMenu" data-parent="#accordion">
+        <li>
+            <a href="{{ route('admin.my-salaries.index') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Salary History') }}</span></a>
+        </li>
+        <li>
+            <a href="{{ route('admin.my-advance-salaries.index') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Advance History') }}</span></a>
+        </li>
+        <li>
+            <a href="{{ route('admin.my-advance-salaries.create') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Request Advance') }}</span></a>
+        </li>
+    </ul>
+</li>
+
 @if (Auth::guard('admin')->user()->sectionCheck('cache_management'))
 <li>
     <a href="{{ route('admin.cache.clear') }}" class=" wave-effect"><i class="fa fa-database"></i>{{ __('Clear Cache') }}</a>

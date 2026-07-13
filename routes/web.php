@@ -908,10 +908,17 @@ Route::prefix('admin')->group(function(){
         Route::post('/advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'store'])->name('admin.advance-salaries.store');
         Route::get('/advance-salaries/delete/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'destroy'])->name('admin.advance-salaries.delete');
         Route::get('/advance-salaries/receipt/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'downloadReceipt'])->name('admin.advance-salaries.receipt');
+        Route::post('/advance-salaries/approve/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'approve'])->name('admin.advance-salaries.approve');
+        Route::post('/advance-salaries/reject/{id}', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'reject'])->name('admin.advance-salaries.reject');
 
         Route::get('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'index'])->name('admin.salaries.index');
         Route::post('/salaries', [App\Http\Controllers\Admin\SalaryController::class, 'store'])->name('admin.salaries.store');
         Route::get('/salaries/receipt/{id}', [App\Http\Controllers\Admin\SalaryController::class, 'downloadReceipt'])->name('admin.salaries.receipt');
+
+        Route::get('/my-salaries', [App\Http\Controllers\Admin\SalaryController::class, 'mySalariesIndex'])->name('admin.my-salaries.index');
+        Route::get('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceIndex'])->name('admin.my-advance-salaries.index');
+        Route::get('/my-advance-salaries/create', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceCreate'])->name('admin.my-advance-salaries.create');
+        Route::post('/my-advance-salaries', [App\Http\Controllers\Admin\AdvanceSalaryController::class, 'myAdvanceStore'])->name('admin.my-advance-salaries.store');
     });
 
 
