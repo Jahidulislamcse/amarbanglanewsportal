@@ -343,7 +343,7 @@
 <!--@endif-->
 
 
-<li>
+{{-- <li>
     <a href="#mySalaryMenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-money-bill-alt"></i>{{ __('My Salary') }}
     </a>
@@ -358,7 +358,7 @@
             <a href="{{ route('admin.my-advance-salaries.create') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Request Advance') }}</span></a>
         </li>
     </ul>
-</li>
+</li> --}}
 
 @if (Auth::guard('admin')->user()->sectionCheck('cache_management'))
 <li>
