@@ -712,6 +712,12 @@
                                            class="form-control"
                                            placeholder="Delivery address"
                                            required>
+                                    <small class="text-danger font-weight-bold d-block mt-1">
+                                        ⚠️ পণ্যটি পেতে অনুগ্রহ করে বিস্তারিত ঠিকানা প্রদান করুন (গ্রাম, ডাকঘর, থানা, জেলা), অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
+                                    </small>
+                                    <small class="text-muted d-block mt-1 font-weight-bold">
+                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৬০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                    </small>
                                 </div>
                                 <div class="col-md-2 mb-2">
                                     <button type="button" class="btn btn-success w-100" id="paySelectedButton">
@@ -1286,6 +1292,12 @@
                                         placeholder="Enter your full delivery address"
                                         required
                                     ></textarea>
+                                    <small class="text-danger font-weight-bold d-block mt-1">
+                                        ⚠️ পণ্যটি পেতে অনুগ্রহ করে বিস্তারিত ঠিকানা প্রদান করুন (গ্রাম, ডাকঘর, থানা, জেলা), অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
+                                    </small>
+                                    <small class="text-muted d-block mt-1 font-weight-bold">
+                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৬০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                    </small>
                                 </div>
             
                             </div>
