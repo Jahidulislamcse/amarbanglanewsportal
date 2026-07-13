@@ -1,0 +1,378 @@
+[16-Mar-2026 18:39:12 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:40:42 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:40:51 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:42:09 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:42:09 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:42:09 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:42:09 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:42:32 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:44:10 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:44:54 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:44:55 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:44:55 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:48:33 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:48:33 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:48:33 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:48:33 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[16-Mar-2026 18:48:39 UTC] PHP Fatal error:  Cannot redeclare App\Console\Kernel::schedule() in /home/janataro/public_html/project/app/Console/Kernel.php on line 32
+[12-Jun-2026 06:11:11 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:11 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:28 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:28 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:28 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:35 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:35 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:11:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:12:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:12:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:12:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:13:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:13:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:13:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:06 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:06 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:14:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:15:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:15:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:15:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:16:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:16:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:16:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:17:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:17:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:17:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:05 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:05 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:11 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:11 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:18:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:19:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:19:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:19:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:32 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:32 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:32 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:48 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:55 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:55 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:20:55 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:05 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:05 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:21:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:22:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:22:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:22:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:23:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:23:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:23:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:03 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:09 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:09 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:24:09 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:25:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:25:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:25:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:26:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:26:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:26:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:27:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:27:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:27:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:28:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:28:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:28:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:29:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:29:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:29:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_static.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:31
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#1 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#2 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 31
+[12-Jun-2026 06:30:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:30:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:30:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:31:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:31:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:31:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:32:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:32:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:32:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:33:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:33:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:33:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:34:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:34:01 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:34:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/artisan on line 18
+[12-Jun-2026 06:35:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[12-Jun-2026 06:35:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[12-Jun-2026 06:35:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php(45): {closure}('0e6d7bf4a5811bf...', '/home/janataro/...')
+#1 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#2 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#3 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[24-Jun-2026 10:27:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[24-Jun-2026 10:27:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[24-Jun-2026 10:27:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php(45): {closure}('1aff2f8abd60e95...', '/home/janataro/...')
+#1 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#2 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#3 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[25-Jun-2026 11:31:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[25-Jun-2026 11:31:02 UTC] PHP Warning:  require(/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php): Failed to open stream: No such file or directory in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
+[25-Jun-2026 11:31:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/janataro/amarbangla24.com.bd/project/vendor/composer/../../app/helper.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php(45): {closure}('1aff2f8abd60e95...', '/home/janataro/...')
+#1 /home/janataro/amarbangla24.com.bd/project/vendor/autoload.php(22): ComposerAutoloaderInit9498f0e96fe394a691944dc7a0eda86c::getLoader()
+#2 /home/janataro/amarbangla24.com.bd/project/artisan(18): require('/home/janataro/...')
+#3 {main}
+  thrown in /home/janataro/amarbangla24.com.bd/project/vendor/composer/autoload_real.php on line 41
