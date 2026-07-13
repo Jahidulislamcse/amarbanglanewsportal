@@ -27,7 +27,9 @@
                             <div class="col-lg-12">
                                 <select name="language_id" id="">
                                     @foreach ($datas as $data)
-                                        <option value="{{$data->id}}" {{$data->id == $poll_option->language_id}}>{{$data->language}}</option>
+                                        @if($data->id == 1 || strtolower($data->language) == 'bangla')
+                                            <option value="{{$data->id}}" selected>{{$data->language}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
