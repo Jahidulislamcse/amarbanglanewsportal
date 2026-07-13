@@ -696,7 +696,7 @@
                         </div>
                         @if($products->count())
                             <div class="row mt-3">
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
                                     <input type="text"
                                            name="phone_number"
                                            id="paySelectedPhone"
@@ -705,7 +705,13 @@
                                            placeholder="Phone number"
                                            required>
                                 </div>
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-3 mb-2">
+                                    <select id="paySelectedZone" class="form-control" required>
+                                        <option value="inside" data-charge="80">Inside Dhaka (৳ 80)</option>
+                                        <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-2">
                                     <input type="text"
                                            name="address"
                                            id="paySelectedAddress"
@@ -716,7 +722,7 @@
                                         ⚠️ পণ্যটি পেতে অনুগ্রহ করে বিস্তারিত ঠিকানা প্রদান করুন (গ্রাম, ডাকঘর, থানা, জেলা), অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
                                     </small>
                                     <small class="text-muted d-block mt-1 font-weight-bold">
-                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৬০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা।
                                     </small>
                                 </div>
                                 <div class="col-md-2 mb-2">
@@ -1250,7 +1256,7 @@
             
                             <div class="row text-left">
             
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="font-weight-bold">
                                         {{ __('Phone Number') }}
                                     </label>
@@ -1265,7 +1271,7 @@
                                     >
                                 </div>
             
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="font-weight-bold">
                                         {{ __('Quantity') }}
                                     </label>
@@ -1278,6 +1284,16 @@
                                         min="1"
                                         required
                                     >
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="font-weight-bold">
+                                        {{ __('Delivery Zone') }}
+                                    </label>
+                                    <select id="productPayZone" class="form-control" required>
+                                        <option value="inside" data-charge="80">Inside Dhaka (৳ 80)</option>
+                                        <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)</option>
+                                    </select>
                                 </div>
             
                                 <div class="col-md-12 mb-3">
@@ -1296,7 +1312,7 @@
                                         ⚠️ পণ্যটি পেতে অনুগ্রহ করে বিস্তারিত ঠিকানা প্রদান করুন (গ্রাম, ডাকঘর, থানা, জেলা), অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
                                     </small>
                                     <small class="text-muted d-block mt-1 font-weight-bold">
-                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৬০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                        🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা।
                                     </small>
                                 </div>
             
@@ -1642,6 +1658,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById('productPayButton').addEventListener('click', function() {
           const phone = document.getElementById('productPayPhone').value.trim();
           const address = document.getElementById('productPayAddress').value.trim();
+          const zoneSelect = document.getElementById('productPayZone');
+          const deliveryCharge = parseFloat(zoneSelect.options[zoneSelect.selectedIndex].dataset.charge);
+          const deliveryZone = zoneSelect.value;
           const quantityInput = document.getElementById('productPayQuantity');
           const quantity = parseInt(quantityInput.value, 10);
           
@@ -1683,12 +1702,17 @@ document.addEventListener("DOMContentLoaded", function () {
           const mainProductPrice = parseFloat(document.getElementById('modalProductPrice').innerText.replace(/,/g, ''));
           const mainSubtotal = mainProductPrice * quantity;
 
-          let totalAmount = mainSubtotal;
+          let totalAmount = mainSubtotal + deliveryCharge;
           let tableBodyHTML = `
               <tr>
                   <td>${mainProductName}</td>
                   <td class="text-center font-weight-bold">${quantity}</td>
                   <td class="text-right">৳ ${mainSubtotal.toFixed(2)}</td>
+              </tr>
+              <tr>
+                  <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'})</td>
+                  <td class="text-center font-weight-bold">1</td>
+                  <td class="text-right">৳ ${deliveryCharge.toFixed(2)}</td>
               </tr>
           `;
 
@@ -1697,6 +1721,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <input type="hidden" name="quantities[${mainProductId}]" value="${quantity}">
               <input type="hidden" name="phone_number" value="${phone}">
               <input type="hidden" name="address" value="${address}">
+              <input type="hidden" name="delivery_zone" value="${deliveryZone}">
           `;
 
           // Check if any addon products are checked
@@ -1741,6 +1766,9 @@ document.addEventListener("DOMContentLoaded", function () {
           paySelectedBtn.addEventListener('click', function() {
               const phone = document.getElementById('paySelectedPhone').value.trim();
               const address = document.getElementById('paySelectedAddress').value.trim();
+              const zoneSelect = document.getElementById('paySelectedZone');
+              const deliveryCharge = parseFloat(zoneSelect.options[zoneSelect.selectedIndex].dataset.charge);
+              const deliveryZone = zoneSelect.value;
               
               // Get all checked checkboxes in products section
               const checkedCheckboxes = document.querySelectorAll('.products-section input[name="product_ids[]"]:checked');
@@ -1760,11 +1788,18 @@ document.addEventListener("DOMContentLoaded", function () {
                   return;
               }
               
-              let totalAmount = 0;
-              let tableBodyHTML = '';
+              let totalAmount = deliveryCharge;
+              let tableBodyHTML = `
+                  <tr>
+                      <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'})</td>
+                      <td class="text-center font-weight-bold">1</td>
+                      <td class="text-right">৳ ${deliveryCharge.toFixed(2)}</td>
+                  </tr>
+              `;
               let hiddenInputsHTML = `
                   <input type="hidden" name="phone_number" value="${phone}">
                   <input type="hidden" name="address" value="${address}">
+                  <input type="hidden" name="delivery_zone" value="${deliveryZone}">
               `;
               
               let stockError = false;
