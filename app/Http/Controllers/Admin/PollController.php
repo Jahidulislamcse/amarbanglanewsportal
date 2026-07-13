@@ -78,6 +78,8 @@ class PollController extends Controller
             }
         }
 
+        cache()->forget("details_poll_" . $request->language_id);
+
         Toastr::success('Data Updated Successfully');
         $msg = 'Data Added Successfully';
         return response()->json($msg);
@@ -120,6 +122,8 @@ class PollController extends Controller
             }
         }
 
+        cache()->forget("details_poll_" . $request->language_id);
+
         Toastr::success('Data Updated Successfully');
         $msg = 'Data Updated Successfully';
         return response()->json($msg);
@@ -142,6 +146,7 @@ class PollController extends Controller
             if($today->gt($end_date)){
                 $poll->status = 0;
                 $poll->update();
+                cache()->forget("details_poll_" . $poll->language_id);
             }
         }
             Toastr::success('Data Updated Successfully');
@@ -155,13 +160,17 @@ class PollController extends Controller
     public function delete($id){
 
         $data = PollQuestion::find($id);
-        $poll_options = $data->child;
+        if ($data) {
+            $lang_id = $data->language_id;
+            $poll_options = $data->child;
 
-        foreach($poll_options as  $poll_option){
-            $answer = $poll_option::find($poll_option->id);
-            $answer->delete();
+            foreach($poll_options as  $poll_option){
+                $answer = $poll_option::find($poll_option->id);
+                $answer->delete();
+            }
+            $data->delete();
+            cache()->forget("details_poll_" . $lang_id);
         }
-        $data->delete();
         $msg = 'Data Deleted Successfully';
         return response()->json($msg);
     }
