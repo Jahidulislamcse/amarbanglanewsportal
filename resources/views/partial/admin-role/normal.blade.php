@@ -345,7 +345,7 @@
 
 <li>
     <a href="#mySalaryMenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-        <i class="fas fa-money-bill-alt"></i>{{ __('My Salary') }}
+        {{ __('My Salary') }} <i class="fas fa-money-bill-alt" style="margin-left: 8px; margin-right: 0;"></i>
     </a>
     <ul class="collapse list-unstyled" id="mySalaryMenu" data-parent="#accordion">
         <li>
