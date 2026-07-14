@@ -349,13 +349,13 @@
     </a>
     <ul class="collapse list-unstyled" id="mySalaryMenu" data-parent="#accordion">
         <li>
-            <a href="{{ route('admin.my-salaries.index') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Salary History') }}</span></a>
+            <a href="{{ route('admin.my-salaries.index') }}"><span>{{ __('Salary History') }}</span></a>
         </li>
         <li>
-            <a href="{{ route('admin.my-advance-salaries.index') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Advance History') }}</span></a>
+            <a href="{{ route('admin.my-advance-salaries.index') }}"><span>{{ __('Advance History') }}</span></a>
         </li>
         <li>
-            <a href="{{ route('admin.my-advance-salaries.create') }}"><i class="fas fa-angle-double-right"></i><span>{{ __('Request Advance') }}</span></a>
+            <a href="{{ route('admin.my-advance-salaries.create') }}"><span>{{ __('Request Advance') }}</span></a>
         </li>
     </ul>
 </li>
