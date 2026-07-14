@@ -102,10 +102,24 @@ class AdvanceSalaryController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $employeeId = auth('admin')->id();
+        $employee = auth('admin')->user();
+        $baseSalary = $employee->salary;
+        $maxAllowed = $baseSalary * 0.30;
+
+        $existingSum = AdvanceSalary::where('employee_id', $employee->id)
+            ->where('year', $request->year)
+            ->where('month', $request->month)
+            ->where('status', '!=', 'rejected')
+            ->sum('amount');
+
+        if (($existingSum + $request->amount) > $maxAllowed) {
+            return redirect()->back()
+                ->withInput()
+                ->with('unsuccess', 'You cannot request more than 30% of your base salary (৳' . number_format($maxAllowed, 2) . ') as advance in a single month. Total requested/approved for this month: ৳' . number_format($existingSum, 2) . '.');
+        }
 
         AdvanceSalary::create([
-            'employee_id' => $employeeId,
+            'employee_id' => $employee->id,
             'year' => $request->year,
             'month' => $request->month,
             'amount' => $request->amount,

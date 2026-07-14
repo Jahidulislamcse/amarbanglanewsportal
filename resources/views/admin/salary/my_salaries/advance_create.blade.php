@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-                                    <input type="text" class="input-field" value="{{ auth('admin')->user()->name }} (Base Salary: ৳{{ number_format(auth('admin')->user()->salary, 2) }})" readonly disabled>
+                                    <input type="text" class="input-field" value="{{ auth('admin')->user()->name }} (Base Salary: ৳{{ number_format(auth('admin')->user()->salary, 2) }}, Max Month Advance: ৳{{ number_format(auth('admin')->user()->salary * 0.30, 2) }})" readonly disabled>
                                 </div>
                             </div>
 
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <input type="number" step="0.01" class="input-field" name="amount" id="amount" required placeholder="e.g. 5000" value="{{ old('amount') }}">
-                                    <small class="text-danger d-none" id="salary-warning">Warning: Requested advance amount exceeds your base salary!</small>
+                                    <small class="text-danger d-none" id="salary-warning">Warning: Requested advance amount exceeds the 30% limit of your base salary (৳{{ number_format(auth('admin')->user()->salary * 0.30, 2) }})!</small>
                                 </div>
                             </div>
 
@@ -120,11 +120,12 @@
 <script>
     $(document).ready(function() {
         var baseSalary = parseFloat("{{ auth('admin')->user()->salary }}") || 0;
+        var limit = baseSalary * 0.30;
         
         function checkSalaryLimit() {
             var requestAmount = parseFloat($('#amount').val()) || 0;
             
-            if (baseSalary > 0 && requestAmount > baseSalary) {
+            if (limit > 0 && requestAmount > limit) {
                 $('#salary-warning').removeClass('d-none');
             } else {
                 $('#salary-warning').addClass('d-none');
