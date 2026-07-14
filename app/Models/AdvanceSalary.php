@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdvanceSalary extends Model
 {
-    protected $fillable = ['employee_id', 'year', 'month', 'amount', 'payment_date', 'notes'];
+    protected $fillable = ['employee_id', 'year', 'month', 'amount', 'payment_date', 'notes', 'status'];
 
     public function employee()
     {
