@@ -247,6 +247,8 @@ class StaffController extends Controller
             'users.photo',
             'users.is_ban',
             'users.referral_earning',
+            'users.daily_quiz_money',
+            'users.created_at',
             DB::raw('users.views AS total_views'),
             DB::raw("(users.views * {$readerRate}) AS view_commission"),
             DB::raw('users.balance AS total_commission')
@@ -328,8 +330,18 @@ class StaffController extends Controller
                 $banBtn = '<a href="' . route('admin.staff.ban', $data->id) . '" class="ml-2" style="' . $banColor . '" title="' . $banText . '">
                               <i class="fas ' . $banIcon . '"></i> ' . $banText . '
                            </a>';
+                           
+                $detailsBtn = '<a href="javascript:;" class="view-details ml-2" style="color: #007bff;" ' .
+                              'data-name="' . e($data->name) . '" ' .
+                              'data-created="' . ($data->created_at ? $data->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
+                              'data-referral="' . number_format($data->referral_earning, 2) . '" ' .
+                              'data-views-income="' . number_format($data->view_commission, 2) . '" ' .
+                              'data-quiz-money="' . number_format($data->daily_quiz_money, 2) . '" ' .
+                              'data-ban="' . $data->is_ban . '" title="Details">' .
+                              '<i class="fas fa-eye"></i> Details' .
+                              '</a>';
     
-                return '<div class="action-list">' . $count_detail . $banBtn . $delete . '</div>';
+                return '<div class="action-list">' . $count_detail . $detailsBtn . $banBtn . $delete . '</div>';
             })
             ->editColumn('report_type', function ($data) use ($reportcategories) {
                 $json_decode = json_decode($data->report_type, true);
