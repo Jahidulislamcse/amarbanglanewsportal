@@ -297,18 +297,37 @@ class AdministerController extends Controller
 			
 			return Datatables::of($datas)
                             ->addColumn('action', function(PaymentRequest $data) {
-                               
+                                
 								$edit = '<a data-href="' . route('admin.administator.paymentedit', $data->pid) . '" class="edit" data-toggle="modal" data-target="#modal1">
 								   <i class="fas fa-edit"></i>Edit
 								</a>';
                                 
-                                //$details = '<a href="'.route('frontend.postBySubcategory.details',[$data->category->slug,$data->slug]).'" target="_blank"> <i class="fa fa-info-circle" aria-hidden="true"></i> View on Frontend</a>';
-								$details='';
 								$delete = '<a href="javascript:;" data-href="'.route('admin.administator.paymentdelete',$data->pid).'" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>';
 								if($data->status>0){
 									$edit=$delete="";
 								}
-                                return '<div class="godropdown"><button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button><div class="action-list">'.$details.''.$edit.$delete.'</div></div>';
+
+                                $detailsBtn = '';
+                                if ($data->user) {
+                                    $user = $data->user;
+                                    $quizWinnerMoney = \App\Models\UserPrizeMoney::where('user_id', $user->id)->sum('amount');
+                                    $totalWithdraw = \App\Models\PaymentRequest::where('user_id', $user->id)->sum('approve_amount');
+                                    
+                                    $detailsBtn = '<a href="javascript:;" class="view-details text-primary" ' .
+                                                  'data-name="' . e($user->name) . '" ' .
+                                                  'data-created="' . ($user->created_at ? $user->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
+                                                  'data-referral="' . number_format($user->referral_earning, 2) . '" ' .
+                                                  'data-views-income="' . number_format($user->view_income, 2) . '" ' .
+                                                  'data-quiz-money="' . number_format($user->daily_quiz_money, 2) . '" ' .
+                                                  'data-quiz-winner-money="' . number_format($quizWinnerMoney, 2) . '" ' .
+                                                  'data-withdraw="' . number_format($totalWithdraw, 2) . '" ' .
+                                                  'data-balance="' . number_format($user->balance, 2) . '" ' .
+                                                  'data-ban="' . $user->is_ban . '" title="Details">' .
+                                                  '<i class="fas fa-eye"></i> Details' .
+                                                  '</a>';
+                                }
+
+                                return '<div class="godropdown"><button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button><div class="action-list">'.$detailsBtn.''.$edit.$delete.'</div></div>';
 								
                                
                             })
