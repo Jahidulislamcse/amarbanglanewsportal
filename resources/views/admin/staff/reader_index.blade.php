@@ -279,9 +279,30 @@
     </div>
 	<div class="product-area">
 	
-	 <div class="row">
-
-	</div>
+        <div class="row mb-4 p-3 bg-white rounded shadow-sm">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="status_filter" class="font-weight-bold"><i class="fas fa-filter text-primary mr-1"></i> Status Filter:</label>
+                    <select id="status_filter" name="status_filter" class="form-control" style="height: 40px; border-radius: 6px;">
+                        <option value="all">Show All Members</option>
+                        <option value="active">Active Members Only</option>
+                        <option value="disabled">Disabled Members Only</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sort_filter" class="font-weight-bold"><i class="fas fa-sort text-primary mr-1"></i> Sort By:</label>
+                    <select id="sort_filter" name="sort_filter" class="form-control" style="height: 40px; border-radius: 6px;">
+                        <option value="default">Default (Highest Commission First)</option>
+                        <option value="views_desc">Highest Views First</option>
+                        <option value="balance_desc">Highest Balance First</option>
+                        <option value="banned_first">Disabled Members First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="mr-table allproduct">
@@ -411,6 +432,8 @@
 				data.reporter_area = $('select[name=reporter_area]').val();
 				data.report_type = $('select[name=report_type]').val();
 				data.pending_status = '{{$pending_status}}';
+				data.status_filter = $('#status_filter').val();
+				data.sort_filter = $('#sort_filter').val();
 			}
 		},
 		columns: [
@@ -472,7 +495,7 @@
 	});
 
 			
-	 $('#report_type,#reporter_area').change(function(){
+	 $('#report_type,#reporter_area,#status_filter,#sort_filter').change(function(){
 			table.draw();
 	});
 

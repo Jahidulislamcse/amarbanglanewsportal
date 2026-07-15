@@ -264,11 +264,27 @@ class StaffController extends Controller
         if($request->report_type){
             $q->whereJsonContains('users.report_type', $request->report_type);
         }
+
+        // Apply Manual Status Filter
+        if ($request->status_filter === 'active') {
+            $q->where('users.is_ban', 0);
+        } elseif ($request->status_filter === 'disabled') {
+            $q->where('users.is_ban', 1);
+        }
         
 
         $q->withCount('posts');
 
-        $q->orderByDesc('total_commission'); // Order by total commission
+        // Apply Manual Sorting
+        if ($request->sort_filter === 'views_desc') {
+            $q->orderByDesc('total_views');
+        } elseif ($request->sort_filter === 'balance_desc') {
+            $q->orderByDesc('total_commission');
+        } elseif ($request->sort_filter === 'banned_first') {
+            $q->orderByDesc('users.is_ban');
+        } else {
+            $q->orderByDesc('total_commission'); // Default sort
+        }
         
         $datas = $q->get();
         
