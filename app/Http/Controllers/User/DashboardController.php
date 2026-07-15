@@ -899,6 +899,7 @@ class DashboardController extends Controller
                 SELECT 
                     id,
                     name,
+                    phone,
                     reader_type,
                     referred_by,
                     photo,
@@ -913,6 +914,7 @@ class DashboardController extends Controller
                 SELECT 
                     u.id,
                     u.name,
+                    u.phone,
                     u.reader_type,
                     u.referred_by,
                     u.photo,
@@ -1046,6 +1048,7 @@ class DashboardController extends Controller
                 SELECT 
                     id,
                     name,
+                    phone,
                     reader_type,
                     referred_by,
                     photo,
@@ -1060,6 +1063,7 @@ class DashboardController extends Controller
                 SELECT 
                     u.id,
                     u.name,
+                    u.phone,
                     u.reader_type,
                     u.referred_by,
                     u.photo,

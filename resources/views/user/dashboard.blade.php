@@ -551,8 +551,11 @@
                                 
                                 <div class="p-3 bg-light rounded border mb-3">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="font-weight-bold text-dark">টিম মেম্বার সংখ্যা: {{ bn($count) }} জন</span>
-                                        <span class="badge badge-warning font-weight-bold" style="background-color: #f59e0b; color: #fff; font-size: 13px;">কমিশন: ১০%</span>
+                                        <div>
+                                            <span class="font-weight-bold text-dark d-block" style="font-size: 14px;">টিম মেম্বার সংখ্যা: {{ bn($count) }} জন</span>
+                                            <span class="font-weight-bold text-dark d-block mt-1" style="font-size: 14px;">অর্ডার সংখ্যা: {{ bn(count($team_purchases)) }}টি</span>
+                                        </div>
+                                        <span class="badge badge-warning font-weight-bold" style="background-color: #f59e0b; color: #fff; font-size: 13px; padding: 6px 12px;">কমিশন: ১০%</span>
                                     </div>
                                 </div>
                                 
@@ -566,7 +569,12 @@
                                                          class="mr-2" 
                                                          style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd;">
                                                     <div>
-                                                        <div class="text-dark">{{ $u->name }}</div>
+                                                        <div class="text-dark">
+                                                            {{ $u->name }}
+                                                            @if(!empty($u->phone))
+                                                                <span class="text-muted font-weight-normal" style="font-size: 12.5px; margin-left: 5px;">({{ $u->phone }})</span>
+                                                            @endif
+                                                        </div>
                                                         @if($u->district_name || $u->thana_name)
                                                             <small class="text-muted font-weight-normal" style="font-size: 11.5px; display: block; margin-top: 1px;">
                                                                 <i class="fas fa-map-marker-alt text-danger mr-1" style="font-size: 10px;"></i>{{ implode(', ', array_filter([$u->thana_name, $u->district_name])) }}
@@ -603,6 +611,9 @@
                                                          class="mr-2" 
                                                          style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
                                                     <span class="font-weight-bold text-dark" style="font-size: 13.5px;">{{ $tp->user->name ?? 'Deleted member' }}</span>
+                                                    @if(!empty($tp->user->phone))
+                                                        <span class="text-muted ml-2" style="font-size: 12px; font-weight: normal;">({{ $tp->user->phone }})</span>
+                                                    @endif
                                                 </div>
                                                 <div class="pl-4">
                                                     <small class="d-block text-muted">
