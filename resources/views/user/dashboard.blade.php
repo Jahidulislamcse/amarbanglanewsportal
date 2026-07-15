@@ -1409,6 +1409,34 @@
 
 </div>
 
+@if(Session::has('registration_success_popup'))
+    <!-- Congratulations Modal -->
+    <div class="modal fade" id="regSuccessModal" tabindex="-1" role="dialog" aria-labelledby="regSuccessModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+                <div class="modal-header text-center" style="background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%); border-bottom: none; padding: 35px 20px; position: relative; display: block;">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 20px; top: 20px; border: none; background: transparent; cursor: pointer; font-size: 20px; color: #fff; opacity: 0.8;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div style="width: 75px; height: 75px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 8px 20px rgba(29, 151, 108, 0.3);">
+                        <i class="fa fa-check" style="font-size: 38px; color: #1d976c;"></i>
+                    </div>
+                </div>
+                <div class="modal-body text-center" style="padding: 40px 30px; background: #fff;">
+                    <h3 style="font-family: 'SolaimanLipi', sans-serif; font-weight: 700; color: #1d976c; margin-bottom: 15px; font-size: 24px; line-height: 1.4;">অভিনন্দন!</h3>
+                    <h5 style="font-family: 'SolaimanLipi', sans-serif; font-weight: 600; color: #333; margin-bottom: 20px; font-size: 17px; line-height: 1.5;">আপনি এখন আমার বাংলা ২৪-এর একজন সম্মানিত সদস্য।</h5>
+                    <p style="font-family: 'SolaimanLipi', sans-serif; color: #666; font-size: 15px; line-height: 1.7; margin-bottom: 30px;">
+                        আপনার করণীয় বিষয়সমূহ নিয়ে বিস্তারিত আলোচনার জন্য আমাদের একজন প্রতিনিধি ব্যক্তিগতভাবে আপনার সাথে দ্রুত যোগাযোগ করবেন। অনুগ্রহ করে সে পর্যন্ত অপেক্ষা করুন।
+                    </p>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" style="background: linear-gradient(135deg, #1d976c 0%, #11998e 100%); border: none; padding: 12px 40px; border-radius: 30px; font-weight: 600; font-size: 15px; color: #fff; box-shadow: 0 4px 15px rgba(29, 151, 108, 0.4); cursor: pointer; outline: none; transition: all 0.3s ease;">
+                        ঠিক আছে
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 @endsection
 
 @section('scripts')
@@ -1948,4 +1976,18 @@ function copyAffiliateLink() {
     alert("Affiliate link copied");
 }
 </script>
+
+@if(Session::has('registration_success_popup'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function() {
+                var myModalEl = document.getElementById('regSuccessModal');
+                if (myModalEl) {
+                    var myModal = new bootstrap.Modal(myModalEl);
+                    myModal.show();
+                }
+            }, 500);
+        });
+    </script>
+@endif
 @endsection

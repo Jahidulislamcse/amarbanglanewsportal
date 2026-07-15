@@ -558,6 +558,8 @@ class RegisterController extends Controller
     
         Auth::guard('web')->login($author);
     
+        session()->flash('registration_success_popup', true);
+
         return response()->json([
             'success' => true,
             'url' => route('user.dashboard')
@@ -735,6 +737,7 @@ class RegisterController extends Controller
                 $smsService->send($userPhone, $message);
                     
              Auth::guard('web')->login($author);
+             session()->flash('registration_success_popup', true);
              $data['succes']=1;
     		 $data['url']=route('user.dashboard');
     		  return response()->json($data);
