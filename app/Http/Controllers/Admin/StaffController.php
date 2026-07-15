@@ -244,6 +244,7 @@ class StaffController extends Controller
             'users.name',
             'users.email',
             'users.phone',
+            'users.reader_type',
             'users.photo',
             'users.is_ban',
             'users.referral_earning',
@@ -319,31 +320,34 @@ class StaffController extends Controller
                 $delete = '<a href="javascript:;" data-href="' . route('admin.staff.delete', $data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete">
                               <i class="fas fa-trash-alt"></i>
                            </a>';
-    
-                $count_detail = '<a target="_blank" href="' . route('admin.staff.user_income_detail', $data->id) . '">
-                                    <i class="fas fa-search"></i> Income
-                                 </a>';
                                  
                 $banText = $data->is_ban == 1 ? 'Enable' : 'Disable';
                 $banIcon = $data->is_ban == 1 ? 'fa-unlock' : 'fa-ban';
                 $banColor = $data->is_ban == 1 ? 'color: #28a745;' : 'color: #dc3545;';
                 
-                $banBtn = '<a href="' . route('admin.staff.ban', $data->id) . '" class="ml-2" style="' . $banColor . '" title="' . $banText . '">
+                $confirmMsg = $data->is_ban == 1 
+                    ? 'Are you sure you want to enable this user?' 
+                    : 'Are you sure you want to disable this user?';
+
+                $banBtn = '<a href="' . route('admin.staff.ban', $data->id) . '" class="ml-2" style="' . $banColor . '" title="' . $banText . '" onclick="return confirm(\'' . e($confirmMsg) . '\')">
                               <i class="fas ' . $banIcon . '"></i> ' . $banText . '
                            </a>';
-                           
+                 
+                // Direct query is 100% robust and matches dashboard exactly
+                $quizWinnerMoney = \App\Models\UserPrizeMoney::where('user_id', $data->id)->sum('amount');
+                            
                 $detailsBtn = '<a href="javascript:;" class="view-details ml-2" style="color: #007bff;" ' .
                               'data-name="' . e($data->name) . '" ' .
                               'data-created="' . ($data->created_at ? $data->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
                               'data-referral="' . number_format($data->referral_earning, 2) . '" ' .
                               'data-views-income="' . number_format($data->view_commission, 2) . '" ' .
                               'data-quiz-money="' . number_format($data->daily_quiz_money, 2) . '" ' .
-                              'data-quiz-winner-money="' . number_format($data->prize_moneys_sum_amount ?? 0, 2) . '" ' .
+                              'data-quiz-winner-money="' . number_format($quizWinnerMoney, 2) . '" ' .
                               'data-ban="' . $data->is_ban . '" title="Details">' .
                               '<i class="fas fa-eye"></i> Details' .
                               '</a>';
     
-                return '<div class="action-list">' . $count_detail . $detailsBtn . $banBtn . $delete . '</div>';
+                return '<div class="action-list">' . $detailsBtn . $banBtn . $delete . '</div>';
             })
             ->editColumn('report_type', function ($data) use ($reportcategories) {
                 $json_decode = json_decode($data->report_type, true);
@@ -354,6 +358,9 @@ class StaffController extends Controller
                 }
     
                 return $name;
+            })
+            ->editColumn('reader_type', function ($data) {
+                return ucfirst($data->reader_type ?? 'free');
             })
             ->editColumn('total_views', function ($data) {
                 return number_format($data->total_views);

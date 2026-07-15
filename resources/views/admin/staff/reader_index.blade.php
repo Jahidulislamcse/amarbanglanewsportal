@@ -316,6 +316,7 @@
 										
 				                        <th>{{ __('Email') }}</th>
 				                        <th>{{ __('Phone') }}</th>
+				                        <th>{{ __('Reader Type') }}</th>
 										<th>{{ __('Views') }}</th>
 										<th>{{ __('Balance') }}</th>
 										<th>{{ __('Status') }}</th>
@@ -419,7 +420,7 @@
 		ordering: true,
 		processing: true,
 		serverSide: true,
-		order: [[5, 'desc']], // default sort by Balance desc
+		order: [[6, 'desc']], // default sort by Balance desc (now column index 6 due to reader_type)
 		
         pageLength: 30,
         lengthMenu: [30, 50, 100, 150, 200],
@@ -442,6 +443,7 @@
 			
 			{ data: 'email', name: 'email' },
 			{ data: 'phone', name: 'phone' },
+			{ data: 'reader_type', name: 'reader_type' },
 			{ data: 'total_views', name: 'total_views' },
 			{ data: 'total_commission', name: 'total_commission' },
 			{ data: 'is_ban', name: 'is_ban' },
