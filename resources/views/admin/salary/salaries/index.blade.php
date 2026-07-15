@@ -107,9 +107,9 @@
                                         </td>
                                         <td>
                                             @if($salaryRecord && $salaryRecord->status == 'paid')
-                                                <!--<a href="{{ route('admin.salaries.receipt', $salaryRecord->id) }}" class="btn btn-info">-->
-                                                <!--    <i class="fas fa-download mr-1"></i> Payslip-->
-                                                <!--</a>-->
+                                                <a href="{{ route('admin.salaries.receipt', $salaryRecord->id) }}" class="btn btn-info">
+                                                    <i class="fas fa-download mr-1"></i> Payslip
+                                                </a>
                                                 <span class="badge badge-secondary px-3 py-2">Paid</span>
                                             @else
                                                 <form action="{{ route('admin.salaries.store') }}" method="POST" onsubmit="return confirm('Record salary payment of ৳{{ number_format($netPayable, 2) }} for {{ $employee->name }}?');">
