@@ -848,6 +848,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/user/edit/{id}','Admin\StaffController@edit')->name('admin.staff.edit');
         Route::post('/user/update/{id}','Admin\StaffController@update')->name('admin.staff.update');
         Route::get('/user/delete/{id}','Admin\StaffController@delete')->name('admin.staff.delete');
+        Route::get('/user/ban/{id}','Admin\StaffController@ban')->name('admin.staff.ban');
 		
 		Route::get('/user/user_income_detail/{id}','Admin\StaffController@user_income_detail')->name('admin.staff.user_income_detail');
 		

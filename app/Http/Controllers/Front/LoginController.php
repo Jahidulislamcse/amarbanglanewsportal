@@ -49,6 +49,10 @@ class LoginController extends Controller
         if ($user->verified == 0) {
             return response()->json(['errors' => ['Your Email is not Verified!']]);
         }
+
+        if ($user->is_ban == 1) {
+            return response()->json(['errors' => ['Your account is disabled! Please contact authority.']]);
+        }
     
         Auth::login($user, $request->remember);
     

@@ -245,6 +245,7 @@ class StaffController extends Controller
             'users.email',
             'users.phone',
             'users.photo',
+            'users.is_ban',
             'users.referral_earning',
             DB::raw('users.views AS total_views'),
             DB::raw("(users.views * {$readerRate}) AS view_commission"),
@@ -286,6 +287,12 @@ class StaffController extends Controller
                             style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid #ddd;">';
             })
 
+            ->editColumn('name', function ($data) {
+                if ($data->is_ban == 1) {
+                    return $data->name . ' <span class="badge badge-danger">Disabled</span>';
+                }
+                return $data->name;
+            })
             ->addColumn('action', function ($data) {
                 $delete = '<a href="javascript:;" data-href="' . route('admin.staff.delete', $data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete">
                               <i class="fas fa-trash-alt"></i>
@@ -294,8 +301,16 @@ class StaffController extends Controller
                 $count_detail = '<a target="_blank" href="' . route('admin.staff.user_income_detail', $data->id) . '">
                                     <i class="fas fa-search"></i> Income
                                  </a>';
+                                 
+                $banText = $data->is_ban == 1 ? 'Enable' : 'Disable';
+                $banIcon = $data->is_ban == 1 ? 'fa-unlock' : 'fa-ban';
+                $banColor = $data->is_ban == 1 ? 'color: #28a745;' : 'color: #dc3545;';
+                
+                $banBtn = '<a href="' . route('admin.staff.ban', $data->id) . '" class="ml-2" style="' . $banColor . '" title="' . $banText . '">
+                              <i class="fas ' . $banIcon . '"></i> ' . $banText . '
+                           </a>';
     
-                return '<div class="action-list">' . $count_detail . $delete . '</div>';
+                return '<div class="action-list">' . $count_detail . $banBtn . $delete . '</div>';
             })
             ->editColumn('report_type', function ($data) use ($reportcategories) {
                 $json_decode = json_decode($data->report_type, true);
@@ -330,7 +345,7 @@ class StaffController extends Controller
                        number_format($viewCommission, 2) . ' (views) = ' . 
                        number_format($data->total_commission, 2) . '</small>';
             })
-            ->rawColumns(['photo', 'report_type', 'action', 'total_commission', 'breakdown'])
+            ->rawColumns(['name', 'photo', 'report_type', 'action', 'total_commission', 'breakdown'])
             ->toJson();
     }
     
@@ -923,5 +938,15 @@ class StaffController extends Controller
         $data  = User::find($id);
         @unlink('assets/images/admin/'.$data->photo);
         $data->delete();
+    }
+
+    public function ban($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_ban = $user->is_ban == 1 ? 0 : 1;
+        $user->save();
+        
+        $status = $user->is_ban == 1 ? 'disabled' : 'enabled';
+        return redirect()->back()->with('success', "User {$user->name} has been {$status} successfully.");
     }
 }

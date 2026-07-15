@@ -68,6 +68,7 @@ class User extends Authenticatable
         'team_gen_5',           
         'promotion_eligible',  
         'daily_quiz_money',
+        'is_ban',
      ];
 
     /**
