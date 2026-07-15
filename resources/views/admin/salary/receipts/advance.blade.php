@@ -7,10 +7,10 @@
                 ["\xe0\xa7\x87\xe0\xa6\xbe", "\xe0\xa7\x87\xe0\xa7\x97"],
                 $str
             );
-            $consonant = "[\x{0995}-\x{09b9}\x{09dc}-\x{09df}\x{09f0}\x{09f1}]";
-            $conjunct = "(?:" . $consonant . "\x{09cd})*" . $consonant;
-            $left_vowel = "([\x{09bf}\x{09c7}\x{09c8}])";
-            $pattern = "/(" . $conjunct . ")" . $left_vowel . "/u";
+            $consonant = '[\x{0995}-\x{09b9}\x{09dc}-\x{09df}\x{09f0}\x{09f1}]';
+            $conjunct = '(?:' . $consonant . '\x{09cd})*' . $consonant;
+            $left_vowel = '([\x{09bf}\x{09c7}\x{09c8}])';
+            $pattern = '/(' . $conjunct . ')' . $left_vowel . '/u';
             return preg_replace($pattern, '$2$1', $str);
         }
     }
@@ -48,7 +48,7 @@
     <style>
         @font-face {
             font-family: 'SolaimanLipi';
-            src: url('https://raw.githubusercontent.com/shiftenterdev/bangla-font/master/SolaimanLipi.ttf') format('truetype');
+            src: url('{{ dirname(base_path()) . "/assets/fonts/SolaimanLipi.ttf" }}') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
