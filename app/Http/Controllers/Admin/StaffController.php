@@ -336,6 +336,8 @@ class StaffController extends Controller
                 // Direct query is 100% robust and matches dashboard exactly
                 $quizWinnerMoney = \App\Models\UserPrizeMoney::where('user_id', $data->id)->sum('amount');
                             
+                $totalWithdraw = \App\Models\PaymentRequest::where('user_id', $data->id)->sum('approve_amount');
+
                 $detailsBtn = '<a href="javascript:;" class="view-details ml-2" style="color: #007bff;" ' .
                               'data-name="' . e($data->name) . '" ' .
                               'data-created="' . ($data->created_at ? $data->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
@@ -343,6 +345,8 @@ class StaffController extends Controller
                               'data-views-income="' . number_format($data->view_commission, 2) . '" ' .
                               'data-quiz-money="' . number_format($data->daily_quiz_money, 2) . '" ' .
                               'data-quiz-winner-money="' . number_format($quizWinnerMoney, 2) . '" ' .
+                              'data-withdraw="' . number_format($totalWithdraw, 2) . '" ' .
+                              'data-balance="' . number_format($data->total_commission, 2) . '" ' .
                               'data-ban="' . $data->is_ban . '" title="Details">' .
                               '<i class="fas fa-eye"></i> Details' .
                               '</a>';

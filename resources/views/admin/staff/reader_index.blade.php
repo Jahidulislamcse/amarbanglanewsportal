@@ -508,6 +508,8 @@
 		var viewsIncome = $(this).data('views-income');
 		var quizMoney = $(this).data('quiz-money');
 		var quizWinnerMoney = $(this).data('quiz-winner-money');
+		var withdraw = $(this).data('withdraw');
+		var balance = $(this).data('balance');
 		var isBan = $(this).data('ban');
 
 		$('#detail_name').text(name);
@@ -516,6 +518,8 @@
 		$('#detail_views_income').text('৳' + viewsIncome);
 		$('#detail_quiz_money').text('৳' + quizMoney);
 		$('#detail_quiz_winner_money').text('৳' + quizWinnerMoney);
+		$('#detail_withdraw').text('৳' + withdraw);
+		$('#detail_balance').text('৳' + balance);
 		
 		if (isBan == 1) {
 			$('#detail_status').text('Disabled').removeClass('badge-success').addClass('badge-danger');
@@ -572,6 +576,14 @@
                         <tr>
                             <th class="bg-light font-weight-bold text-muted">Quiz Winner Money (কুইজ বিজয়ী আয়)</th>
                             <td id="detail_quiz_winner_money" class="font-weight-bold text-success">৳0.00</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light font-weight-bold text-muted">Total Withdraw (মোট উত্তোলন)</th>
+                            <td id="detail_withdraw" class="font-weight-bold text-danger">৳0.00</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light font-weight-bold text-muted">Current Balance (চলতি ব্যালেন্স)</th>
+                            <td id="detail_balance" class="font-weight-bold text-primary">৳0.00</td>
                         </tr>
                     </tbody>
                 </table>
