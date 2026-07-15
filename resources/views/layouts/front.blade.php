@@ -6,6 +6,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-adsense-account" content="ca-pub-3911918675338770">
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3911918675338770"
+     crossorigin="anonymous"></script>
+     
 	@if (request()->is('details/*'))
 		@if ($data->meta_tag && $data->tags)
 			<meta name="description" content="{{$data->meta_tag}}">
@@ -60,9 +64,6 @@
 	<link rel="stylesheet" id="color" href="{{ asset('assets/front/css/color.php?base_color='.str_replace('#','', $gs->theme_color).'&'.'footer_color='.str_replace('#','',$gs->footer_color).'&'.'copyright_color='.str_replace('#','',$gs->copyright_color)) }}">
 	<link rel="stylesheet" id="color" href="{{ asset('assets/front/css/font.php?font_familly='.$default_font->font_family) }}">
     @stack('css')
-
-    <script src="https://pl30378623.effectivecpmnetwork.com/d9/50/d0/d950d0d389ed61839e0b6af0e8760a44.js"></script>
-    <script src="https://pl30378622.effectivecpmnetwork.com/00/e5/ff/00e5ffce1a739e9fabf398688adea8c7.js"></script>
 </head>
 
 <body>
