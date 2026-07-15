@@ -505,6 +505,7 @@
 		var referral = $(this).data('referral');
 		var viewsIncome = $(this).data('views-income');
 		var quizMoney = $(this).data('quiz-money');
+		var quizWinnerMoney = $(this).data('quiz-winner-money');
 		var isBan = $(this).data('ban');
 
 		$('#detail_name').text(name);
@@ -512,6 +513,7 @@
 		$('#detail_referral').text('৳' + referral);
 		$('#detail_views_income').text('৳' + viewsIncome);
 		$('#detail_quiz_money').text('৳' + quizMoney);
+		$('#detail_quiz_winner_money').text('৳' + quizWinnerMoney);
 		
 		if (isBan == 1) {
 			$('#detail_status').text('Disabled').removeClass('badge-success').addClass('badge-danger');
@@ -537,7 +539,7 @@
         <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
             <div class="modal-header bg-primary text-white" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
                 <h5 class="modal-title font-weight-bold" id="readerDetailsModalLabel"><i class="fas fa-user-circle mr-2"></i> Reader Details</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1; background: transparent; border: none;">
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="opacity: 1; background: transparent; border: none;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -565,11 +567,15 @@
                             <th class="bg-light font-weight-bold text-muted">Daily Quiz Money (কুইজ আয়)</th>
                             <td id="detail_quiz_money" class="font-weight-bold text-success">৳0.00</td>
                         </tr>
+                        <tr>
+                            <th class="bg-light font-weight-bold text-muted">Quiz Winner Money (কুইজ বিজয়ী আয়)</th>
+                            <td id="detail_quiz_winner_money" class="font-weight-bold text-success">৳0.00</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer bg-light" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
-                <button type="button" class="btn btn-secondary px-4 font-weight-bold" data-dismiss="modal" style="border-radius: 6px;">Close</button>
+                <button type="button" class="btn btn-secondary px-4 font-weight-bold" data-dismiss="modal" data-bs-dismiss="modal" style="border-radius: 6px;">Close</button>
             </div>
         </div>
     </div>

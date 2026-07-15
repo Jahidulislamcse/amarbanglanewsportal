@@ -132,4 +132,9 @@ class User extends Authenticatable
             'user_id'
         );
     }
+
+    public function prizeMoneys()
+    {
+        return $this->hasMany(UserPrizeMoney::class, 'user_id');
+    }
 }

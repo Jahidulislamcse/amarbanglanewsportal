@@ -276,6 +276,7 @@ class StaffController extends Controller
         
 
         $q->withCount('posts');
+        $q->withSum('prizeMoneys', 'amount');
 
         // Apply Manual Sorting
         if ($request->sort_filter === 'views_desc') {
@@ -337,6 +338,7 @@ class StaffController extends Controller
                               'data-referral="' . number_format($data->referral_earning, 2) . '" ' .
                               'data-views-income="' . number_format($data->view_commission, 2) . '" ' .
                               'data-quiz-money="' . number_format($data->daily_quiz_money, 2) . '" ' .
+                              'data-quiz-winner-money="' . number_format($data->prize_moneys_sum_amount ?? 0, 2) . '" ' .
                               'data-ban="' . $data->is_ban . '" title="Details">' .
                               '<i class="fas fa-eye"></i> Details' .
                               '</a>';
