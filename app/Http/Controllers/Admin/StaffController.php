@@ -251,7 +251,7 @@ class StaffController extends Controller
             'users.daily_quiz_money',
             'users.created_at',
             DB::raw('users.views AS total_views'),
-            DB::raw("(users.views * {$readerRate}) AS view_commission"),
+            'users.view_income AS view_commission',
             DB::raw('users.balance AS total_commission')
         );
         
@@ -377,8 +377,7 @@ class StaffController extends Controller
                 return number_format($data->total_views);
             })
             ->editColumn('view_commission', function ($data) use ($readerRate) {
-                $commission = $data->total_views * $readerRate;
-                return number_format($commission, 2) . 
+                return number_format($data->view_commission, 2) . 
                        ' <small class="text-muted">(' . $readerRate . '/view)</small>';
             })
             ->editColumn('referral_earning', function ($data) {
@@ -390,7 +389,7 @@ class StaffController extends Controller
                        number_format($data->total_commission, 2) . '</span>';
             })
             ->addColumn('breakdown', function ($data) use ($readerRate) {
-                $viewCommission = $data->total_views * $readerRate;
+                $viewCommission = $data->view_commission;
                 return '<small class="text-muted">' . 
                        number_format($data->referral_earning, 2) . ' (referral) + ' . 
                        number_format($viewCommission, 2) . ' (views) = ' . 

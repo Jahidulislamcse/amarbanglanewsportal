@@ -19,7 +19,7 @@ class CheckBanned
     {
         if (Auth::check() && Auth::user()->is_ban == 1) {
             Auth::logout();
-            return redirect()->route('front.login.view')->with('error', 'Your account is disabled! Please contact authority.');
+            return redirect()->route('front.login.view');
         }
 
         return $next($request);

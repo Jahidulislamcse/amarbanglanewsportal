@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
 
         if ($user->is_ban == 1) {
-            return response()->json(['errors' => ['Your account is disabled! Please contact authority.']]);
+            return response()->json(['errors' => ["Credentials Doesn't Match !"]]);
         }
     
         Auth::login($user, $request->remember);
