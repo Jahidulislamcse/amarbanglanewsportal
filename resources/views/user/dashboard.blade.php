@@ -1408,7 +1408,7 @@
         </div>
 
 </div>
-
+{{-- 
 @if(Session::has('registration_success_popup'))
     <!-- Congratulations Modal -->
     <div class="modal fade" id="regSuccessModal" tabindex="-1" role="dialog" aria-labelledby="regSuccessModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -1435,7 +1435,7 @@
             </div>
         </div>
     </div>
-@endif
+@endif --}}
 
 @endsection
 
