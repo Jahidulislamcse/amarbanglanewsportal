@@ -1046,65 +1046,70 @@ class FrontendController extends Controller
         
             $cacheKey = 'post_view_' . $data->id . '_' . ($user ? 'user_' . $user->id : 'ip_' . $request->ip());
         
-            if (!cache()->has($cacheKey)) {
+            // Use atomic cache add to prevent concurrency/race conditions
+            // Change duration to 24 hours (now()->addDay()) to prevent daily repetition
+            if (cache()->add($cacheKey, true, now()->addDay())) {
         
                 $data->increment('view_count');
-        
-                if ($user && $user->is_reader != 0) {
-                    $user->increment('views');
-                }
-        
-                if ($data->user_id) {
-                    $feesObj = \App\Models\Fee::first();
-                    $repRate = $feesObj ? $feesObj->reporter_view_rate : 0.1;
-                    
-                    $author = \App\Models\User::find($data->user_id);
-                    if ($author) {
-                        $author->increment('views');
-                        if ($repRate > 0) {
-                            $author->increment('view_income', $repRate);
-                            $author->increment('balance', $repRate);
+
+                // Prevent self-view from triggering user view increments & earnings
+                $isSelfView = ($user && $data->user_id && $user->id == $data->user_id);
+
+                if (!$isSelfView) {
+                    if ($user && $user->is_reader != 0) {
+                        $user->increment('views');
+                    }
+            
+                    if ($data->user_id) {
+                        $feesObj = \App\Models\Fee::first();
+                        $repRate = $feesObj ? $feesObj->reporter_view_rate : 0.1;
+                        
+                        $author = \App\Models\User::find($data->user_id);
+                        if ($author) {
+                            $author->increment('views');
+                            if ($repRate > 0) {
+                                $author->increment('view_income', $repRate);
+                                $author->increment('balance', $repRate);
+                            }
                         }
                     }
-                }
-        
-                cache()->put($cacheKey, true, now()->addMinutes(30));
-        
-                //  Check if post is within last 24 hours
-                $isRecentPost = $data->created_at >= now()->subDay();
-        
-                //  Only balance logic depends on this (NO RETURN)
-                if ($isRecentPost && $user) {
-        
-                    $fees = \App\Models\Fee::first();
-        
-                    $readerRates = [
-                        'free' => $fees->free_reader_rate,
-                        'executive' => $fees->executive_reader_rate,
-                        'vip' => $fees->vip_reader_rate,
-                    ];
-        
-                    $rate = $readerRates[$user->reader_type ?? 'free'] ?? 0;
-        
-                    if ($user->balance == 0) {
-        
-                        $views = $user->views;
-        
-                        $viewIncome = $views * $rate;
-        
-                        $referralIncome = $user->referral_earning ?? 0;
-        
-                        $total = $viewIncome + $referralIncome;
-        
-                        $user->increment('balance', $total);
-        
-                    } else {
-        
-                        $viewIncome = $rate;
-        
-                        $user->increment('balance', $viewIncome);
+            
+                    // Check if post is within last 24 hours
+                    $isRecentPost = $data->created_at >= now()->subDay();
+            
+                    // Only balance logic depends on this
+                    if ($isRecentPost && $user) {
+            
+                        $fees = \App\Models\Fee::first();
+            
+                        $readerRates = [
+                            'free' => $fees->free_reader_rate,
+                            'executive' => $fees->executive_reader_rate,
+                            'vip' => $fees->vip_reader_rate,
+                        ];
+            
+                        $rate = $readerRates[$user->reader_type ?? 'free'] ?? 0;
+            
+                        if ($user->balance == 0) {
+            
+                            $views = $user->views;
+            
+                            $viewIncome = $views * $rate;
+            
+                            $referralIncome = $user->referral_earning ?? 0;
+            
+                            $total = $viewIncome + $referralIncome;
+            
+                            $user->increment('balance', $total);
+            
+                        } else {
+            
+                            $viewIncome = $rate;
+            
+                            $user->increment('balance', $viewIncome);
+                        }
+                        $user->increment('view_income', $viewIncome);
                     }
-                     $user->increment('view_income', $viewIncome);
                 }
             }
         }
