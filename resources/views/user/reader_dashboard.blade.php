@@ -538,6 +538,20 @@
                             <div class="offer-body team-scroll">
 
                                 @php
+                                    $allReferredUsers = collect();
+                                    for ($g = 1; $g <= 5; $g++) {
+                                        if (isset($genUsers[$g])) {
+                                            $allReferredUsers = $allReferredUsers->concat($genUsers[$g]);
+                                        }
+                                    }
+                                    $totalTeamCount = $allReferredUsers->count();
+                                    $vipCount = $allReferredUsers->where('reader_type', 'vip')->count();
+                                    $executiveCount = $allReferredUsers->where('reader_type', 'executive')->count();
+                                    $freeCount = $allReferredUsers->filter(function($u) {
+                                        $type = strtolower($u->reader_type ?? 'free');
+                                        return $type === 'free' || empty($type);
+                                    })->count();
+
                                     $commissionMap = [
                                         1 => '৫%',
                                         2 => '৪%',
@@ -546,6 +560,15 @@
                                         5 => '১%',
                                     ];
                                 @endphp
+
+                                <div class="p-3 bg-light rounded border mb-3">
+                                    <div class="font-weight-bold text-dark mb-2" style="font-size: 14.5px;">টিম মেম্বার সংখ্যা: {{ bn($totalTeamCount) }} জন</div>
+                                    <div style="font-size: 12.5px; color: #555; font-weight: 600;">
+                                        <span class="mr-2"><span class="badge badge-warning" style="background-color:#f59e0b; color:#fff;">VIP: {{ bn($vipCount) }} জন</span></span>
+                                        <span class="mr-2"><span class="badge badge-info">Executive: {{ bn($executiveCount) }} জন</span></span>
+                                        <span><span class="badge badge-secondary">Free: {{ bn($freeCount) }} জন</span></span>
+                                    </div>
+                                </div>
 
                                 @for ($g = 1; $g <= 5; $g++)
                                     @php $count = count($genUsers[$g]); @endphp
@@ -578,9 +601,12 @@
                                                 @if ($count > 0)
                                                     <ul class="mb-0 pl-3">
                                                         @foreach ($genUsers[$g] as $u)
-                                                            <li class="mb-1">
+                                                            <li class="mb-1 text-dark font-weight-bold" style="font-size: 13.5px;">
                                                                 {{ $u->name }}
-                                                                — <span class="badge badge-info">
+                                                                @if(!empty($u->phone))
+                                                                    <span class="text-muted font-weight-normal" style="font-size: 12px; margin-left: 2px;">({{ $u->phone }})</span>
+                                                                @endif
+                                                                — <span class="badge badge-info font-weight-normal" style="font-size: 11px;">
                                                                     {{ ucfirst($u->reader_type) }}
                                                                 </span>
                                                             </li>
