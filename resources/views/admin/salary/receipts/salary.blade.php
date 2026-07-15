@@ -1,4 +1,20 @@
 @php
+    if (!function_exists('reshape_bengali')) {
+        function reshape_bengali($str) {
+            if (empty($str)) return '';
+            $str = str_replace(
+                ["\xe0\xa7\x8b", "\xe0\xa7\x8c"],
+                ["\xe0\xa7\x87\xe0\xa6\xbe", "\xe0\xa7\x87\xe0\xa7\x97"],
+                $str
+            );
+            $consonant = "[\x{0995}-\x{09b9}\x{09dc}-\x{09df}\x{09f0}\x{09f1}]";
+            $conjunct = "(?:" . $consonant . "\x{09cd})*" . $consonant;
+            $left_vowel = "([\x{09bf}\x{09c7}\x{09c8}])";
+            $pattern = "/(" . $conjunct . ")" . $left_vowel . "/u";
+            return preg_replace($pattern, '$2$1', $str);
+        }
+    }
+
     if (!function_exists('utf8_to_entities')) {
         function utf8_to_entities($str) {
             if (empty($str)) return '';
@@ -28,7 +44,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Salary Slip - {!! utf8_to_entities($salary->employee->name) !!}</title>
+    <title>Salary Slip - {!! utf8_to_entities(reshape_bengali($salary->employee->name)) !!}</title>
     
     <style>
         @font-face {
@@ -95,7 +111,7 @@
 
         .info-table td {
             padding: 5px 0;
-            vertical-align: top;
+            vertical-align: middle;
         }
 
         .info-label {
@@ -196,13 +212,13 @@
     <table class="info-table">
         <tr>
             <td class="info-label">Employee Name:</td>
-            <td class="info-value">{!! utf8_to_entities($salary->employee->name) !!}</td>
+            <td class="info-value">{!! utf8_to_entities(reshape_bengali($salary->employee->name)) !!}</td>
             <td class="info-label">Payslip ID:</td>
             <td class="info-value">#SLY-{{ str_pad($salary->id, 5, '0', STR_PAD_LEFT) }}</td>
         </tr>
         <tr>
             <td class="info-label">Designation:</td>
-            <td class="info-value">{!! utf8_to_entities($salary->employee->designation->name ?? '-') !!}</td>
+            <td class="info-value">{!! utf8_to_entities(reshape_bengali($salary->employee->designation->name ?? '-')) !!}</td>
             <td class="info-label">Payroll Period:</td>
             <td class="info-value">{{ date('F', mktime(0, 0, 0, $salary->month, 10)) }}, {{ $salary->year }}</td>
         </tr>
@@ -244,7 +260,7 @@
     @if ($salary->employee->account_details)
         <div class="payment-method">
             <strong>Disbursed To Account:</strong><br>
-            <span style="white-space: pre-line;">{!! utf8_to_entities($salary->employee->account_details) !!}</span>
+            <span style="white-space: pre-line;">{!! utf8_to_entities(reshape_bengali($salary->employee->account_details)) !!}</span>
         </div>
     @endif
 

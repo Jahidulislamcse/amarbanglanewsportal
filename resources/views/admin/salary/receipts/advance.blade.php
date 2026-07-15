@@ -1,4 +1,20 @@
 @php
+    if (!function_exists('reshape_bengali')) {
+        function reshape_bengali($str) {
+            if (empty($str)) return '';
+            $str = str_replace(
+                ["\xe0\xa7\x8b", "\xe0\xa7\x8c"],
+                ["\xe0\xa7\x87\xe0\xa6\xbe", "\xe0\xa7\x87\xe0\xa7\x97"],
+                $str
+            );
+            $consonant = "[\x{0995}-\x{09b9}\x{09dc}-\x{09df}\x{09f0}\x{09f1}]";
+            $conjunct = "(?:" . $consonant . "\x{09cd})*" . $consonant;
+            $left_vowel = "([\x{09bf}\x{09c7}\x{09c8}])";
+            $pattern = "/(" . $conjunct . ")" . $left_vowel . "/u";
+            return preg_replace($pattern, '$2$1', $str);
+        }
+    }
+
     if (!function_exists('utf8_to_entities')) {
         function utf8_to_entities($str) {
             if (empty($str)) return '';
@@ -27,7 +43,7 @@
 <html lang="bn">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Advance Salary Receipt - {!! utf8_to_entities($advance->employee->name) !!}</title>
+    <title>Advance Salary Receipt - {!! utf8_to_entities(reshape_bengali($advance->employee->name)) !!}</title>
     
     <style>
         @font-face {
@@ -85,7 +101,7 @@
         }
         .info-table td {
             padding: 5px 0;
-            vertical-align: top;
+            vertical-align: middle;
         }
         .info-label {
             font-weight: bold;
@@ -171,13 +187,13 @@
     <table class="info-table">
         <tr>
             <td class="info-label">Employee Name:</td>
-            <td class="info-value">{!! utf8_to_entities($advance->employee->name) !!}</td>
+            <td class="info-value">{!! utf8_to_entities(reshape_bengali($advance->employee->name)) !!}</td>
             <td class="info-label">Receipt ID:</td>
             <td class="info-value">#ADV-{{ str_pad($advance->id, 5, '0', STR_PAD_LEFT) }}</td>
         </tr>
         <tr>
             <td class="info-label">Designation:</td>
-            <td class="info-value">{!! utf8_to_entities($advance->employee->designation->name ?? '-') !!}</td>
+            <td class="info-value">{!! utf8_to_entities(reshape_bengali($advance->employee->designation->name ?? '-')) !!}</td>
             <td class="info-label">Target Payroll Cycle:</td>
             <td class="info-value">{{ date('F', mktime(0, 0, 0, $advance->month, 10)) }}, {{ $advance->year }}</td>
         </tr>
@@ -209,11 +225,11 @@
     @if ($advance->notes || $advance->employee->account_details)
         <div class="notes-box">
             @if ($advance->notes)
-                <strong>Payment Notes:</strong> {!! utf8_to_entities($advance->notes) !!}<br><br>
+                <strong>Payment Notes:</strong> {!! utf8_to_entities(reshape_bengali($advance->notes)) !!}<br><br>
             @endif
             @if ($advance->employee->account_details)
                 <strong>Disbursed To Account:</strong><br>
-                <span style="white-space: pre-line;">{!! utf8_to_entities($advance->employee->account_details) !!}</span>
+                <span style="white-space: pre-line;">{!! utf8_to_entities(reshape_bengali($advance->employee->account_details)) !!}</span>
             @endif
         </div>
     @endif
