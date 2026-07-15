@@ -360,7 +360,14 @@ class StaffController extends Controller
                 return $name;
             })
             ->editColumn('reader_type', function ($data) {
-                return ucfirst($data->reader_type ?? 'free');
+                $type = strtolower($data->reader_type ?? 'free');
+                if ($type === 'vip') {
+                    return '<span class="badge px-2 py-1 text-white font-weight-bold" style="background-color: #ff9900; box-shadow: 0 2px 4px rgba(255,153,0,0.2);">VIP</span>';
+                } elseif ($type === 'executive') {
+                    return '<span class="badge badge-primary px-2 py-1 font-weight-bold" style="box-shadow: 0 2px 4px rgba(0,123,255,0.2);">Executive</span>';
+                } else {
+                    return '<span class="badge px-2 py-1" style="background-color: #e4e6eb; color: #4b4f56; font-weight: 500;">Free</span>';
+                }
             })
             ->editColumn('total_views', function ($data) {
                 return number_format($data->total_views);
@@ -385,7 +392,7 @@ class StaffController extends Controller
                        number_format($viewCommission, 2) . ' (views) = ' . 
                        number_format($data->total_commission, 2) . '</small>';
             })
-            ->rawColumns(['name', 'photo', 'report_type', 'action', 'total_commission', 'breakdown', 'is_ban'])
+            ->rawColumns(['name', 'photo', 'report_type', 'reader_type', 'action', 'total_commission', 'breakdown', 'is_ban'])
             ->toJson();
     }
     
