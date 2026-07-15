@@ -1409,7 +1409,7 @@
 
 </div>
 
-{{-- @if(Session::has('registration_success_popup'))
+@if(Session::has('registration_success_popup'))
     <!-- Congratulations Modal -->
     <div class="modal fade" id="regSuccessModal" tabindex="-1" role="dialog" aria-labelledby="regSuccessModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1424,9 +1424,9 @@
                 </div>
                 <div class="modal-body text-center" style="padding: 40px 30px; background: #fff;">
                     <h3 style="font-family: 'SolaimanLipi', sans-serif; font-weight: 700; color: #1d976c; margin-bottom: 15px; font-size: 24px; line-height: 1.4;">অভিনন্দন!</h3>
-                    <h5 style="font-family: 'SolaimanLipi', sans-serif; font-weight: 600; color: #333; margin-bottom: 20px; font-size: 17px; line-height: 1.5;">আপনি এখন আমার বাংলা ২৪-এর একজন সম্মানিত সদস্য।</h5>
+                    <h5 style="font-family: 'SolaimanLipi', sans-serif; font-weight: 600; color: #333; margin-bottom: 20px; font-size: 17px; line-height: 1.5;">আমার বাংলা ২৪-এ আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে।</h5>
                     <p style="font-family: 'SolaimanLipi', sans-serif; color: #666; font-size: 15px; line-height: 1.7; margin-bottom: 30px;">
-                        আপনার করণীয় বিষয়সমূহ নিয়ে বিস্তারিত আলোচনার জন্য আমাদের একজন প্রতিনিধি ব্যক্তিগতভাবে আপনার সাথে দ্রুত যোগাযোগ করবেন। অনুগ্রহ করে সে পর্যন্ত অপেক্ষা করুন।
+                        কর্তৃপক্ষ কর্তৃক আপনার অ্যাকাউন্টটি অনুমোদিত হলে, আপনার করণীয় বিষয়সমূহ নিয়ে বিস্তারিত আলোচনার জন্য আমাদের একজন প্রতিনিধি ব্যক্তিগতভাবে আপনার সাথে দ্রুত যোগাযোগ করবেন। অনুগ্রহ করে সে পর্যন্ত অপেক্ষা করুন।
                     </p>
                     <button type="button" class="btn btn-success" data-dismiss="modal" data-bs-dismiss="modal" style="background: linear-gradient(135deg, #1d976c 0%, #11998e 100%); border: none; padding: 12px 40px; border-radius: 30px; font-weight: 600; font-size: 15px; color: #fff; box-shadow: 0 4px 15px rgba(29, 151, 108, 0.4); cursor: pointer; outline: none; transition: all 0.3s ease;">
                         ঠিক আছে
@@ -1435,7 +1435,7 @@
             </div>
         </div>
     </div>
-@endif --}}
+@endif
 
 @endsection
 
