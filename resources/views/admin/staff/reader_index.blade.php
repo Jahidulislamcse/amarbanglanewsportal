@@ -297,6 +297,7 @@
 				                        <th>{{ __('Phone') }}</th>
 										<th>{{ __('Views') }}</th>
 										<th>{{ __('Balance') }}</th>
+										<th>{{ __('Status') }}</th>
 										
 				                        <th>{{ __('Options') }}</th>
 									</tr>
@@ -394,9 +395,10 @@
 
 
 	var table = $('#geniustable').DataTable({
-		ordering: false,
+		ordering: true,
 		processing: true,
 		serverSide: true,
+		order: [[5, 'desc']], // default sort by Balance desc
 		
         pageLength: 30,
         lengthMenu: [30, 50, 100, 150, 200],
@@ -419,6 +421,7 @@
 			{ data: 'phone', name: 'phone' },
 			{ data: 'total_views', name: 'total_views' },
 			{ data: 'total_commission', name: 'total_commission' },
+			{ data: 'is_ban', name: 'is_ban' },
 			
 			{ data: 'action', searchable: false, orderable: false }
 		],

@@ -288,10 +288,13 @@ class StaffController extends Controller
             })
 
             ->editColumn('name', function ($data) {
-                if ($data->is_ban == 1) {
-                    return $data->name . ' <span class="badge badge-danger">Disabled</span>';
-                }
                 return $data->name;
+            })
+            ->editColumn('is_ban', function ($data) {
+                if ($data->is_ban == 1) {
+                    return '<span class="badge badge-danger">Disabled</span>';
+                }
+                return '<span class="badge badge-success">Active</span>';
             })
             ->addColumn('action', function ($data) {
                 $delete = '<a href="javascript:;" data-href="' . route('admin.staff.delete', $data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete">
@@ -345,7 +348,7 @@ class StaffController extends Controller
                        number_format($viewCommission, 2) . ' (views) = ' . 
                        number_format($data->total_commission, 2) . '</small>';
             })
-            ->rawColumns(['name', 'photo', 'report_type', 'action', 'total_commission', 'breakdown'])
+            ->rawColumns(['name', 'photo', 'report_type', 'action', 'total_commission', 'breakdown', 'is_ban'])
             ->toJson();
     }
     
