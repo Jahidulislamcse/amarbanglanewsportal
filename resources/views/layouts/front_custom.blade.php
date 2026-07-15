@@ -697,10 +697,11 @@
     
     		</style>
      <?php }?>
-
-	
-	
-</head>
+ 
+ 	<script src="https://pl30378623.effectivecpmnetwork.com/d9/50/d0/d950d0d389ed61839e0b6af0e8760a44.js"></script>
+ 	<script src="https://pl30378622.effectivecpmnetwork.com/00/e5/ff/00e5ffce1a739e9fabf398688adea8c7.js"></script>
+ 	
+ </head>
 
 <body>
 <!-- Google Tag Manager (noscript) -->

@@ -358,7 +358,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-7">
-                                        <input type="email" class="input-field" name="email" placeholder="Email Address" required="" value="{{$data->email}}">
+                                        <input type="email" class="input-field" name="email" placeholder="Email Address" required="" readonly value="{{$data->email}}">
                                     </div>
                                 </div>
 
@@ -369,7 +369,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-7">
-                                        <input type="text" class="input-field" name="phone" placeholder="Phone Number"  value="{{$data->phone}}">
+                                        <input type="text" class="input-field" name="phone" placeholder="Phone Number" readonly value="{{$data->phone}}">
                                     </div>
 									
 									

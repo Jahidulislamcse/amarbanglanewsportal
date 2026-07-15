@@ -1349,8 +1349,11 @@ class DashboardController extends Controller
         $rules =
         [
             'photo' => 'mimes:jpeg,jpg,png,svg',
-            'email' => 'required|unique:users,email,'.$data->id,
         ];
+        
+        if ($data->is_reader != 1) {
+            $rules['email'] = 'required|unique:users,email,'.$data->id;
+        }
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -1359,6 +1362,11 @@ class DashboardController extends Controller
         }
         //--- Validation Section Ends
         $input = $request->all();
+        
+        if ($data->is_reader == 1) {
+            unset($input['email']);
+            unset($input['phone']);
+        }
 		
         if ($file = $request->file('photo'))
         {
