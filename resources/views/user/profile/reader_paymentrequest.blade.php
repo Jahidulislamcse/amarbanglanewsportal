@@ -20,7 +20,7 @@
 
         <button class="btn btn-primary btn-sm"
                 id="openModal"
-                @if(!$canWithdraw) disabled @endif>
+                @if(!$canWithdraw || auth()->user()->reader_type !== 'vip') disabled @endif>
             + Add Payment Request
         </button>
     </div>
