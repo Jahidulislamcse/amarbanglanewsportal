@@ -1415,7 +1415,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
                 <div class="modal-header text-center" style="background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%); border-bottom: none; padding: 35px 20px; position: relative; display: block;">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 20px; top: 20px; border: none; background: transparent; cursor: pointer; font-size: 20px; color: #fff; opacity: 0.8;">
+                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 20px; top: 20px; border: none; background: transparent; cursor: pointer; font-size: 20px; color: #fff; opacity: 0.8;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div style="width: 75px; height: 75px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 8px 20px rgba(29, 151, 108, 0.3);">
@@ -1428,7 +1428,7 @@
                     <p style="font-family: 'SolaimanLipi', sans-serif; color: #666; font-size: 15px; line-height: 1.7; margin-bottom: 30px;">
                         আপনার করণীয় বিষয়সমূহ নিয়ে বিস্তারিত আলোচনার জন্য আমাদের একজন প্রতিনিধি ব্যক্তিগতভাবে আপনার সাথে দ্রুত যোগাযোগ করবেন। অনুগ্রহ করে সে পর্যন্ত অপেক্ষা করুন।
                     </p>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" style="background: linear-gradient(135deg, #1d976c 0%, #11998e 100%); border: none; padding: 12px 40px; border-radius: 30px; font-weight: 600; font-size: 15px; color: #fff; box-shadow: 0 4px 15px rgba(29, 151, 108, 0.4); cursor: pointer; outline: none; transition: all 0.3s ease;">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" data-bs-dismiss="modal" style="background: linear-gradient(135deg, #1d976c 0%, #11998e 100%); border: none; padding: 12px 40px; border-radius: 30px; font-weight: 600; font-size: 15px; color: #fff; box-shadow: 0 4px 15px rgba(29, 151, 108, 0.4); cursor: pointer; outline: none; transition: all 0.3s ease;">
                         ঠিক আছে
                     </button>
                 </div>
