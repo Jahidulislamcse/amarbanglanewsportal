@@ -28,11 +28,15 @@
     @if(auth()->user()->reader_type !== 'vip')
         <div class="card mt-3 border-warning" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid #ff9900; background-color: #fffdf5;">
             <div class="card-body p-4">
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-2">
                     <span class="mr-2" style="font-size: 24px;">💎</span>
                     <h5 class="card-title font-weight-bold text-dark mb-0" style="font-size: 18px;">
                         VIP প্রিমিয়াম অফার (সর্বোচ্চ ইনকাম)
                     </h5>
+                </div>
+                
+                <div class="alert alert-warning py-2 px-3 mb-3 border-0" style="background-color: #fffbeb; color: #b45309; border-radius: 6px; font-size: 13.5px; font-weight: 600;">
+                    <i class="fas fa-info-circle mr-1"></i> দুঃখিত, পেমেন্ট রিকোয়েস্ট করার সুবিধা শুধুমাত্র ভিআইপি (VIP) প্যাকেজ হোল্ডার ব্যবহারকারীদের জন্য উপলব্ধ।
                 </div>
                 <div class="row">
                     <div class="col-md-8">
