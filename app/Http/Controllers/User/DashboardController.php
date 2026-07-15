@@ -335,9 +335,6 @@ class DashboardController extends Controller
         ]);
     
         $user = User::find(Auth::id());
-        if ($user->reader_type !== 'vip') {
-            return redirect()->back()->with('error', 'পেমেন্ট রিকোয়েস্ট করার জন্য আপনার অ্যাকাউন্টটি অবশ্যই ভিআইপি (VIP) হতে হবে। অনুগ্রহ করে আপনার অ্যাকাউন্টটি ভিআইপি-তে আপগ্রেড করুন।');
-        }
         $user_amount = (float) $request->user_amount;
         $request_amount = (float) $request->request_amount;
     

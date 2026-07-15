@@ -20,34 +20,40 @@
 
         <button class="btn btn-primary btn-sm"
                 id="openModal"
-                @if(!$canWithdraw || auth()->user()->reader_type !== 'vip') disabled @endif>
+                @if(!$canWithdraw) disabled @endif>
             + Add Payment Request
         </button>
     </div>
 
     @if(auth()->user()->reader_type !== 'vip')
-        <div class="alert alert-warning mt-3 border-warning p-4" style="background-color: #fffbeb; color: #b45309; border-radius: 8px; border: 1px solid #fde68a; font-size: 15px;">
-            <div class="d-flex align-items-center mb-3">
-                <i class="fas fa-exclamation-triangle mr-2" style="font-size: 20px;"></i>
-                <strong style="font-size: 16px;">দুঃখিত, পেমেন্ট রিকোয়েস্ট করার জন্য আপনার অ্যাকাউন্টটি অবশ্যই ভিআইপি (VIP) হতে হবে।</strong>
-            </div>
-            <p class="mb-3">
-                আপনার বর্তমান ব্যালেন্স: <strong>৳{{ number_format($balance, 2) }}</strong> | ভিআইপি (VIP) আপগ্রেড ফি: <strong>৳{{ number_format($fee->vip_package_price ?? 0, 2) }}</strong>
-            </p>
-            @if($balance >= ($fee->vip_package_price ?? 0))
-                <form action="{{ route('user.profile.upgradeInstantly') }}" method="POST" onsubmit="return confirm('আপনি কি নিশ্চিত যে আপনার বর্তমান ব্যালেন্স থেকে ৳{{ number_format($fee->vip_package_price ?? 0, 2) }} কেটে আপনার অ্যাকাউন্টটি ভিআইপি-তে আপগ্রেড করতে চান?');">
-                    @csrf
-                    <button type="submit" class="btn btn-warning btn-sm font-weight-bold px-4 py-2 mt-1" style="background-color: #d97706; color: #fff; border: none; border-radius: 4px;">
-                        <i class="fas fa-arrow-circle-up mr-1"></i> ব্যালেন্স ব্যবহার করে সরাসরি ভিআইপি আপগ্রেড করুন (Upgrade Instantly)
-                    </button>
-                </form>
-            @else
-                <div class="text-danger font-weight-bold" style="font-size: 13.5px;">
-                    <i class="fas fa-times-circle mr-1"></i> ভিআইপি-তে আপগ্রেড করার জন্য আপনার পর্যাপ্ত ব্যালেন্স নেই।
+        <div class="card mt-3 border-warning" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid #ff9900; background-color: #fffdf5;">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="mr-2" style="font-size: 24px;">💎</span>
+                    <h5 class="card-title font-weight-bold text-dark mb-0" style="font-size: 18px;">
+                        VIP প্রিমিয়াম অফার (সর্বোচ্চ ইনকাম)
+                    </h5>
                 </div>
-            @endif
+                <div class="row">
+                    <div class="col-md-8">
+                        <ul class="list-unstyled mb-0" style="font-size: 14.5px; line-height: 1.8; color: #4f4f4f;">
+                            <li><i class="fas fa-check-circle text-warning mr-2"></i> প্রতি ভিউ ইনকাম হবে <span class="font-weight-bold text-dark">15 পয়সা</span></li>
+                            <li><i class="fas fa-check-circle text-warning mr-2"></i> প্রতি রেফারেল (অ্যাকাউন্ট করলে) <span class="font-weight-bold text-dark">৫ টাকা</span></li>
+                            <li><i class="fas fa-check-circle text-warning mr-2"></i> রেফারকৃত ব্যাক্তি প্যাকেজ নিলে আরও <span class="font-weight-bold text-dark">10% (সর্বোচ্চ ৳ 49.90 পর্যন্ত)</span> স্বয়ংক্রিয়ভাবে আপনার ব্যালেন্সে যুক্ত হবে</li>
+                            <li><i class="fas fa-check-circle text-warning mr-2"></i> সর্বোচ্চ কমিশন সুবিধা <span class="font-weight-bold text-dark">Available only for VIP</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
+                        <a href="{{ route('reader.dashboard') }}" class="btn btn-warning px-4 py-2 font-weight-bold text-white shadow-sm" style="background-color: #ff9900; border: none; border-radius: 6px; font-size: 14.5px;">
+                            <i class="fas fa-gem mr-1"></i> Go VIP
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    @elseif(!$canWithdraw)
+    @endif
+
+    @if(!$canWithdraw)
         <div class="alert alert-danger mt-3">
              Minimum 500 balance required to apply for withdrawal.
         </div>
