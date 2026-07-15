@@ -600,7 +600,7 @@
                             <div class="offer-body team-scroll" style="height: auto; max-height: 380px; overflow-y: auto;">
                                 <div class="p-3 bg-light rounded border mb-3">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="font-weight-bold text-dark">অর্ডার সংখ্যা: {{ bn(count($team_purchases)) }}টি</span>
+                                        <span class="font-weight-bold text-dark">কেনাকাটা করা মেম্বার: {{ bn($team_purchases->unique('user_id')->count()) }} জন</span>
                                         <span class="badge badge-warning font-weight-bold" style="background-color: #f59e0b; color: #fff; font-size: 13px;">কমিশন: ১০%</span>
                                     </div>
                                 </div>
