@@ -782,6 +782,13 @@ class StaffController extends Controller
     public function edit($id)
     {
         $data = \App\Models\User::findOrFail($id);
+        
+        if (empty($data->permanent_division_id)) {
+            $data->permanent_division_id = $data->division_id;
+            $data->permanent_district_id = $data->district_id;
+            $data->permanent_thana_id = $data->thana_id;
+            $data->permanent_union_id = $data->union_id;
+        }
     
         $divisions = \App\Models\Division::all();
     
@@ -858,6 +865,12 @@ class StaffController extends Controller
         $previousApprove = $data->is_approve;
          
         $input = $request->all();
+        if (empty($input['permanent_division_id'])) {
+            $input['permanent_division_id'] = $data->division_id;
+            $input['permanent_district_id'] = $data->district_id;
+            $input['permanent_thana_id'] = $data->thana_id;
+            $input['permanent_union_id'] = $data->union_id;
+        }
         if($request->hasFile('photo')){
             $file = $request->file('photo');
             $name = time().$file->getClientOriginalName();
