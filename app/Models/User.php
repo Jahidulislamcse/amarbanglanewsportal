@@ -42,6 +42,10 @@ class User extends Authenticatable
         'district_id',
         'thana_id',
         'union_id',
+        'permanent_division_id',
+        'permanent_district_id',
+        'permanent_thana_id',
+        'permanent_union_id',
         'report_type',
         'approve_report_type',
         'reporter_area',
@@ -111,6 +115,26 @@ class User extends Authenticatable
     public function union()
     {
         return $this->belongsTo(\App\Models\Unions::class, 'union_id');
+    }
+    
+    public function permanentDivision()
+    {
+        return $this->belongsTo(\App\Models\Division::class, 'permanent_division_id');
+    }
+    
+    public function permanentDistrict()
+    {
+        return $this->belongsTo(\App\Models\District::class, 'permanent_district_id');
+    }
+    
+    public function permanentUpazila()
+    {
+        return $this->belongsTo(\App\Models\Thana::class, 'permanent_thana_id');
+    }
+    
+    public function permanentUnion()
+    {
+        return $this->belongsTo(\App\Models\Unions::class, 'permanent_union_id');
     }
     public function referrer()
     {

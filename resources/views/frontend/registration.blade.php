@@ -515,32 +515,76 @@ bootstrap-select .dropdown-menu li a {
 								   
                                 </div>
 
-                                <!-- Division & District -->
-                                <div class="form-group d-flex">
-                                    <select name="division_id" id="division_id" class="form-control" data-selected="{{ old('division_id') }}" data-title="{{ __('Divsion') }}" required>
-                                        <option value="">{{ __('Divsion') }}</option>
-                                        @foreach(is_division($default_language->id) as $division)
-                                            <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select name="district_id" id="district_id" class="form-control" data-selected="{{ old('district_id') }}" data-title="{{ __('District') }}"  required>
-                                        <option value="">{{ __('District') }}</option>
-                                    </select>
-                                </div>
-
-                                <!-- Thana & Union -->
-                                <div class="form-group d-flex">
-                                    <div style="flex: 1; display: flex; flex-direction: column;">
-                                        <span class="d-none d-md-block" style="font-size: 11px; margin-bottom: 2px; visibility: hidden; height: 16px;">&nbsp;</span>
-                                        <select name="thana_id" id="thana_id" class="form-control" data-selected="{{ old('thana_id') }}"  data-title="উপজেলা/থানা" required>
-                                            <option value="">উপজেলা/থানা</option>
+                                <!-- Reporting Area Section -->
+                                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; margin-bottom: 20px;">
+                                    <h5 style="color: #922B21; font-weight: bold; margin-top: 0; margin-bottom: 15px; border-left: 3px solid #922B21; padding-left: 8px;">রিপোর্টিং এলাকা</h5>
+                                    
+                                    <div class="alert alert-warning" style="background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px 12px; border-radius: 5px; font-size: 13px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; line-height: 1.4;">
+                                        <i class="fas fa-exclamation-triangle" style="flex-shrink: 0; color: #b58105;"></i>
+                                        <span>অনুগ্রহ করে এই রিপোর্টিং এলাকার বাইরের কোনো সংবাদ পোস্ট করবেন না এবং এই রিপোর্টিং এলাকার বাইরের কোনো সংবাদ অনুমোদন করা হবে না।</span>
+                                    </div>
+                                    
+                                    <!-- Division & District -->
+                                    <div class="form-group d-flex" style="margin-bottom: 15px;">
+                                        <select name="division_id" id="division_id" class="form-control" data-selected="{{ old('division_id') }}" data-title="{{ __('Divsion') }}" required style="background-color: #fff;">
+                                            <option value="">{{ __('Divsion') }}</option>
+                                            @foreach(is_division($default_language->id) as $division)
+                                                <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <select name="district_id" id="district_id" class="form-control" data-selected="{{ old('district_id') }}" data-title="{{ __('District') }}"  required style="background-color: #fff;">
+                                            <option value="">{{ __('District') }}</option>
                                         </select>
                                     </div>
-                                    <div style="flex: 1; display: flex; flex-direction: column;">
-                                        <label style="font-size: 11px; margin-bottom: 2px; color: #777; line-height: 16px; height: 16px; margin-top: 0; font-weight: normal;">(optional)</label>
-                                        <select name="union_id" id="union_id" class="form-control" data-selected="{{ old('union_id') }}"  data-title="{{ __('Union') }}">
-                                            <option value="">{{ __('Union') }}</option>
+
+                                    <!-- Thana & Union -->
+                                    <div class="form-group d-flex" style="margin-bottom: 0;">
+                                        <div style="flex: 1; display: flex; flex-direction: column;">
+                                            <span class="d-none d-md-block" style="font-size: 11px; margin-bottom: 2px; visibility: hidden; height: 16px;">&nbsp;</span>
+                                            <select name="thana_id" id="thana_id" class="form-control" data-selected="{{ old('thana_id') }}"  data-title="উপজেলা/থানা" required style="background-color: #fff;">
+                                                <option value="">উপজেলা/থানা</option>
+                                            </select>
+                                        </div>
+                                        <div style="flex: 1; display: flex; flex-direction: column;">
+                                            <label style="font-size: 11px; margin-bottom: 2px; color: #777; line-height: 16px; height: 16px; margin-top: 0; font-weight: normal;">(optional)</label>
+                                            <select name="union_id" id="union_id" class="form-control" data-selected="{{ old('union_id') }}"  data-title="{{ __('Union') }}" style="background-color: #fff;">
+                                                <option value="">{{ __('Union') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Permanent Address Section -->
+                                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; margin-bottom: 20px;">
+                                    <h5 style="color: #922B21; font-weight: bold; margin-top: 0; margin-bottom: 15px; border-left: 3px solid #922B21; padding-left: 8px;">স্থায়ী ঠিকানা</h5>
+                                    
+                                    <!-- Permanent Division & Permanent District -->
+                                    <div class="form-group d-flex" style="margin-bottom: 15px;">
+                                        <select name="permanent_division_id" id="permanent_division_id" class="form-control" data-selected="{{ old('permanent_division_id') }}" data-title="স্থায়ী বিভাগ" required style="background-color: #fff;">
+                                            <option value="">স্থায়ী বিভাগ</option>
+                                            @foreach(is_division($default_language->id) as $division)
+                                                <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                            @endforeach
                                         </select>
+                                        <select name="permanent_district_id" id="permanent_district_id" class="form-control" data-selected="{{ old('permanent_district_id') }}" data-title="স্থায়ী জেলা" required style="background-color: #fff;">
+                                            <option value="">স্থায়ী জেলা</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Permanent Thana & Permanent Union -->
+                                    <div class="form-group d-flex" style="margin-bottom: 0;">
+                                        <div style="flex: 1; display: flex; flex-direction: column;">
+                                            <span class="d-none d-md-block" style="font-size: 11px; margin-bottom: 2px; visibility: hidden; height: 16px;">&nbsp;</span>
+                                            <select name="permanent_thana_id" id="permanent_thana_id" class="form-control" data-selected="{{ old('permanent_thana_id') }}"  data-title="স্থায়ী উপজেলা/থানা" required style="background-color: #fff;">
+                                                <option value="">স্থায়ী উপজেলা/থানা</option>
+                                            </select>
+                                        </div>
+                                        <div style="flex: 1; display: flex; flex-direction: column;">
+                                            <label style="font-size: 11px; margin-bottom: 2px; color: #777; line-height: 16px; height: 16px; margin-top: 0; font-weight: normal;">(optional)</label>
+                                            <select name="permanent_union_id" id="permanent_union_id" class="form-control" data-selected="{{ old('permanent_union_id') }}"  data-title="স্থায়ী ইউনিয়ন" style="background-color: #fff;">
+                                                <option value="">স্থায়ী ইউনিয়ন</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -743,6 +787,10 @@ const registerSegments = {
     district_id: 1,
     thana_id: 1,
     union_id: 1,
+    permanent_division_id: 1,
+    permanent_district_id: 1,
+    permanent_thana_id: 1,
+    permanent_union_id: 1,
     reporter_area: 1,
     report_type: 1,
     nid_no: 1,

@@ -791,6 +791,12 @@ class StaffController extends Controller
     
         $unions = \App\Models\Unions::where('upazilla_id', $data->thana_id)->get();
     
+        $permanentDistricts = $data->permanent_division_id ? \App\Models\District::where('division_id', $data->permanent_division_id)->get() : collect();
+    
+        $permanentThanas = $data->permanent_district_id ? \App\Models\Thana::where('district_id', $data->permanent_district_id)->get() : collect();
+    
+        $permanentUnions = $data->permanent_thana_id ? \App\Models\Unions::where('upazilla_id', $data->permanent_thana_id)->get() : collect();
+    
         $allDistricts = \App\Models\District::select('id','name','division_id')->get();
 
         $reporterQuery = \App\Models\Post::where('user_id', $id);
@@ -816,6 +822,9 @@ class StaffController extends Controller
             'districts',
             'thanas',
             'unions',
+            'permanentDistricts',
+            'permanentThanas',
+            'permanentUnions',
             'allDistricts',
             'approvedCount',
             'pendingCount',
@@ -836,6 +845,10 @@ class StaffController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'nid' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'nid_back' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'permanent_division_id' => 'required',
+            'permanent_district_id' => 'required',
+            'permanent_thana_id' => 'required',
+            'permanent_union_id' => 'nullable',
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){

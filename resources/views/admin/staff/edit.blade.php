@@ -342,6 +342,13 @@
 
 
                             <div class="row">
+                                <div class="col-lg-12">
+                                    <hr>
+                                    <h5 class="sub-heading" style="color: #922B21; font-weight: bold; margin-bottom: 15px;">{{ __('Reporting Area') }}</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-lg-6">
                                     <div class="left-area">
                                         <h4 class="heading">{{ __('Division') }} *</h4>
@@ -392,6 +399,71 @@
                                         <option value="">Select Union</option>
                                         @foreach($unions as $union)
                                             <option value="{{ $union->id }}" {{ $data->union_id == $union->id ? 'selected' : '' }}>
+                                                {{ $union->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <hr>
+                                    <h5 class="sub-heading" style="color: #922B21; font-weight: bold; margin-bottom: 15px;">{{ __('Permanent Address') }}</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Division') }} *</h4>
+                                    </div>
+                                    <select name="permanent_division_id" id="permanent_division_id" class="form-control" required>
+                                        <option value="">Select Division</option>
+                                        @foreach($divisions as $division)
+                                            <option value="{{ $division->id }}" {{ $data->permanent_division_id == $division->id ? 'selected' : '' }}>
+                                                {{ $division->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent District') }} *</h4>
+                                    </div>
+                                   <select name="permanent_district_id" id="permanent_district_id" class="form-control" required>
+                                        <option value="">Select District</option>
+                                        @foreach($permanentDistricts as $district)
+                                            <option value="{{ $district->id }}" {{ $data->permanent_district_id == $district->id ? 'selected' : '' }}>
+                                                {{ $district->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Upazila') }} *</h4>
+                                    </div>
+                                    <select name="permanent_thana_id" id="permanent_thana_id" class="form-control" required>
+                                        <option value="">Select Upazila</option>
+                                        @foreach($permanentThanas as $thana)
+                                            <option value="{{ $thana->id }}" {{ $data->permanent_thana_id == $thana->id ? 'selected' : '' }}>
+                                                {{ $thana->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Union') }}</h4>
+                                    </div>
+                                   <select name="permanent_union_id" id="permanent_union_id" class="form-control">
+                                        <option value="">Select Union</option>
+                                        @foreach($permanentUnions as $union)
+                                            <option value="{{ $union->id }}" {{ $data->permanent_union_id == $union->id ? 'selected' : '' }}>
                                                 {{ $union->name }}
                                             </option>
                                         @endforeach
@@ -592,6 +664,29 @@
         $('#district_id').html(html);
     
         console.log('districts loaded', districts);
+    });
+
+    $(document).off('change', '#permanent_division_id');
+    
+    $(document).on('change', '#permanent_division_id', function () {
+    
+        let divisionId = $(this).val();
+    
+        let districts = allDistricts.filter(function(item){
+            return item.division_id == divisionId;
+        });
+    
+        let html = '<option value="">Select District</option>';
+    
+        districts.forEach(function(item){
+            html += `<option value="${item.id}">${item.name}</option>`;
+        });
+    
+        $('#permanent_district_id').html(html);
+        $('#permanent_thana_id').html('<option value="">Select Upazila</option>');
+        $('#permanent_union_id').html('<option value="">Select Union</option>');
+    
+        console.log('permanent districts loaded', districts);
     });
     </script>
 @endsection
