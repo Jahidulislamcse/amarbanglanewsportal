@@ -1349,5 +1349,109 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function() {
+    let selectedPermanentDivisionId = $('#permanent_division_id').data('selected');
+    let selectedPermanentDistrictId = $('#permanent_district_id').data('selected');
+    let selectedPermanentThanaId = $('#permanent_thana_id').data('selected');
+    let selectedPermanentUnionId = $('#permanent_union_id').data('selected');
+
+    let permanent_district = $('#permanent_district_id').data('title') || "স্থায়ী জেলা";
+    let permanent_upazila = $('#permanent_thana_id').data('title') || "স্থায়ী উপজেলা";
+    let permanent_union = $('#permanent_union_id').data('title') || "স্থায়ী ইউনিয়ন";
+
+    $(document).off('change', '#permanent_division_id').on('change', '#permanent_division_id', function() {
+        let division_id = $(this).val();
+        if(division_id) {
+            $.ajax({
+                method: "POST",
+                url: '{{ route('front.getDistricts') }}',
+                data: {
+                    division_id: division_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#permanent_district_id').empty().append('<option value="">'+permanent_district+'</option>');
+                    $('#permanent_thana_id').empty().append('<option value="">'+permanent_upazila+'</option>');
+                    $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+                    
+                    $.each(data, function(key, value){
+                        let selected = (value.id == selectedPermanentDistrictId) ? 'selected' : '';
+                        $('#permanent_district_id').append('<option value="'+ value.id +'" '+ selected +' data-slug="'+value.name+'">'+ value.name +'</option>');
+                    });
+
+                    if(selectedPermanentDistrictId) {
+                        $('#permanent_district_id').trigger('change');
+                    }
+                }
+            });
+        } else {
+            $('#permanent_district_id').empty().append('<option value="">'+permanent_district+'</option>');
+            $('#permanent_thana_id').empty().append('<option value="">'+permanent_upazila+'</option>');
+            $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+        }
+    });
+
+    $(document).off('change', '#permanent_district_id').on('change', '#permanent_district_id', function() {
+        let district_id = $(this).val();
+        if(district_id) {
+            $.ajax({
+                method: "POST",
+                url: '{{ route('front.getThanas') }}',
+                data: {
+                    district_id: district_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#permanent_thana_id').empty().append('<option value="">'+permanent_upazila+'</option>');
+                    $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+
+                    $.each(data, function(key, value){
+                        let selected = (value.id == selectedPermanentThanaId) ? 'selected' : '';
+                        $('#permanent_thana_id').append('<option value="'+ value.id +'" '+ selected +' data-slug="'+value.name+'">'+ value.name +'</option>');
+                    });
+
+                    if(selectedPermanentThanaId) {
+                        $('#permanent_thana_id').trigger('change');
+                    }
+                }
+            });
+        } else {
+            $('#permanent_thana_id').empty().append('<option value="">'+permanent_upazila+'</option>');
+            $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+        }
+    });
+
+    $(document).off('change', '#permanent_thana_id').on('change', '#permanent_thana_id', function() {
+        let thana_id = $(this).val();
+        if(thana_id) {
+            $.ajax({
+                method: "POST",
+                url: '{{ route('front.getUnions') }}',
+                data: {
+                    thana_id: thana_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+
+                    $.each(data, function(key, value){
+                        let selected = (value.id == selectedPermanentUnionId) ? 'selected' : '';
+                        $('#permanent_union_id').append('<option value="'+ value.id +'" '+ selected +'>'+ value.name +'</option>');
+                    });
+                }
+            });
+        } else {
+            $('#permanent_union_id').empty().append('<option value="">'+permanent_union+'</option>');
+        }
+    });
+
+    if(selectedPermanentDivisionId) {
+        $('#permanent_division_id').val(selectedPermanentDivisionId).trigger('change');
+    }
+});
+</script>
+
 
 @endsection
+
