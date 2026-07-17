@@ -85,61 +85,6 @@ Route::get('/worldcup-test', function () {
     return response()->json($response->json());
 });
 
-Route::get('/test-sms', function () {
-    if (function_exists('opcache_reset')) {
-        opcache_reset();
-    }
-
-    $url = env('SMS_API_URL');
-    if (!$url || strpos($url, 'bulksmsbd') !== false) {
-        $url = 'http://isms.digitalsquare.ltd:5683/sendtext';
-    }
-
-    $apiKey = env('SMS_API_KEY');
-    if (!$apiKey || $apiKey === '1w2D15uih1g2POcDGKfH') {
-        $apiKey = 'b92bebd8370a62da';
-    }
-
-    $secretKey = env('SMS_SECRET_KEY') ?: 'e3388ffc';
-
-    $callerId = env('SMS_SENDER_ID');
-    if (!$callerId || !is_numeric($callerId)) {
-        $callerId = '8809643214620';
-    }
-
-    $smsService = new \App\Services\SmsService();
-    $to = '01612152443';
-    $message = 'Test SMS from Amar Bangla.';
-
-    $response = $smsService->send($to, $message);
-
-    if ($response === false || is_string($response)) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'SMS sending failed (Exception was thrown).',
-            'error_details' => is_string($response) ? $response : 'Unknown error',
-            'debug_info' => [
-                'read_api_key' => env('SMS_API_KEY'),
-                'effective_key' => $apiKey,
-            ]
-        ], 500);
-    }
-
-    return response()->json([
-        'status' => 'success',
-        'debug_info' => [
-            'read_api_key' => env('SMS_API_KEY'),
-            'effective_key' => $apiKey,
-            'read_url' => env('SMS_API_URL'),
-            'effective_url' => $url,
-            'read_caller_id' => env('SMS_SENDER_ID'),
-            'effective_caller_id' => $callerId,
-        ],
-        'response_status' => $response->status(),
-        'response_body' => $response->body(),
-        'response_json' => $response->json(),
-    ]);
-});
 
 
 // routes/web.php
