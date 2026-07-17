@@ -128,450 +128,501 @@ class RegisterController extends Controller
     
     public function sendOtp(Request $request)
     {
-        $tempPath = storage_path('app/temp');
-        if (!file_exists($tempPath)) {
-            mkdir($tempPath, 0777, true);
-        }
+        try {
+            $tempPath = storage_path('app/temp');
+            if (!file_exists($tempPath)) {
+                mkdir($tempPath, 0777, true);
+            }
 
-        $phone = preg_replace('/[^0-9]/', '', $request->phone);
-        if ($phone !== '' && substr($phone, 0, 1) == "0") {
-            $phone = "88" . $phone;
-        }
-        $request->merge(['phone' => $phone]);
+            $phone = preg_replace('/[^0-9]/', '', $request->phone);
+            if ($phone !== '' && substr($phone, 0, 1) == "0") {
+                $phone = "88" . $phone;
+            }
+            $request->merge(['phone' => $phone]);
 
-        $gs = GeneralSettings::findOrFail(1);
-    
-        if($gs->is_capcha == 1)
-        {
-            $rules=[
-                'name'=> 'required',
-                'phone'=> 'required|unique:users',
-                'email'=> 'required|email|unique:users',
-                'address'=> 'required',
-                'father_name'=> 'required',
-                'mother_name'=> 'required',
-                'eduaction'=> 'required',
-                'education_year'=> 'required',
-                'nid_no'=> 'required',
-                'dob'=> 'required',
-                'blood'=> 'required',
-                'division_id'=> 'required',
-                'district_id'=> 'required',
-                'thana_id'=> 'required',
-                'union_id'=> 'nullable',
-                'permanent_division_id'=> 'required',
-                'permanent_district_id'=> 'required',
-                'permanent_thana_id'=> 'required',
-                'permanent_union_id'=> 'nullable',
-                'password'=> 'required|min:4|confirmed',
-                'report_type'=> 'required',
-                'reporter_area'=> 'required',
-                'has_experience' => 'required|in:0,1',
-                'experience_organization' => 'required_if:has_experience,1|max:255',
-                'experience_designation' => 'required_if:has_experience,1|max:255',
-                'experience' => 'nullable|string',
-                'otp_via' => 'required|in:phone,email',
-                'g-recaptcha-response' => 'required|captcha',
-                'nid' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'nid_back' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'signature' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'photo' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048'
-            ];
-        }
-        else
-        {
-            $rules=[
-                'name'=> 'required',
-                'phone'=> 'required|unique:users',
-                'email'=> 'required|email|unique:users',
-                'address'=> 'required',
-                'father_name'=> 'required',
-                'mother_name'=> 'required',
-                'eduaction'=> 'required',
-                'education_year'=> 'required',
-                'nid_no'=> 'required',
-                'dob'=> 'required',
-                'blood'=> 'required',
-                'division_id'=> 'required',
-                'district_id'=> 'required',
-                'thana_id'=> 'required',
-                'union_id'=> 'nullable',
-                'permanent_division_id'=> 'required',
-                'permanent_district_id'=> 'required',
-                'permanent_thana_id'=> 'required',
-                'permanent_union_id'=> 'nullable',
-                'password'=> 'required|min:4|confirmed',
-                'report_type'=> 'required',
-                'reporter_area'=> 'required',
-                'otp_via' => 'required|in:phone,email',
-                'nid' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'nid_back' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'signature' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-                'photo' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048'
-            ];
-        }
-    
-        $validator = Validator::make($request->all(), $rules);
-    
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->getMessageBag()->toArray()
+            $gs = GeneralSettings::findOrFail(1);
+        
+            if($gs->is_capcha == 1)
+            {
+                $rules=[
+                    'name'=> 'required',
+                    'phone'=> 'required|unique:users',
+                    'email'=> 'required|email|unique:users',
+                    'address'=> 'required',
+                    'father_name'=> 'required',
+                    'mother_name'=> 'required',
+                    'eduaction'=> 'required',
+                    'education_year'=> 'required',
+                    'nid_no'=> 'required',
+                    'dob'=> 'required',
+                    'blood'=> 'required',
+                    'division_id'=> 'required',
+                    'district_id'=> 'required',
+                    'thana_id'=> 'required',
+                    'union_id'=> 'nullable',
+                    'permanent_division_id'=> 'required',
+                    'permanent_district_id'=> 'required',
+                    'permanent_thana_id'=> 'required',
+                    'permanent_union_id'=> 'nullable',
+                    'password'=> 'required|min:4|confirmed',
+                    'report_type'=> 'required',
+                    'reporter_area'=> 'required',
+                    'has_experience' => 'required|in:0,1',
+                    'experience_organization' => 'required_if:has_experience,1|max:255',
+                    'experience_designation' => 'required_if:has_experience,1|max:255',
+                    'experience' => 'nullable|string',
+                    'otp_via' => 'required|in:phone,email',
+                    'g-recaptcha-response' => 'required|captcha',
+                    'nid' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'nid_back' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'signature' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'photo' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048'
+                ];
+            }
+            else
+            {
+                $rules=[
+                    'name'=> 'required',
+                    'phone'=> 'required|unique:users',
+                    'email'=> 'required|email|unique:users',
+                    'address'=> 'required',
+                    'father_name'=> 'required',
+                    'mother_name'=> 'required',
+                    'eduaction'=> 'required',
+                    'education_year'=> 'required',
+                    'nid_no'=> 'required',
+                    'dob'=> 'required',
+                    'blood'=> 'required',
+                    'division_id'=> 'required',
+                    'district_id'=> 'required',
+                    'thana_id'=> 'required',
+                    'union_id'=> 'nullable',
+                    'permanent_division_id'=> 'required',
+                    'permanent_district_id'=> 'required',
+                    'permanent_thana_id'=> 'required',
+                    'permanent_union_id'=> 'nullable',
+                    'password'=> 'required|min:4|confirmed',
+                    'report_type'=> 'required',
+                    'reporter_area'=> 'required',
+                    'otp_via' => 'required|in:phone,email',
+                    'nid' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'nid_back' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'signature' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
+                    'photo' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048'
+                ];
+            }
+        
+            $validator = Validator::make($request->all(), $rules);
+        
+            if ($validator->fails()) {
+                return response()->json([
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }
+
+            if (\App\Models\User::where('email', $request->email)->exists()) {
+                return response()->json([
+                    'errors' => ['email' => ['This email is already registered.']]
+                ]);
+            }
+
+            $phone = preg_replace('/[^0-9]/', '', $request->phone);
+            if ($phone !== '' && substr($phone, 0, 1) == "0") {
+                $phone = "88" . $phone;
+            }
+            $phone13 = $phone;
+            $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
+            $phoneExists = \App\Models\User::where('phone', $phone13)
+                ->orWhere('phone', $phone11)
+                ->orWhere('phone', 'like', '%' . $phone11)
+                ->exists();
+
+            if ($phoneExists) {
+                return response()->json([
+                    'errors' => ['phone' => ['This phone number is already registered.']]
+                ]);
+            }
+        
+            $otp = rand(1000,9999);
+        
+            $data = $request->except([
+                '_token',
+                'password_confirmation',
+                'otp_via',
+                'nid',
+                'nid_back',
+                'photo',
+                'signature'
             ]);
-        }
+            
+            $data['plain_password'] = $request->password;
+        
+            if ($file = $request->file('nid')) {
+        
+                $nidName =
+                    uniqid().'_nid.'.
+                    $file->getClientOriginalExtension();
+        
+                $file->move(
+                    storage_path('app/temp'),
+                    $nidName
+                );
+        
+                $data['nid_temp'] = $nidName;
+            }
 
-        if (\App\Models\User::where('email', $request->email)->exists()) {
+            if ($file = $request->file('nid_back')) {
+
+                $nidBackName =
+                    uniqid().'_nid_back.'.
+                    $file->getClientOriginalExtension();
+
+                $file->move(
+                    storage_path('app/temp'),
+                    $nidBackName
+                );
+
+                $data['nid_back_temp'] = $nidBackName;
+            }
+        
+            if ($file = $request->file('photo')) {
+        
+                $photoName =
+                    uniqid().'_photo.'.
+                    $file->getClientOriginalExtension();
+        
+                $file->move(
+                    storage_path('app/temp'),
+                    $photoName
+                );
+        
+                $data['photo_temp'] = $photoName;
+            }
+        
+            if ($file = $request->file('signature')) {
+        
+                $signatureName =
+                    uniqid().'_signature.'.
+                    $file->getClientOriginalExtension();
+        
+                $file->move(
+                    storage_path('app/temp'),
+                    $signatureName
+                );
+        
+                $data['signature_temp'] = $signatureName;
+            }
+            
+            $referrer = null;
+
+            if ($request->filled('ref')) {
+            
+                $referrer = User::where('affilate_code', $request->ref)->first();
+            
+                $data['referrer_code'] = $request->ref;
+                $data['referred_by'] = $referrer?->id;
+            }
+        
+            Cache::put(
+                'register_otp_'.$request->email,
+                [
+                    'otp' => $otp,
+                    'data' => $data
+                ],
+                now()->addMinutes(10)
+            );
+        
+            $userPhone = preg_replace('/[^0-9]/', '', $request->phone);
+        
+            if (substr($userPhone, 0, 1) == "0") {
+                $userPhone = "88" . $userPhone;
+            }
+        
+            if($request->otp_via == 'phone')
+            {
+                $message =
+                "Your OTP for Amar Bangla 24 registration is: {$otp}. Valid for 10 minutes.";
+        
+                $smsSent = (new SmsService())->send(
+                    $userPhone,
+                    $message
+                );
+
+                if ($smsSent === false) {
+                    throw new \Exception("SMS gateway error occurred when sending verification code.");
+                }
+            }
+            else
+            {
+                $html = "
+                    <h2>Amar Bangla 24 - OTP Verification</h2>
+                    <h1>{$otp}</h1>
+                    <p>This OTP is valid for 10 minutes.</p>
+                ";
+        
+                $mailSent = BrevoMailService::send(
+                    $request->email,
+                    $request->name,
+                    'Registration OTP',
+                    $html
+                );
+
+                // Check if response contains Brevo error
+                if (!$mailSent || strpos($mailSent, 'error') !== false || strpos($mailSent, 'unauthorized') !== false) {
+                    throw new \Exception("Email dispatch failed. Please verify your email configuration or try SMS verification.");
+                }
+            }
+        
             return response()->json([
-                'errors' => ['email' => ['This email is already registered.']]
+                'otp_sent' => true,
+                'contact' => $request->email
             ]);
-        }
+        } catch (\Throwable $e) {
+            \Log::error("OTP Send Exception: " . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
 
-        $phone = preg_replace('/[^0-9]/', '', $request->phone);
-        if ($phone !== '' && substr($phone, 0, 1) == "0") {
-            $phone = "88" . $phone;
-        }
-        $phone13 = $phone;
-        $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
-        $phoneExists = \App\Models\User::where('phone', $phone13)
-            ->orWhere('phone', $phone11)
-            ->orWhere('phone', 'like', '%' . $phone11)
-            ->exists();
+            $message = $e->getMessage();
+            $userFriendlyMessage = "System error during registration request. (Details: " . $message . ")";
 
-        if ($phoneExists) {
+            if (stripos($message, 'sms') !== false || stripos($message, 'digitalsquare') !== false || stripos($message, 'bulksms') !== false) {
+                $userFriendlyMessage = "We are experiencing issues sending verification SMS. Please try selecting Email verification instead. (Details: " . $message . ")";
+            } elseif (stripos($message, 'email') !== false || stripos($message, 'mail') !== false || stripos($message, 'brevo') !== false || stripos($message, 'smtp') !== false) {
+                $userFriendlyMessage = "We are experiencing issues sending verification Email. Please try selecting Phone/SMS verification instead. (Details: " . $message . ")";
+            } elseif (stripos($message, 'database') !== false || stripos($message, 'sql') !== false || stripos($message, 'connection') !== false) {
+                $userFriendlyMessage = "Our server database is temporarily busy. Please wait a moment and try again. (Details: " . $message . ")";
+            }
+
             return response()->json([
-                'errors' => ['phone' => ['This phone number is already registered.']]
-            ]);
+                'error' => $userFriendlyMessage
+            ], 500);
         }
-    
-        $otp = rand(1000,9999);
-    
-        $data = $request->except([
-            '_token',
-            'password_confirmation',
-            'otp_via',
-            'nid',
-            'nid_back',
-            'photo',
-            'signature'
-        ]);
-        
-        $data['plain_password'] = $request->password;
-    
-        if ($file = $request->file('nid')) {
-    
-            $nidName =
-                uniqid().'_nid.'.
-                $file->getClientOriginalExtension();
-    
-            $file->move(
-                storage_path('app/temp'),
-                $nidName
-            );
-    
-            $data['nid_temp'] = $nidName;
-        }
-
-        if ($file = $request->file('nid_back')) {
-
-            $nidBackName =
-                uniqid().'_nid_back.'.
-                $file->getClientOriginalExtension();
-
-            $file->move(
-                storage_path('app/temp'),
-                $nidBackName
-            );
-
-            $data['nid_back_temp'] = $nidBackName;
-        }
-    
-        if ($file = $request->file('photo')) {
-    
-            $photoName =
-                uniqid().'_photo.'.
-                $file->getClientOriginalExtension();
-    
-            $file->move(
-                storage_path('app/temp'),
-                $photoName
-            );
-    
-            $data['photo_temp'] = $photoName;
-        }
-    
-        if ($file = $request->file('signature')) {
-    
-            $signatureName =
-                uniqid().'_signature.'.
-                $file->getClientOriginalExtension();
-    
-            $file->move(
-                storage_path('app/temp'),
-                $signatureName
-            );
-    
-            $data['signature_temp'] = $signatureName;
-        }
-        
-        $referrer = null;
-
-        if ($request->filled('ref')) {
-        
-            $referrer = User::where('affilate_code', $request->ref)->first();
-        
-            $data['referrer_code'] = $request->ref;
-            $data['referred_by'] = $referrer?->id;
-        }
-    
-        Cache::put(
-            'register_otp_'.$request->email,
-            [
-                'otp' => $otp,
-                'data' => $data
-            ],
-            now()->addMinutes(10)
-        );
-    
-        $userPhone = preg_replace('/[^0-9]/', '', $request->phone);
-    
-        if (substr($userPhone, 0, 1) == "0") {
-            $userPhone = "88" . $userPhone;
-        }
-    
-        if($request->otp_via == 'phone')
-        {
-            $message =
-            "Your OTP for Amar Bangla 24 registration is: {$otp}. Valid for 10 minutes.";
-    
-            (new SmsService())->send(
-                $userPhone,
-                $message
-            );
-        }
-        else
-        {
-            $html = "
-                <h2>Amar Bangla 24 - OTP Verification</h2>
-                <h1>{$otp}</h1>
-                <p>This OTP is valid for 10 minutes.</p>
-            ";
-    
-            BrevoMailService::send(
-                $request->email,
-                $request->name,
-                'Registration OTP',
-                $html
-            );
-        }
-    
-        return response()->json([
-            'otp_sent' => true,
-            'contact' => $request->email
-        ]);
     }
     
     public function verifyOtp(Request $request)
     {
-        $cacheKey = 'register_otp_'.$request->contact;
-    
-        $cached = Cache::get($cacheKey);
-    
-        if(!$cached){
-            return response()->json([
-                'error' => 'OTP expired or invalid'
-            ]);
-        }
-    
-        if($cached['otp'] != $request->otp){
-            return response()->json([
-                'error' => 'Invalid OTP'
-            ]);
-        }
-    
-        $input = $cached['data'];
+        try {
+            $cacheKey = 'register_otp_'.$request->contact;
         
-        if (\App\Models\User::where('email', $input['email'])->exists()) {
-            return response()->json(['error' => 'This email is already registered']);
-        }
-        $phone = preg_replace('/[^0-9]/', '', $input['phone']);
-        if ($phone !== '' && substr($phone, 0, 1) == "0") {
-            $phone = "88" . $phone;
-        }
-        $phone13 = $phone;
-        $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
-        $phoneExists = \App\Models\User::where('phone', $phone13)
-            ->orWhere('phone', $phone11)
-            ->orWhere('phone', 'like', '%' . $phone11)
-            ->exists();
-        if ($phoneExists) {
-            return response()->json(['error' => 'This phone number is already registered']);
-        }
-    
-        $plainPassword = $input['plain_password'];
-    
-        unset($input['plain_password']);
-    
-        $input['password'] = bcrypt($plainPassword);
-    
-        $input['token'] =
-            md5(time().$input['name'].$input['email']);
-    
-        $input['report_type'] =
-            json_encode($input['report_type']);
-    
-        $input['verified'] = 1;
-        $input['email_verified'] = 'Yes';
-    
-        $referrer = null;
-    
-        if(!empty($input['referrer_code']))
-        {
-            $referrer = User::where(
-                'affilate_code',
-                $input['referrer_code']
-            )->first();
-    
-            $input['referred_by'] =
-                $referrer->id ?? null;
-        }
-    
-        $input['affilate_code'] =
-            $this->generateAffiliateCode();
-    
-        if(!empty($input['nid_temp']))
-        {
-            $nidName = time().'_'.$input['nid_temp'];
-            $oldPath = storage_path('app/temp/'.$input['nid_temp']);
-            $newPath = public_path('assets/images/admin/'.$nidName);
-            if (file_exists($oldPath)) {
-                try {
-                    if (!file_exists(dirname($newPath))) {
-                        mkdir(dirname($newPath), 0777, true);
-                    }
-                    rename($oldPath, $newPath);
-                } catch (\Exception $e) {
-                    \Log::error("Failed to move NID file: " . $e->getMessage());
-                }
-            }
-            $input['nid'] = $nidName;
-            unset($input['nid_temp']);
-        }
-
-        if(!empty($input['nid_back_temp']))
-        {
-            $nidBackName = time().'_'.$input['nid_back_temp'];
-            $oldPath = storage_path('app/temp/'.$input['nid_back_temp']);
-            $newPath = public_path('assets/images/admin/'.$nidBackName);
-            if (file_exists($oldPath)) {
-                try {
-                    if (!file_exists(dirname($newPath))) {
-                        mkdir(dirname($newPath), 0777, true);
-                    }
-                    rename($oldPath, $newPath);
-                } catch (\Exception $e) {
-                    \Log::error("Failed to move NID Back file: " . $e->getMessage());
-                }
-            }
-            $input['nid_back'] = $nidBackName;
-            unset($input['nid_back_temp']);
-        }
-    
-        if(!empty($input['photo_temp']))
-        {
-            $photoName = time().'_'.$input['photo_temp'];
-            $oldPath = storage_path('app/temp/'.$input['photo_temp']);
-            $newPath = public_path('assets/images/admin/'.$photoName);
-            if (file_exists($oldPath)) {
-                try {
-                    if (!file_exists(dirname($newPath))) {
-                        mkdir(dirname($newPath), 0777, true);
-                    }
-                    rename($oldPath, $newPath);
-                } catch (\Exception $e) {
-                    \Log::error("Failed to move Photo file: " . $e->getMessage());
-                }
-            }
-            $input['photo'] = $photoName;
-            unset($input['photo_temp']);
-        }
-    
+            $cached = Cache::get($cacheKey);
         
-        if (empty($input['has_experience'])) {
-
-            $input['experience_organization'] = null;
-            $input['experience_designation'] = null;
-            $input['experience'] = null;
-        }
-    
-    
-        $signatureTemp = $input['signature_temp'] ?? null;
-        unset($input['signature_temp']);
-
-        $author = new User();
-        $author->fill($input)->save();
-
-        if (!empty($signatureTemp)) {
-            $oldPath = storage_path('app/temp/' . $signatureTemp);
-            $signatureName = $author->id . '.png';
-            $newPath = public_path('assets/images/admin/' . $signatureName);
-            if (file_exists($oldPath)) {
-                try {
-                    if (!file_exists(dirname($newPath))) {
-                        mkdir(dirname($newPath), 0777, true);
-                    }
-                    rename($oldPath, $newPath);
-                } catch (\Exception $e) {
-                    \Log::error("Failed to move Signature file: " . $e->getMessage());
-                }
+            if(!$cached){
+                return response()->json([
+                    'error' => 'OTP expired or invalid'
+                ]);
             }
-        }
-    
-        if($referrer)
-        {
-            $fees = Fee::first();
-    
-            if($fees && $referrer->views > 9)
+        
+            if($cached['otp'] != $request->otp){
+                return response()->json([
+                    'error' => 'Invalid OTP'
+                ]);
+            }
+        
+            $input = $cached['data'];
+            
+            if (\App\Models\User::where('email', $input['email'])->exists()) {
+                return response()->json(['error' => 'This email is already registered']);
+            }
+            $phone = preg_replace('/[^0-9]/', '', $input['phone']);
+            if ($phone !== '' && substr($phone, 0, 1) == "0") {
+                $phone = "88" . $phone;
+            }
+            $phone13 = $phone;
+            $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
+            $phoneExists = \App\Models\User::where('phone', $phone13)
+                ->orWhere('phone', $phone11)
+                ->orWhere('phone', 'like', '%' . $phone11)
+                ->exists();
+            if ($phoneExists) {
+                return response()->json(['error' => 'This phone number is already registered']);
+            }
+        
+            $plainPassword = $input['plain_password'];
+        
+            unset($input['plain_password']);
+        
+            $input['password'] = bcrypt($plainPassword);
+        
+            $input['token'] =
+                md5(time().$input['name'].$input['email']);
+        
+            $input['report_type'] =
+                json_encode($input['report_type']);
+        
+            $input['verified'] = 1;
+            $input['email_verified'] = 'Yes';
+        
+            $referrer = null;
+        
+            if(!empty($input['referrer_code']))
             {
-                $referrer->increment(
-                    'referral_earning',
-                    $fees->common_reffer_commission
-                );
-    
-                $referrer->increment(
-                    'balance',
-                    $fees->common_reffer_commission
-                );
+                $referrer = User::where(
+                    'affilate_code',
+                    $input['referrer_code']
+                )->first();
+        
+                $input['referred_by'] =
+                    $referrer->id ?? null;
             }
-        }
-    
-        UserOthersInfo::create([
-            'user_id' => $author->id,
-            'password' => $plainPassword
-        ]);
-    
-        $userPhone = preg_replace('/[^0-9]/', '', $author->phone);
-    
-        if (substr($userPhone, 0, 1) == "0") {
-            $userPhone = "88".$userPhone;
-        }
-    
-        $message =
-        "Welcome, {$author->name}! Your registration on আমার বাংলা 24 has been successfully completed. You will be notified once your information has been verified.";
-    
-        (new SmsService())->send(
-            $userPhone,
-            $message
-        );
-    
-        Cache::forget($cacheKey);
-    
-        Auth::guard('web')->login($author);
-    
-        session()->flash('registration_success_popup', true);
+        
+            $input['affilate_code'] =
+                $this->generateAffiliateCode();
+        
+            if(!empty($input['nid_temp']))
+            {
+                $nidName = time().'_'.$input['nid_temp'];
+                $oldPath = storage_path('app/temp/'.$input['nid_temp']);
+                $newPath = public_path('assets/images/admin/'.$nidName);
+                if (file_exists($oldPath)) {
+                    try {
+                        if (!file_exists(dirname($newPath))) {
+                            mkdir(dirname($newPath), 0777, true);
+                        }
+                        rename($oldPath, $newPath);
+                    } catch (\Exception $e) {
+                        \Log::error("Failed to move NID file: " . $e->getMessage());
+                    }
+                }
+                $input['nid'] = $nidName;
+                unset($input['nid_temp']);
+            }
 
-        return response()->json([
-            'success' => true,
-            'url' => route('user.dashboard')
-        ]);
+            if(!empty($input['nid_back_temp']))
+            {
+                $nidBackName = time().'_'.$input['nid_back_temp'];
+                $oldPath = storage_path('app/temp/'.$input['nid_back_temp']);
+                $newPath = public_path('assets/images/admin/'.$nidBackName);
+                if (file_exists($oldPath)) {
+                    try {
+                        if (!file_exists(dirname($newPath))) {
+                            mkdir(dirname($newPath), 0777, true);
+                        }
+                        rename($oldPath, $newPath);
+                    } catch (\Exception $e) {
+                        \Log::error("Failed to move NID Back file: " . $e->getMessage());
+                    }
+                }
+                $input['nid_back'] = $nidBackName;
+                unset($input['nid_back_temp']);
+            }
+        
+            if(!empty($input['photo_temp']))
+            {
+                $photoName = time().'_'.$input['photo_temp'];
+                $oldPath = storage_path('app/temp/'.$input['photo_temp']);
+                $newPath = public_path('assets/images/admin/'.$photoName);
+                if (file_exists($oldPath)) {
+                    try {
+                        if (!file_exists(dirname($newPath))) {
+                            mkdir(dirname($newPath), 0777, true);
+                        }
+                        rename($oldPath, $newPath);
+                    } catch (\Exception $e) {
+                        \Log::error("Failed to move Photo file: " . $e->getMessage());
+                    }
+                }
+                $input['photo'] = $photoName;
+                unset($input['photo_temp']);
+            }
+        
+            
+            if (empty($input['has_experience'])) {
+
+                $input['experience_organization'] = null;
+                $input['experience_designation'] = null;
+                $input['experience'] = null;
+            }
+        
+        
+            $signatureTemp = $input['signature_temp'] ?? null;
+            unset($input['signature_temp']);
+
+            $author = new User();
+            $author->fill($input)->save();
+
+            if (!empty($signatureTemp)) {
+                $oldPath = storage_path('app/temp/' . $signatureTemp);
+                $signatureName = $author->id . '.png';
+                $newPath = public_path('assets/images/admin/' . $signatureName);
+                if (file_exists($oldPath)) {
+                    try {
+                        if (!file_exists(dirname($newPath))) {
+                            mkdir(dirname($newPath), 0777, true);
+                        }
+                        rename($oldPath, $newPath);
+                    } catch (\Exception $e) {
+                        \Log::error("Failed to move Signature file: " . $e->getMessage());
+                    }
+                }
+            }
+        
+            if($referrer)
+            {
+                $fees = Fee::first();
+        
+                if($fees && $referrer->views > 9)
+                {
+                    $referrer->increment(
+                        'referral_earning',
+                        $fees->common_reffer_commission
+                    );
+        
+                    $referrer->increment(
+                        'balance',
+                        $fees->common_reffer_commission
+                    );
+                }
+            }
+        
+            UserOthersInfo::create([
+                'user_id' => $author->id,
+                'password' => $plainPassword
+            ]);
+        
+            $userPhone = preg_replace('/[^0-9]/', '', $author->phone);
+        
+            if (substr($userPhone, 0, 1) == "0") {
+                $userPhone = "88".$userPhone;
+            }
+        
+            $message =
+            "Welcome, {$author->name}! Your registration on আমার বাংলা 24 has been successfully completed. You will be notified once your information has been verified.";
+        
+            (new SmsService())->send(
+                $userPhone,
+                $message
+            );
+        
+            Cache::forget($cacheKey);
+        
+            Auth::guard('web')->login($author);
+        
+            session()->flash('registration_success_popup', true);
+
+            return response()->json([
+                'success' => true,
+                'url' => route('user.dashboard')
+            ]);
+        } catch (\Throwable $e) {
+            \Log::error("OTP Verify Exception: " . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+
+            $message = $e->getMessage();
+            $userFriendlyMessage = "System error during OTP verification. (Details: " . $message . ")";
+
+            if (stripos($message, 'database') !== false || stripos($message, 'sql') !== false || stripos($message, 'connection') !== false) {
+                $userFriendlyMessage = "Our server database is temporarily busy. Please wait a moment and try again. (Details: " . $message . ")";
+            } elseif (stripos($message, 'file') !== false || stripos($message, 'move') !== false || stripos($message, 'rename') !== false || stripos($message, 'permission') !== false) {
+                $userFriendlyMessage = "Failed to upload or store your files. Please make sure files are valid images and try again. (Details: " . $message . ")";
+            }
+
+            return response()->json([
+                'error' => $userFriendlyMessage
+            ], 500);
+        }
     }
     
     private function generateAffiliateCode()

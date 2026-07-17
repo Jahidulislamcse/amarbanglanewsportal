@@ -1108,6 +1108,10 @@ $(".chooseOtp").click(function(){
 
         type: "POST",
 
+        headers: {
+            'Accept': 'application/json'
+        },
+
         data: formData,
 
         processData: false,
@@ -1173,6 +1177,10 @@ $("#verifyOtpBtn").click(function(){
         "{{ route('register.verifyOtp') }}",
 
         type:"POST",
+
+        headers: {
+            'Accept': 'application/json'
+        },
 
         data:{
 
