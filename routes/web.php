@@ -86,98 +86,44 @@ Route::get('/worldcup-test', function () {
 });
 
 Route::get('/test-sms', function () {
-    $url = env('SMS_API_URL', 'http://isms.digitalsquare.ltd:5683/sendtext');
-    $apiKey = env('SMS_API_KEY', 'b92bebd8370a62da');
-    $secretKey = env('SMS_SECRET_KEY', 'e3388ffc');
-    $callerId = env('SMS_SENDER_ID', '8809643214620');
-    $to = '8801612152443';
+    if (function_exists('opcache_reset')) {
+        opcache_reset();
+    }
+
+    $apiKey = env('SMS_API_KEY') ?: 'b92bebd8370a62da';
+    $secretKey = env('SMS_SECRET_KEY') ?: 'e3388ffc';
+    $callerId = env('SMS_SENDER_ID') ?: '8809643214620';
+    $url = env('SMS_API_URL') ?: 'http://isms.digitalsquare.ltd:5683/sendtext';
+
+    $smsService = new \App\Services\SmsService();
+    $to = '01612152443';
     $message = 'Test SMS from Amar Bangla.';
 
-    // Generate potential hash candidates
-    $hashCandidates = [
-        'empty' => '',
-        'md5_key_secret_to' => md5($apiKey . $secretKey . $to),
-        'md5_key_secret_caller_to' => md5($apiKey . $secretKey . $callerId . $to),
-        'md5_key_secret_caller_to_msg' => md5($apiKey . $secretKey . $callerId . $to . $message),
-        'md5_key_secret_to_msg' => md5($apiKey . $secretKey . $to . $message),
-        'md5_key_secret' => md5($apiKey . $secretKey),
-        'sha256_key_secret_to' => hash('sha256', $apiKey . $secretKey . $to),
-        'sha256_key_secret_caller_to_msg' => hash('sha256', $apiKey . $secretKey . $callerId . $to . $message),
-        'sha256_key_secret' => hash('sha256', $apiKey . $secretKey)
-    ];
+    $response = $smsService->send($to, $message);
 
-    $results = [];
-
-    // Test GET requests with hashes
-    foreach ($hashCandidates as $name => $hashVal) {
-        try {
-            $params = [
-                'apikey'         => $apiKey,
-                'secretkey'      => $secretKey,
-                'callerID'       => $callerId,
-                'toUser'         => $to,
-                'messageContent' => $message,
-            ];
-            if ($hashVal !== '') {
-                $params['hash'] = $hashVal;
-            }
-            $res = \Illuminate\Support\Facades\Http::timeout(5)->get($url, $params);
-            $results['GET_' . $name] = [
-                'status' => $res->status(),
-                'body' => $res->body(),
-            ];
-        } catch (\Exception $e) {
-            $results['GET_' . $name] = ['error' => $e->getMessage()];
-        }
+    if ($response === false) {
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'SMS sending failed (Exception was thrown).',
+            'debug_info' => [
+                'read_api_key' => env('SMS_API_KEY'),
+                'fallback_used_key' => $apiKey,
+            ]
+        ], 500);
     }
 
-    // Test POST (JSON) requests with hashes
-    foreach ($hashCandidates as $name => $hashVal) {
-        try {
-            $params = [
-                'apikey'         => $apiKey,
-                'secretkey'      => $secretKey,
-                'callerID'       => $callerId,
-                'toUser'         => $to,
-                'messageContent' => $message,
-            ];
-            if ($hashVal !== '') {
-                $params['hash'] = $hashVal;
-            }
-            $res = \Illuminate\Support\Facades\Http::timeout(5)->post($url, $params);
-            $results['POST_JSON_' . $name] = [
-                'status' => $res->status(),
-                'body' => $res->body(),
-            ];
-        } catch (\Exception $e) {
-            $results['POST_JSON_' . $name] = ['error' => $e->getMessage()];
-        }
-    }
-
-    // Test POST (Form urlencoded) requests with hashes
-    foreach ($hashCandidates as $name => $hashVal) {
-        try {
-            $params = [
-                'apikey'         => $apiKey,
-                'secretkey'      => $secretKey,
-                'callerID'       => $callerId,
-                'toUser'         => $to,
-                'messageContent' => $message,
-            ];
-            if ($hashVal !== '') {
-                $params['hash'] = $hashVal;
-            }
-            $res = \Illuminate\Support\Facades\Http::asForm()->timeout(5)->post($url, $params);
-            $results['POST_FORM_' . $name] = [
-                'status' => $res->status(),
-                'body' => $res->body(),
-            ];
-        } catch (\Exception $e) {
-            $results['POST_FORM_' . $name] = ['error' => $e->getMessage()];
-        }
-    }
-
-    return response()->json($results);
+    return response()->json([
+        'status' => 'success',
+        'debug_info' => [
+            'read_api_key' => env('SMS_API_KEY'),
+            'fallback_used_key' => $apiKey,
+            'read_url' => env('SMS_API_URL'),
+            'fallback_used_url' => $url,
+        ],
+        'response_status' => $response->status(),
+        'response_body' => $response->body(),
+        'response_json' => $response->json(),
+    ]);
 });
 
 
