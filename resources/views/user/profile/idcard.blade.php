@@ -60,7 +60,7 @@
         $blood = 90;
     }
     
-    $isRestrictedUser = auth()->guard('web')->check() && auth()->guard('web')->user()->is_reader == 0;
+    $isRestrictedUser = !(auth()->guard('admin')->check() && auth()->guard('admin')->user()->id == 1);
     ?>
     <div id="epaper_sss">
         <div id="frontCard" class="id-card front">
@@ -102,7 +102,7 @@
             <div class="signature">
                
                 <h5> Asia Khatun <br> Editor & Publisher</h5>
-                <div class="{{ auth()->guard('web')->check() ? 'crossed-qr' : '' }}">
+                <div class="{{ $isRestrictedUser ? 'crossed-qr' : '' }}">
                     {!! QrCode::size(40)->generate($url) !!}
                     @if($isRestrictedUser)
                         <svg class="qr-cross-line" viewBox="0 0 100 100" preserveAspectRatio="none">
