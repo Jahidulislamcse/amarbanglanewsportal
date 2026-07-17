@@ -85,6 +85,28 @@ Route::get('/worldcup-test', function () {
     return response()->json($response->json());
 });
 
+Route::get('/test-sms', function () {
+    $smsService = new \App\Services\SmsService();
+    $to = '01612152443';
+    $message = 'Test SMS from Amar Bangla. It is working!';
+    
+    $response = $smsService->send($to, $message);
+    
+    if ($response === false) {
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'SMS sending failed (Exception was thrown, check logs).'
+        ], 500);
+    }
+    
+    return response()->json([
+        'status' => 'response_received',
+        'http_status' => $response->status(),
+        'body' => $response->body(),
+        'json' => $response->json()
+    ]);
+});
+
 
 // routes/web.php
 
