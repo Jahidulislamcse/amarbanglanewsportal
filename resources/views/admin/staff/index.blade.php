@@ -359,6 +359,7 @@
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -390,6 +391,7 @@
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -422,6 +424,7 @@
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -454,6 +457,7 @@
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -656,6 +660,7 @@
             { data: 'next_payment_date', name: 'next_payment_date' },
             { data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false },
             { data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' },
+            { data: 'rejected_posts_count', name: 'rejected_posts_count', searchable: false, defaultContent: '0' },
             { data: 'total_views', name: 'total_views' },
             { data: 'total_commission', name: 'total_commission' },
             { data: 'orders', name: 'orders', searchable: false, orderable: false },
