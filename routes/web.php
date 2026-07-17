@@ -90,10 +90,22 @@ Route::get('/test-sms', function () {
         opcache_reset();
     }
 
-    $apiKey = env('SMS_API_KEY') ?: 'b92bebd8370a62da';
+    $url = env('SMS_API_URL');
+    if (!$url || strpos($url, 'bulksmsbd') !== false) {
+        $url = 'http://isms.digitalsquare.ltd:5683/sendtext';
+    }
+
+    $apiKey = env('SMS_API_KEY');
+    if (!$apiKey || $apiKey === '1w2D15uih1g2POcDGKfH') {
+        $apiKey = 'b92bebd8370a62da';
+    }
+
     $secretKey = env('SMS_SECRET_KEY') ?: 'e3388ffc';
-    $callerId = env('SMS_SENDER_ID') ?: '8809643214620';
-    $url = env('SMS_API_URL') ?: 'http://isms.digitalsquare.ltd:5683/sendtext';
+
+    $callerId = env('SMS_SENDER_ID');
+    if (!$callerId || !is_numeric($callerId)) {
+        $callerId = '8809643214620';
+    }
 
     $smsService = new \App\Services\SmsService();
     $to = '01612152443';
@@ -107,7 +119,7 @@ Route::get('/test-sms', function () {
             'message' => 'SMS sending failed (Exception was thrown).',
             'debug_info' => [
                 'read_api_key' => env('SMS_API_KEY'),
-                'fallback_used_key' => $apiKey,
+                'effective_key' => $apiKey,
             ]
         ], 500);
     }
@@ -116,9 +128,11 @@ Route::get('/test-sms', function () {
         'status' => 'success',
         'debug_info' => [
             'read_api_key' => env('SMS_API_KEY'),
-            'fallback_used_key' => $apiKey,
+            'effective_key' => $apiKey,
             'read_url' => env('SMS_API_URL'),
-            'fallback_used_url' => $url,
+            'effective_url' => $url,
+            'read_caller_id' => env('SMS_SENDER_ID'),
+            'effective_caller_id' => $callerId,
         ],
         'response_status' => $response->status(),
         'response_body' => $response->body(),

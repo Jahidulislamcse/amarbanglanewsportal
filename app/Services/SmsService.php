@@ -17,10 +17,22 @@ class SmsService
                 $to = '88' . $to;
             }
 
-            $url = env('SMS_API_URL') ?: 'http://isms.digitalsquare.ltd:5683/sendtext';
-            $apiKey = env('SMS_API_KEY') ?: 'b92bebd8370a62da';
+            $url = env('SMS_API_URL');
+            if (!$url || strpos($url, 'bulksmsbd') !== false) {
+                $url = 'http://isms.digitalsquare.ltd:5683/sendtext';
+            }
+
+            $apiKey = env('SMS_API_KEY');
+            if (!$apiKey || $apiKey === '1w2D15uih1g2POcDGKfH') {
+                $apiKey = 'b92bebd8370a62da';
+            }
+
             $secretKey = env('SMS_SECRET_KEY') ?: 'e3388ffc';
-            $callerId = env('SMS_SENDER_ID') ?: '8809643214620';
+
+            $callerId = env('SMS_SENDER_ID');
+            if (!$callerId || !is_numeric($callerId)) {
+                $callerId = '8809643214620';
+            }
 
             return Http::timeout(10)->post($url, [
                 'apikey'         => $apiKey,
