@@ -87,6 +87,18 @@ class StaffController extends Controller
                     ->from('orders')
                     ->whereColumn('orders.user_id', 'users.id');
             });
+        } elseif ($request->status_filter === 'no_purchase_with_posts') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('orders')
+                    ->whereColumn('orders.user_id', 'users.id');
+            });
+            $q->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('posts')
+                    ->whereColumn('posts.user_id', 'users.id');
+            });
         } elseif ($request->status_filter === 'no_posts') {
             $q->where('users.is_approve', '!=', 2);
             $q->whereNotExists(function ($query) {

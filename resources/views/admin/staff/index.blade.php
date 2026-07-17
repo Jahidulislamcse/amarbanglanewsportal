@@ -120,13 +120,14 @@
         }
     }
 
-    #geniustable, #rejectedtable, #nopurchasetable, #noposttable {
+    #geniustable, #rejectedtable, #nopurchasetable, #noposttable, #nopurchasewithpoststable {
         font-size: 12px !important;
     }
     #geniustable th, #geniustable td,
     #rejectedtable th, #rejectedtable td,
     #nopurchasetable th, #nopurchasetable td,
-    #noposttable th, #noposttable td {
+    #noposttable th, #noposttable td,
+    #nopurchasewithpoststable th, #nopurchasewithpoststable td {
         padding: 5px 3px !important;
         vertical-align: middle !important;
         white-space: nowrap !important;
@@ -272,15 +273,18 @@
              <button type="button" id="choose-weekly-best" class="btn btn-gradient-warning rounded-pill px-4 shadow-sm text-white">
                  <i class="fas fa-trophy mr-2"></i> Weekly Best Reporter
              </button>
-              <button type="button" id="toggle-rejected-reporters" class="btn btn-outline-danger rounded-pill px-4">
-                  <i class="fas fa-user-slash mr-2"></i> Show Rejected
-              </button>
-              <button type="button" id="toggle-no-purchase-reporters" class="btn btn-outline-secondary rounded-pill px-4">
-                  <i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters
-              </button>
-              <button type="button" id="toggle-no-post-reporters" class="btn btn-outline-info rounded-pill px-4">
-                  <i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only
-              </button>
+               <button type="button" id="toggle-rejected-reporters" class="btn btn-outline-danger rounded-pill px-4">
+                   <i class="fas fa-user-slash mr-2"></i> Show Rejected
+               </button>
+               <button type="button" id="toggle-no-purchase-reporters" class="btn btn-outline-secondary rounded-pill px-4">
+                   <i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters
+               </button>
+               <button type="button" id="toggle-no-post-reporters" class="btn btn-outline-info rounded-pill px-4">
+                   <i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only
+               </button>
+               <button type="button" id="toggle-no-purchase-with-posts" class="btn btn-outline-warning rounded-pill px-4">
+                   <i class="fas fa-shopping-basket mr-2"></i> Post with No Purchase
+               </button>
          </div>
      </div>
          </div>
@@ -470,6 +474,39 @@
                 </div>
             </div>
         </div>
+
+        <div class="row no-purchase-with-posts-section" id="no-purchase-with-posts-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-warning">Reporters Having Posts with No Purchase List</h4>
+                    <div class="table-responsive">
+                        <table id="nopurchasewithpoststable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -619,6 +656,7 @@
     var allThanas = @json($thanas);
     var rejectedTable = null;
     var noPostTable = null;
+    var noPurchaseWithPostsTable = null;
 
     function reporterFilters() {
         return {
@@ -758,27 +796,38 @@
         $('#rejected-reporters-section').toggle(showType === 'rejected');
         $('#no-purchase-reporters-section').toggle(showType === 'no_purchase');
         $('#no-post-reporters-section').toggle(showType === 'no_posts');
+        $('#no-purchase-with-posts-section').toggle(showType === 'no_purchase_with_posts');
 
         $('#toggle-rejected-reporters').text(showType === 'rejected' ? 'Hide Rejected' : 'Show Rejected');
         $('#toggle-no-purchase-reporters').text(showType === 'no_purchase' ? 'Hide No Purchase' : 'No purchased Reporters');
         $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No Post' : 'No Post/Pending/Rejected Post Only');
+        $('#toggle-no-purchase-with-posts').text(showType === 'no_purchase_with_posts' ? 'Hide Post with No Purchase' : 'Post with No Purchase');
 
         if (showType === 'rejected') {
             $('#toggle-rejected-reporters').addClass('active btn-danger').removeClass('btn-outline-danger');
             $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
             $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
+            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
         } else if (showType === 'no_purchase') {
             $('#toggle-no-purchase-reporters').addClass('active btn-secondary').removeClass('btn-outline-secondary');
             $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
             $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
+            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
         } else if (showType === 'no_posts') {
             $('#toggle-no-post-reporters').addClass('active btn-info').removeClass('btn-outline-info');
             $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
             $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
+            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
+        } else if (showType === 'no_purchase_with_posts') {
+            $('#toggle-no-purchase-with-posts').addClass('active btn-warning').removeClass('btn-outline-warning');
+            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
+            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
+            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
         } else {
             $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
             $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
             $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
+            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
         }
 
         if (showType === 'rejected') {
@@ -799,6 +848,12 @@
             } else {
                 noPostTable.draw();
             }
+        } else if (showType === 'no_purchase_with_posts') {
+            if (!noPurchaseWithPostsTable) {
+                noPurchaseWithPostsTable = buildReporterTable('#nopurchasewithpoststable', 'no_purchase_with_posts', 'Post with No Purchase Reporters List');
+            } else {
+                noPurchaseWithPostsTable.draw();
+            }
         } else {
             table.draw();
         }
@@ -814,6 +869,9 @@
         }
         if (noPostTable) {
             noPostTable.draw();
+        }
+        if (noPurchaseWithPostsTable) {
+            noPurchaseWithPostsTable.draw();
         }
     }
 
@@ -853,6 +911,11 @@
     $('#toggle-no-post-reporters').click(function() {
         var willShow = !$('#no-post-reporters-section').is(':visible');
         showReporterPanel(willShow ? 'no_posts' : 'active');
+    });
+
+    $('#toggle-no-purchase-with-posts').click(function() {
+        var willShow = !$('#no-purchase-with-posts-section').is(':visible');
+        showReporterPanel(willShow ? 'no_purchase_with_posts' : 'active');
     });
 
     populateDistricts();
