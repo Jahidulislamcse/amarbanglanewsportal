@@ -61,7 +61,8 @@ class StaffController extends Controller
             'users.experience',
             'users.views as total_views',
             'users.balance as total_commission',
-            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.created_at >= "' . Carbon::now()->subDays(7)->startOfDay()->toDateTimeString() . '") AS last_7_days_posts_count')
+            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.created_at >= "' . Carbon::now()->subDays(7)->startOfDay()->toDateTimeString() . '") AS last_7_days_posts_count'),
+            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 1) AS pending_posts_count')
         );
         
         $q->where('users.is_reader', 0);
@@ -84,6 +85,30 @@ class StaffController extends Controller
                 $query->select(DB::raw(1))
                     ->from('orders')
                     ->whereColumn('orders.user_id', 'users.id');
+            });
+        } elseif ($request->status_filter === 'no_posts') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->where(function ($query) {
+                // Either no posts at all
+                $query->whereNotExists(function ($sub) {
+                    $sub->select(DB::raw(1))
+                        ->from('posts')
+                        ->whereColumn('posts.user_id', 'users.id');
+                })
+                // Or posts are exclusively pending (is_pending = 1)
+                ->orWhere(function ($sub2) {
+                    $sub2->whereExists(function ($subExists) {
+                        $subExists->select(DB::raw(1))
+                            ->from('posts')
+                            ->whereColumn('posts.user_id', 'users.id');
+                    })
+                    ->whereNotExists(function ($subNotPending) {
+                        $subNotPending->select(DB::raw(1))
+                            ->from('posts')
+                            ->whereColumn('posts.user_id', 'users.id')
+                            ->where('posts.is_pending', '!=', 1);
+                    });
+                });
             });
         } elseif ($request->user_status === 'pending') {
             $q->where('users.is_approve', 0);

@@ -120,12 +120,13 @@
         }
     }
 
-    #geniustable, #rejectedtable, #nopurchasetable {
+    #geniustable, #rejectedtable, #nopurchasetable, #noposttable {
         font-size: 12px !important;
     }
     #geniustable th, #geniustable td,
     #rejectedtable th, #rejectedtable td,
-    #nopurchasetable th, #nopurchasetable td {
+    #nopurchasetable th, #nopurchasetable td,
+    #noposttable th, #noposttable td {
         padding: 5px 3px !important;
         vertical-align: middle !important;
         white-space: nowrap !important;
@@ -271,12 +272,15 @@
              <button type="button" id="choose-weekly-best" class="btn btn-gradient-warning rounded-pill px-4 shadow-sm text-white">
                  <i class="fas fa-trophy mr-2"></i> Weekly Best Reporter
              </button>
-             <button type="button" id="toggle-rejected-reporters" class="btn btn-outline-danger rounded-pill px-4">
-                 <i class="fas fa-user-slash mr-2"></i> Show Rejected
-             </button>
-             <button type="button" id="toggle-no-purchase-reporters" class="btn btn-outline-secondary rounded-pill px-4">
-                 <i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters
-             </button>
+              <button type="button" id="toggle-rejected-reporters" class="btn btn-outline-danger rounded-pill px-4">
+                  <i class="fas fa-user-slash mr-2"></i> Show Rejected
+              </button>
+              <button type="button" id="toggle-no-purchase-reporters" class="btn btn-outline-secondary rounded-pill px-4">
+                  <i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters
+              </button>
+              <button type="button" id="toggle-no-post-reporters" class="btn btn-outline-info rounded-pill px-4">
+                  <i class="fas fa-newspaper mr-2"></i> No/Pending Post Only
+              </button>
          </div>
      </div>
          </div>
@@ -354,6 +358,7 @@
                                     <th>{{ __('District') }}</th>
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -384,6 +389,7 @@
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -415,6 +421,39 @@
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-post-reporters-section" id="no-post-reporters-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-info">No Post / Pending Post Only Reporters List</h4>
+                    <div class="table-responsive">
+                        <table id="noposttable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -575,6 +614,7 @@
     var allDistricts = @json($districts);
     var allThanas = @json($thanas);
     var rejectedTable = null;
+    var noPostTable = null;
 
     function reporterFilters() {
         return {
@@ -615,6 +655,7 @@
             { data: 'district_name', name: 'district_name', defaultContent: '' },
             { data: 'next_payment_date', name: 'next_payment_date' },
             { data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false },
+            { data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' },
             { data: 'total_views', name: 'total_views' },
             { data: 'total_commission', name: 'total_commission' },
             { data: 'orders', name: 'orders', searchable: false, orderable: false },
@@ -711,19 +752,28 @@
         $('#reporters-section').toggle(showType === 'active');
         $('#rejected-reporters-section').toggle(showType === 'rejected');
         $('#no-purchase-reporters-section').toggle(showType === 'no_purchase');
+        $('#no-post-reporters-section').toggle(showType === 'no_posts');
 
         $('#toggle-rejected-reporters').text(showType === 'rejected' ? 'Hide Rejected' : 'Show Rejected');
         $('#toggle-no-purchase-reporters').text(showType === 'no_purchase' ? 'Hide No Purchase' : 'No purchased Reporters');
+        $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No/Pending Post' : 'No/Pending Post Only');
 
         if (showType === 'rejected') {
             $('#toggle-rejected-reporters').addClass('active btn-danger').removeClass('btn-outline-danger');
             $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
+            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
         } else if (showType === 'no_purchase') {
             $('#toggle-no-purchase-reporters').addClass('active btn-secondary').removeClass('btn-outline-secondary');
             $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
+            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
+        } else if (showType === 'no_posts') {
+            $('#toggle-no-post-reporters').addClass('active btn-info').removeClass('btn-outline-info');
+            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
+            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
         } else {
             $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
             $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
+            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
         }
 
         if (showType === 'rejected') {
@@ -738,6 +788,12 @@
             } else {
                 noPurchaseTable.draw();
             }
+        } else if (showType === 'no_posts') {
+            if (!noPostTable) {
+                noPostTable = buildReporterTable('#noposttable', 'no_posts', 'No/Pending Post Only Reporters List');
+            } else {
+                noPostTable.draw();
+            }
         } else {
             table.draw();
         }
@@ -750,6 +806,9 @@
         }
         if (noPurchaseTable) {
             noPurchaseTable.draw();
+        }
+        if (noPostTable) {
+            noPostTable.draw();
         }
     }
 
@@ -784,6 +843,11 @@
     $('#toggle-no-purchase-reporters').click(function() {
         var willShow = !$('#no-purchase-reporters-section').is(':visible');
         showReporterPanel(willShow ? 'no_purchase' : 'active');
+    });
+
+    $('#toggle-no-post-reporters').click(function() {
+        var willShow = !$('#no-post-reporters-section').is(':visible');
+        showReporterPanel(willShow ? 'no_posts' : 'active');
     });
 
     populateDistricts();
