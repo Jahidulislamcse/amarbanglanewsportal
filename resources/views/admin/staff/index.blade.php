@@ -761,7 +761,7 @@
 
         $('#toggle-rejected-reporters').text(showType === 'rejected' ? 'Hide Rejected' : 'Show Rejected');
         $('#toggle-no-purchase-reporters').text(showType === 'no_purchase' ? 'Hide No Purchase' : 'No purchased Reporters');
-        $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No/Pending Post' : 'No/Pending Post Only');
+        $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No Post' : 'No Post/Pending/Rejected Post Only');
 
         if (showType === 'rejected') {
             $('#toggle-rejected-reporters').addClass('active btn-danger').removeClass('btn-outline-danger');
