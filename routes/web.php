@@ -113,10 +113,11 @@ Route::get('/test-sms', function () {
 
     $response = $smsService->send($to, $message);
 
-    if ($response === false) {
+    if ($response === false || is_string($response)) {
         return response()->json([
             'status' => 'failed',
             'message' => 'SMS sending failed (Exception was thrown).',
+            'error_details' => is_string($response) ? $response : 'Unknown error',
             'debug_info' => [
                 'read_api_key' => env('SMS_API_KEY'),
                 'effective_key' => $apiKey,

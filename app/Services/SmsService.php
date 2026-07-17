@@ -41,9 +41,9 @@ class SmsService
                 'toUser'         => $to,
                 'messageContent' => $message,
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             \Log::error("SMS sending failed: " . $e->getMessage());
-            return false;
+            return $e->getMessage();
         }
     }
 }
