@@ -86,24 +86,56 @@ Route::get('/worldcup-test', function () {
 });
 
 Route::get('/test-sms', function () {
-    $smsService = new \App\Services\SmsService();
-    $to = '01612152443';
-    $message = 'Test SMS from Amar Bangla. It is working!';
-    
-    $response = $smsService->send($to, $message);
-    
-    if ($response === false) {
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'SMS sending failed (Exception was thrown, check logs).'
-        ], 500);
-    }
-    
+    $url = env('SMS_API_URL', 'http://isms.digitalsquare.ltd:5683/sendtext');
+    $apiKey = env('SMS_API_KEY', 'b92bebd8370a62da');
+    $secretKey = env('SMS_SECRET_KEY', 'e3388ffc');
+    $callerId = env('SMS_SENDER_ID', '8809643214620');
+    $to = '8801612152443';
+    $message = 'Test SMS from Amar Bangla.';
+
+    // 1. GET Request
+    $resGet = \Illuminate\Support\Facades\Http::timeout(10)->get($url, [
+        'apikey'         => $apiKey,
+        'secretkey'      => $secretKey,
+        'callerID'       => $callerId,
+        'toUser'         => $to,
+        'messageContent' => $message,
+    ]);
+
+    // 2. POST request with empty hash
+    $resPostEmptyHash = \Illuminate\Support\Facades\Http::timeout(10)->post($url, [
+        'apikey'         => $apiKey,
+        'secretkey'      => $secretKey,
+        'callerID'       => $callerId,
+        'toUser'         => $to,
+        'messageContent' => $message,
+        'hash'           => '',
+    ]);
+
+    // 3. POST request with md5 hash of (apikey + secretkey + toUser)
+    $hashMd5 = md5($apiKey . $secretKey . $to);
+    $resPostMd5Hash = \Illuminate\Support\Facades\Http::timeout(10)->post($url, [
+        'apikey'         => $apiKey,
+        'secretkey'      => $secretKey,
+        'callerID'       => $callerId,
+        'toUser'         => $to,
+        'messageContent' => $message,
+        'hash'           => $hashMd5,
+    ]);
+
     return response()->json([
-        'status' => 'response_received',
-        'http_status' => $response->status(),
-        'body' => $response->body(),
-        'json' => $response->json()
+        'get_response' => [
+            'status' => $resGet->status(),
+            'body' => $resGet->body(),
+        ],
+        'post_empty_hash_response' => [
+            'status' => $resPostEmptyHash->status(),
+            'body' => $resPostEmptyHash->body(),
+        ],
+        'post_md5_hash_response' => [
+            'status' => $resPostMd5Hash->status(),
+            'body' => $resPostMd5Hash->body(),
+        ]
     ]);
 });
 
