@@ -279,7 +279,7 @@
                   <i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters
               </button>
               <button type="button" id="toggle-no-post-reporters" class="btn btn-outline-info rounded-pill px-4">
-                  <i class="fas fa-newspaper mr-2"></i> No/Pending Post Only
+                  <i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only
               </button>
          </div>
      </div>
