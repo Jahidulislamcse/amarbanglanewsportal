@@ -93,50 +93,91 @@ Route::get('/test-sms', function () {
     $to = '8801612152443';
     $message = 'Test SMS from Amar Bangla.';
 
-    // 1. GET Request
-    $resGet = \Illuminate\Support\Facades\Http::timeout(10)->get($url, [
-        'apikey'         => $apiKey,
-        'secretkey'      => $secretKey,
-        'callerID'       => $callerId,
-        'toUser'         => $to,
-        'messageContent' => $message,
-    ]);
+    // Generate potential hash candidates
+    $hashCandidates = [
+        'empty' => '',
+        'md5_key_secret_to' => md5($apiKey . $secretKey . $to),
+        'md5_key_secret_caller_to' => md5($apiKey . $secretKey . $callerId . $to),
+        'md5_key_secret_caller_to_msg' => md5($apiKey . $secretKey . $callerId . $to . $message),
+        'md5_key_secret_to_msg' => md5($apiKey . $secretKey . $to . $message),
+        'md5_key_secret' => md5($apiKey . $secretKey),
+        'sha256_key_secret_to' => hash('sha256', $apiKey . $secretKey . $to),
+        'sha256_key_secret_caller_to_msg' => hash('sha256', $apiKey . $secretKey . $callerId . $to . $message),
+        'sha256_key_secret' => hash('sha256', $apiKey . $secretKey)
+    ];
 
-    // 2. POST request with empty hash
-    $resPostEmptyHash = \Illuminate\Support\Facades\Http::timeout(10)->post($url, [
-        'apikey'         => $apiKey,
-        'secretkey'      => $secretKey,
-        'callerID'       => $callerId,
-        'toUser'         => $to,
-        'messageContent' => $message,
-        'hash'           => '',
-    ]);
+    $results = [];
 
-    // 3. POST request with md5 hash of (apikey + secretkey + toUser)
-    $hashMd5 = md5($apiKey . $secretKey . $to);
-    $resPostMd5Hash = \Illuminate\Support\Facades\Http::timeout(10)->post($url, [
-        'apikey'         => $apiKey,
-        'secretkey'      => $secretKey,
-        'callerID'       => $callerId,
-        'toUser'         => $to,
-        'messageContent' => $message,
-        'hash'           => $hashMd5,
-    ]);
+    // Test GET requests with hashes
+    foreach ($hashCandidates as $name => $hashVal) {
+        try {
+            $params = [
+                'apikey'         => $apiKey,
+                'secretkey'      => $secretKey,
+                'callerID'       => $callerId,
+                'toUser'         => $to,
+                'messageContent' => $message,
+            ];
+            if ($hashVal !== '') {
+                $params['hash'] = $hashVal;
+            }
+            $res = \Illuminate\Support\Facades\Http::timeout(5)->get($url, $params);
+            $results['GET_' . $name] = [
+                'status' => $res->status(),
+                'body' => $res->body(),
+            ];
+        } catch (\Exception $e) {
+            $results['GET_' . $name] = ['error' => $e->getMessage()];
+        }
+    }
 
-    return response()->json([
-        'get_response' => [
-            'status' => $resGet->status(),
-            'body' => $resGet->body(),
-        ],
-        'post_empty_hash_response' => [
-            'status' => $resPostEmptyHash->status(),
-            'body' => $resPostEmptyHash->body(),
-        ],
-        'post_md5_hash_response' => [
-            'status' => $resPostMd5Hash->status(),
-            'body' => $resPostMd5Hash->body(),
-        ]
-    ]);
+    // Test POST (JSON) requests with hashes
+    foreach ($hashCandidates as $name => $hashVal) {
+        try {
+            $params = [
+                'apikey'         => $apiKey,
+                'secretkey'      => $secretKey,
+                'callerID'       => $callerId,
+                'toUser'         => $to,
+                'messageContent' => $message,
+            ];
+            if ($hashVal !== '') {
+                $params['hash'] = $hashVal;
+            }
+            $res = \Illuminate\Support\Facades\Http::timeout(5)->post($url, $params);
+            $results['POST_JSON_' . $name] = [
+                'status' => $res->status(),
+                'body' => $res->body(),
+            ];
+        } catch (\Exception $e) {
+            $results['POST_JSON_' . $name] = ['error' => $e->getMessage()];
+        }
+    }
+
+    // Test POST (Form urlencoded) requests with hashes
+    foreach ($hashCandidates as $name => $hashVal) {
+        try {
+            $params = [
+                'apikey'         => $apiKey,
+                'secretkey'      => $secretKey,
+                'callerID'       => $callerId,
+                'toUser'         => $to,
+                'messageContent' => $message,
+            ];
+            if ($hashVal !== '') {
+                $params['hash'] = $hashVal;
+            }
+            $res = \Illuminate\Support\Facades\Http::asForm()->timeout(5)->post($url, $params);
+            $results['POST_FORM_' . $name] = [
+                'status' => $res->status(),
+                'body' => $res->body(),
+            ];
+        } catch (\Exception $e) {
+            $results['POST_FORM_' . $name] = ['error' => $e->getMessage()];
+        }
+    }
+
+    return response()->json($results);
 });
 
 
