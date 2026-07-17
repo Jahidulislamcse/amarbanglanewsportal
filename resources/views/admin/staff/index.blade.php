@@ -795,7 +795,7 @@
             }
         } else if (showType === 'no_posts') {
             if (!noPostTable) {
-                noPostTable = buildReporterTable('#noposttable', 'no_posts', 'No/Pending Post Only Reporters List');
+                noPostTable = buildReporterTable('#noposttable', 'no_posts', 'No Post/Pending/Rejected Post Only ');
             } else {
                 noPostTable.draw();
             }
