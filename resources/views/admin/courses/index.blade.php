@@ -250,9 +250,9 @@
 
                 {{-- TOGGLE ADD MODULE FORM --}}
                 <button type="button" 
-                        class="btn btn-soft-primary btn-sm mb-3" 
+                        class="btn btn-primary btn-sm mb-3" 
                         onclick="toggleQuestions('addModuleForm{{ $course->id }}')">
-                    <i class="fas fa-plus mr-1"></i> Add Module Form
+                    <i class="fas fa-plus mr-1"></i> Add Module
                 </button>
  
                 {{-- ADD MODULE --}}
@@ -358,7 +358,7 @@
                                 <button type="button" 
                                         class="btn btn-info btn-sm mb-3" 
                                         onclick="toggleQuestions('addQuestionForm{{ $module->id }}')">
-                                    <i class="fas fa-plus mr-1"></i> Add Question Form
+                                    <i class="fas fa-plus mr-1"></i> Add Question
                                 </button>
 
                                 {{-- ADD QUESTION --}}
