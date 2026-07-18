@@ -318,8 +318,8 @@
                                 </div>
                             
                                 {{-- Actions --}}
-                                <div class="col-6 col-md-3 d-flex gap-1 align-items-center justify-content-end">
-                                    <button class="btn btn-primary btn-sm px-3 w-100">
+                                <div class="col-12 col-md-3 d-flex gap-1 align-items-center justify-content-md-end justify-content-start">
+                                    <button class="btn btn-primary btn-sm px-3" style="height: 31px; display: inline-flex; align-items: center; justify-content: center;">
                                        Update
                                     </button>
                                 
@@ -328,9 +328,10 @@
                                             name="_method"
                                             value="DELETE"
                                             class="btn btn-danger btn-sm px-3"
+                                            style="height: 31px; display: inline-flex; align-items: center; justify-content: center;"
                                             onclick="return confirm('Delete this module?')">
                                         @csrf
-                                        <i class="fas fa-trash py-1"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </form>
