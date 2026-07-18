@@ -320,7 +320,7 @@
                                 </div>
                             
                                 {{-- Actions --}}
-                                <div class="col-12 col-md-4 d-flex gap-1 align-items-center justify-content-md-end justify-content-start flex-wrap">
+                                <div class="col-12 col-md-4 d-flex gap-2 align-items-center justify-content-md-end justify-content-start flex-wrap">
                                     <button class="btn btn-primary btn-sm px-3" style="height: 31px; display: inline-flex; align-items: center; justify-content: center;">
                                        Update
                                     </button>
