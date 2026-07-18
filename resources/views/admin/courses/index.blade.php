@@ -293,7 +293,7 @@
                                 @method('PUT')
                             
                                 {{-- Title --}}
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-3">
                                     <input type="text"
                                            name="title"
                                            value="{{ $module->title }}"
@@ -320,11 +320,21 @@
                                 </div>
                             
                                 {{-- Actions --}}
-                                <div class="col-12 col-md-3 d-flex gap-1 align-items-center justify-content-md-end justify-content-start">
+                                <div class="col-12 col-md-4 d-flex gap-1 align-items-center justify-content-md-end justify-content-start flex-wrap">
                                     <button class="btn btn-primary btn-sm px-3" style="height: 31px; display: inline-flex; align-items: center; justify-content: center;">
                                        Update
                                     </button>
                                 
+                                    @if($module->exam)
+                                        <button type="button" 
+                                                form="deleteExamForm{{ $module->exam->id }}" 
+                                                class="btn btn-warning btn-sm px-2 text-dark font-weight-bold" 
+                                                style="height: 31px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600;" 
+                                                onclick="return confirm('Are you sure you want to delete this exam?')">
+                                            Delete Exam
+                                        </button>
+                                    @endif
+
                                     <button formaction="{{ route('admin.modules.delete', $module->id) }}"
                                             formmethod="POST"
                                             name="_method"
@@ -337,6 +347,13 @@
                                     </button>
                                 </div>
                             </form>
+                            
+                            @if($module->exam)
+                                <form id="deleteExamForm{{ $module->exam->id }}" action="{{ route('admin.exams.delete', $module->exam->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            @endif
                         
                         </div>
 
@@ -351,19 +368,7 @@
 
                             @if($module->exam)
 
-                                {{-- DELETE EXAM --}}
-                                <form action="{{ route('admin.exams.delete', $module->exam->id) }}" method="POST" class="mb-2">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm">Delete Exam</button>
-                                </form>
 
-                                {{-- TOGGLE ADD QUESTION FORM --}}
-                                <button type="button" 
-                                        class="btn btn-info btn-sm mb-3" 
-                                        onclick="toggleQuestions('addQuestionForm{{ $module->id }}')">
-                                    <i class="fas fa-plus mr-1"></i> Add Question
-                                </button>
 
                                 {{-- ADD QUESTION --}}
                                 <div id="addQuestionForm{{ $module->id }}" style="display: none; background: #f8f9fa; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
@@ -408,18 +413,31 @@
                                         Questions
                                     </span>
                                 
-                                    <span class="toggle-questions mb-2"
-                                          onclick="toggleQuestions('q{{ $module->id }}')"
-                                          style="
-                                              background:#0d6efd;
-                                              color:#fff;
-                                              padding:4px 10px;
-                                              border-radius:20px;
-                                              font-size:12px;
-                                              cursor:pointer;
-                                          ">
-                                        Show / Hide
-                                    </span>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        {{-- Toggle Add Question Form --}}
+                                        <button type="button" 
+                                                class="btn btn-info btn-sm" 
+                                                onclick="toggleQuestions('addQuestionForm{{ $module->id }}')"
+                                                style="border-radius:20px; font-size:12px; padding: 4px 12px;">
+                                            <i class="fas fa-plus mr-1"></i> Add Question
+                                        </button>
+
+                                        {{-- Toggle Questions List --}}
+                                        <span class="toggle-questions"
+                                              onclick="toggleQuestions('q{{ $module->id }}')"
+                                              style="
+                                                  background:#0d6efd;
+                                                  color:#fff;
+                                                  padding:4px 12px;
+                                                  border-radius:20px;
+                                                  font-size:12px;
+                                                  cursor:pointer;
+                                                  margin-top: 0;
+                                                  display: inline-block;
+                                              ">
+                                            Show / Hide
+                                        </span>
+                                    </div>
                                 </div>
                                 
                                 <div id="q{{ $module->id }}" class="questions-wrapper">
