@@ -7,9 +7,11 @@
     }
 
     .course-header {
-        background: #f8f9fa;
-        border-bottom: 1px solid #e9ecef;
-        padding: 12px;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffd8a8 100%);
+        border-bottom: 1px solid #ffd8a8;
+        padding: 15px;
+        border-top-left-radius: 9px;
+        border-top-right-radius: 9px;
     }
 
     .module-box {
