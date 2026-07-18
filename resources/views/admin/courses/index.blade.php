@@ -264,39 +264,49 @@
                                     <button class="btn btn-danger btn-sm">Delete Exam</button>
                                 </form>
 
+                                {{-- TOGGLE ADD QUESTION FORM --}}
+                                <button type="button" 
+                                        class="btn btn-info btn-sm mb-3" 
+                                        onclick="toggleQuestions('addQuestionForm{{ $module->id }}')">
+                                    <i class="fas fa-plus mr-1"></i> Add Question Form
+                                </button>
+
                                 {{-- ADD QUESTION --}}
-                                <form action="{{ route('admin.questions.store', $module->exam->id) }}" method="POST">
-                                    @csrf
+                                <div id="addQuestionForm{{ $module->id }}" style="display: none; background: #f8f9fa; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                    <form action="{{ route('admin.questions.store', $module->exam->id) }}" method="POST">
+                                        @csrf
 
-                                    <input name="question" class="form-control mb-1" placeholder="Question" required>
+                                        <input name="question" class="form-control mb-1" placeholder="Question" required>
 
-                                    <div class="row">
-                                        <div class="col"><input name="option_a" class="form-control mb-1" placeholder="A"></div>
-                                        <div class="col"><input name="option_b" class="form-control mb-1" placeholder="B"></div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col"><input name="option_c" class="form-control mb-1" placeholder="C"></div>
-                                        <div class="col"><input name="option_d" class="form-control mb-1" placeholder="D"></div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <select name="correct_answer" class="form-control mb-1">
-                                                <option value="">Correct Answer</option>
-                                                <option>A</option>
-                                                <option>B</option>
-                                                <option>C</option>
-                                                <option>D</option>
-                                            </select>
+                                        <div class="row">
+                                            <div class="col"><input name="option_a" class="form-control mb-1" placeholder="A"></div>
+                                            <div class="col"><input name="option_b" class="form-control mb-1" placeholder="B"></div>
                                         </div>
-                                        <div class="col">
-                                            <input type="number" name="mark" class="form-control mb-1" placeholder="Mark">
-                                        </div>
-                                    </div>
 
-                                    <button class="btn btn-primary btn-sm">Save Question</button>
-                                </form>
+                                        <div class="row">
+                                            <div class="col"><input name="option_c" class="form-control mb-1" placeholder="C"></div>
+                                            <div class="col"><input name="option_d" class="form-control mb-1" placeholder="D"></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <select name="correct_answer" class="form-control mb-1">
+                                                    <option value="">Correct Answer</option>
+                                                    <option>A</option>
+                                                    <option>B</option>
+                                                    <option>C</option>
+                                                    <option>D</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <input type="number" name="mark" class="form-control mb-1" placeholder="Mark">
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-primary btn-sm mt-1">Save Question</button>
+                                    </form>
+                                </div>
+
                                 <div class="section-title mt-3 mb-2 d-flex justify-content-between align-items-center px-3 py-2"
                                      style="background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;">
                                 
