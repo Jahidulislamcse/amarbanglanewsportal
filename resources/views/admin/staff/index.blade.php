@@ -492,9 +492,7 @@
                                     <th>Division</th>
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
-                                    <th>{{ __('7D Posts') }}</th>
-                                    <th>{{ __('Pending News') }}</th>
-                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Posts Count') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -673,8 +671,8 @@
         };
     }
 
-    function reporterColumns() {
-        return [
+    function reporterColumns(statusFilter = '') {
+        var cols = [
             { data: 'photo', name: 'photo', orderable: false, searchable: false },
             { data: 'name', name: 'name' },
             { data: 'report_type', name: 'report_type' },
@@ -695,16 +693,26 @@
             },
             { data: 'division_name', name: 'division_name', defaultContent: '' },
             { data: 'district_name', name: 'district_name', defaultContent: '' },
-            { data: 'next_payment_date', name: 'next_payment_date' },
-            { data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false },
-            { data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' },
-            { data: 'rejected_posts_count', name: 'rejected_posts_count', searchable: false, defaultContent: '0' },
+            { data: 'next_payment_date', name: 'next_payment_date' }
+        ];
+
+        if (statusFilter === 'no_purchase_with_posts') {
+            cols.push({ data: 'posts_count', name: 'posts_count', searchable: false });
+        } else {
+            cols.push({ data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false });
+            cols.push({ data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' });
+            cols.push({ data: 'rejected_posts_count', name: 'rejected_posts_count', searchable: false, defaultContent: '0' });
+        }
+
+        cols.push(
             { data: 'total_views', name: 'total_views' },
             { data: 'total_commission', name: 'total_commission' },
             { data: 'orders', name: 'orders', searchable: false, orderable: false },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', searchable: false, orderable: false }
-        ];
+        );
+
+        return cols;
     }
 
     function reporterButtons(title) {
@@ -753,7 +761,7 @@
                     $.extend(data, reporterFilters(), { status_filter: statusFilter });
                 }
             },
-            columns: reporterColumns(),
+            columns: reporterColumns(statusFilter),
             language: {
                 processing: '<img src="{{ asset('assets/images/' . $gs->admin_loader) }}">'
             },

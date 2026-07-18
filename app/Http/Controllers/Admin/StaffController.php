@@ -99,6 +99,10 @@ class StaffController extends Controller
                     ->from('posts')
                     ->whereColumn('posts.user_id', 'users.id');
             });
+            $q->where(function ($query) {
+                $query->whereNull('users.next_payment_date')
+                      ->orWhere('users.next_payment_date', '>=', \Carbon\Carbon::now()->subMonths(2));
+            });
         } elseif ($request->status_filter === 'no_posts') {
             $q->where('users.is_approve', '!=', 2);
             $q->whereNotExists(function ($query) {
