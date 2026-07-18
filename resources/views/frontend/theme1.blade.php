@@ -24,8 +24,8 @@
             <div class="row">
                 <div class="col-md-8 col-sm-7">
                     <div class="slider-padding">
-                        <div class="slide-img" style="position: relative; height: 100%; min-height: 450px; overflow: hidden; border-radius: 8px;">
-                            <iframe width="100%" height="100%" style="position: absolute; top: 0; left: 0; min-height: 450px;" src="https://amarbangla24.tv" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                        <div class="slide-img" style="position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; border-radius: 8px; background: #000;">
+                            <iframe src="https://amarbangla24.tv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                         </div>
 
                     </div>
