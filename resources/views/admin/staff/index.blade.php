@@ -283,7 +283,7 @@
                    <i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only
                </button>
                <button type="button" id="toggle-no-purchase-with-posts" class="btn btn-outline-warning rounded-pill px-4">
-                   <i class="fas fa-shopping-basket mr-2"></i> Post with No Purchase
+                   <i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase
                </button>
          </div>
      </div>
@@ -801,7 +801,7 @@
         $('#toggle-rejected-reporters').text(showType === 'rejected' ? 'Hide Rejected' : 'Show Rejected');
         $('#toggle-no-purchase-reporters').text(showType === 'no_purchase' ? 'Hide No Purchase' : 'No purchased Reporters');
         $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No Post' : 'No Post/Pending/Rejected Post Only');
-        $('#toggle-no-purchase-with-posts').text(showType === 'no_purchase_with_posts' ? 'Hide Post with No Purchase' : 'Post with No Purchase');
+        $('#toggle-no-purchase-with-posts').text(showType === 'no_purchase_with_posts' ? 'Hide Reporters with Post without Purchase' : 'Reporters with Post without Purchase');
 
         if (showType === 'rejected') {
             $('#toggle-rejected-reporters').addClass('active btn-danger').removeClass('btn-outline-danger');
