@@ -272,7 +272,8 @@
 
                 {{-- MODULES --}}
                 <div class="section-title mb-2">Modules</div>
-                <div class="tree-view mt-3">
+                <div style="max-height: 500px; overflow-y: auto; padding-right: 8px; border: 1px solid #f1f1f1; border-radius: 8px; background: #fafafa; padding: 10px; margin-top: 10px;">
+                    <div class="tree-view mt-2">
                     @foreach($course->modules->sortBy('order') as $module)
 
                        <div class="tree-item">
@@ -491,6 +492,7 @@
                        </div>
 
                     @endforeach
+                    </div>
                 </div>
 
             </div>
