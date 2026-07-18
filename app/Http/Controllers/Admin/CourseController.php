@@ -217,7 +217,7 @@ class CourseController extends Controller
                         ->exists();
     
         if (!$purchased) {
-            return redirect()->route('user.courses.index')
+            return redirect()->route('user.dashboard')
                 ->with('error', 'You must purchase this course first.');
         }
     

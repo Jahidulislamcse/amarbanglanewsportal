@@ -1133,6 +1133,7 @@
     </h4>
 
 
+    <div class="row mt-3">
     @forelse($courses as $course)
         
         @php
@@ -1143,77 +1144,54 @@
         @endphp
         
         <div class="col-md-6 mb-4">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 h-100">
         
                 <img src="{{ asset('assets/images/courses/'.$course->cover_img) }}"
-                     style="height:260px;object-fit:cover;">
+                     style="height:260px;object-fit:cover;border-top-left-radius:calc(.25rem - 1px);border-top-right-radius:calc(.25rem - 1px);">
         
-                <div class="card-body text-center mt-4">
+                <div class="card-body d-flex flex-column text-center mt-4">
                     <h5 class="mb-3">{{ $course->title }}</h5>
         
                     @if($purchased)
                         <a href="{{ route('user.courses.show', $course->id) }}"
-                           class="btn btn-success mb-4">
+                           class="btn btn-success mt-auto mb-4 w-100">
                             Enter Course
                         </a>
                     @elseif($coursePurchase && $coursePurchase->status === 'pending')
-                        <button class="btn btn-secondary mb-4" disabled>
+                        <button class="btn btn-secondary mt-auto mb-4 w-100" disabled>
                             Payment Waiting for approval
                         </button>
                     @else
-                        <button class="btn btn-warning mb-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#purchaseModal{{ $course->id }}">
+                        <button class="btn btn-warning mt-auto w-100 toggle-pay-section mb-4"
+                                data-target="#paySectionCourse{{ $course->id }}">
                             Purchase — {{ $course->price }} BDT
                         </button>
+                        
+                        <div class="pay-section collapse mt-2 text-start" id="paySectionCourse{{ $course->id }}">
+                            <form action="{{ route('course.pay', $course->id) }}" method="POST" class="p-3 bg-light border rounded">
+                                @csrf
+                                <p class="mb-1">Price: <strong>৳{{ $course->price }}</strong></p>
+                                <p class="text-muted small">Continue to EPS to complete this payment automatically.</p>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="phone_number_c_{{ $course->id }}">Contact Number</label>
+                                    <input type="text" class="form-control" name="phone_number" id="phone_number_c_{{ $course->id }}" value="{{ auth()->user()->phone ?? '' }}" required>
+                                </div>
+                        
+                                <input type="hidden" name="operator" value="EPS">
+                        
+                                <button type="submit" class="btn btn-primary w-100">Pay with EPS</button>
+                            </form>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
         
-        
-        {{-- Purchase Modal (ONLY ONCE) --}}
-        @if(!$purchased && !($coursePurchase && $coursePurchase->status === 'pending'))
-        <div class="modal fade" id="purchaseModal{{ $course->id }}" tabindex="-1">
-            <div class="modal-dialog">
-                <form method="POST" action="{{ route('course.pay', $course->id) }}">
-                    @csrf
-        
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Purchase {{ $course->title }}</h5>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-        
-                        <div class="modal-body">
-        
-                            <input type="text" name="phone_number"
-                                   class="form-control mb-3"
-                                   value="{{ auth()->user()->phone ?? '' }}"
-                                   placeholder="Contact Number" required>
-        
-                            <select name="operator" class="form-control mb-3 d-none" required>
-                                <option value="EPS" selected>EPS</option>
-                            </select>
-        
-                            <div class="alert alert-info">
-                                Continue to EPS to pay <strong>{{ number_format($course->price, 2) }} BDT</strong> automatically.
-                            </div>
-        
-                        </div>
-        
-                        <div class="modal-footer">
-                            <button class="btn btn-success">Pay with EPS</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        @endif
-        
-        @empty
-            <div class="text-center text-muted">No courses available.</div>
-        @endforelse
+    @empty
+        <div class="col-12 text-center text-muted">No courses available.</div>
+    @endforelse
+    </div>
     
     </div>
 
