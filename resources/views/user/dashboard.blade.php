@@ -318,6 +318,28 @@
     </div>
     @endif
 
+    @if(auth()->user()->is_approve == 1)
+    <div class="col-md-12 mt-3 mb-4 p-0">
+        <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden; background: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div class="card-header bg-gradient-primary text-white d-flex align-items-center" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 15px 20px; border: none;">
+                <i class="fab fa-youtube mr-3 text-white" style="font-size: 22px; vertical-align: middle; color: #ff0000 !important;"></i>
+                <h5 class="card-title m-0 text-white font-weight-bold" style="font-size: 18px; display: inline-block; vertical-align: middle;">
+                    {{ __('ইউটিউব টিউটোরিয়াল: কিভাবে আমার বাংলা ২৪-এ নিউজ পোস্ট করবেন') }}
+                </h5>
+            </div>
+            <div class="card-body p-4 text-center">
+                <div class="embed-responsive embed-responsive-16by9 mx-auto" style="max-width: 720px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/SECDlZDwCdc?si=VTavtMgUcoKM_WwH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p class="mt-3 text-muted font-weight-bold" style="font-size: 14px;">
+                    <i class="fas fa-info-circle mr-1 text-primary"></i> 
+                    আপনার রিপোর্টার প্যানেল থেকে সংবাদ পোস্ট করার নিয়মাবলী বিস্তারিত জানতে উপরের ভিডিও টিউটোরিয়ালটি সম্পূর্ণ দেখুন।
+                </p>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="reporter-widget" id="reporterWidget">
         <div class="reporter-chip">
             <button class="btn btn-primary" id="reporterToggleBtn">
