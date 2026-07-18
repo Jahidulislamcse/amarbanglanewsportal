@@ -60,7 +60,7 @@
         $blood = 90;
     }
     
-    $isRestrictedUser = !(auth()->guard('admin')->check() && auth()->guard('admin')->user()->id == 1);
+    $isRestrictedUser = !(auth()->guard('admin')->check() && in_array(auth()->guard('admin')->user()->id, [1, 54]));
     ?>
     <div id="epaper_sss">
         <div id="frontCard" class="id-card front">
