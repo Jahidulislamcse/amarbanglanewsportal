@@ -163,7 +163,7 @@
             
                         <div class="row align-items-center g-3">
             
-                            <div class="col-12 col-sm-3 col-md-2 text-center">
+                            <div class="col-12 col-sm-3 col-md-1 text-center">
 
                                 <div class="position-relative d-inline-block">
                             
@@ -226,9 +226,15 @@
                             </div>
             
                             {{-- ACTIONS --}}
-                            <div class="col-12 col-md-3 text-md-end text-start mb-3">
+                            <div class="col-12 col-md-4 text-md-end text-start mb-3">
                                 <label class="form-label d-block">&nbsp;</label>
-                                <button type="submit" class="btn btn-success me-2">Update</button>
+                                <button type="submit" class="btn btn-success me-1">Update</button>
+                                
+                                <button type="button" 
+                                        class="btn btn-primary me-1" 
+                                        onclick="toggleQuestions('addModuleForm{{ $course->id }}')">
+                                    <i class="fas fa-plus"></i> Add Module
+                                </button>
             
                                 <button type="button" form="deleteForm{{ $course->id }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this course?')">Delete</button>
                             </div>
@@ -248,13 +254,7 @@
 
             <div class="card-body">
 
-                {{-- TOGGLE ADD MODULE FORM --}}
-                <button type="button" 
-                        class="btn btn-primary btn-sm mb-3" 
-                        onclick="toggleQuestions('addModuleForm{{ $course->id }}')">
-                    <i class="fas fa-plus mr-1"></i> Add Module
-                </button>
- 
+
                 {{-- ADD MODULE --}}
                 <div id="addModuleForm{{ $course->id }}" style="display: none; background: #f8f9fa; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <form action="{{ route('admin.modules.store') }}" method="POST" class="mb-0">
