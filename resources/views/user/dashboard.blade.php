@@ -324,7 +324,7 @@
             <div class="card-header bg-gradient-primary text-white d-flex align-items-center" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 15px 20px; border: none;">
                 <i class="fab fa-youtube mr-3 text-white" style="font-size: 22px; vertical-align: middle; color: #ff0000 !important;"></i>
                 <h5 class="card-title m-0 text-white font-weight-bold" style="font-size: 18px; display: inline-block; vertical-align: middle;">
-                    {{ __('ইউটিউব টিউটোরিয়াল: কিভাবে আমার বাংলা ২৪-এ নিউজ পোস্ট করবেন') }}
+                    {{ __('কিভাবে আমার বাংলা ২৪-এ নিউজ পোস্ট করবেন') }}
                 </h5>
             </div>
             <div class="card-body p-4 text-center">
