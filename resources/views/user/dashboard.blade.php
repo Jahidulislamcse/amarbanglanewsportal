@@ -292,9 +292,29 @@
 <div class="content-area">
 
     @if(auth()->user()->is_approve == 0)
-    <div class="alert alert-warning text-center font-weight-bold mb-4" role="alert" style="font-size: 16px; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107; background-color: #fff3cd; color: #856404;">
-        <i class="fas fa-exclamation-triangle mr-2"></i>
-        আপনার আবেদনটি কর্তৃপক্ষের অনুমোদনের জন্য অপেক্ষমান রয়েছে। এটি অনুমোদিত হওয়া পর্যন্ত অপেক্ষা করুন এবং অনুমোদিত হওয়ার পর আমার বাংলা ২৪-এর একজন প্রতিনিধি আপনার সাথে বিস্তারিত আলোচনার জন্য ব্যক্তিগতভাবে যোগাযোগ করবেন।
+    <style>
+        @keyframes soft-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); box-shadow: 0 12px 40px rgba(40, 167, 69, 0.25); }
+            100% { transform: scale(1); }
+        }
+        .pending-approval-alert {
+            font-size: 18px; 
+            padding: 25px 20px; 
+            border-radius: 12px; 
+            border-left: 6px solid #28a745; 
+            background-color: #d4edda; 
+            color: #155724; 
+            box-shadow: 0 8px 30px rgba(40, 167, 69, 0.15); 
+            animation: soft-pulse 2.5s infinite ease-in-out;
+            transition: all 0.3s ease;
+        }
+    </style>
+    <div class="alert alert-success text-center font-weight-bold mb-4 pending-approval-alert" role="alert">
+        <i class="fas fa-info-circle mr-3" style="font-size: 22px; vertical-align: middle;"></i>
+        <span style="vertical-align: middle;">
+            আপনার আবেদনটি কর্তৃপক্ষের অনুমোদনের জন্য অপেক্ষমান রয়েছে। এটি অনুমোদিত হওয়া পর্যন্ত অপেক্ষা করুন এবং অনুমোদিত হওয়ার পর আমাদের আমার বাংলা ২৪-এর একজন প্রতিনিধি আপনার সাথে বিস্তারিত আলোচনার জন্য ব্যক্তিগতভাবে যোগাযোগ করবেন।
+        </span>
     </div>
     @endif
 
