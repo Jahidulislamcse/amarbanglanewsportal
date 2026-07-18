@@ -95,7 +95,7 @@
             
                         <div class="row align-items-center g-3">
             
-                            <div class="col-md-2 text-center">
+                            <div class="col-12 col-sm-3 col-md-2 text-center">
 
                                 <div class="position-relative d-inline-block">
                             
@@ -137,19 +137,19 @@
                             </div>
             
                             {{-- TITLE --}}
-                            <div class="col-md-3">
+                            <div class="col-12 col-sm-9 col-md-3">
                                 <label class="form-label">Course Title</label>
                                 <input type="text" name="title" value="{{ $course->title }}" class="form-control">
                             </div>
             
                             {{-- PRICE --}}
-                            <div class="col-md-2">
+                            <div class="col-12 col-sm-6 col-md-2">
                                 <label class="form-label">Price</label>
                                 <input type="number" name="price" value="{{ $course->price }}" class="form-control">
                             </div>
             
                             {{-- STATUS --}}
-                            <div class="col-md-2">
+                            <div class="col-12 col-sm-6 col-md-2">
                                 <label class="form-label">Status</label>
                                 <select name="status" class="form-control">
                                     <option value="1" {{ $course->status ? 'selected' : '' }}>Active</option>
@@ -158,7 +158,7 @@
                             </div>
             
                             {{-- ACTIONS --}}
-                            <div class="col-md-3 text-end mb-3">
+                            <div class="col-12 col-md-3 text-md-end text-start mb-3">
                                 <label class="form-label d-block">&nbsp;</label>
                                 <button type="submit" class="btn btn-success me-2">Update</button>
             
@@ -185,11 +185,11 @@
                     @csrf
                     <input type="hidden" name="course_id" value="{{ $course->id }}">
 
-                    <div class="row mt-2">
-                        <div class="col"><input name="title" class="form-control" placeholder="Module title" required></div>
-                        <div class="col"><input name="youtube_link" class="form-control" placeholder="YouTube link" required></div>
-                        <div class="col-2"><input name="order" class="form-control" type="number" placeholder="Order" required></div>
-                        <div class="col-2"><button class="btn btn-success w-100">Add Module</button></div>
+                    <div class="row mt-2 g-2">
+                        <div class="col-12 col-md-5"><input name="title" class="form-control" placeholder="Module title" required></div>
+                        <div class="col-12 col-md-4"><input name="youtube_link" class="form-control" placeholder="YouTube link" required></div>
+                        <div class="col-6 col-md-1"><input name="order" class="form-control" type="number" placeholder="Order" required></div>
+                        <div class="col-6 col-md-2"><button class="btn btn-success w-100">Add Module</button></div>
                     </div>
                 </form>
 
@@ -199,57 +199,65 @@
 
                    <div class="module-box mb-3">
 
-                        <div class="d-flex align-items-end gap-2 mb-2">
+                        <div class="mb-2">
 
                             <form action="{{ route('admin.modules.update', $module->id) }}"
                                   method="POST"
-                                  class="d-flex align-items-center gap-2 flex-nowrap mb-2">
+                                  class="row g-2 align-items-center mb-2">
                                 @csrf
                                 @method('PUT')
                             
                                 {{-- Title --}}
-                                <input type="text"
-                                       name="title"
-                                       value="{{ $module->title }}"
-                                       class="form-control form-control-sm mr-1"
-                                       style="width:200px;">
+                                <div class="col-12 col-md-4">
+                                    <input type="text"
+                                           name="title"
+                                           value="{{ $module->title }}"
+                                           class="form-control form-control-sm"
+                                           placeholder="Module Title">
+                                </div>
                             
                                 {{-- YouTube Link --}}
-                                <input type="text"
-                                       name="youtube_link"
-                                       value="{{ $module->youtube_link }}"
-                                       class="form-control form-control-sm mr-1"
-                                       style="width:260px;">
+                                <div class="col-12 col-md-4">
+                                    <input type="text"
+                                           name="youtube_link"
+                                           value="{{ $module->youtube_link }}"
+                                           class="form-control form-control-sm"
+                                           placeholder="YouTube Link">
+                                </div>
                             
                                 {{-- Order --}}
-                                <input type="number"
-                                       name="order"
-                                       value="{{ $module->order }}"
-                                       class="form-control form-control-sm mr-1"
-                                       style="width:70px;">
+                                <div class="col-6 col-md-1">
+                                    <input type="number"
+                                           name="order"
+                                           value="{{ $module->order }}"
+                                           class="form-control form-control-sm"
+                                           placeholder="Order">
+                                </div>
                             
-                                {{-- Update Icon --}}
-                                <button class="btn btn-primary btn-sm px-3 mb-2 mr-1">
-                                   Update
-                                </button>
-                            
-                                {{-- Delete Icon --}}
-                                <button formaction="{{ route('admin.modules.delete', $module->id) }}"
-                                        formmethod="POST"
-                                        name="_method"
-                                        value="DELETE"
-                                        class="btn btn-danger btn-sm px-3 mb-2"
-                                        onclick="return confirm('Delete this module?')">
-                                    @csrf
-                                    <i class="fas fa-trash py-1"></i>
-                                </button>
+                                {{-- Actions --}}
+                                <div class="col-6 col-md-3 d-flex gap-1 align-items-center justify-content-end">
+                                    <button class="btn btn-primary btn-sm px-3 w-100">
+                                       Update
+                                    </button>
+                                
+                                    <button formaction="{{ route('admin.modules.delete', $module->id) }}"
+                                            formmethod="POST"
+                                            name="_method"
+                                            value="DELETE"
+                                            class="btn btn-danger btn-sm px-3"
+                                            onclick="return confirm('Delete this module?')">
+                                        @csrf
+                                        <i class="fas fa-trash py-1"></i>
+                                    </button>
+                                </div>
                             </form>
                         
                         </div>
 
                         {{-- VIDEO --}}
-                        <iframe width="320" height="180"
+                        <iframe width="100%" height="180"
                             src="{{ str_replace('watch?v=','embed/',$module->youtube_link) }}"
+                            style="max-width:320px; aspect-ratio:16/9; height:auto; border-radius:8px; border:1px solid #e9ecef;"
                             allowfullscreen></iframe>
 
                         {{-- EXAM --}}
@@ -329,63 +337,65 @@
                                 </div>
                                 
                                 <div id="q{{ $module->id }}" class="questions-wrapper">
-                                    <table class="table table-bordered table-sm mt-3">
-                                        <thead>
-                                            <tr>
-                                                <th>Question</th>
-                                                <th>A</th>
-                                                <th>B</th>
-                                                <th>C</th>
-                                                <th>D</th>
-                                                <th>Correct</th>
-                                                <th>Mark</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                
-                                        <tbody>
-                                            @foreach($module->exam->questions as $q)
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm mt-3">
+                                            <thead>
                                                 <tr>
-                                                    <td colspan="8">
-                                                        <form action="{{ route('admin.questions.update', $q->id) }}" method="POST">
-                                                            @csrf
-                                
-                                                            <input name="question" value="{{ $q->question }}" class="form-control mb-1">
-                                
-                                                            <div class="row">
-                                                                <div class="col"><input name="option_a" value="{{ $q->option_a }}" class="form-control"></div>
-                                                                <div class="col"><input name="option_b" value="{{ $q->option_b }}" class="form-control"></div>
-                                                                <div class="col"><input name="option_c" value="{{ $q->option_c }}" class="form-control"></div>
-                                                                <div class="col"><input name="option_d" value="{{ $q->option_d }}" class="form-control"></div>
-                                                            </div>
-                                
-                                                            <div class="row mt-1">
-                                                                <div class="col">
-                                                                    <select name="correct_answer" class="form-control">
-                                                                        <option {{ $q->correct_answer=='A'?'selected':'' }}>A</option>
-                                                                        <option {{ $q->correct_answer=='B'?'selected':'' }}>B</option>
-                                                                        <option {{ $q->correct_answer=='C'?'selected':'' }}>C</option>
-                                                                        <option {{ $q->correct_answer=='D'?'selected':'' }}>D</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <input type="number" name="mark" value="{{ $q->mark }}" class="form-control">
-                                                                </div>
-                                                            </div>
-                                
-                                                            <button class="btn btn-primary btn-sm mt-1">Update</button>
-                                                        </form>
-                                
-                                                        <form action="{{ route('admin.questions.delete', $q->id) }}" method="POST" class="mt-1">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                                        </form>
-                                                    </td>
+                                                    <th>Question</th>
+                                                    <th>A</th>
+                                                    <th>B</th>
+                                                    <th>C</th>
+                                                    <th>D</th>
+                                                    <th>Correct</th>
+                                                    <th>Mark</th>
+                                                    <th>Actions</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                    
+                                            <tbody>
+                                                @foreach($module->exam->questions as $q)
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <form action="{{ route('admin.questions.update', $q->id) }}" method="POST">
+                                                                @csrf
+                                    
+                                                                <input name="question" value="{{ $q->question }}" class="form-control mb-1">
+                                    
+                                                                <div class="row">
+                                                                    <div class="col"><input name="option_a" value="{{ $q->option_a }}" class="form-control"></div>
+                                                                    <div class="col"><input name="option_b" value="{{ $q->option_b }}" class="form-control"></div>
+                                                                    <div class="col"><input name="option_c" value="{{ $q->option_c }}" class="form-control"></div>
+                                                                    <div class="col"><input name="option_d" value="{{ $q->option_d }}" class="form-control"></div>
+                                                                </div>
+                                    
+                                                                <div class="row mt-1">
+                                                                    <div class="col">
+                                                                        <select name="correct_answer" class="form-control">
+                                                                            <option {{ $q->correct_answer=='A'?'selected':'' }}>A</option>
+                                                                            <option {{ $q->correct_answer=='B'?'selected':'' }}>B</option>
+                                                                            <option {{ $q->correct_answer=='C'?'selected':'' }}>C</option>
+                                                                            <option {{ $q->correct_answer=='D'?'selected':'' }}>D</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <input type="number" name="mark" value="{{ $q->mark }}" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                    
+                                                                <button class="btn btn-primary btn-sm mt-1">Update</button>
+                                                            </form>
+                                    
+                                                            <form action="{{ route('admin.questions.delete', $q->id) }}" method="POST" class="mt-1">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                             @else
