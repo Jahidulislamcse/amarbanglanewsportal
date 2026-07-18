@@ -49,6 +49,13 @@
     
     .questions-wrapper {
         display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 10px;
+        background: #f8f9fa;
+        margin-top: 10px;
     }
     .toggle-questions {
         cursor: pointer;
