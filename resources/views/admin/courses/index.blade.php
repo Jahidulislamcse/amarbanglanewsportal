@@ -7,8 +7,8 @@
     }
 
     .course-header {
-        background: linear-gradient(135deg, #fff3cd 0%, #ffd8a8 100%);
-        border-bottom: 1px solid #ffd8a8;
+        background: #ffd8a8;
+        border-bottom: 1px solid #ffb07c;
         padding: 15px;
         border-top-left-radius: 9px;
         border-top-right-radius: 9px;
