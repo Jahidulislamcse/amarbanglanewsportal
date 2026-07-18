@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-8 col-sm-7">
                     <div class="slider-padding">
-                        <div class="slide-img" style="position: relative; width: 100%; padding-bottom: calc(56.25% + 100px); overflow: hidden; border-radius: 8px; background: #000;">
+                        <div class="slide-img" style="position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; border-radius: 8px; background: #000;">
                             <video id="live-tv-player" controls autoplay muted style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; border: 0;"></video>
                         </div>
                         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
