@@ -24,9 +24,8 @@
             <div class="row">
                 <div class="col-md-8 col-sm-7">
                     <div class="slider-padding">
-                        <div class="slide-img">
-
-                            <?php echo $home_video_slider->embed_video ?? null; ?>
+                        <div class="slide-img" style="height: 380px; overflow: hidden; border-radius: 8px;">
+                            <iframe width="100%" height="100%" src="https://amarbangla24.tv" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                         </div>
 
                     </div>
