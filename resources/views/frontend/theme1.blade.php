@@ -45,9 +45,9 @@
                         <div class="video-bg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
                             <div class="tab-content" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
 
-                                <div role="tabpanel" class="tab-pane in active" id="tab21">
+                                <div role="tabpanel" class="tab-pane in active" id="tab21" style="height: 100%;">
 
-                                    <div class="gallery-list">
+                                    <div class="gallery-list" style="height: 100%; max-height: none; overflow: visible;">
 
                                         @foreach (is_recents($default_language->id) as $is_recent)
                                             @if ($is_recent->image_big || $is_recent->rss_image)
@@ -96,9 +96,9 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab22">
+                                <div role="tabpanel" class="tab-pane fade" id="tab22" style="height: 100%;">
 
-                                    <div class="gallery-list">
+                                    <div class="gallery-list" style="height: 100%; max-height: none; overflow: visible;">
                                         @foreach ($top_views as $post)
                                             @if ($post)
                                                 @if ($post->image_big || $post->rss_image)
