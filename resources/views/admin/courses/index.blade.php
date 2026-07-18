@@ -248,18 +248,27 @@
 
             <div class="card-body">
 
+                {{-- TOGGLE ADD MODULE FORM --}}
+                <button type="button" 
+                        class="btn btn-soft-primary btn-sm mb-3" 
+                        onclick="toggleQuestions('addModuleForm{{ $course->id }}')">
+                    <i class="fas fa-plus mr-1"></i> Add Module Form
+                </button>
+ 
                 {{-- ADD MODULE --}}
-                <form action="{{ route('admin.modules.store') }}" method="POST" class="mb-3">
-                    @csrf
-                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-
-                    <div class="row mt-2 g-2">
-                        <div class="col-12 col-md-5"><input name="title" class="form-control" placeholder="Module title" required></div>
-                        <div class="col-12 col-md-4"><input name="youtube_link" class="form-control" placeholder="YouTube link" required></div>
-                        <div class="col-6 col-md-1"><input name="order" class="form-control" type="number" placeholder="Order" required></div>
-                        <div class="col-6 col-md-2"><button class="btn btn-success w-100">Add Module</button></div>
-                    </div>
-                </form>
+                <div id="addModuleForm{{ $course->id }}" style="display: none; background: #f8f9fa; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <form action="{{ route('admin.modules.store') }}" method="POST" class="mb-0">
+                        @csrf
+                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+ 
+                        <div class="row mt-2 g-2">
+                            <div class="col-12 col-md-5"><input name="title" class="form-control" placeholder="Module title" required></div>
+                            <div class="col-12 col-md-4"><input name="youtube_link" class="form-control" placeholder="YouTube link" required></div>
+                            <div class="col-6 col-md-1"><input name="order" class="form-control" type="number" placeholder="Order" required></div>
+                            <div class="col-6 col-md-2"><button class="btn btn-success w-100">Add Module</button></div>
+                        </div>
+                    </form>
+                </div>
 
                 {{-- MODULES --}}
                 <div class="section-title mb-2">Modules</div>
