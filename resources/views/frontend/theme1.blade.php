@@ -21,9 +21,9 @@
         <div class="container">
 
 
-            <div class="row">
-                <div class="col-md-8 col-sm-7">
-                    <div class="slider-padding">
+            <div class="row" style="display: flex; flex-wrap: wrap;">
+                <div class="col-md-8 col-sm-7" style="display: flex; flex-direction: column;">
+                    <div class="slider-padding" style="flex: 1;">
                         <div class="slide-img" style="position: relative; width: 100%; padding-bottom: calc(56.25% + 100px); overflow: hidden; border-radius: 8px; background: #000;">
                             <iframe src="https://amarbangla24.tv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                         </div>
@@ -32,9 +32,9 @@
 
 
                 </div>
-                <div class="col-md-4 col-sm-5">
+                <div class="col-md-4 col-sm-5" style="display: flex; flex-direction: column;">
 
-                    <div class="tab-header " style="margin-top:23px;">
+                    <div class="tab-header " style="margin-top:23px; display: flex; flex-direction: column; flex: 1;">
                         <!-- Nav tabs 	<li role="presentation"><a href="{{ route('front.news_archive') }}">আর্কাইভ সংবাদ </a></li>-->
                         <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li role="presentation" class="active"><a href="#tab21" aria-controls="tab21" style=""
@@ -42,8 +42,8 @@
                             <li role="presentation"><a href="#tab22" aria-controls="tab22" role="tab" data-toggle="tab"
                                     aria-expanded="true">{{ __('Popular News') }} </a></li>
                         </ul>
-                        <div class="video-bg">
-                            <div class="tab-content ">
+                        <div class="video-bg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                            <div class="tab-content" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
 
                                 <div role="tabpanel" class="tab-pane in active" id="tab21">
 
