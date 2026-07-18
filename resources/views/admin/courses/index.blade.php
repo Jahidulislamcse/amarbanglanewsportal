@@ -57,6 +57,67 @@
         background: #f8f9fa;
         margin-top: 10px;
     }
+    
+    /* Tree view structure */
+    .tree-view {
+        position: relative;
+        padding-left: 10px;
+    }
+    .tree-item {
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 20px;
+    }
+    /* Vertical line connecting items */
+    .tree-item::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 0;
+        bottom: -20px;
+        width: 2px;
+        background: #cfe2ff;
+    }
+    /* Stop the vertical line at the last item */
+    .tree-item:last-child::before {
+        height: 20px;
+        bottom: auto;
+    }
+    /* Horizontal branch connector line */
+    .tree-item::after {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 20px;
+        width: 20px;
+        height: 2px;
+        background: #cfe2ff;
+    }
+    /* Circular node icon */
+    .tree-item .tree-icon {
+        position: absolute;
+        left: -2px;
+        top: 5px;
+        background: #fff;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #0d6efd;
+        color: #0d6efd;
+        border-radius: 50%;
+        font-size: 13px;
+        z-index: 2;
+        box-shadow: 0 2px 5px rgba(13, 110, 253, 0.15);
+    }
+    .tree-content {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
     .toggle-questions {
         cursor: pointer;
         font-size: 13px;
@@ -202,9 +263,14 @@
 
                 {{-- MODULES --}}
                 <div class="section-title mb-2">Modules</div>
-                @foreach($course->modules->sortBy('order') as $module)
+                <div class="tree-view mt-3">
+                    @foreach($course->modules->sortBy('order') as $module)
 
-                   <div class="module-box mb-3">
+                       <div class="tree-item">
+                           <div class="tree-icon">
+                               <i class="fas fa-play-circle"></i>
+                           </div>
+                           <div class="tree-content">
 
                         <div class="mb-2">
 
@@ -412,10 +478,11 @@
                                 </form>
                             @endif
 
-                        </div>
-                    </div>
+                           </div>
+                       </div>
 
-                @endforeach
+                    @endforeach
+                </div>
 
             </div>
         </div>
