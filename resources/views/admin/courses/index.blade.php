@@ -160,18 +160,19 @@
                             {{-- ACTIONS --}}
                             <div class="col-md-3 text-end mb-3">
                                 <label class="form-label d-block">&nbsp;</label>
-                                <button class="btn btn-success me-2">Update</button>
+                                <button type="submit" class="btn btn-success me-2">Update</button>
             
-                                <form action="{{ route('admin.courses.destroy', $course->id) }}" 
-                                      method="POST" 
-                                      class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>
+                                <button type="button" form="deleteForm{{ $course->id }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this course?')">Delete</button>
                             </div>
             
                         </div>
+                    </form>
+            
+                    <form id="deleteForm{{ $course->id }}" action="{{ route('admin.courses.destroy', $course->id) }}" 
+                          method="POST" 
+                          style="display: none;">
+                        @csrf
+                        @method('DELETE')
                     </form>
             
                 </div>
