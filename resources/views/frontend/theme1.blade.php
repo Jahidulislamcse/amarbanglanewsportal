@@ -25,8 +25,30 @@
                 <div class="col-md-8 col-sm-7">
                     <div class="slider-padding">
                         <div class="slide-img" style="position: relative; width: 100%; padding-bottom: calc(56.25% + 100px); overflow: hidden; border-radius: 8px; background: #000;">
-                            <iframe src="https://amarbangla24.tv" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                            <video id="live-tv-player" controls autoplay muted style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; border: 0;"></video>
                         </div>
+                        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var video = document.getElementById('live-tv-player');
+                                var videoSrc = 'https://jagroniakash.ncare.live/eyetv/eyetv.stream/playlist.m3u8';
+                                if (Hls.isSupported()) {
+                                    var hls = new Hls();
+                                    hls.loadSource(videoSrc);
+                                    hls.attachMedia(video);
+                                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                                        video.play().catch(function(e) { console.log("Autoplay prevented by browser"); });
+                                    });
+                                }
+                                else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                                    // Safari has native HLS support
+                                    video.src = videoSrc;
+                                    video.addEventListener('loadedmetadata', function() {
+                                        video.play().catch(function(e) { console.log("Autoplay prevented by browser"); });
+                                    });
+                                }
+                            });
+                        </script>
 
                     </div>
 
