@@ -581,6 +581,20 @@
 
 
                             <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Package 1 Purchased') }} *</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <select name="package1_purchased" id="package1_purchased" class="form-control">
+                                        <option value="0" {{ $data->package1_purchased == 0 ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ $data->package1_purchased == 1 ? 'selected' : '' }}>Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <button class="addProductSubmit-btn" type="submit">{{ __('Update') }}</button>
                                 </div>
