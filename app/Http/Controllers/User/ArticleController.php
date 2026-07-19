@@ -30,9 +30,6 @@ class ArticleController extends Controller
         $data['languages'] = Language::orderBy('id','desc')->get();
         $user = auth()->user();
 
-        // --- Package 1 gate ---
-        // Block user from adding more articles if they have >= 3 posts
-        // and have never completed a product order.
         $postCount = Post::where('user_id', $user->id)->count();
         $hasOrder  = Order::where('user_id', $user->id)
                           ->where('status', 'completed')
@@ -97,8 +94,8 @@ class ArticleController extends Controller
         $hasOrder  = Order::where('user_id', $user->id)
                           ->where('status', 'completed')
                           ->exists();
-        if ($postCount >= 3 && !$hasOrder) {
-            return response()->json(['errors' => ['package' => ['আর্টিকেল যোগ করতে হলে অনুগ্রহ করে প্রথমে Package 1 ক্রয় করুন।']]]);
+        if ($postCount >= 10 && !$hasOrder) {
+            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
         }
 
         $rules = [

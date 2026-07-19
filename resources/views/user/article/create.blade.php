@@ -19,25 +19,19 @@
 <div class="content-area">
 
 @if($blockUser)
-{{-- ============================================================
-     PACKAGE 1 GATE — Blocks access until user purchases Package 1
-     ============================================================ --}}
 
-{{-- Dark overlay that sits behind the modal --}}
 <div id="packageGateOverlay" style="
     position: fixed; inset: 0; z-index: 1040;
     background: rgba(0,0,0,0.65);
     backdrop-filter: blur(3px);
 "></div>
 
-{{-- Gate Modal --}}
 <div class="modal fade show d-block" id="packageGateModal" tabindex="-1"
      aria-labelledby="packageGateModalLabel" aria-modal="true"
      style="z-index:1050;">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-lg" style="border-radius:16px; overflow:hidden;">
 
-            {{-- Header --}}
             <div class="modal-header text-white" style="background: linear-gradient(135deg,#c0392b,#e74c3c); padding:20px 28px;">
                 <div>
                     <h5 class="modal-title font-weight-bold mb-1" id="packageGateModalLabel">
@@ -49,11 +43,9 @@
                 </div>
             </div>
 
-            {{-- Body --}}
             <div class="modal-body" style="padding:24px 28px; background:#f8f9fa;">
 
                 @if($package1Products->count())
-                {{-- Product list --}}
                 <h6 class="font-weight-bold text-dark mb-3" style="font-size:15px;">
                     <i class="fas fa-box-open mr-1 text-danger"></i> প্যাকেজে — অন্তর্ভুক্ত পণ্যসমূহ
                 </h6>
@@ -103,7 +95,6 @@
                     </table>
                 </div>
 
-                {{-- Payment form --}}
                 <div class="bg-white rounded p-4 border" style="border-radius:12px !important;">
                     <h6 class="font-weight-bold text-dark mb-3">
                         <i class="fas fa-credit-card mr-1 text-danger"></i> এখনই অর্ডার করুন
@@ -112,7 +103,6 @@
                     <form action="{{ route('product.pay') }}" method="POST" id="packageGatePayForm">
                         @csrf
 
-                        {{-- Hidden product IDs & quantities for all package1 products --}}
                         @foreach($package1Products as $prod)
                             <input type="hidden" name="product_ids[]" value="{{ $prod->id }}">
                             <input type="hidden" name="quantities[]" value="1">
@@ -163,14 +153,13 @@
                 </div>
                 @endif
 
-            </div>{{-- end modal-body --}}
+            </div>
 
         </div>
     </div>
 </div>
 
 <script>
-// Recalculate grand total when delivery zone changes
 document.getElementById('pgDeliveryZone') && document.getElementById('pgDeliveryZone').addEventListener('change', function() {
     const charge = parseInt(this.options[this.selectedIndex].dataset.charge || '120', 10);
     const products = {{ $packageTotal ?? 0 }};
@@ -179,7 +168,6 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
 </script>
 
 @endif
-{{-- END package gate --}}
 
     <div class="mr-breadcrumb">
         <div class="row">
