@@ -150,7 +150,7 @@
                         <div class="text-right">
                             <button type="submit" class="btn btn-danger btn-lg font-weight-bold px-5"
                                     style="border-radius:30px; letter-spacing:.5px;">
-                                <i class="fas fa-shopping-cart mr-2"></i> এখনই কিনুন ও EPS দিয়ে পেমেন্ট করুন
+                                <i class="fas fa-shopping-cart mr-2"></i> এখনই অর্ডার করুন ও অনলাইনে পেমেন্ট করুন
                             </button>
                         </div>
                     </form>
