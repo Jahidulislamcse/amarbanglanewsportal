@@ -18,7 +18,7 @@
 
 <div class="content-area">
 
-@@if($blockUser)
+@if($blockUser)
 {{-- ============================================================
      PACKAGE 1 GATE CUSTOM HIGH-FIDELITY OVERLAY
      ============================================================ --}}
@@ -240,7 +240,7 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
     document.getElementById('pgGrandTotal').textContent = '৳' + (products + charge).toLocaleString('en-BD');
 });
 </script>
-@endif� অনলাইনে পেমেন্ট করুন
+@endif� অনলাইনে পেমেন্ট করুন
                             </button>
                         </div>
                     </form>
