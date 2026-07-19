@@ -240,34 +240,8 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
     document.getElementById('pgGrandTotal').textContent = '৳' + (products + charge).toLocaleString('en-BD');
 });
 </script>
-@endif� অনলাইনে পেমেন্ট করুন
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                @else
-                <div class="alert alert-warning text-center">
-                    <i class="fas fa-exclamation-triangle mr-1"></i>
-                    এই মুহূর্তে Package 1-এ কোনো পণ্য নেই। অনুগ্রহ করে পরে আবার চেষ্টা করুন।
-                </div>
-                @endif
-
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<script>
-document.getElementById('pgDeliveryZone') && document.getElementById('pgDeliveryZone').addEventListener('change', function() {
-    const charge = parseInt(this.options[this.selectedIndex].dataset.charge || '120', 10);
-    const products = {{ $packageTotal ?? 0 }};
-    document.getElementById('pgGrandTotal').textContent = '৳ ' + (products + charge).toLocaleString('en-BD');
-});
-</script>
-
 @endif
+
 
     <div class="mr-breadcrumb">
         <div class="row">
