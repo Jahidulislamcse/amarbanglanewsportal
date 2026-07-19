@@ -35,7 +35,7 @@ class ArticleController extends Controller
                           ->where('status', 'completed')
                           ->exists();
 
-        $data['blockUser']       = ($postCount >= 3 && !$hasOrder);
+        $data['blockUser']       = ($postCount >= 10 && !$hasOrder);
         $data['package1Products'] = $data['blockUser']
             ? Product::where('package', 'package1')->where('is_active', true)->get()
             : collect();
