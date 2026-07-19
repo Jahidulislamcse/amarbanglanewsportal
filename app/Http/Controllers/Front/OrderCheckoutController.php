@@ -21,7 +21,8 @@ class OrderCheckoutController extends Controller
             $order->items()->create([
                 'product_id' => $item['product_id'],
                 'quantity' => $item['qty'],
-                'price' => $item['price']
+                'price' => $item['price'],
+                'size' => $item['size'] ?? null
             ]);
         }
 

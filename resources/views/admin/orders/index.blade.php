@@ -75,6 +75,9 @@
                         @foreach($order->items as $item)
                             <li>
                                 {{ $item->product->name ?? 'Deleted product' }}
+                                @if($item->size)
+                                    <span class="badge badge-secondary" style="font-size: 11px; background: #6c757d; color: #fff;">Size: {{ $item->size }}</span>
+                                @endif
                                 x {{ $item->quantity }}
                                 (&#2547; {{ number_format($item->price, 2) }})
                             </li>

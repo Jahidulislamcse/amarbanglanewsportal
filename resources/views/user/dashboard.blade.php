@@ -746,6 +746,18 @@
                                                max="{{ $product->stock }}"
                                                {{ $product->stock <= 0 ? 'disabled' : '' }}>
                                         <small class="text-muted">Stock: {{ $product->stock }}</small>
+                                        @if($product->slug === 'ti-sart')
+                                            <div class="tshirt-size-wrapper mt-2" style="display: none;">
+                                                <label class="small font-weight-bold mb-1">{{ __('Size:') }}</label>
+                                                <select class="form-control form-control-sm grid-tshirt-size-select">
+                                                    <option value="S">S</option>
+                                                    <option value="M" selected>M</option>
+                                                    <option value="L">L</option>
+                                                    <option value="XL">XL</option>
+                                                    <option value="XXL">XXL</option>
+                                                </select>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -1282,6 +1294,18 @@
                                                         <span class="badge badge-warning recommendation-badge d-none ml-1" style="font-size: 10px;">{{ __('Recommended') }}</span>
                                                     </h6>
                                                     <span class="text-success font-weight-bold" style="font-size: 12px;">৳ {{ number_format($prod->price, 2) }}</span>
+                                                    @if($prod->slug === 'ti-sart')
+                                                        <div class="cross-sell-size-wrapper mt-1" style="display: none;">
+                                                            <label class="small mb-0">{{ __('Size:') }}</label>
+                                                            <select class="form-control form-control-sm cross-sell-size-select d-inline-block p-0 pl-1" style="width: 60px; height: 22px; font-size: 11px;">
+                                                                <option value="S">S</option>
+                                                                <option value="M" selected>M</option>
+                                                                <option value="L">L</option>
+                                                                <option value="XL">XL</option>
+                                                                <option value="XXL">XXL</option>
+                                                            </select>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             
@@ -1335,6 +1359,19 @@
                                     <select id="productPayZone" class="form-control" required>
                                         <option value="inside" data-charge="80">Inside Dhaka (৳ 80)</option>
                                         <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mb-3" id="tshirtSizeWrapper" style="display: none;">
+                                    <label class="font-weight-bold">
+                                        {{ __('T-Shirt Size') }}
+                                    </label>
+                                    <select name="tshirt_size" id="tshirtSizeSelect" class="form-control">
+                                        <option value="S">S</option>
+                                        <option value="M" selected>M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
                                     </select>
                                 </div>
             
@@ -1582,6 +1619,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       qtyInput.value = 1;
                   }
               }
+              const sizeWrapper = item.querySelector('.cross-sell-size-wrapper');
+              if (sizeWrapper) {
+                  sizeWrapper.style.display = 'none';
+              }
           });
       }
 
@@ -1625,10 +1666,26 @@ document.addEventListener("DOMContentLoaded", function () {
                       qtyWrapper.style.opacity = '0.5';
                       qtyWrapper.style.pointerEvents = 'none';
                   }
+                  
+                  const sizeWrapper = itemWrapper.querySelector('.cross-sell-size-wrapper');
+                  if (sizeWrapper) {
+                      sizeWrapper.style.display = this.checked ? 'block' : 'none';
+                  }
               });
           }
       });
     
+      // Toggle size dropdown visibility on grid checkbox change
+      document.querySelectorAll('.products-section .product-card input[name="product_ids[]"]').forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+              const card = this.closest('.product-card');
+              const wrapper = card.querySelector('.tshirt-size-wrapper');
+              if (wrapper) {
+                  wrapper.style.display = this.checked ? 'block' : 'none';
+              }
+          });
+      });
+
       document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', function () {
           const images = JSON.parse(this.dataset.images);
@@ -1666,6 +1723,11 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById('modalProductDesc').innerText = this.dataset.desc;
           document.getElementById('productPayProductId').value = this.dataset.id;
           document.getElementById('productPayProductId').dataset.slug = this.dataset.slug;
+
+          const tshirtSizeWrapper = document.getElementById('tshirtSizeWrapper');
+          if (tshirtSizeWrapper) {
+              tshirtSizeWrapper.style.display = (slug === 'ti-sart') ? 'block' : 'none';
+          }
 
           const stock = parseInt(this.dataset.stock || '0', 10);
           const quantity = document.getElementById('productPayQuantity');
@@ -1768,9 +1830,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Build checkout confirmation invoice
           const mainProductId = document.getElementById('productPayProductId').value;
-          const mainProductName = document.getElementById('modalProductName').innerText;
+          let mainProductName = document.getElementById('modalProductName').innerText;
           const mainProductPrice = parseFloat(document.getElementById('modalProductPrice').innerText.replace(/,/g, ''));
           const mainSubtotal = mainProductPrice * quantity;
+
+          let hiddenInputsHTML = `
+              <input type="hidden" name="product_ids[]" value="${mainProductId}">
+              <input type="hidden" name="quantities[${mainProductId}]" value="${quantity}">
+              <input type="hidden" name="phone_number" value="${phone}">
+              <input type="hidden" name="address" value="${address}">
+              <input type="hidden" name="delivery_zone" value="${deliveryZone}">
+          `;
+
+          if (mainProductSlug === 'ti-sart') {
+              const mainSizeSelect = document.getElementById('tshirtSizeSelect');
+              if (mainSizeSelect) {
+                  const mainSize = mainSizeSelect.value;
+                  mainProductName += ` (Size: ${mainSize})`;
+                  hiddenInputsHTML += `<input type="hidden" name="sizes[${mainProductId}]" value="${mainSize}">`;
+              }
+          }
 
           let totalAmount = mainSubtotal + deliveryCharge;
           let tableBodyHTML = `
@@ -1786,22 +1865,29 @@ document.addEventListener("DOMContentLoaded", function () {
               </tr>
           `;
 
-          let hiddenInputsHTML = `
-              <input type="hidden" name="product_ids[]" value="${mainProductId}">
-              <input type="hidden" name="quantities[${mainProductId}]" value="${quantity}">
-              <input type="hidden" name="phone_number" value="${phone}">
-              <input type="hidden" name="address" value="${address}">
-              <input type="hidden" name="delivery_zone" value="${deliveryZone}">
-          `;
-
           // Check if any addon products are checked
           document.querySelectorAll('.cross-sell-checkbox:checked').forEach(checkbox => {
               const itemWrapper = checkbox.closest('.cross-sell-item');
               const addonId = itemWrapper.dataset.productId;
-              const addonName = itemWrapper.dataset.name;
+              let addonName = itemWrapper.dataset.name;
               const addonPrice = parseFloat(itemWrapper.dataset.price);
               const addonQty = parseInt(itemWrapper.querySelector('.addon-quantity').value, 10) || 1;
               const addonSubtotal = addonPrice * addonQty;
+
+              hiddenInputsHTML += `
+                  <input type="hidden" name="product_ids[]" value="${addonId}">
+                  <input type="hidden" name="quantities[${addonId}]" value="${addonQty}">
+              `;
+
+              const addonSlug = itemWrapper.dataset.slug;
+              if (addonSlug === 'ti-sart') {
+                  const addonSizeSelect = itemWrapper.querySelector('.cross-sell-size-select');
+                  if (addonSizeSelect) {
+                      const addonSize = addonSizeSelect.value;
+                      addonName += ` (Size: ${addonSize})`;
+                      hiddenInputsHTML += `<input type="hidden" name="sizes[${addonId}]" value="${addonSize}">`;
+                  }
+              }
 
               totalAmount += addonSubtotal;
               tableBodyHTML += `
@@ -1810,11 +1896,6 @@ document.addEventListener("DOMContentLoaded", function () {
                       <td class="text-center font-weight-bold">${addonQty}</td>
                       <td class="text-right">৳ ${addonSubtotal.toFixed(2)}</td>
                   </tr>
-              `;
-
-              hiddenInputsHTML += `
-                  <input type="hidden" name="product_ids[]" value="${addonId}">
-                  <input type="hidden" name="quantities[${addonId}]" value="${addonQty}">
               `;
           });
 
@@ -1913,7 +1994,7 @@ document.addEventListener("DOMContentLoaded", function () {
               checkedCheckboxes.forEach(checkbox => {
                   const card = checkbox.closest('.product-card');
                   const productId = checkbox.value;
-                  const productName = card.dataset.name;
+                  let productNameDisplay = card.dataset.name;
                   const productPrice = parseFloat(card.dataset.price.replace(/,/g, ''));
                   const stock = parseInt(card.dataset.stock, 10) || 0;
                   
@@ -1922,24 +2003,36 @@ document.addEventListener("DOMContentLoaded", function () {
                   
                   if (quantity > stock) {
                       stockError = true;
-                      stockErrorMessage = `${productName} does not have enough stock. (Available: ${stock})`;
+                      stockErrorMessage = `${productNameDisplay} does not have enough stock. (Available: ${stock})`;
                   }
                   
                   const subtotal = productPrice * quantity;
                   totalAmount += subtotal;
                   
+                  let itemHiddenInputsHTML = `
+                      <input type="hidden" name="product_ids[]" value="${productId}">
+                      <input type="hidden" name="quantities[${productId}]" value="${quantity}">
+                  `;
+
+                  const slug = card.dataset.slug;
+                  if (slug === 'ti-sart') {
+                      const sizeSelect = card.querySelector('.grid-tshirt-size-select');
+                      if (sizeSelect) {
+                          const sizeVal = sizeSelect.value;
+                          productNameDisplay += ` (Size: ${sizeVal})`;
+                          itemHiddenInputsHTML += `<input type="hidden" name="sizes[${productId}]" value="${sizeVal}">`;
+                      }
+                  }
+
                   tableBodyHTML += `
                       <tr>
-                          <td>${productName}</td>
+                          <td>${productNameDisplay}</td>
                           <td class="text-center font-weight-bold">${quantity}</td>
                           <td class="text-right">৳ ${subtotal.toFixed(2)}</td>
                       </tr>
                   `;
                   
-                  hiddenInputsHTML += `
-                      <input type="hidden" name="product_ids[]" value="${productId}">
-                      <input type="hidden" name="quantities[${productId}]" value="${quantity}">
-                  `;
+                  hiddenInputsHTML += itemHiddenInputsHTML;
               });
               
               if (stockError) {

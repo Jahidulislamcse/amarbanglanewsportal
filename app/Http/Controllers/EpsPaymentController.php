@@ -162,6 +162,7 @@ class EpsPaymentController extends Controller
             'phone_number' => 'nullable|string|max:30',
             'address'      => 'required|string|max:1000',
             'delivery_zone'=> 'nullable|string|in:inside,outside',
+            'sizes'        => 'nullable|array',
         ]);
 
         $user = auth()->user();
@@ -234,7 +235,7 @@ class EpsPaymentController extends Controller
             'phone_number'   => $request->phone_number,
             'address'        => $fullAddress,
             'gateway_response' => [
-                'checkout_items' => $this->getCheckoutItemsForPayment($products, $requestedItems),
+                'checkout_items' => $this->getCheckoutItemsForPayment($products, $requestedItems, $request->input('sizes', [])),
             ],
             'payment_type'   => 'product_purchase',
         ]);
@@ -718,6 +719,7 @@ class EpsPaymentController extends Controller
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
+                    'size' => $item['size'] ?? null,
                 ]);
             }
 
@@ -738,6 +740,7 @@ class EpsPaymentController extends Controller
                     'product_id' => (int) $item['product_id'],
                     'quantity' => max(1, (int) $item['quantity']),
                     'price' => (float) $item['price'],
+                    'size' => $item['size'] ?? null,
                 ];
             }, $items));
         }
@@ -746,20 +749,27 @@ class EpsPaymentController extends Controller
             'product_id' => $payment->product_id,
             'quantity' => $payment->quantity,
             'price' => $payment->unit_price,
+            'size' => null,
         ]];
     }
 
-    private function getCheckoutItemsForPayment($products, array $requestedItems): array
+    private function getCheckoutItemsForPayment($products, array $requestedItems, ?array $sizes = []): array
     {
         $items = [];
 
         foreach ($requestedItems as $productId => $quantity) {
             $product = $products[$productId];
 
+            $size = data_get($sizes, $productId);
+            if (!$size && $product->slug === 'ti-sart') {
+                $size = request()->input('tshirt_size');
+            }
+
             $items[] = [
                 'product_id' => $product->id,
                 'quantity' => $quantity,
                 'price' => $product->price,
+                'size' => $size,
             ];
         }
 
