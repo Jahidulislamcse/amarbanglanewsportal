@@ -708,8 +708,10 @@
     });
 
     // Package 1 Purchased confirmation check
-    document.addEventListener('DOMContentLoaded', function() {
-        let prevVal = document.querySelector('input[name="package1_purchased"]:checked').value;
+    function initPackage1Confirm() {
+        const checkedRadio = document.querySelector('input[name="package1_purchased"]:checked');
+        if (!checkedRadio) return;
+        let prevVal = checkedRadio.value;
         
         document.querySelectorAll('input[name="package1_purchased"]').forEach(radio => {
             radio.addEventListener('click', function(e) {
@@ -729,6 +731,12 @@
                 }
             });
         });
-    });
+    }
+
+    if (document.readyState !== 'loading') {
+        initPackage1Confirm();
+    } else {
+        document.addEventListener('DOMContentLoaded', initPackage1Confirm);
+    }
     </script>
 @endsection
