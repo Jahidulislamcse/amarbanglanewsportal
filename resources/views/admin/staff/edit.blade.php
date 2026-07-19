@@ -588,11 +588,11 @@
                                 </div>
                                 <div class="col-lg-7" style="display: flex; align-items: center; gap: 20px; padding-top: 10px;">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_no" value="0" {{ $data->package1_purchased == 0 ? 'checked' : '' }}>
+                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_no" value="0" {{ $data->package1_purchased == 0 ? 'checked' : '' }} data-checked="{{ $data->package1_purchased == 0 ? 'true' : 'false' }}">
                                         <label class="form-check-label" for="pg_purchased_no" style="font-weight: 600; cursor: pointer; margin-left: 5px;">No</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_yes" value="1" {{ $data->package1_purchased == 1 ? 'checked' : '' }}>
+                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_yes" value="1" {{ $data->package1_purchased == 1 ? 'checked' : '' }} data-checked="{{ $data->package1_purchased == 1 ? 'true' : 'false' }}">
                                         <label class="form-check-label" for="pg_purchased_yes" style="font-weight: 600; cursor: pointer; margin-left: 5px;">Yes</label>
                                     </div>
                                 </div>
@@ -707,36 +707,26 @@
         console.log('permanent districts loaded', districts);
     });
 
-    // Package 1 Purchased confirmation check
-    function initPackage1Confirm() {
-        const checkedRadio = document.querySelector('input[name="package1_purchased"]:checked');
-        if (!checkedRadio) return;
-        let prevVal = checkedRadio.value;
+    // Package 1 Purchased confirmation check using event delegation (works with AJAX modals)
+    $(document).off('click', 'input[name="package1_purchased"]');
+    $(document).on('click', 'input[name="package1_purchased"]', function(e) {
+        let $el = $(this);
+        if ($el.attr('data-checked') === 'true') {
+            return;
+        }
         
-        document.querySelectorAll('input[name="package1_purchased"]').forEach(radio => {
-            radio.addEventListener('click', function(e) {
-                if (this.value !== prevVal) {
-                    let confirmMsg = this.value == 1 
-                        ? "Are you sure you want to mark Package 1 as purchased for this user?" 
-                        : "Are you sure you want to mark Package 1 as NOT purchased for this user?";
-                    
-                    let confirmed = confirm(confirmMsg);
-                    if (confirmed) {
-                        prevVal = this.value;
-                    } else {
-                        e.preventDefault();
-                        // Revert visual checked state
-                        document.querySelector('input[name="package1_purchased"][value="' + prevVal + '"]').checked = true;
-                    }
-                }
-            });
-        });
-    }
-
-    if (document.readyState !== 'loading') {
-        initPackage1Confirm();
-    } else {
-        document.addEventListener('DOMContentLoaded', initPackage1Confirm);
-    }
+        let confirmMsg = $el.val() == 1 
+            ? "Are you sure you want to mark Package 1 as purchased for this user?" 
+            : "Are you sure you want to mark Package 1 as NOT purchased for this user?";
+            
+        let confirmed = confirm(confirmMsg);
+        if (confirmed) {
+            $('input[name="package1_purchased"]').attr('data-checked', 'false');
+            $el.attr('data-checked', 'true');
+        } else {
+            e.preventDefault();
+            return false;
+        }
+    });
     </script>
 @endsection
