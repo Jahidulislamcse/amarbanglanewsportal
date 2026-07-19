@@ -87,6 +87,15 @@
         </div>
 
         <div class="form-group">
+            <label>{{ __('Package') }}</label>
+            <select name="package" class="form-control">
+                <option value="" {{ !$product->package ? 'selected' : '' }}>{{ __('-- No Package --') }}</option>
+                <option value="package1" {{ $product->package === 'package1' ? 'selected' : '' }}>Package 1</option>
+                <option value="package2" {{ $product->package === 'package2' ? 'selected' : '' }}>Package 2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label>{{ __('Add Images') }}</label>
             <input type="file" name="images[]" multiple class="form-control" id="imageInputEdit">
         </div>

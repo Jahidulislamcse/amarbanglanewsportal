@@ -84,6 +84,15 @@
         </div>
 
         <div class="form-group">
+            <label>{{ __('Package') }}</label>
+            <select name="package" class="form-control">
+                <option value="">{{ __('-- No Package --') }}</option>
+                <option value="package1">Package 1</option>
+                <option value="package2">Package 2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label>{{ __('Images') }}</label>
             <input type="file" name="images[]" multiple class="form-control" id="imageInput">
         </div>

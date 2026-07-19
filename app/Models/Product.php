@@ -15,7 +15,8 @@ class Product extends Model
         'buying_price',
         'price',
         'stock',
-        'is_active'
+        'is_active',
+        'package'
     ];
 
     public function category()

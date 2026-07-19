@@ -143,5 +143,34 @@ class ProductController extends Controller
         Product::findOrFail($id)->delete();
         return back()->with('success', 'Product deleted');
     }
+
+    /**
+     * Set or clear the package assignment for a product (AJAX).
+     * POST /admin/products/{id}/set-package
+     * Body: package = 'package1' | 'package2' | '' (to clear)
+     */
+    public function setPackage(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $package = $request->input('package');
+
+        // Allow only valid values or null
+        $allowed = ['package1', 'package2', ''];
+        if (!in_array($package, $allowed)) {
+            return response()->json(['error' => 'Invalid package value'], 422);
+        }
+
+        $product->package = $package ?: null;
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'package' => $product->package,
+            'message' => $product->package
+                ? "Marked as {$product->package}"
+                : 'Package cleared',
+        ]);
+    }
 }
 

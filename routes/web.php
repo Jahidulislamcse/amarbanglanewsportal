@@ -267,6 +267,8 @@ Route::prefix('admin')->group(function(){
             ->name('admin.products.update');
         Route::get('/products/delete/{id}', [ProductController::class, 'destroy'])
             ->name('admin.products.delete');
+        Route::post('/products/{id}/set-package', [ProductController::class, 'setPackage'])
+            ->name('admin.products.setPackage');
 
         Route::group(['middleware' => 'permissions:product_orders'], function () {
             Route::get('/orders', [OrderController::class, 'index'])
