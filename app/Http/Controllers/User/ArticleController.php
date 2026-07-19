@@ -94,7 +94,7 @@ class ArticleController extends Controller
         $hasOrder  = Order::where('user_id', $user->id)
                           ->where('status', 'completed')
                           ->exists();
-        if ($postCount >= 10 && !$hasOrder) {
+        if ($postCount >= 3 && !$hasOrder) {
             return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
         }
 
