@@ -73,6 +73,7 @@ class User extends Authenticatable
         'promotion_eligible',  
         'daily_quiz_money',
         'is_ban',
+        'package1_purchased',
      ];
 
     /**

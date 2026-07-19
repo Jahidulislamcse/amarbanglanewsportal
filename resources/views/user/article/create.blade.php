@@ -32,13 +32,16 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-lg" style="border-radius:16px; overflow:hidden;">
 
-            <div class="modal-header text-white" style="background: linear-gradient(135deg,#c0392b,#e74c3c); padding:20px 28px;">
+             <div class="modal-header text-white" style="background: linear-gradient(135deg,#c0392b,#e74c3c); padding:20px 28px;">
                 <div>
                     <h5 class="modal-title font-weight-bold mb-1" id="packageGateModalLabel">
-                        <i class="fas fa-lock mr-2"></i> সংবাদ যোগ করতে নির্ধারিত প্যাকেজ সংগ্রহ করুন
+                        <i class="fas fa-info-circle mr-2"></i> আরও সংবাদ প্রকাশ করতে প্যাকেজ সংগ্রহ করুন
                     </h5>
-                    <p class="mb-0" style="font-size:13px; opacity:.9; color:white;">
+                    <p class="mb-0" style="font-size:14px; opacity:.95; color:white; line-height: 1.5;">
                         আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।
+                    </p>
+                </div>
+            </div>
                     </p>
                 </div>
             </div>
@@ -60,24 +63,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $packageTotal = 0; @endphp
+                            @php
+                                $packageTotal = 0;
+                                $hasExcluded = false;
+                            @endphp
                             @foreach($package1Products as $prod)
                                 @php
-                                    $packageTotal += $prod->price;
+                                    $isPurchased = in_array($prod->id, $purchasedProductIds);
+                                    if (!$isPurchased) {
+                                        $packageTotal += $prod->price;
+                                    } else {
+                                        $hasExcluded = true;
+                                    }
                                     $imgSrc = $prod->primaryImage
                                         ? asset('assets/images/products/' . $prod->primaryImage->image_path)
                                         : asset('assets/images/noimage.png');
                                 @endphp
-                                <tr>
+                                <tr class="{{ $isPurchased ? 'table-secondary text-muted' : '' }}" style="{{ $isPurchased ? 'background-color: #f1f3f5;' : '' }}">
                                     <td class="text-center align-middle" style="padding:8px;">
                                         <img src="{{ $imgSrc }}" width="55" height="55"
-                                             style="object-fit:cover; border-radius:6px; border:1px solid #dee2e6;">
+                                             style="object-fit:cover; border-radius:6px; border:1px solid #dee2e6; {{ $isPurchased ? 'opacity: 0.5;' : '' }}">
                                     </td>
                                     <td class="align-middle font-weight-bold" style="font-size:14px;">
                                         {{ $prod->name }}
+                                        @if($isPurchased)
+                                            <span class="badge badge-success ml-2" style="font-size: 11px; font-weight: normal; background-color: #28a745; color: #fff; padding: 3px 6px;">ইতোমধ্যে ক্রয়কৃত (বাদ দেওয়া হয়েছে)</span>
+                                        @endif
                                     </td>
-                                    <td class="align-middle text-right text-success font-weight-bold" style="font-size:15px;">
-                                        ৳ {{ number_format($prod->price, 0) }}
+                                    <td class="align-middle text-right font-weight-bold" style="font-size:15px; padding-right: 15px;">
+                                        @if($isPurchased)
+                                            <del class="text-muted" style="font-size: 13px; margin-right: 5px;">৳ {{ number_format($prod->price, 0) }}</del>
+                                            <span class="text-danger">৳ 0</span>
+                                        @else
+                                            <span class="text-success">৳ {{ number_format($prod->price, 0) }}</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -87,7 +106,7 @@
                                 <td colspan="2" class="text-right font-weight-bold text-dark" style="font-size:15px; padding:10px 12px;">
                                     মোট পণ্য মূল্য:
                                 </td>
-                                <td class="text-right font-weight-bold text-danger" style="font-size:16px; padding:10px 12px;">
+                                <td class="text-right font-weight-bold text-danger" style="font-size:16px; padding:10px 12px; padding-right: 15px;">
                                     ৳ {{ number_format($packageTotal, 0) }}
                                 </td>
                             </tr>
@@ -104,8 +123,10 @@
                         @csrf
 
                         @foreach($package1Products as $prod)
-                            <input type="hidden" name="product_ids[]" value="{{ $prod->id }}">
-                            <input type="hidden" name="quantities[]" value="1">
+                            @if(!in_array($prod->id, $purchasedProductIds))
+                                <input type="hidden" name="product_ids[]" value="{{ $prod->id }}">
+                                <input type="hidden" name="quantities[]" value="1">
+                            @endif
                         @endforeach
 
                         <div class="row">

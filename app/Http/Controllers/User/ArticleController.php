@@ -30,15 +30,33 @@ class ArticleController extends Controller
         $data['languages'] = Language::orderBy('id','desc')->get();
         $user = auth()->user();
 
-        $postCount = Post::where('user_id', $user->id)->count();
-        $hasOrder  = Order::where('user_id', $user->id)
-                          ->where('status', 'completed')
-                          ->exists();
+        // Check user's previously purchased products
+        $purchasedProductIds = \App\Models\OrderItem::whereHas('order.payment', function ($q) {
+            $q->where('status', 'paid');
+        })
+        ->whereHas('order', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })
+        ->pluck('product_id')
+        ->unique()
+        ->toArray();
 
-        $data['blockUser']       = ($postCount >= 10 && !$hasOrder);
-        $data['package1Products'] = $data['blockUser']
-            ? Product::where('package', 'package1')->where('is_active', true)->get()
-            : collect();
+        $package1Products = Product::where('package', 'package1')->where('is_active', true)->get();
+        
+        // Auto-heal package1_purchased flag if they already bought all package1 items
+        $package1ProductIds = $package1Products->pluck('id')->toArray();
+        if (!empty($package1ProductIds)) {
+            $missingIds = array_diff($package1ProductIds, $purchasedProductIds);
+            if (empty($missingIds) && $user->package1_purchased == 0) {
+                $user->update(['package1_purchased' => 1]);
+            }
+        }
+
+        $postCount = Post::where('user_id', $user->id)->count();
+
+        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased);
+        $data['package1Products'] = $package1Products;
+        $data['purchasedProductIds'] = $purchasedProductIds;
 
         return view('user.article.create', $data);
     }
@@ -88,13 +106,10 @@ class ArticleController extends Controller
 
     public function store(Request $request){
 
-        // Server-side package gate guard
+        // Server-side package gate guard using flag
         $user      = auth()->user();
         $postCount = Post::where('user_id', $user->id)->count();
-        $hasOrder  = Order::where('user_id', $user->id)
-                          ->where('status', 'completed')
-                          ->exists();
-        if ($postCount >= 10 && !$hasOrder) {
+        if ($postCount >= 10 && !$user->package1_purchased) {
             return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
         }
 

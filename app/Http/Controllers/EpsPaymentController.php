@@ -554,6 +554,32 @@ class EpsPaymentController extends Controller
                     ->where('stock', '>=', $payment->quantity)
                     ->decrement('stock', $payment->quantity);
             }
+
+            // Check if user has now purchased all Package 1 products
+            $user = User::find($payment->user_id);
+            if ($user && $user->package1_purchased == 0) {
+                $package1ProductIds = Product::where('package', 'package1')
+                    ->where('is_active', true)
+                    ->pluck('id')
+                    ->toArray();
+
+                if (!empty($package1ProductIds)) {
+                    $purchasedProductIds = OrderItem::whereHas('order.payment', function ($q) {
+                        $q->where('status', 'paid');
+                    })
+                    ->whereHas('order', function ($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })
+                    ->pluck('product_id')
+                    ->unique()
+                    ->toArray();
+
+                    $missingIds = array_diff($package1ProductIds, $purchasedProductIds);
+                    if (empty($missingIds)) {
+                        $user->update(['package1_purchased' => 1]);
+                    }
+                }
+            }
         }
 
         if ($payment instanceof BookPurchase) {
