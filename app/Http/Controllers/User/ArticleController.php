@@ -54,7 +54,7 @@ class ArticleController extends Controller
 
         $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
 
-        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased);
+        $data['blockUser'] = ($postCount >= 3 && !$user->package1_purchased);
         $data['package1Products'] = $package1Products;
         $data['purchasedProductIds'] = $purchasedProductIds;
 
