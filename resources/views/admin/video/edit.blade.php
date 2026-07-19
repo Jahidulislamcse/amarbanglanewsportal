@@ -197,6 +197,19 @@
 											<input type="hidden"  name="is_videoGallery" value="1">
                             
                                             </div>
+                                            {{-- Image Note / Caption --}}
+                                            <div class="row mt-3">
+                                                <div class="col-lg-12">
+                                                    <div class="left-area">
+                                                        <h4 class="heading">{{ __('Image Note / Caption') }}</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <textarea class="input-field textarea" name="image_note"
+                                                        placeholder="{{ __('Image note or caption...') }}"
+                                                        style="height:70px;">{{ $data->image_note }}</textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
