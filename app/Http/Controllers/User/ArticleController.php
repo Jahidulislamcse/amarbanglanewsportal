@@ -52,9 +52,9 @@ class ArticleController extends Controller
             }
         }
 
-        $postCount = Post::where('user_id', $user->id)->count();
+        $postCount = Post::where('user_id', $user->id)->where('status','=','true')->count();
 
-        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased);
+        $data['blockUser'] = ($postCount >= 1 && !$user->package1_purchased);
         $data['package1Products'] = $package1Products;
         $data['purchasedProductIds'] = $purchasedProductIds;
 
@@ -108,7 +108,7 @@ class ArticleController extends Controller
 
         // Server-side package gate guard using flag
         $user      = auth()->user();
-        $postCount = Post::where('user_id', $user->id)->count();
+        $postCount = Post::where('user_id', $user->id)->where('status','=','true')->count();
         if ($postCount >= 10 && !$user->package1_purchased) {
             return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
         }
