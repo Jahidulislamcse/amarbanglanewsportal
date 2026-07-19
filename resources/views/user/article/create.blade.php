@@ -41,10 +41,10 @@
             <div class="modal-header text-white" style="background: linear-gradient(135deg,#c0392b,#e74c3c); padding:20px 28px;">
                 <div>
                     <h5 class="modal-title font-weight-bold mb-1" id="packageGateModalLabel">
-                        <i class="fas fa-lock mr-2"></i> নিউজ যোগ করতে Package 1 কিনুন
+                        <i class="fas fa-lock mr-2"></i> সংবাদ যোগ করতে নির্ধারিত প্যাকেজ সংগ্রহ করুন
                     </h5>
                     <p class="mb-0" style="font-size:13px; opacity:.9;">
-                        আপনি ৩টি বিনামূল্যে সংবাদ যোগ করেছেন। আরও সংবাদ যোগ করতে নিচের প্যাকেজটি কিনুন।
+                        আপনি ইতিমধ্যে ১০টি সংবাদ যোগ করেছেন। আরও সংবাদ যোগ করতে নিচের প্যাকেজটি অর্ডার করুন।
                     </p>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 @if($package1Products->count())
                 {{-- Product list --}}
                 <h6 class="font-weight-bold text-dark mb-3" style="font-size:15px;">
-                    <i class="fas fa-box-open mr-1 text-danger"></i> Package 1 — অন্তর্ভুক্ত পণ্যসমূহ
+                    <i class="fas fa-box-open mr-1 text-danger"></i> প্যাকেজে — অন্তর্ভুক্ত পণ্যসমূহ
                 </h6>
 
                 <div class="table-responsive mb-4">
