@@ -586,11 +586,15 @@
                                         <h4 class="heading">{{ __('Package 1 Purchased') }} *</h4>
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
-                                    <select name="package1_purchased" id="package1_purchased" class="form-control">
-                                        <option value="0" {{ $data->package1_purchased == 0 ? 'selected' : '' }}>No</option>
-                                        <option value="1" {{ $data->package1_purchased == 1 ? 'selected' : '' }}>Yes</option>
-                                    </select>
+                                <div class="col-lg-7" style="display: flex; align-items: center; gap: 20px; padding-top: 10px;">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_no" value="0" {{ $data->package1_purchased == 0 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pg_purchased_no" style="font-weight: 600; cursor: pointer; margin-left: 5px;">No</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input pg-purchased-radio" type="radio" name="package1_purchased" id="pg_purchased_yes" value="1" {{ $data->package1_purchased == 1 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pg_purchased_yes" style="font-weight: 600; cursor: pointer; margin-left: 5px;">Yes</label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -701,6 +705,30 @@
         $('#permanent_union_id').html('<option value="">Select Union</option>');
     
         console.log('permanent districts loaded', districts);
+    });
+
+    // Package 1 Purchased confirmation check
+    document.addEventListener('DOMContentLoaded', function() {
+        let prevVal = document.querySelector('input[name="package1_purchased"]:checked').value;
+        
+        document.querySelectorAll('input[name="package1_purchased"]').forEach(radio => {
+            radio.addEventListener('click', function(e) {
+                if (this.value !== prevVal) {
+                    let confirmMsg = this.value == 1 
+                        ? "Are you sure you want to mark Package 1 as purchased for this user?" 
+                        : "Are you sure you want to mark Package 1 as NOT purchased for this user?";
+                    
+                    let confirmed = confirm(confirmMsg);
+                    if (confirmed) {
+                        prevVal = this.value;
+                    } else {
+                        e.preventDefault();
+                        // Revert visual checked state
+                        document.querySelector('input[name="package1_purchased"][value="' + prevVal + '"]').checked = true;
+                    }
+                }
+            });
+        });
     });
     </script>
 @endsection
