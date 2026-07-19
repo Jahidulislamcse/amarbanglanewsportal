@@ -17,6 +17,170 @@
 </style>
 
 <div class="content-area">
+
+@if($blockUser)
+{{-- ============================================================
+     PACKAGE 1 GATE — Blocks access until user purchases Package 1
+     ============================================================ --}}
+
+{{-- Dark overlay that sits behind the modal --}}
+<div id="packageGateOverlay" style="
+    position: fixed; inset: 0; z-index: 1040;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(3px);
+"></div>
+
+{{-- Gate Modal --}}
+<div class="modal fade show d-block" id="packageGateModal" tabindex="-1"
+     aria-labelledby="packageGateModalLabel" aria-modal="true"
+     style="z-index:1050;">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg" style="border-radius:16px; overflow:hidden;">
+
+            {{-- Header --}}
+            <div class="modal-header text-white" style="background: linear-gradient(135deg,#c0392b,#e74c3c); padding:20px 28px;">
+                <div>
+                    <h5 class="modal-title font-weight-bold mb-1" id="packageGateModalLabel">
+                        <i class="fas fa-lock mr-2"></i> নিউজ যোগ করতে Package 1 কিনুন
+                    </h5>
+                    <p class="mb-0" style="font-size:13px; opacity:.9;">
+                        আপনি ৩টি বিনামূল্যে সংবাদ যোগ করেছেন। আরও সংবাদ যোগ করতে নিচের প্যাকেজটি কিনুন।
+                    </p>
+                </div>
+            </div>
+
+            {{-- Body --}}
+            <div class="modal-body" style="padding:24px 28px; background:#f8f9fa;">
+
+                @if($package1Products->count())
+                {{-- Product list --}}
+                <h6 class="font-weight-bold text-dark mb-3" style="font-size:15px;">
+                    <i class="fas fa-box-open mr-1 text-danger"></i> Package 1 — অন্তর্ভুক্ত পণ্যসমূহ
+                </h6>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered bg-white mb-0" style="border-radius:10px; overflow:hidden;">
+                        <thead style="background:#c0392b; color:#fff;">
+                            <tr>
+                                <th style="width:70px;">ছবি</th>
+                                <th>পণ্যের নাম</th>
+                                <th class="text-right" style="width:120px;">মূল্য</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $packageTotal = 0; @endphp
+                            @foreach($package1Products as $prod)
+                                @php
+                                    $packageTotal += $prod->price;
+                                    $imgSrc = $prod->primaryImage
+                                        ? asset('assets/images/products/' . $prod->primaryImage->image_path)
+                                        : asset('assets/images/noimage.png');
+                                @endphp
+                                <tr>
+                                    <td class="text-center align-middle" style="padding:8px;">
+                                        <img src="{{ $imgSrc }}" width="55" height="55"
+                                             style="object-fit:cover; border-radius:6px; border:1px solid #dee2e6;">
+                                    </td>
+                                    <td class="align-middle font-weight-bold" style="font-size:14px;">
+                                        {{ $prod->name }}
+                                    </td>
+                                    <td class="align-middle text-right text-success font-weight-bold" style="font-size:15px;">
+                                        ৳ {{ number_format($prod->price, 0) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot style="background:#fff3f3;">
+                            <tr>
+                                <td colspan="2" class="text-right font-weight-bold text-dark" style="font-size:15px; padding:10px 12px;">
+                                    মোট পণ্য মূল্য:
+                                </td>
+                                <td class="text-right font-weight-bold text-danger" style="font-size:16px; padding:10px 12px;">
+                                    ৳ {{ number_format($packageTotal, 0) }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                {{-- Payment form --}}
+                <div class="bg-white rounded p-4 border" style="border-radius:12px !important;">
+                    <h6 class="font-weight-bold text-dark mb-3">
+                        <i class="fas fa-credit-card mr-1 text-danger"></i> এখনই অর্ডার করুন
+                    </h6>
+
+                    <form action="{{ route('product.pay') }}" method="POST" id="packageGatePayForm">
+                        @csrf
+
+                        {{-- Hidden product IDs & quantities for all package1 products --}}
+                        @foreach($package1Products as $prod)
+                            <input type="hidden" name="product_ids[]" value="{{ $prod->id }}">
+                            <input type="hidden" name="quantities[]" value="1">
+                        @endforeach
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="font-weight-bold" style="font-size:13px;">ফোন নম্বর *</label>
+                                <input type="text" name="phone_number" class="form-control"
+                                       value="{{ auth()->user()->phone ?? '' }}"
+                                       placeholder="01XXXXXXXXX" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="font-weight-bold" style="font-size:13px;">ডেলিভারি জোন *</label>
+                                <select name="delivery_zone" id="pgDeliveryZone" class="form-control" required>
+                                    <option value="inside" data-charge="80">ঢাকার ভিতরে (৳ 80)</option>
+                                    <option value="outside" data-charge="120" selected>ঢাকার বাইরে (৳ 120)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="font-weight-bold" style="font-size:13px;">ডেলিভারি ঠিকানা *</label>
+                                <textarea name="address" class="form-control" rows="3"
+                                          placeholder="আপনার সম্পূর্ণ ঠিকানা লিখুন (গ্রাম, থানা, জেলা)" required></textarea>
+                                <small class="text-muted">🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, বাইরে ১২০ টাকা।</small>
+                            </div>
+                        </div>
+
+                        <div class="bg-light rounded p-3 mb-3 border d-flex justify-content-between align-items-center">
+                            <span class="font-weight-bold text-dark">সর্বমোট (পণ্য + ডেলিভারি):</span>
+                            <span class="font-weight-bold text-danger" style="font-size:18px;" id="pgGrandTotal">
+                                ৳ {{ number_format($packageTotal + 120, 0) }}
+                            </span>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-danger btn-lg font-weight-bold px-5"
+                                    style="border-radius:30px; letter-spacing:.5px;">
+                                <i class="fas fa-shopping-cart mr-2"></i> এখনই কিনুন ও EPS দিয়ে পেমেন্ট করুন
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                @else
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    এই মুহূর্তে Package 1-এ কোনো পণ্য নেই। অনুগ্রহ করে পরে আবার চেষ্টা করুন।
+                </div>
+                @endif
+
+            </div>{{-- end modal-body --}}
+
+        </div>
+    </div>
+</div>
+
+<script>
+// Recalculate grand total when delivery zone changes
+document.getElementById('pgDeliveryZone') && document.getElementById('pgDeliveryZone').addEventListener('change', function() {
+    const charge = parseInt(this.options[this.selectedIndex].dataset.charge || '120', 10);
+    const products = {{ $packageTotal ?? 0 }};
+    document.getElementById('pgGrandTotal').textContent = '৳ ' + (products + charge).toLocaleString('en-BD');
+});
+</script>
+
+@endif
+{{-- END package gate --}}
+
     <div class="mr-breadcrumb">
         <div class="row">
             <div class="col-lg-12">

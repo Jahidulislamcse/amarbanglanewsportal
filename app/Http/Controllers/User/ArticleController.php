@@ -9,6 +9,8 @@ use App\Models\Gallery;
 use App\Models\Language;
 use App\Models\NewsCover;
 use App\Models\Post;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Image;
@@ -26,10 +28,22 @@ class ArticleController extends Controller
     public function create(){
         $data['datas'] = Category::where('parent_id','=',NULL)->get();
         $data['languages'] = Language::orderBy('id','desc')->get();
-        $authId = auth()->id();
+        $user = auth()->user();
 
-        
-        return view('user.article.create',$data);
+        // --- Package 1 gate ---
+        // Block user from adding more articles if they have >= 3 posts
+        // and have never completed a product order.
+        $postCount = Post::where('user_id', $user->id)->count();
+        $hasOrder  = Order::where('user_id', $user->id)
+                          ->where('status', 'completed')
+                          ->exists();
+
+        $data['blockUser']       = ($postCount >= 3 && !$hasOrder);
+        $data['package1Products'] = $data['blockUser']
+            ? Product::where('package', 'package1')->where('is_active', true)->get()
+            : collect();
+
+        return view('user.article.create', $data);
     }
 
     public function language($id){
@@ -76,6 +90,16 @@ class ArticleController extends Controller
 
 
     public function store(Request $request){
+
+        // Server-side package gate guard
+        $user      = auth()->user();
+        $postCount = Post::where('user_id', $user->id)->count();
+        $hasOrder  = Order::where('user_id', $user->id)
+                          ->where('status', 'completed')
+                          ->exists();
+        if ($postCount >= 3 && !$hasOrder) {
+            return response()->json(['errors' => ['package' => ['আর্টিকেল যোগ করতে হলে অনুগ্রহ করে প্রথমে Package 1 ক্রয় করুন।']]]);
+        }
 
         $rules = [
             'language_id' => 'required',
