@@ -1060,6 +1060,9 @@ class FrontendController extends Controller
                         $user->increment('views');
                     }
             
+                    // Check if post was created today (current calendar day)
+                    $isPostToday = $data->created_at && $data->created_at->isToday();
+
                     if ($data->user_id) {
                         $feesObj = \App\Models\Fee::first();
                         $repRate = $feesObj ? $feesObj->reporter_view_rate : 0.1;
@@ -1067,18 +1070,15 @@ class FrontendController extends Controller
                         $author = \App\Models\User::find($data->user_id);
                         if ($author) {
                             $author->increment('views');
-                            if ($repRate > 0) {
+                            if ($repRate > 0 && $isPostToday) {
                                 $author->increment('view_income', $repRate);
                                 $author->increment('balance', $repRate);
                             }
                         }
                     }
             
-                    // Check if post is within last 24 hours
-                    $isRecentPost = $data->created_at >= now()->subDay();
-            
                     // Only balance logic depends on this
-                    if ($isRecentPost && $user) {
+                    if ($isPostToday && $user) {
             
                         $fees = \App\Models\Fee::first();
             
