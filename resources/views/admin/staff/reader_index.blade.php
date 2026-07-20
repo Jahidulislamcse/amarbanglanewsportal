@@ -438,15 +438,15 @@
 			}
 		},
 		columns: [
-		    { data: 'photo', name: 'photo', orderable: false, searchable: false },
-			{ data: 'name', name: 'name' },
+		    { data: 'photo', name: 'users.photo', orderable: false, searchable: false },
+			{ data: 'name', name: 'users.name' },
 			
-			{ data: 'email', name: 'email' },
-			{ data: 'phone', name: 'phone' },
-			{ data: 'reader_type', name: 'reader_type' },
-			{ data: 'total_views', name: 'total_views' },
-			{ data: 'total_commission', name: 'total_commission' },
-			{ data: 'is_ban', name: 'is_ban' },
+			{ data: 'email', name: 'users.email' },
+			{ data: 'phone', name: 'users.phone' },
+			{ data: 'reader_type', name: 'users.reader_type' },
+			{ data: 'total_views', name: 'users.views' },
+			{ data: 'total_commission', name: 'users.balance' },
+			{ data: 'is_ban', name: 'users.is_ban' },
 			
 			{ data: 'action', searchable: false, orderable: false }
 		],

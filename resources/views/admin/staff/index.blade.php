@@ -673,14 +673,14 @@
 
     function reporterColumns(statusFilter = '') {
         var cols = [
-            { data: 'photo', name: 'photo', orderable: false, searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'report_type', name: 'report_type' },
-            { data: 'email', name: 'email', className: 'email-cell' },
-            { data: 'phone', name: 'phone' },
+            { data: 'photo', name: 'users.photo', orderable: false, searchable: false },
+            { data: 'name', name: 'users.name' },
+            { data: 'report_type', name: 'users.report_type' },
+            { data: 'email', name: 'users.email', className: 'email-cell' },
+            { data: 'phone', name: 'users.phone' },
             {
                 data: 'is_approve',
-                name: 'is_approve',
+                name: 'users.is_approve',
                 render: function(data) {
                     if (data == 1) {
                         return '<span class="badge badge-success">Approved</span>';
@@ -691,9 +691,9 @@
                     return '<span class="badge badge-warning">Pending</span>';
                 }
             },
-            { data: 'division_name', name: 'division_name', defaultContent: '' },
-            { data: 'district_name', name: 'district_name', defaultContent: '' },
-            { data: 'next_payment_date', name: 'next_payment_date' }
+            { data: 'division_name', name: 'divisions.name', defaultContent: '' },
+            { data: 'district_name', name: 'districts.name', defaultContent: '' },
+            { data: 'next_payment_date', name: 'users.next_payment_date' }
         ];
 
         if (statusFilter === 'no_purchase_with_posts') {
@@ -705,10 +705,10 @@
         }
 
         cols.push(
-            { data: 'total_views', name: 'total_views' },
-            { data: 'total_commission', name: 'total_commission' },
+            { data: 'total_views', name: 'users.views' },
+            { data: 'total_commission', name: 'users.balance' },
             { data: 'orders', name: 'orders', searchable: false, orderable: false },
-            { data: 'created_at', name: 'created_at' },
+            { data: 'created_at', name: 'users.created_at' },
             { data: 'action', searchable: false, orderable: false }
         );
 

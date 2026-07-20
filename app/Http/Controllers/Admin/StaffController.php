@@ -170,12 +170,9 @@ class StaffController extends Controller
                 ->orderBy('districts.name')
                 ->orderBy('upazilas.name');
         }
-        
-        $datas = $q->get();
-        
         $reportcategories = DB::table('reportcategories')->pluck('title_en', 'id')->toArray();
         
-        return DataTables::of($datas)
+        return DataTables::of($q)
         ->editColumn('name', function($data) use ($currentWeeklyWinnerIds) {
             $nameHtml = e($data->name);
             if (in_array($data->id, $currentWeeklyWinnerIds)) {
@@ -315,12 +312,9 @@ class StaffController extends Controller
         } else {
             $q->orderByDesc('total_commission'); // Default sort
         }
-        
-        $datas = $q->get();
-        
         $reportcategories = DB::table('reportcategories')->pluck('title_en', 'id')->toArray();
         
-        return DataTables::of($datas)
+        return DataTables::of($q)
             ->addColumn('photo', function ($data) {
             
                 if ($data->photo) {
@@ -446,10 +440,6 @@ class StaffController extends Controller
     {
         $pending_status = $request->has('pending_status') ? 1 : 0;
     
-        $users = User::select('id', 'name', 'phone')
-            ->where('is_reader', 0)
-            ->get();
-
         $divisions = \App\Models\Division::orderBy('name')->get(['id', 'name']);
         $districts = \App\Models\District::orderBy('name')->get(['id', 'name', 'division_id']);
         $thanas = \App\Models\Thana::orderBy('name')->get(['id', 'name', 'district_id']);
@@ -505,7 +495,6 @@ class StaffController extends Controller
 
 
         return view('admin.staff.index', compact(
-            'users', 
             'pending_status', 
             'topReporters', 
             'startOfLastMonth', 
