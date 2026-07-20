@@ -972,7 +972,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.update-next-payment', function() {
-        let reporterId = $(this).data('id');
+        let reporterId = $(this).attr('data-id');
         let button = $(this);
 
         if(!confirm("আপনি কি নিশ্চিত যে এই রিপোর্টারের পরবর্তী পেমেন্টের তারিখ আপডেট করতে চান?")) {
@@ -1074,8 +1074,8 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() {
     $(document).on('click', '.view-orders', function() {
-        var userId = $(this).data('id');
-        var userName = $(this).data('name');
+        var userId = $(this).attr('data-id');
+        var userName = $(this).attr('data-name');
         
         $('#ordersModalUserName').text(userName);
         $('#user-orders-table tbody').html('');

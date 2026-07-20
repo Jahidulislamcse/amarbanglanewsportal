@@ -598,6 +598,28 @@
                                 </div>
                             </div>
 
+                            <div class="row" id="bypass-duration-row" style="{{ $data->package1_purchased == 1 ? 'display: none;' : '' }}">
+                                <div class="col-lg-4">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Bypass Purchase Block') }}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7" style="padding-top: 10px;">
+                                    <select class="form-control" name="bypass_duration" id="bypass_duration">
+                                        <option value="">{{ __('None / Expired') }}</option>
+                                        <option value="24" {{ $data->package_bypass_until && \Carbon\Carbon::parse($data->package_bypass_until)->isFuture() && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) <= 24 ? 'selected' : '' }}>{{ __('24 Hours') }}</option>
+                                        <option value="48" {{ $data->package_bypass_until && \Carbon\Carbon::parse($data->package_bypass_until)->isFuture() && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) > 24 && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) <= 48 ? 'selected' : '' }}>{{ __('48 Hours') }}</option>
+                                        <option value="72" {{ $data->package_bypass_until && \Carbon\Carbon::parse($data->package_bypass_until)->isFuture() && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) > 48 && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) <= 72 ? 'selected' : '' }}>{{ __('72 Hours') }}</option>
+                                        <option value="96" {{ $data->package_bypass_until && \Carbon\Carbon::parse($data->package_bypass_until)->isFuture() && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) > 72 && abs(\Carbon\Carbon::parse($data->package_bypass_until)->diffInHours(now())) <= 96 ? 'selected' : '' }}>{{ __('96 Hours') }}</option>
+                                    </select>
+                                    @if($data->package_bypass_until && \Carbon\Carbon::parse($data->package_bypass_until)->isFuture())
+                                        <small class="text-success font-weight-bold d-block mt-1">
+                                            Bypass active until: {{ \Carbon\Carbon::parse($data->package_bypass_until)->format('d M Y H:i') }} ({{ \Carbon\Carbon::parse($data->package_bypass_until)->diffForHumans() }})
+                                        </small>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-12">
                                     <button class="addProductSubmit-btn" type="submit">{{ __('Update') }}</button>
@@ -723,6 +745,12 @@
         if (confirmed) {
             $('input[name="package1_purchased"]').attr('data-checked', 'false');
             $el.attr('data-checked', 'true');
+            if ($el.val() == 1) {
+                $('#bypass-duration-row').hide();
+                $('#bypass_duration').val('');
+            } else {
+                $('#bypass-duration-row').show();
+            }
         } else {
             e.preventDefault();
             return false;

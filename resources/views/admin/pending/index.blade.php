@@ -254,8 +254,8 @@
     });
 
     $(document).on('click', '.view-orders', function() {
-        const userId = $(this).data('id');
-        const userName = $(this).data('name');
+        const userId = $(this).attr('data-id');
+        const userName = $(this).attr('data-name');
         
         $('#ordersModalUserName').text(userName);
         $('#user-orders-table tbody').html('');

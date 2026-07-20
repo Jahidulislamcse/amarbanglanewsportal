@@ -931,6 +931,15 @@ class StaffController extends Controller
 		
 		$input['report_type'] =json_encode($request->report_type);
 		
+        if ($request->filled('bypass_duration')) {
+            $hours = (int) $request->bypass_duration;
+            $input['package_bypass_until'] = now()->addHours($hours);
+        } else {
+            if ($request->has('bypass_duration') || $request->package1_purchased == 1) {
+                $input['package_bypass_until'] = null;
+            }
+        }
+
         $data->update($input);
         
         if ($previousApprove == 0 && isset($request->is_approve) && $request->is_approve == 1) {

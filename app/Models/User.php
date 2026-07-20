@@ -74,6 +74,7 @@ class User extends Authenticatable
         'daily_quiz_money',
         'is_ban',
         'package1_purchased',
+        'package_bypass_until',
      ];
 
     /**
