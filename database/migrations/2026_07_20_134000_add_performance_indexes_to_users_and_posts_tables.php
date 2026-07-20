@@ -12,42 +12,40 @@ class AddPerformanceIndexesToUsersAndPostsTables extends Migration
     public function up()
     {
         // Add indexes to users table to optimize filters and sorting
-        Schema::table('users', function (Blueprint $table) {
-            $sm = Schema::getConnection()->getDoctrineSchemaManager();
-            $indexes = $sm->listTableIndexes('users');
+        $usersIndexes = [
+            ['column' => 'is_reader', 'name' => 'users_is_reader_idx'],
+            ['column' => 'created_at', 'name' => 'users_created_at_idx'],
+            ['column' => 'division_id', 'name' => 'users_division_id_idx'],
+            ['column' => 'district_id', 'name' => 'users_district_id_idx'],
+            ['column' => 'thana_id', 'name' => 'users_thana_id_idx']
+        ];
 
-            if (!array_key_exists('users_is_reader_idx', $indexes)) {
-                $table->index('is_reader', 'users_is_reader_idx');
+        foreach ($usersIndexes as $idx) {
+            try {
+                Schema::table('users', function (Blueprint $table) use ($idx) {
+                    $table->index($idx['column'], $idx['name']);
+                });
+            } catch (\Exception $e) {
+                // Skip if index already exists or column cannot be indexed
             }
-            if (!array_key_exists('users_created_at_idx', $indexes)) {
-                $table->index('created_at', 'users_created_at_idx');
-            }
-            if (!array_key_exists('users_division_id_idx', $indexes)) {
-                $table->index('division_id', 'users_division_id_idx');
-            }
-            if (!array_key_exists('users_district_id_idx', $indexes)) {
-                $table->index('district_id', 'users_district_id_idx');
-            }
-            if (!array_key_exists('users_thana_id_idx', $indexes)) {
-                $table->index('thana_id', 'users_thana_id_idx');
-            }
-        });
+        }
 
         // Add indexes to posts table to optimize subquery counts
-        Schema::table('posts', function (Blueprint $table) {
-            $sm = Schema::getConnection()->getDoctrineSchemaManager();
-            $indexes = $sm->listTableIndexes('posts');
+        $postsIndexes = [
+            ['column' => 'user_id', 'name' => 'posts_user_id_idx'],
+            ['column' => ['user_id', 'is_pending'], 'name' => 'posts_user_pending_idx'],
+            ['column' => ['user_id', 'created_at'], 'name' => 'posts_user_created_idx']
+        ];
 
-            if (!array_key_exists('posts_user_id_idx', $indexes)) {
-                $table->index('user_id', 'posts_user_id_idx');
+        foreach ($postsIndexes as $idx) {
+            try {
+                Schema::table('posts', function (Blueprint $table) use ($idx) {
+                    $table->index($idx['column'], $idx['name']);
+                });
+            } catch (\Exception $e) {
+                // Skip if index already exists or column cannot be indexed
             }
-            if (!array_key_exists('posts_user_pending_idx', $indexes)) {
-                $table->index(['user_id', 'is_pending'], 'posts_user_pending_idx');
-            }
-            if (!array_key_exists('posts_user_created_idx', $indexes)) {
-                $table->index(['user_id', 'created_at'], 'posts_user_created_idx');
-            }
-        });
+        }
     }
 
     /**
@@ -55,40 +53,38 @@ class AddPerformanceIndexesToUsersAndPostsTables extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $sm = Schema::getConnection()->getDoctrineSchemaManager();
-            $indexes = $sm->listTableIndexes('users');
+        $usersIndexes = [
+            'users_is_reader_idx',
+            'users_created_at_idx',
+            'users_division_id_idx',
+            'users_district_id_idx',
+            'users_thana_id_idx'
+        ];
 
-            if (array_key_exists('users_is_reader_idx', $indexes)) {
-                $table->dropIndex('users_is_reader_idx');
+        foreach ($usersIndexes as $name) {
+            try {
+                Schema::table('users', function (Blueprint $table) use ($name) {
+                    $table->dropIndex($name);
+                });
+            } catch (\Exception $e) {
+                // Skip if index does not exist
             }
-            if (array_key_exists('users_created_at_idx', $indexes)) {
-                $table->dropIndex('users_created_at_idx');
-            }
-            if (array_key_exists('users_division_id_idx', $indexes)) {
-                $table->dropIndex('users_division_id_idx');
-            }
-            if (array_key_exists('users_district_id_idx', $indexes)) {
-                $table->dropIndex('users_district_id_idx');
-            }
-            if (array_key_exists('users_thana_id_idx', $indexes)) {
-                $table->dropIndex('users_thana_id_idx');
-            }
-        });
+        }
 
-        Schema::table('posts', function (Blueprint $table) {
-            $sm = Schema::getConnection()->getDoctrineSchemaManager();
-            $indexes = $sm->listTableIndexes('posts');
+        $postsIndexes = [
+            'posts_user_id_idx',
+            'posts_user_pending_idx',
+            'posts_user_created_idx'
+        ];
 
-            if (array_key_exists('posts_user_id_idx', $indexes)) {
-                $table->dropIndex('posts_user_id_idx');
+        foreach ($postsIndexes as $name) {
+            try {
+                Schema::table('posts', function (Blueprint $table) use ($name) {
+                    $table->dropIndex($name);
+                });
+            } catch (\Exception $e) {
+                // Skip if index does not exist
             }
-            if (array_key_exists('posts_user_pending_idx', $indexes)) {
-                $table->dropIndex('posts_user_pending_idx');
-            }
-            if (array_key_exists('posts_user_created_idx', $indexes)) {
-                $table->dropIndex('posts_user_created_idx');
-            }
-        });
+        }
     }
 }
