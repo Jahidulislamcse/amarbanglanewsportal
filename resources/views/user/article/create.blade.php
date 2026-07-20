@@ -36,6 +36,31 @@
     overflow-y: auto;
     font-family: 'Outfit', 'Inter', 'SolaimanLipi', sans-serif;
 ">
+    {{-- Back to Dashboard Button --}}
+    <a href="{{ route('user.dashboard') }}" style="
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        z-index: 1000000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    " onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+        <i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে যান
+    </a>
+
     <div style="
         background: #ffffff;
         border-radius: 20px;
@@ -145,6 +170,27 @@
                     </table>
                 </div>
 
+                {{-- Scroll Down Indicator --}}
+                <div style="
+                    text-align: center;
+                    margin: 0 0 24px 0;
+                    padding: 12px 16px;
+                    background: #fffbeb;
+                    border: 1px solid #fde68a;
+                    border-radius: 12px;
+                    color: #b45309;
+                    font-weight: 700;
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                ">
+                    <span>পেমেন্ট ও অর্ডার ফরমটি পূরণ করতে নিচে যান</span>
+                    <i class="fas fa-arrow-down pg-bouncing-arrow" style="font-size: 16px; color: #d97706;"></i>
+                </div>
+
                 {{-- Checkout Form --}}
                 <div style="background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                     <h6 style="font-weight: 700; color: #1e293b; margin: 0 0 20px 0; font-size: 15px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
@@ -230,6 +276,13 @@
 @keyframes pgModalFadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
+}
+@keyframes pgArrowBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+.pg-bouncing-arrow {
+    animation: pgArrowBounce 1s infinite;
 }
 </style>
 
