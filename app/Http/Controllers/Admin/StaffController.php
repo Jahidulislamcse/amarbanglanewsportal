@@ -39,7 +39,7 @@ class StaffController extends Controller
             ->pluck('user_id')
             ->toArray();
 
-        $q = User::select(
+        $selectColumns = [
             'users.id',
             'users.name',
             'users.email',
@@ -61,10 +61,15 @@ class StaffController extends Controller
             'users.experience',
             'users.views as total_views',
             'users.balance as total_commission',
-            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.created_at >= "' . Carbon::now()->subDays(7)->startOfDay()->toDateTimeString() . '") AS last_7_days_posts_count'),
-            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 1) AS pending_posts_count'),
-            DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 2) AS rejected_posts_count')
-        );
+        ];
+
+        if ($request->status_filter !== 'no_purchase_with_posts') {
+            $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.created_at >= "' . Carbon::now()->subDays(7)->startOfDay()->toDateTimeString() . '") AS last_7_days_posts_count');
+            $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 1) AS pending_posts_count');
+            $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 2) AS rejected_posts_count');
+        }
+
+        $q = User::select($selectColumns);
         
         $q->where('users.is_reader', 0);
         
@@ -155,7 +160,9 @@ class StaffController extends Controller
         $q->leftJoin('districts', 'users.district_id', '=', 'districts.id');
         $q->leftJoin('upazilas', 'users.thana_id', '=', 'upazilas.id');
 
-        $q->withCount('posts'); 
+        if ($request->status_filter === 'no_purchase_with_posts') {
+            $q->withCount('posts'); 
+        }
 
         if ($request->status_filter === 'no_purchase') {
             $q->orderBy('users.created_at', 'asc');
