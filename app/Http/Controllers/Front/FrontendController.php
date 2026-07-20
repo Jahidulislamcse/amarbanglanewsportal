@@ -1069,10 +1069,13 @@ class FrontendController extends Controller
                         
                         $author = \App\Models\User::find($data->user_id);
                         if ($author) {
-                            $author->increment('views');
-                            if ($repRate > 0 && $isPostToday) {
-                                $author->increment('view_income', $repRate);
-                                $author->increment('balance', $repRate);
+                            $isWithinSevenDays = $data->created_at && $data->created_at >= now()->subDays(7);
+                            if ($isWithinSevenDays) {
+                                $author->increment('views');
+                                if ($repRate > 0) {
+                                    $author->increment('view_income', $repRate);
+                                    $author->increment('balance', $repRate);
+                                }
                             }
                         }
                     }
