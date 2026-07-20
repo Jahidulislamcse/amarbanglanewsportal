@@ -57,7 +57,7 @@ class ArticleController extends Controller
         $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
 
         $data['postCount'] = $postCount;
-        $data['blockUser'] = ($postCount >= 1 && !$user->package1_purchased && !$isBypassed);
+        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased && !$isBypassed);
         $data['package1Products'] = $package1Products;
         $data['purchasedProductIds'] = $purchasedProductIds;
 
