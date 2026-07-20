@@ -102,6 +102,27 @@
         {{-- Body --}}
         <div style="padding: 32px; background: #f8fafc; overflow-y: auto; max-height: 70vh; text-align: left;">
             @if($package1Products->count())
+                {{-- Scroll Down Indicator --}}
+                <div style="
+                    text-align: center;
+                    margin: 0 0 20px 0;
+                    padding: 14px 20px;
+                    background: #fffbeb;
+                    border: 1px solid #fde68a;
+                    border-radius: 12px;
+                    color: #b45309;
+                    font-weight: 700;
+                    font-size: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                ">
+                    <span>পেমেন্ট ও অর্ডার ফরমটি পূরণ করতে নিচে যান</span>
+                    <i class="fas fa-chevron-circle-down pg-bouncing-arrow" style="font-size: 24px; color: #d97706; display: inline-block; vertical-align: middle;"></i>
+                </div>
+
                 <h6 style="font-weight: 700; color: #1e293b; margin: 0 0 16px 0; font-size: 15px; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-box-open text-rose-600"></i> প্যাকেজে অন্তর্ভুক্ত সামগ্রীসমূহ
                 </h6>
@@ -170,26 +191,6 @@
                     </table>
                 </div>
 
-                {{-- Scroll Down Indicator --}}
-                <div style="
-                    text-align: center;
-                    margin: 0 0 24px 0;
-                    padding: 12px 16px;
-                    background: #fffbeb;
-                    border: 1px solid #fde68a;
-                    border-radius: 12px;
-                    color: #b45309;
-                    font-weight: 700;
-                    font-size: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-                ">
-                    <span>পেমেন্ট ও অর্ডার ফরমটি পূরণ করতে নিচে যান</span>
-                    <i class="fas fa-arrow-down pg-bouncing-arrow" style="font-size: 16px; color: #d97706;"></i>
-                </div>
 
                 {{-- Checkout Form --}}
                 <div style="background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
