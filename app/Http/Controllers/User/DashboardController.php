@@ -235,7 +235,7 @@ class DashboardController extends Controller
         $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
 
         $data['postCount'] = $postCount;
-        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased && !$isBypassed);
+        $data['blockUser'] = ($user->is_reader == 0 && !$user->package1_purchased && !$isBypassed);
         $data['package1Products'] = $package1Products;
         $data['purchasedProductIds'] = $purchasedProductIds;
         $data['data'] = $user;
@@ -276,9 +276,8 @@ class DashboardController extends Controller
     public function paymentcerate()
     {
         $user = auth()->user();
-        $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
         $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
-        if ($postCount >= 10 && !$user->package1_purchased && !$isBypassed) {
+        if ($user->is_reader == 0 && !$user->package1_purchased && !$isBypassed) {
             return '<div class="alert alert-danger">পেমেন্ট রিকোয়েস্ট করার আগে আপনাকে অবশ্যই প্যাকেজটি সংগ্রহ করতে হবে।</div>';
         }
 
@@ -330,9 +329,8 @@ class DashboardController extends Controller
         }
 
         $user = auth()->user();
-        $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
         $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
-        if ($postCount >= 10 && !$user->package1_purchased && !$isBypassed) {
+        if ($user->is_reader == 0 && !$user->package1_purchased && !$isBypassed) {
             return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
         }
 
