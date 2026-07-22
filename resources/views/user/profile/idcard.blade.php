@@ -95,13 +95,13 @@
             @if(!$isRestrictedUser)
             <div class="sig">
                 <div class="s1" >
-                   <img src="{{ asset('assets/idcard/MD Sir ID Card-03.png') }}" alt="">
+                   <img src="{{ asset('assets/idcard/MD Sir ID Card-03.jpeg') }}" alt="">
                 </div>
             </div>
             @endif
             <div class="signature">
                
-                <h5> Asia Khatun <br> Editor & Publisher</h5>
+                <h5> Mahmuda Khatun <br> Editor & Publisher</h5>
                 <div class="{{ $isRestrictedUser ? 'crossed-qr' : '' }}">
                     {!! QrCode::size(40)->generate($url) !!}
                     @if($isRestrictedUser)
