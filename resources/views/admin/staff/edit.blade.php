@@ -580,6 +580,7 @@
                             @endif
 
 
+                            @if(auth('admin')->check() && auth('admin')->id() == 1)
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="left-area">
@@ -619,6 +620,7 @@
                                     @endif
                                 </div>
                             </div>
+                            @endif
 
                             <div class="row">
                                 <div class="col-lg-12">
