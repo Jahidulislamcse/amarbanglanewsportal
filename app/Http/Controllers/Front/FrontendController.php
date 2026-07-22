@@ -1265,8 +1265,14 @@ class FrontendController extends Controller
                     $user->increment('views');
                 }
         
-                // Check if post was created today (current calendar day)
-                $isPostToday = $data->created_at && $data->created_at->isToday();
+                // Timezone-safe checks using Asia/Dhaka
+                $timezone = 'Asia/Dhaka';
+                $isPostToday = false;
+                if ($data->created_at) {
+                    $postDate = \Carbon\Carbon::parse($data->created_at)->timezone($timezone)->toDateString();
+                    $todayDate = \Carbon\Carbon::now($timezone)->toDateString();
+                    $isPostToday = ($postDate === $todayDate);
+                }
 
                 if ($data->user_id) {
                     $feesObj = \App\Models\Fee::first();
@@ -1274,7 +1280,13 @@ class FrontendController extends Controller
                     
                     $author = \App\Models\User::find($data->user_id);
                     if ($author) {
-                        $isWithinSevenDays = $data->created_at && $data->created_at >= now()->subDays(7);
+                        $isWithinSevenDays = false;
+                        if ($data->created_at) {
+                            $postTime = \Carbon\Carbon::parse($data->created_at)->timezone($timezone);
+                            $sevenDaysAgo = \Carbon\Carbon::now($timezone)->subDays(7)->startOfDay();
+                            $isWithinSevenDays = ($postTime >= $sevenDaysAgo);
+                        }
+                        
                         if ($isWithinSevenDays) {
                             $author->increment('views');
                             if ($repRate > 0) {
