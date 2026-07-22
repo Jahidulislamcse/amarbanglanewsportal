@@ -342,9 +342,13 @@ class PostController extends Controller
             ->editColumn('language_id', fn($data) =>
                 $data->language ? '<span class="badge badge-info">'.$data->language->language.'</span>' : ''
             )
-            ->editColumn('admin_id', fn($data) =>
-                $data->admin ? $data->admin->name : ($data->user ? $data->user->name : 'Deleted')
-            )
+            ->editColumn('admin_id', function(Post $data) {
+                $name = $data->admin ? $data->admin->name : ($data->user ? $data->user->name : 'Deleted');
+                $phone_a = $data->admin ? $data->admin->phone : '';
+                $phone_u = $data->user ? $data->user->phone : '';
+                $phone = $phone_a ?: $phone_u;
+                return $phone ? $name . '<br><small class="text-muted">' . $phone . '</small>' : $name;
+            })
             ->addColumn('is_approve', fn($data) =>
                 '<span class="badge badge-danger">Rejected</span>'
             )
@@ -365,7 +369,7 @@ class PostController extends Controller
                     </div>
                 </div>';
             })
-            ->rawColumns(['checkbox','image_big','category_id','language_id','is_approve','rejected_by','reject_reason','action'])
+            ->rawColumns(['checkbox','image_big','category_id','language_id','admin_id','is_approve','rejected_by','reject_reason','action'])
             ->make(true);
     }
 	
