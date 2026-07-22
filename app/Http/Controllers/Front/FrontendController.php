@@ -1254,6 +1254,8 @@ class FrontendController extends Controller
         $user = auth()->user();
         $cacheKey = 'post_view_' . $data->id . '_' . ($user ? 'user_' . $user->id : 'ip_' . $request->ip());
 
+        $readerBalanceIncremented = false;
+
         if (cache()->add($cacheKey, true, now()->addDay())) {
             $data->increment('view_count');
 
@@ -1329,9 +1331,14 @@ class FrontendController extends Controller
                         $user->increment('balance', $viewIncome);
                     }
                     $user->increment('view_income', $viewIncome);
+                    $readerBalanceIncremented = true;
                 }
             }
-            return response()->json(['status' => 'success', 'incremented' => true]);
+            return response()->json([
+                'status' => 'success', 
+                'incremented' => true,
+                'reader_balance_incremented' => $readerBalanceIncremented
+            ]);
         }
 
         return response()->json(['status' => 'success', 'incremented' => false, 'message' => 'Already counted today']);

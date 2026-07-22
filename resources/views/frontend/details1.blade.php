@@ -2241,8 +2241,13 @@
                 success: function(response) {
                     if (response.status === 'success') {
                         if (response.incremented) {
-                            document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
-                            document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated.";
+                            if (response.reader_balance_incremented) {
+                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
+                                document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated.";
+                            } else {
+                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
+                                document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ভিউ যুক্ত করা হয়েছে।" : "Your view has been registered.";
+                            }
                         } else {
                             document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "ধন্যবাদ!" : "Thank you!";
                             document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "লেখাটি ইতিমধ্যে পড়া হয়েছে।" : "You have already read this article today.";
