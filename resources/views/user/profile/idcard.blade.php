@@ -32,7 +32,7 @@
     $barcode = new DNS1D();
     $barcode->setStorPath('assets/idcard');
     
-    $code = $barcode->getBarcodePNGPath('amarbangla24.news', 'C128');
+    $code = 'data:image/png;base64,' . $barcode->getBarcodePNG('amarbangla24.com.bd', 'C128');
     
     $url = route('frontend.ourteam', [$data->id, $type]);
     
@@ -159,7 +159,7 @@
             </div>
 
             <div class="barcode">
-                <img src="{{ asset($code) }}" alt="Barcode">
+                <img src="{{ $code }}" alt="Barcode">
             </div>
 
             <div class="back-bar">
