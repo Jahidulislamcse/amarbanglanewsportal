@@ -97,7 +97,7 @@
                 ">
                     <i class="fas fa-info-circle text-white"></i>
                 </div>
-                <h4 style="margin: 0; font-weight: 700; font-size: 22px; color: #ffffff;">
+                <h4 style="margin: 0; font-weight: 700; font-size: 17px; color: #ffffff;">
                     পেমেন্ট রিকোয়েস্ট করার পূর্বে অবশ্যই সাংবাদিকতা প্যাকেজটি সংগ্রহ করতে হবে
                 </h4>
             </div>
