@@ -1278,6 +1278,7 @@ Route::any('/news-division/fetch','Front\FrontendController@fetchDivisionNews')-
 
 Route::get('/tag/{search}','Front\FrontendController@searchByTag')->name('tag.search');
 Route::get('/{category}/{slug}/{print?}','Front\FrontendController@details')->name('frontend.postBySubcategory.details');
+Route::post('/post/increment-view', 'Front\FrontendController@incrementView')->name('frontend.post.incrementView');
 
 Route::post('the/genius/ocean/2441139', 'Front\FrontendController@subscription');
 Route::get('finalize', 'Front\FrontendController@finalize');

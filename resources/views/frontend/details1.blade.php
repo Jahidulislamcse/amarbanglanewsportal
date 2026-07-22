@@ -2139,3 +2139,149 @@
         });
     </script>
 @endif
+
+@if($data->is_pending == 0)
+<!-- Stay Timer Border Visual Progress & AJAX View Increment -->
+<div class="stay-timer-border stay-timer-border-top"></div>
+<div class="stay-timer-border stay-timer-border-right"></div>
+<div class="stay-timer-border stay-timer-border-bottom"></div>
+<div class="stay-timer-border stay-timer-border-left"></div>
+
+<!-- Premium Toast Notification -->
+<div id="stay-timer-toast" style="display: none; position: fixed; bottom: 30px; right: 30px; background: rgba(30, 30, 30, 0.95); color: #fff; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); z-index: 1000000; font-family: 'Hind Siliguri', 'Inter', sans-serif; display: flex; align-items: center; gap: 12px; border-left: 4px solid #28a745; transform: translateY(100px); opacity: 0; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;">
+    <div style="background: rgba(40, 167, 69, 0.2); border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+    </div>
+    <div>
+        <h4 id="toast-title" style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">পড়া সম্পন্ন হয়েছে!</h4>
+        <p id="toast-message" style="margin: 3px 0 0 0; font-size: 13px; color: #ccc;">আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।</p>
+    </div>
+</div>
+
+<style>
+    .stay-timer-border {
+        position: fixed;
+        z-index: 999999;
+        pointer-events: none;
+        transition: opacity 0.5s ease-out;
+    }
+    .stay-timer-border-top {
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 0;
+        background: linear-gradient(to right, #c0001d, #ff6900);
+        box-shadow: 0 1px 5px rgba(255, 105, 0, 0.4);
+        animation: grow-top 30s linear forwards;
+    }
+    .stay-timer-border-right {
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 0;
+        background: linear-gradient(to bottom, #ff6900, #c0001d);
+        box-shadow: -1px 0 5px rgba(255, 105, 0, 0.4);
+        animation: grow-right 30s linear forwards;
+    }
+    .stay-timer-border-bottom {
+        bottom: 0;
+        right: 0;
+        height: 4px;
+        width: 0;
+        background: linear-gradient(to left, #c0001d, #ff6900);
+        box-shadow: 0 -1px 5px rgba(255, 105, 0, 0.4);
+        animation: grow-bottom 30s linear forwards;
+    }
+    .stay-timer-border-left {
+        bottom: 0;
+        left: 0;
+        width: 4px;
+        height: 0;
+        background: linear-gradient(to top, #ff6900, #c0001d);
+        box-shadow: 1px 0 5px rgba(255, 105, 0, 0.4);
+        animation: grow-left 30s linear forwards;
+    }
+
+    @keyframes grow-top {
+        0% { width: 0; }
+        25% { width: 100%; }
+        100% { width: 100%; }
+    }
+    @keyframes grow-right {
+        0%, 25% { height: 0; }
+        50% { height: 100%; }
+        100% { height: 100%; }
+    }
+    @keyframes grow-bottom {
+        0%, 50% { width: 0; }
+        75% { width: 100%; }
+        100% { width: 100%; }
+    }
+    @keyframes grow-left {
+        0%, 75% { height: 0; }
+        100% { height: 100%; }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var duration = 30000; // 30 seconds
+        
+        setTimeout(function() {
+            // Trigger AJAX request after 30 seconds
+            $.ajax({
+                url: "{{ route('frontend.post.incrementView') }}",
+                type: "POST",
+                data: {
+                    id: "{{ $data->id }}",
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (response.incremented) {
+                            document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
+                            document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated.";
+                        } else {
+                            document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "ধন্যবাদ!" : "Thank you!";
+                            document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "লেখাটি ইতিমধ্যে পড়া হয়েছে।" : "You have already read this article today.";
+                        }
+                        
+                        showToastNotification();
+                        
+                        // Slowly fade out the borders
+                        setTimeout(function() {
+                            document.querySelectorAll('.stay-timer-border').forEach(function(el) {
+                                el.style.opacity = '0';
+                            });
+                        }, 1000);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Failed to register page stay timer.", xhr);
+                }
+            });
+        }, duration);
+
+        function showToastNotification() {
+            var toast = document.getElementById('stay-timer-toast');
+            toast.style.display = 'flex';
+            toast.offsetHeight; // trigger reflow
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+            
+            setTimeout(hideToastNotification, 5000);
+        }
+
+        function hideToastNotification() {
+            var toast = document.getElementById('stay-timer-toast');
+            toast.style.transform = 'translateY(100px)';
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                toast.style.display = 'none';
+            }, 500);
+        }
+    });
+</script>
+@endif

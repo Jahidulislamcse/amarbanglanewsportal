@@ -1040,82 +1040,7 @@ class FrontendController extends Controller
             return view('errors.404');
         }
 
-        if (!$print && $data->is_pending == 0) {
-
-            $user = auth()->user();
-        
-            $cacheKey = 'post_view_' . $data->id . '_' . ($user ? 'user_' . $user->id : 'ip_' . $request->ip());
-        
-            // Use atomic cache add to prevent concurrency/race conditions
-            // Change duration to 24 hours (now()->addDay()) to prevent daily repetition
-            if (cache()->add($cacheKey, true, now()->addDay())) {
-        
-                $data->increment('view_count');
-
-                // Prevent self-view from triggering user view increments & earnings
-                $isSelfView = ($user && $data->user_id && $user->id == $data->user_id);
-
-                if (!$isSelfView) {
-                    if ($user && $user->is_reader != 0) {
-                        $user->increment('views');
-                    }
-            
-                    // Check if post was created today (current calendar day)
-                    $isPostToday = $data->created_at && $data->created_at->isToday();
-
-                    if ($data->user_id) {
-                        $feesObj = \App\Models\Fee::first();
-                        $repRate = $feesObj ? $feesObj->reporter_view_rate : 0.1;
-                        
-                        $author = \App\Models\User::find($data->user_id);
-                        if ($author) {
-                            $isWithinSevenDays = $data->created_at && $data->created_at >= now()->subDays(7);
-                            if ($isWithinSevenDays) {
-                                $author->increment('views');
-                                if ($repRate > 0) {
-                                    $author->increment('view_income', $repRate);
-                                    $author->increment('balance', $repRate);
-                                }
-                            }
-                        }
-                    }
-            
-                    // Only balance logic depends on this
-                    if ($isPostToday && $user) {
-            
-                        $fees = \App\Models\Fee::first();
-            
-                        $readerRates = [
-                            'free' => $fees->free_reader_rate,
-                            'executive' => $fees->executive_reader_rate,
-                            'vip' => $fees->vip_reader_rate,
-                        ];
-            
-                        $rate = $readerRates[$user->reader_type ?? 'free'] ?? 0;
-            
-                        if ($user->balance == 0) {
-            
-                            $views = $user->views;
-            
-                            $viewIncome = $views * $rate;
-            
-                            $referralIncome = $user->referral_earning ?? 0;
-            
-                            $total = $viewIncome + $referralIncome;
-            
-                            $user->increment('balance', $total);
-            
-                        } else {
-            
-                            $viewIncome = $rate;
-            
-                            $user->increment('balance', $viewIncome);
-                        }
-                        $user->increment('view_income', $viewIncome);
-                    }
-                }
-            }
-        }
+        // View and balance incrementing is now handled via AJAX incrementView() method after 30 seconds stay
 
         $division_news = cache()->remember("details_related_news_{$data->id}", 3600, function() use ($data) {
             return Post::select('id', 'category_id', 'slug', 'title', 'image_big')
@@ -1316,6 +1241,88 @@ class FrontendController extends Controller
             'quizWinners',
 			'weeklyWinners'
         ));
+    }
+
+    public function incrementView(Request $request)
+    {
+        $id = $request->id;
+        $data = Post::find($id);
+        if (!$data || $data->is_pending != 0) {
+            return response()->json(['status' => 'error', 'message' => 'Post not found or pending'], 404);
+        }
+
+        $user = auth()->user();
+        $cacheKey = 'post_view_' . $data->id . '_' . ($user ? 'user_' . $user->id : 'ip_' . $request->ip());
+
+        if (cache()->add($cacheKey, true, now()->addDay())) {
+            $data->increment('view_count');
+
+            // Prevent self-view from triggering user view increments & earnings
+            $isSelfView = ($user && $data->user_id && $user->id == $data->user_id);
+
+            if (!$isSelfView) {
+                if ($user && $user->is_reader != 0) {
+                    $user->increment('views');
+                }
+        
+                // Check if post was created today (current calendar day)
+                $isPostToday = $data->created_at && $data->created_at->isToday();
+
+                if ($data->user_id) {
+                    $feesObj = \App\Models\Fee::first();
+                    $repRate = $feesObj ? $feesObj->reporter_view_rate : 0.1;
+                    
+                    $author = \App\Models\User::find($data->user_id);
+                    if ($author) {
+                        $isWithinSevenDays = $data->created_at && $data->created_at >= now()->subDays(7);
+                        if ($isWithinSevenDays) {
+                            $author->increment('views');
+                            if ($repRate > 0) {
+                                $author->increment('view_income', $repRate);
+                                $author->increment('balance', $repRate);
+                            }
+                        }
+                    }
+                }
+        
+                // Only balance logic depends on this
+                if ($isPostToday && $user) {
+        
+                    $fees = \App\Models\Fee::first();
+        
+                    $readerRates = [
+                        'free' => $fees->free_reader_rate,
+                        'executive' => $fees->executive_reader_rate,
+                        'vip' => $fees->vip_reader_rate,
+                    ];
+        
+                    $rate = $readerRates[$user->reader_type ?? 'free'] ?? 0;
+        
+                    if ($user->balance == 0) {
+        
+                        $views = $user->views;
+        
+                        $viewIncome = $views * $rate;
+        
+                        $referralIncome = $user->referral_earning ?? 0;
+        
+                        $total = $viewIncome + $referralIncome;
+        
+                        $user->increment('balance', $total);
+        
+                    } else {
+        
+                        $viewIncome = $rate;
+        
+                        $user->increment('balance', $viewIncome);
+                    }
+                    $user->increment('view_income', $viewIncome);
+                }
+            }
+            return response()->json(['status' => 'success', 'incremented' => true]);
+        }
+
+        return response()->json(['status' => 'success', 'incremented' => false, 'message' => 'Already counted today']);
     }
 
 	public function searchByTag($s)
