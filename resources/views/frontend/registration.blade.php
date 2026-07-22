@@ -330,6 +330,33 @@ bootstrap-select .dropdown-menu li a {
                               novalidate>
                                 @include('includes.validation.form_validation')
                                 
+                                <div class="registration-prep-box" style="margin-bottom: 20px; background: #fdfefe; border: 1px solid #922B21; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                        <span style="font-size: 20px; color: #922B21; line-height: 1;">📝</span>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: bold; color: #922B21; font-size: 16px; margin-bottom: 5px;">
+                                                নিবন্ধনের জন্য প্রস্তুতি (প্রয়োজনীয় তথ্য ও ফাইল)
+                                            </div>
+                                            <div style="color: #444; font-size: 14px; line-height: 1.5;">
+                                                নিবন্ধন শুরু করার পূর্বে দয়া করে নিশ্চিত করুন যে নিম্নোক্ত তথ্য ও ফাইলগুলো আপনার কাছে প্রস্তুত আছে:
+                                                <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #555;">
+                                                    <li><strong>ব্যক্তিগত তথ্য:</strong> নাম (অবশ্যই বাংলায়), সচল মোবাইল নম্বর ও ইমেল, জন্ম তারিখ, রক্তের গ্রুপ, পিতা ও মাতার নাম।</li>
+                                                    <li><strong>এনআইডি তথ্য:</strong> জাতীয় পরিচয়পত্র (NID) নম্বর।</li>
+                                                    <li><strong>ঠিকানা:</strong> বর্তমান ও স্থায়ী ঠিকানার বিভাগ, জেলা, উপজেলা/থানা ও ইউনিয়ন।</li>
+                                                    <li><strong>অভিজ্ঞতা:</strong> গণমাধ্যমে কাজের পূর্ব অভিজ্ঞতা সংক্রান্ত তথ্য (যদি থাকে)।</li>
+                                                    <li><strong>আপলোডের জন্য প্রয়োজনীয় ফাইল (সর্বোচ্চ ২ মেগাবাইট, JPG/PNG ফরম্যাট):</strong>
+                                                        <ul style="margin: 4px 0 0 0; padding-left: 20px; list-style-type: circle;">
+                                                            <li>আপনার পাসপোর্ট সাইজের রঙিন ছবি</li>
+                                                            <li>আপনার স্পষ্ট স্বাক্ষর (সাদা কাগজে স্বাক্ষর করে ছবি তুলুন)</li>
+                                                            <li>জাতীয় পরিচয়পত্রের সামনের (Front) ও পিছনের (Back) অংশের ছবি</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="registration-notice-box" style="margin-bottom: 20px; background: #fffcf4; border: 1px solid #ffd480; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                                     <div style="display: flex; align-items: flex-start; gap: 10px;">
                                         <span style="font-size: 20px; color: #d9534f; line-height: 1;">⚠️</span>
@@ -351,9 +378,9 @@ bootstrap-select .dropdown-menu li a {
 
                                 @csrf
 
-                                <div class="segment-progress" aria-label="Registration steps">
-                                    <div class="segment-pill active" data-step-indicator="1">Step 1</div>
-                                    <div class="segment-pill" data-step-indicator="2">Step 2</div>
+                                <div class="segment-progress" aria-label="নিবন্ধনের ধাপসমূহ">
+                                    <div class="segment-pill active" data-step-indicator="1">ধাপ ১</div>
+                                    <div class="segment-pill" data-step-indicator="2">ধাপ ২</div>
                                 </div>
 
                                 <div class="register-segment is-active" data-segment="1">
@@ -768,6 +795,61 @@ bootstrap-select .dropdown-menu li a {
 </section>
 
 <script>
+// Auto-restore cache data as early as possible
+(function($) {
+    "use strict";
+    const CACHE_KEY = 'registration_form_cache';
+    const EXCLUDED_FIELDS = ['password', 'password_confirmation', 'nid', 'nid_back', 'photo', 'signature', '_token'];
+    try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+            const data = JSON.parse(raw);
+            if (data) {
+                // Restore values of inputs
+                $('#registerForm').find('input, select, textarea').each(function() {
+                    const $field = $(this);
+                    const name = $field.attr('name');
+                    if (!name || EXCLUDED_FIELDS.includes(name) || $field.attr('type') === 'hidden') {
+                        return;
+                    }
+                    const savedValue = data[name];
+                    if (savedValue === undefined || savedValue === null) return;
+
+                    const locationFields = [
+                        'division_id', 'district_id', 'thana_id', 'union_id',
+                        'permanent_division_id', 'permanent_district_id', 'permanent_thana_id', 'permanent_union_id'
+                    ];
+
+                    if (locationFields.includes(name)) {
+                        $field.attr('data-selected', savedValue);
+                        $field.data('selected', savedValue);
+                    } else if ($field.attr('type') === 'radio') {
+                        if ($field.val() == savedValue) {
+                            $field.prop('checked', true);
+                        }
+                    } else if ($field.attr('type') === 'checkbox') {
+                        if (name.endsWith('[]')) {
+                            if (Array.isArray(savedValue) && savedValue.includes($field.val())) {
+                                $field.prop('checked', true);
+                            }
+                        } else {
+                            if ($field.val() == savedValue) {
+                                $field.prop('checked', true);
+                            }
+                        }
+                    } else {
+                        $field.val(savedValue);
+                    }
+                });
+            }
+        }
+    } catch (e) {
+        console.error('Failed to restore registration cache:', e);
+    }
+})(jQuery);
+</script>
+
+<script>
 
 const registerSegments = {
     name: 1,
@@ -1047,6 +1129,44 @@ function showServerErrors(errors) {
 $(document).ready(function() {
     showSegment(1);
 
+    const CACHE_KEY = 'registration_form_cache';
+    const EXCLUDED_FIELDS = ['password', 'password_confirmation', 'nid', 'nid_back', 'photo', 'signature', '_token'];
+
+    function saveFormData() {
+        try {
+            let data = {};
+            $('#registerForm').find('input, select, textarea').each(function() {
+                const $field = $(this);
+                const name = $field.attr('name');
+                if (!name || EXCLUDED_FIELDS.includes(name) || $field.attr('type') === 'hidden') {
+                    return;
+                }
+
+                if ($field.attr('type') === 'radio') {
+                    if ($field.is(':checked')) {
+                        data[name] = $field.val();
+                    }
+                } else if ($field.attr('type') === 'checkbox') {
+                    if (!data[name]) {
+                        data[name] = [];
+                    }
+                    if ($field.is(':checked')) {
+                        data[name].push($field.val());
+                    }
+                } else {
+                    data[name] = $field.val();
+                }
+            });
+            localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.error('Failed to save registration cache:', e);
+        }
+    }
+
+    $('#registerForm').on('input change', 'input, select, textarea', function() {
+        saveFormData();
+    });
+
     $('#segmentNextBtn').on('click', function() {
         if (validateSegment(1)) {
             showSegment(2);
@@ -1196,6 +1316,7 @@ $("#verifyOtpBtn").click(function(){
 
             if(res.success){
 
+                localStorage.removeItem('registration_form_cache');
                 window.location.href =
                 res.url;
 
