@@ -206,9 +206,41 @@ class DashboardController extends Controller
 	
 	 public function paymentrequest()
     {
-        $data = auth()->user();
-    
-        return view('user.profile.paymentrequest', compact('data'));
+        $user = auth()->user();
+        
+        // Check user's previously purchased products
+        $purchasedProductIds = \App\Models\OrderItem::whereHas('order.payment', function ($q) {
+            $q->where('status', 'paid');
+        })
+        ->whereHas('order', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })
+        ->pluck('product_id')
+        ->unique()
+        ->toArray();
+
+        $package1Products = Product::where('package', 'package1')->where('is_active', true)->get();
+        
+        // Auto-heal package1_purchased flag if they already bought all package1 items
+        $package1ProductIds = $package1Products->pluck('id')->toArray();
+        if (!empty($package1ProductIds)) {
+            $missingIds = array_diff($package1ProductIds, $purchasedProductIds);
+            if (empty($missingIds) && $user->package1_purchased == 0) {
+                $user->update(['package1_purchased' => 1]);
+            }
+        }
+
+        $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
+
+        $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
+
+        $data['postCount'] = $postCount;
+        $data['blockUser'] = ($postCount >= 10 && !$user->package1_purchased && !$isBypassed);
+        $data['package1Products'] = $package1Products;
+        $data['purchasedProductIds'] = $purchasedProductIds;
+        $data['data'] = $user;
+
+        return view('user.profile.paymentrequest', $data);
     }
     
     public function reader_paymentrequest()
@@ -243,6 +275,13 @@ class DashboardController extends Controller
     
     public function paymentcerate()
     {
+        $user = auth()->user();
+        $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
+        $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
+        if ($postCount >= 10 && !$user->package1_purchased && !$isBypassed) {
+            return '<div class="alert alert-danger">পেমেন্ট রিকোয়েস্ট করার আগে আপনাকে অবশ্যই প্যাকেজটি সংগ্রহ করতে হবে।</div>';
+        }
+
         $fees = Fee::first();
         $reporterRate = $fees ? $fees->reporter_view_rate : 0.1;
     
@@ -291,6 +330,12 @@ class DashboardController extends Controller
         }
 
         $user = auth()->user();
+        $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
+        $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
+        if ($postCount >= 10 && !$user->package1_purchased && !$isBypassed) {
+            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
+        }
+
         $user_amount = (float) $request->user_amount;
         $request_amount = (float) $request->request_amount;
 
