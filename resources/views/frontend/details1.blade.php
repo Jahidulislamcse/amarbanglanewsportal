@@ -2141,13 +2141,14 @@
 @endif
 
 @if($data->is_pending == 0)
-<!-- Stay Timer Border Visual Progress & AJAX View Increment -->
+<!-- Stay Timer Border Visual Progress & AJAX View Increment (Commented out for now)
 <div class="stay-timer-border stay-timer-border-top"></div>
 <div class="stay-timer-border stay-timer-border-right"></div>
 <div class="stay-timer-border stay-timer-border-bottom"></div>
 <div class="stay-timer-border stay-timer-border-left"></div>
+-->
 
-<!-- Premium Toast Notification -->
+<!-- Premium Toast Notification (Commented out for now)
 <div id="stay-timer-toast" style="display: none; position: fixed; bottom: 30px; right: 30px; background: rgba(30, 30, 30, 0.95); color: #fff; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); z-index: 1000000; font-family: 'Hind Siliguri', 'Inter', sans-serif; display: flex; align-items: center; gap: 12px; border-left: 4px solid #28a745; transform: translateY(100px); opacity: 0; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;">
     <div style="background: rgba(40, 167, 69, 0.2); border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -2159,7 +2160,9 @@
         <p id="toast-message" style="margin: 3px 0 0 0; font-size: 13px; color: #ccc;">আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।</p>
     </div>
 </div>
+-->
 
+<!-- Styles commented out for now
 <style>
     .stay-timer-border {
         position: fixed;
@@ -2224,6 +2227,7 @@
         100% { height: 100%; }
     }
 </style>
+-->
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -2240,6 +2244,8 @@
                 },
                 success: function(response) {
                     if (response.status === 'success') {
+                        // Toast notification and border fading commented out for now
+                        /*
                         if (response.incremented) {
                             document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
                             document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated.";
@@ -2256,6 +2262,7 @@
                                 el.style.opacity = '0';
                             });
                         }, 1000);
+                        */
                     }
                 },
                 error: function(xhr) {
@@ -2264,6 +2271,7 @@
             });
         }, duration);
 
+        /* Toast notification functions commented out for now
         function showToastNotification() {
             var toast = document.getElementById('stay-timer-toast');
             toast.style.display = 'flex';
@@ -2282,6 +2290,7 @@
                 toast.style.display = 'none';
             }, 500);
         }
+        */
     });
 </script>
 @endif
