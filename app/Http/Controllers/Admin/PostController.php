@@ -365,6 +365,16 @@ class PostController extends Controller
                     if ($reporter->phone) {
                         $repText .= ' (' . $reporter->phone . ')';
                     }
+                    if ($reporter->report_type) {
+                        $reportType = json_decode($reporter->report_type, true);
+                        $reportTypeId = $reportType[0] ?? null;
+                        if ($reportTypeId) {
+                            $area = getReporterAreaName($data->language_id, $reportTypeId, $reporter);
+                            if ($area) {
+                                $repText .= '<br><small class="text-muted">Area: ' . $area . '</small>';
+                            }
+                        }
+                    }
                     $html[] = $repText;
                 }
                 
