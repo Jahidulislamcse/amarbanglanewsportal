@@ -324,6 +324,18 @@ class PostController extends Controller
         $query->orderBy('id','desc');
     
         return Datatables::of($query)
+            ->filterColumn('admin_id', function($query, $keyword) {
+                $query->where(function($q) use ($keyword) {
+                    $q->whereHas('admin', function($sq) use ($keyword) {
+                        $sq->where('name', 'like', "%{$keyword}%")
+                           ->orWhere('phone', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('user', function($sq) use ($keyword) {
+                        $sq->where('name', 'like', "%{$keyword}%")
+                           ->orWhere('phone', 'like', "%{$keyword}%");
+                    });
+                });
+            })
             ->addColumn('checkbox', fn($data) =>
                 '<input type="checkbox" class="form-check-input m-0 p-0 postCheck" value="'.$data->id.'">'
             )
@@ -343,11 +355,37 @@ class PostController extends Controller
                 $data->language ? '<span class="badge badge-info">'.$data->language->language.'</span>' : ''
             )
             ->editColumn('admin_id', function(Post $data) {
-                $name = $data->admin ? $data->admin->name : ($data->user ? $data->user->name : 'Deleted');
-                $phone_a = $data->admin ? $data->admin->phone : '';
-                $phone_u = $data->user ? $data->user->phone : '';
-                $phone = $phone_a ?: $phone_u;
-                return $phone ? $name . '<br><small class="text-muted">' . $phone . '</small>' : $name;
+                $author = $data->admin;
+                $reporter = $data->user;
+                
+                $html = [];
+                
+                if ($reporter && $reporter->name) {
+                    $repText = 'Reporter: ' . $reporter->name;
+                    if ($reporter->phone) {
+                        $repText .= ' (' . $reporter->phone . ')';
+                    }
+                    $html[] = $repText;
+                }
+                
+                if ($author && $author->name) {
+                    $authText = 'Author: ' . $author->name;
+                    if ($author->phone) {
+                        $authText .= ' (' . $author->phone . ')';
+                    }
+                    $html[] = $authText;
+                }
+                
+                if (empty($html)) {
+                    return 'Deleted';
+                }
+                
+                if (count($html) === 1) {
+                    $single = $html[0];
+                    return preg_replace('/^(Reporter|Author):\s*/', '', $single);
+                }
+                
+                return implode('<br>', $html);
             })
             ->addColumn('is_approve', fn($data) =>
                 '<span class="badge badge-danger">Rejected</span>'
