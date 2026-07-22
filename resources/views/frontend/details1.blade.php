@@ -2172,8 +2172,8 @@
         left: 0;
         height: 8px;
         width: 0;
-        background: linear-gradient(to right, #28a745, #00d084);
-        box-shadow: 0 2px 8px rgba(0, 208, 132, 0.5);
+        background: linear-gradient(to right, #c0001d, #28a745);
+        box-shadow: 0 2px 8px rgba(192, 0, 29, 0.4);
         animation: grow-top 30s linear forwards;
     }
     .stay-timer-border-right {
@@ -2181,8 +2181,8 @@
         right: 0;
         width: 8px;
         height: 0;
-        background: linear-gradient(to bottom, #00d084, #28a745);
-        box-shadow: -2px 0 8px rgba(0, 208, 132, 0.5);
+        background: linear-gradient(to bottom, #28a745, #c0001d);
+        box-shadow: -2px 0 8px rgba(40, 167, 69, 0.4);
         animation: grow-right 30s linear forwards;
     }
     .stay-timer-border-bottom {
@@ -2190,8 +2190,8 @@
         right: 0;
         height: 8px;
         width: 0;
-        background: linear-gradient(to left, #28a745, #00d084);
-        box-shadow: 0 -2px 8px rgba(0, 208, 132, 0.5);
+        background: linear-gradient(to left, #c0001d, #28a745);
+        box-shadow: 0 -2px 8px rgba(192, 0, 29, 0.4);
         animation: grow-bottom 30s linear forwards;
     }
     .stay-timer-border-left {
@@ -2199,8 +2199,8 @@
         left: 0;
         width: 8px;
         height: 0;
-        background: linear-gradient(to top, #00d084, #28a745);
-        box-shadow: 2px 0 8px rgba(0, 208, 132, 0.5);
+        background: linear-gradient(to top, #28a745, #c0001d);
+        box-shadow: 2px 0 8px rgba(40, 167, 69, 0.4);
         animation: grow-left 30s linear forwards;
     }
 
