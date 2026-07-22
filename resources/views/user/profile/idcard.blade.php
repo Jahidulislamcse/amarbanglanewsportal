@@ -95,7 +95,7 @@
             @if(!$isRestrictedUser)
             <div class="sig">
                 <div class="s1" >
-                   <img src="{{ asset('assets/idcard/MD Sir ID Card-03.png') }}" alt="">
+                   <img src="{{ asset('assets/idcard/publisher.png') }}" alt="">
                 </div>
             </div>
             @endif
