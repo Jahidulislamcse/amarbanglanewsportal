@@ -8,10 +8,7 @@
     
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<meta name="google-adsense-account" content="ca-pub-3911918675338770">
-	
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3911918675338770"
-     crossorigin="anonymous"></script>
+
 
 	<link rel="icon" href="{{ asset('assets/images/'.$gs->favicon) }}" type="image/png">
 	@include('includes.pwa-head')
