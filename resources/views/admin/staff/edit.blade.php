@@ -113,7 +113,9 @@
                                 <div class="user-image-card">
                                     <h4>{{ __('Signature') }}</h4>
                                     <img id="signature-preview" src="{{ $data->id ? asset('assets/images/admin/' . $data->id . '.png') : asset('assets/images/noimage.png') }}" alt="Signature">
+                                    <input type="file" name="signature" id="signature-upload" accept="image/*">
                                     <div class="user-image-actions">
+                                        <label for="signature-upload" class="btn btn-primary btn-sm">{{ __('Upload') }}</label>
                                         <a class="btn btn-info btn-sm" href="{{ $data->id ? asset('assets/images/admin/' . $data->id . '.png') : asset('assets/images/noimage.png') }}" target="_blank">{{ __('View') }}</a>
                                     </div>
                                 </div>
@@ -648,15 +650,14 @@
 
                 if (!file || !file.type.match(/^image\//)) return;
 
-                preview.style.backgroundImage = `url("${URL.createObjectURL(file)}")`;
-                preview.style.backgroundSize = 'cover';
-                preview.style.backgroundPosition = 'center';
+                preview.src = URL.createObjectURL(file);
             });
         }
 
         bindAdminImagePreview('nid-front-upload', 'nid-front-preview');
         bindAdminImagePreview('nid-back-upload', 'nid-back-preview');
         bindAdminImagePreview('photo-upload', 'photo-preview');
+        bindAdminImagePreview('signature-upload', 'signature-preview');
 
         const checkboxes = document.querySelectorAll('.single-select-checkbox');
         checkboxes.forEach(function(checkbox) {

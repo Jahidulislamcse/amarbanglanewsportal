@@ -871,6 +871,7 @@ class StaffController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'nid' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'nid_back' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'signature' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'permanent_division_id' => 'required',
             'permanent_district_id' => 'required',
             'permanent_thana_id' => 'required',
@@ -916,7 +917,7 @@ class StaffController extends Controller
 		
 		if ($file = $request->file('signature'))
 		{
-			$insertedId = $input['id'];
+			$insertedId = $id;
 			$customExtension = 'png';
 			$name = $insertedId .  '.' . $customExtension;
 			$file->move('assets/images/admin/',$name);
