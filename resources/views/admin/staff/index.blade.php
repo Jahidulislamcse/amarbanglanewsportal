@@ -361,9 +361,10 @@
                                     <th>Division</th>
                                     <th>{{ __('District') }}</th>
                                     <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
-                                    <th>{{ __('Pending News') }}</th>
-                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Pending') }}</th>
+                                    <th>{{ __('Rejected') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -393,6 +394,7 @@
                                     <th>Division</th>
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Rejected News') }}</th>
@@ -426,6 +428,7 @@
                                     <th>Division</th>
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Rejected News') }}</th>
@@ -459,6 +462,7 @@
                                     <th>Division</th>
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
                                     <th>{{ __('7D Posts') }}</th>
                                     <th>{{ __('Pending News') }}</th>
                                     <th>{{ __('Rejected News') }}</th>
@@ -492,7 +496,10 @@
                                     <th>Division</th>
                                     <th>District</th>
                                     <th>{{ __('Next Payment') }}</th>
-                                    <th>{{ __('Posts Count') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
                                     <th>{{ __('Views') }}</th>
                                     <th>{{ __('Balance') }}</th>
                                     <th>{{ __('Orders') }}</th>
@@ -696,13 +703,10 @@
             { data: 'next_payment_date', name: 'users.next_payment_date' }
         ];
 
-        if (statusFilter === 'no_purchase_with_posts') {
-            cols.push({ data: 'posts_count', name: 'posts_count', searchable: false });
-        } else {
-            cols.push({ data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false });
-            cols.push({ data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' });
-            cols.push({ data: 'rejected_posts_count', name: 'rejected_posts_count', searchable: false, defaultContent: '0' });
-        }
+        cols.push({ data: 'total_posts_count', name: 'total_posts_count', searchable: false, defaultContent: '0' });
+        cols.push({ data: 'last_7_days_posts_count', name: 'last_7_days_posts_count', searchable: false, defaultContent: '0' });
+        cols.push({ data: 'pending_posts_count', name: 'pending_posts_count', searchable: false, defaultContent: '0' });
+        cols.push({ data: 'rejected_posts_count', name: 'rejected_posts_count', searchable: false, defaultContent: '0' });
 
         cols.push(
             { data: 'total_views', name: 'users.views' },
