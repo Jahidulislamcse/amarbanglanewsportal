@@ -114,7 +114,7 @@ class ArticleController extends Controller
         $postCount = Post::where('user_id', $user->id)->where('is_pending', 0)->count();
         $isBypassed = $user->package_bypass_until && \Carbon\Carbon::parse($user->package_bypass_until)->isFuture();
         if ($postCount >= 10 && !$user->package1_purchased && !$isBypassed) {
-            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
+            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নির্ধারিত Accessories গুলো সংগ্রহ করুন।']]]);
         }
 
         $rules = [

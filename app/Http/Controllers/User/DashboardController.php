@@ -275,7 +275,7 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         if ($user->is_reader == 0 && !$user->package1_purchased) {
-            return '<div class="alert alert-danger">পেমেন্ট রিকোয়েস্ট করার আগে আপনাকে অবশ্যই প্যাকেজটি সংগ্রহ করতে হবে।</div>';
+            return '<div class="alert alert-danger">প্রফেশনাল সাংবাদিকতার জন্য নিচের নির্ধারিত Accessories গুলো এখনই সংগ্রহ করুন।</div>';
         }
 
         $fees = Fee::first();
@@ -327,7 +327,7 @@ class DashboardController extends Controller
 
         $user = auth()->user();
         if ($user->is_reader == 0 && !$user->package1_purchased) {
-            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নিচের প্যাকেজটি অর্ডার করুন।']]]);
+            return response()->json(['errors' => ['package' => ['আপনার সাংবাদিকতার পরিচয়কে আরও পেশাদার করুন। অফিসিয়াল আইডি কার্ড, ভিজিটিং কার্ডসহ প্রয়োজনীয় সাংবাদিকতা সামগ্রী এবং আরও সংবাদ প্রকাশের সুবিধা পেতে নির্ধারিত Accessories গুলো এখনই সংগ্রহ করুন।।']]]);
         }
 
         $user_amount = (float) $request->user_amount;
