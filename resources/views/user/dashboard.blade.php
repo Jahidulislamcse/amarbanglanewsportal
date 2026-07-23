@@ -721,6 +721,90 @@
                     </div>
                 </div>
 
+                <div class="col-md-12 offer-wrap">
+                    <div class="mt-5 ">
+                        <h4 class="mb-3">Books</h4>
+                        <div class="row">
+                            @foreach ($books as $book)
+                                @php
+                                    // Check if the user has a purchase record for this book, prioritizing approved, then pending, then rejected
+                                    $purchase = \App\Models\BookPurchase::where('user_id', auth()->id())
+                                        ->where('book_id', $book->id)
+                                        ->orderByRaw(
+                                            "CASE WHEN status = 'approved' THEN 1 WHEN status = 'pending' THEN 2 ELSE 3 END",
+                                        )
+                                        ->first();
+                                @endphp
+
+                                <div class="col-md-3 mb-4 ">
+                                    <div class="card h-100 shadow-sm">
+                                        <img src="{{ $book->cover ? asset('assets/images/books/' . $book->cover) : asset('assets/images/default-cover.png') }}"
+                                            class="card-img-top" alt="{{ $book->title }}"
+                                            style="height:200px; object-fit:cover;">
+
+                                        <div class="card-body d-flex flex-column pb-3">
+                                            <h6 class="card-title mt-3">{{ $book->title }}</h6>
+                                            <p class="text-muted mb-2">৳{{ $book->price }}</p>
+
+                                            @if ($purchase && $purchase->status === 'approved')
+                                                <button class="btn btn-success btn-sm mt-auto w-100"
+                                                    onclick="openPDF('{{ asset('assets/pdfs/books/' . $book->pdf_file) }}')">
+                                                    Open Book
+                                                </button>
+                                            @elseif($purchase && $purchase->status === 'pending')
+                                                <button class="btn btn-secondary btn-sm mt-auto w-100" disabled>
+                                                    Payment Waiting for approval
+                                                </button>
+                                            @else
+                                                <!-- In your Blade template, for each book -->
+                                                <button class="btn btn-warning mt-auto w-100 toggle-pay-section"
+                                                    data-target="#paySection{{ $book->id }}">
+                                                    Locked – Pay Now
+                                                </button>
+
+                                                <div class="pay-section collapse mt-2"
+                                                    id="paySection{{ $book->id }}">
+                                                    <form action="{{ route('book.pay', $book->id) }}" method="POST"
+                                                        class="p-2 bg-light">
+                                                        @csrf
+                                                        <p>Price: <strong>৳{{ $book->price }}</strong></p>
+                                                        <p>Continue to EPS to complete this payment automatically.</p>
+
+                                                        <div class="mb-2">
+                                                            <label for="phone_number_{{ $book->id }}">Contact
+                                                                Number</label>
+                                                            <input type="text" class="form-control"
+                                                                name="phone_number" id="phone_number_{{ $book->id }}"
+                                                                value="{{ auth()->user()->phone ?? '' }}" required>
+                                                        </div>
+
+                                                        <input type="hidden" name="operator" value="EPS">
+
+                                                        <button type="submit" class="btn btn-primary w-100">Pay with
+                                                            EPS</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="pdfViewerModal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body" style="height:90vh;">
+                                    <iframe id="pdfViewerFrame" width="100%" height="100%"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="col-md-12 products-section">
                     <div class="row p-4">
@@ -926,7 +1010,8 @@
                     <div class="mycard"
                         style="padding:20px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
                         <div class="left">
-                            <h5 class="title" style="font-size:14px; color:#fff;">{{ __('Team Commission (Lifetime)') }}
+                            <h5 class="title" style="font-size:14px; color:#fff;">
+                                {{ __('Team Commission (Lifetime)') }}
                             </h5>
                             <span class="number" style="color:#fff;">{{ $product_commission }}</span>
                         </div>
@@ -1070,86 +1155,7 @@
             $alreadyShown = cache()->has($cacheKey);
         @endphp
 
-        <div class="col-md-12 offer-wrap">
-            <div class="mt-5 ">
-                <h4 class="mb-3">Books</h4>
-                <div class="row">
-                    @foreach ($books as $book)
-                        @php
-                            // Check if the user has a purchase record for this book, prioritizing approved, then pending, then rejected
-                            $purchase = \App\Models\BookPurchase::where('user_id', auth()->id())
-                                ->where('book_id', $book->id)
-                                ->orderByRaw(
-                                    "CASE WHEN status = 'approved' THEN 1 WHEN status = 'pending' THEN 2 ELSE 3 END",
-                                )
-                                ->first();
-                        @endphp
 
-                        <div class="col-md-3 mb-4 ">
-                            <div class="card h-100 shadow-sm">
-                                <img src="{{ $book->cover ? asset('assets/images/books/' . $book->cover) : asset('assets/images/default-cover.png') }}"
-                                    class="card-img-top" alt="{{ $book->title }}"
-                                    style="height:200px; object-fit:cover;">
-
-                                <div class="card-body d-flex flex-column pb-3">
-                                    <h6 class="card-title mt-3">{{ $book->title }}</h6>
-                                    <p class="text-muted mb-2">৳{{ $book->price }}</p>
-
-                                    @if ($purchase && $purchase->status === 'approved')
-                                        <button class="btn btn-success btn-sm mt-auto w-100"
-                                            onclick="openPDF('{{ asset('assets/pdfs/books/' . $book->pdf_file) }}')">
-                                            Open Book
-                                        </button>
-                                    @elseif($purchase && $purchase->status === 'pending')
-                                        <button class="btn btn-secondary btn-sm mt-auto w-100" disabled>
-                                            Payment Waiting for approval
-                                        </button>
-                                    @else
-                                        <!-- In your Blade template, for each book -->
-                                        <button class="btn btn-warning mt-auto w-100 toggle-pay-section"
-                                            data-target="#paySection{{ $book->id }}">
-                                            Locked – Pay Now
-                                        </button>
-
-                                        <div class="pay-section collapse mt-2" id="paySection{{ $book->id }}">
-                                            <form action="{{ route('book.pay', $book->id) }}" method="POST"
-                                                class="p-2 bg-light">
-                                                @csrf
-                                                <p>Price: <strong>৳{{ $book->price }}</strong></p>
-                                                <p>Continue to EPS to complete this payment automatically.</p>
-
-                                                <div class="mb-2">
-                                                    <label for="phone_number_{{ $book->id }}">Contact Number</label>
-                                                    <input type="text" class="form-control" name="phone_number"
-                                                        id="phone_number_{{ $book->id }}"
-                                                        value="{{ auth()->user()->phone ?? '' }}" required>
-                                                </div>
-
-                                                <input type="hidden" name="operator" value="EPS">
-
-                                                <button type="submit" class="btn btn-primary w-100">Pay with EPS</button>
-                                            </form>
-                                        </div>
-                                    @endif
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-
-            <div class="modal fade" id="pdfViewerModal">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-body" style="height:90vh;">
-                            <iframe id="pdfViewerFrame" width="100%" height="100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="course-wrapper mt-5">
 
@@ -1771,7 +1777,7 @@
 
                     document.getElementById('carouselInner').innerHTML = carouselHTML;
                     document.getElementById('productDetailModalLabel').innerText = this.dataset
-                    .name;
+                        .name;
                     document.getElementById('modalProductName').innerText = this.dataset.name;
                     document.getElementById('modalProductPrice').innerText = this.dataset.price;
                     document.getElementById('modalProductStock').innerText = this.dataset.stock;
@@ -1873,7 +1879,7 @@
                         if (checkbox && !checkbox.checked) {
                             const addFita = confirm(
                                 "সম্মানিত গ্রাহক, আইডি কার্ডের সাথে প্রেস ফিতা (Press Fita) প্রয়োজনীয়। আপনি কি এটি আপনার অর্ডারে যুক্ত করতে চান?\n\nDear customer, Press Fita is required with ID Card. Do you want to add it to your order?"
-                                );
+                            );
                             if (addFita) {
                                 checkbox.checked = true;
                                 const qtyWrapper = pressFitaItem.querySelector(
@@ -1946,7 +1952,7 @@
                     const addonSlug = itemWrapper.dataset.slug;
                     if (addonSlug === 'ti-sart') {
                         const addonSizeSelect = itemWrapper.querySelector(
-                        '.cross-sell-size-select');
+                            '.cross-sell-size-select');
                         if (addonSizeSelect) {
                             const addonSize = addonSizeSelect.value;
                             addonName += ` (Size: ${addonSize})`;
@@ -2056,7 +2062,7 @@
                     if (hasIdCard && !hasPressFita && pressFitaCheckbox && pressFitaCard) {
                         const addFita = confirm(
                             "সম্মানিত গ্রাহক, আইডি কার্ডের সাথে প্রেস ফিতা (Press Fita) প্রয়োজনীয়। আপনি কি এটি আপনার অর্ডারে যুক্ত করতে চান?\n\nDear customer, Press Fita is required with ID Card. Do you want to add it to your order?"
-                            );
+                        );
                         if (addFita) {
                             pressFitaCheckbox.checked = true;
                             hasPressFita = true;
