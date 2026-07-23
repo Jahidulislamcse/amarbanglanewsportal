@@ -87,7 +87,7 @@
 												$firstGenUsers = $genUsers[1] ?? [];
 											@endphp
 											@if(count($firstGenUsers) > 0)
-												<ul class="list-unstyled mb-0">
+												<ul class="list-unstyled mb-0 mt-3">
 													@foreach($firstGenUsers as $u)
 														<li class="media mb-3 align-items-center">
 															<img src="{{ $u->photo ? asset('assets/images/admin/' . $u->photo) : asset('assets/images/default_user.png') }}" 
