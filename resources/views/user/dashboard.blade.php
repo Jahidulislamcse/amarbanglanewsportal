@@ -726,6 +726,16 @@
                         <h4 class="mb-3">Books</h4>
                         <div class="row">
                             @foreach ($books as $book)
+                                @php
+                                    // Check if the user has a purchase record for this book, prioritizing approved, then pending, then rejected
+                                    $purchase = \App\Models\BookPurchase::where('user_id', auth()->id())
+                                        ->where('book_id', $book->id)
+                                        ->orderByRaw(
+                                            "CASE WHEN status = 'approved' THEN 1 WHEN status = 'pending' THEN 2 ELSE 3 END",
+                                        )
+                                        ->first();
+                                @endphp
+
                                 <div class="col-md-3 mb-4 ">
                                     <div class="card h-100 shadow-sm">
                                         <img src="{{ $book->cover ? asset('assets/images/books/' . $book->cover) : asset('assets/images/default-cover.png') }}"
@@ -736,15 +746,44 @@
                                             <h6 class="card-title mt-3">{{ $book->title }}</h6>
                                             <p class="text-muted mb-2">৳{{ $book->price }}</p>
 
-                                            @if (auth()->user()->package1_purchased == 1)
+                                            @if (auth()->user()->package1_purchased == 1 || ($purchase && $purchase->status === 'approved'))
                                                 <button class="btn btn-success btn-sm mt-auto w-100"
                                                     onclick="openPDF('{{ asset('assets/pdfs/books/' . $book->pdf_file) }}')">
                                                     Open Book
                                                 </button>
-                                            @else
+                                            @elseif($purchase && $purchase->status === 'pending')
                                                 <button class="btn btn-secondary btn-sm mt-auto w-100" disabled>
-                                                    <i class="fas fa-lock mr-1"></i> Locked
+                                                    Payment Waiting for approval
                                                 </button>
+                                            @else
+                                                <!-- In your Blade template, for each book -->
+                                                <button class="btn btn-warning mt-auto w-100 toggle-pay-section"
+                                                    data-target="#paySection{{ $book->id }}">
+                                                    Locked – Pay Now
+                                                </button>
+
+                                                <div class="pay-section collapse mt-2"
+                                                    id="paySection{{ $book->id }}">
+                                                    <form action="{{ route('book.pay', $book->id) }}" method="POST"
+                                                        class="p-2 bg-light">
+                                                        @csrf
+                                                        <p>Price: <strong>৳{{ $book->price }}</strong></p>
+                                                        <p>Continue to EPS to complete this payment automatically.</p>
+
+                                                        <div class="mb-2">
+                                                            <label for="phone_number_{{ $book->id }}">Contact
+                                                                Number</label>
+                                                            <input type="text" class="form-control"
+                                                                name="phone_number" id="phone_number_{{ $book->id }}"
+                                                                value="{{ auth()->user()->phone ?? '' }}" required>
+                                                        </div>
+
+                                                        <input type="hidden" name="operator" value="EPS">
+
+                                                        <button type="submit" class="btn btn-primary w-100">Pay with
+                                                            EPS</button>
+                                                    </form>
+                                                </div>
                                             @endif
 
                                         </div>
