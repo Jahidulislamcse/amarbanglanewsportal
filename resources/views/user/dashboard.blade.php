@@ -725,6 +725,21 @@
                     <div class="mt-5 ">
                         <h4 class="mb-3">Books</h4>
                         <div class="row">
+                            @php
+                                $unlockedByProduct = \App\Models\OrderItem::whereHas('order.payment', function ($q) {
+                                        $q->where('status', 'paid');
+                                    })
+                                    ->whereHas('order', function ($q) {
+                                        $q->where('user_id', auth()->id());
+                                    })
+                                    ->where(function ($q) {
+                                        $q->where('product_id', 11)
+                                          ->orWhereHas('product', function ($pq) {
+                                              $pq->where('slug', 'sangbadikta-bi-pdf');
+                                          });
+                                    })
+                                    ->exists();
+                            @endphp
                             @foreach ($books as $book)
                                 @php
                                     // Check if the user has a purchase record for this book, prioritizing approved, then pending, then rejected
@@ -746,7 +761,7 @@
                                             <h6 class="card-title mt-3">{{ $book->title }}</h6>
                                             <p class="text-muted mb-2">৳{{ $book->price }}</p>
 
-                                            @if (auth()->user()->package1_purchased == 1 || ($purchase && $purchase->status === 'approved'))
+                                            @if (auth()->user()->package1_purchased == 1 || $unlockedByProduct || ($purchase && $purchase->status === 'approved'))
                                                 <button class="btn btn-success btn-sm mt-auto w-100"
                                                     onclick="openPDF('{{ asset('assets/pdfs/books/' . $book->pdf_file) }}')">
                                                     Open Book
