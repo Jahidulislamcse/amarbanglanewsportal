@@ -425,8 +425,9 @@ class StaffController extends Controller
     
 	
 	public function userPostdatatables(Request $request){
+            $reporterRate = DB::table('fees')->value('reporter_view_rate') ?? 0.01;
 			$datas = Post::where('user_id', $request->user_id)
-			->selectRaw('title,description,created_at,view_count,COALESCE(SUM(CASE WHEN view_count > 0 THEN view_count ELSE 0 END) * 0.01, 0) AS total_commission')
+			->selectRaw('title, description, created_at, view_count, (view_count * ?) AS total_commission', [$reporterRate])
 			->orderByDesc('created_at')
 			->get();
 			return Datatables::of($datas)
@@ -435,6 +436,9 @@ class StaffController extends Controller
 			})
 			->editColumn('description', function($row) {
 				return strip_tags($row->description);
+			})
+			->editColumn('total_commission', function($row) {
+				return '৳' . number_format($row->total_commission, 2);
 			})
 			->toJson();
     }
@@ -681,16 +685,73 @@ class StaffController extends Controller
 
 	
 	  public function user_income_detail($user_id=null){
-		   $user_informations = User::select(
-				'users.id',
-				'users.name',
-				'users.email',
-				'users.phone'
-			)
-			->where('id',$user_id)
-			->first();
+		   $user_informations = User::where('id',$user_id)->first();
+           if (!$user_informations) {
+               abort(404);
+           }
 		
-        return view('admin.staff.user_income_detail',compact('user_informations'));
+           $reporterRate = DB::table('fees')->value('reporter_view_rate') ?? 0.01;
+           $view_income = ($user_informations->views ?? 0) * $reporterRate;
+
+           // Team Purchases Commission (from product purchases)
+           $product_commission = \App\Models\ProductCommission::where('referrer_id', $user_id)->sum('commission_amount') ?? 0;
+           $team_purchases = \App\Models\ProductCommission::with(['user', 'order.items.product'])
+               ->where('referrer_id', $user_id)
+               ->latest()
+               ->get();
+
+           // Referral Tree (5 Generations)
+           $rows = \DB::select("
+               WITH RECURSIVE referral_tree AS (
+                   SELECT 
+                       id,
+                       name,
+                       phone,
+                       reader_type,
+                       referred_by,
+                       photo,
+                       district_id,
+                       thana_id,
+                       1 AS gen
+                   FROM users
+                   WHERE referred_by = ?
+           
+                   UNION ALL
+           
+                   SELECT 
+                       u.id,
+                       u.name,
+                       u.phone,
+                       u.reader_type,
+                       u.referred_by,
+                       u.photo,
+                       u.district_id,
+                       u.thana_id,
+                       rt.gen + 1
+                   FROM users u
+                   INNER JOIN referral_tree rt ON u.referred_by = rt.id
+                   WHERE rt.gen < 5
+               )
+               SELECT rt.*, d.name AS district_name, up.name AS thana_name 
+               FROM referral_tree rt
+               LEFT JOIN districts d ON rt.district_id = d.id
+               LEFT JOIN upazilas up ON rt.thana_id = up.id
+               ORDER BY rt.gen, rt.id
+           ", [$user_id]);
+        
+           $genUsers = [1=>[],2=>[],3=>[],4=>[],5=>[]];
+           foreach ($rows as $r) {
+               $genUsers[$r->gen][] = $r;
+           }
+
+           return view('admin.staff.user_income_detail', compact(
+               'user_informations',
+               'view_income',
+               'reporterRate',
+               'product_commission',
+               'team_purchases',
+               'genUsers'
+           ));
     }
     public function create(){
         $divisions = \App\Models\Division::orderBy('name')->get();
