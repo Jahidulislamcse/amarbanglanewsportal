@@ -41,6 +41,14 @@ class ArticleController extends Controller
         ->unique()
         ->toArray();
 
+        // If the user has already purchased a book, exclude the book (product ID 11) from the order list
+        $hasBookPurchase = \App\Models\BookPurchase::where('user_id', $user->id)
+            ->where('status', 'approved')
+            ->exists();
+        if ($hasBookPurchase && !in_array(11, $purchasedProductIds)) {
+            $purchasedProductIds[] = 11;
+        }
+
         $package1Products = Product::where('package', 'package1')->where('is_active', true)->get();
         
         // Auto-heal package1_purchased flag if they already bought all package1 items
