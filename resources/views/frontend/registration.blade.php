@@ -330,7 +330,7 @@ bootstrap-select .dropdown-menu li a {
                               novalidate>
                                 @include('includes.validation.form_validation')
                                 
-                                {{-- <div class="registration-prep-box" style="margin-bottom: 20px; background: #fdfefe; border: 1px solid #922B21; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                                <div class="registration-prep-box" style="margin-bottom: 20px; background: #fdfefe; border: 1px solid #922B21; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                                     <div style="display: flex; align-items: flex-start; gap: 10px;">
                                         <span style="font-size: 20px; color: #922B21; line-height: 1;">📝</span>
                                         <div style="flex: 1;">
@@ -355,7 +355,7 @@ bootstrap-select .dropdown-menu li a {
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
 
                                 <div class="registration-notice-box" style="margin-bottom: 20px; background: #fffcf4; border: 1px solid #ffd480; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                                     <div style="display: flex; align-items: flex-start; gap: 10px;">
