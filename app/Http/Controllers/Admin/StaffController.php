@@ -425,6 +425,7 @@ class StaffController extends Controller
     
 	
 	public function userPostdatatables(Request $request){
+            /*
             $reporterRate = DB::table('fees')->value('reporter_view_rate') ?? 0.01;
 			$datas = Post::where('user_id', $request->user_id)
 			->selectRaw('title, description, created_at, view_count, (view_count * ?) AS total_commission', [$reporterRate])
@@ -439,6 +440,20 @@ class StaffController extends Controller
 			})
 			->editColumn('total_commission', function($row) {
 				return '৳' . number_format($row->total_commission, 2);
+			})
+			->toJson();
+            */
+
+			$datas = Post::where('user_id', $request->user_id)
+			->selectRaw('title,description,created_at,view_count,COALESCE(SUM(CASE WHEN view_count > 0 THEN view_count ELSE 0 END) * 0.01, 0) AS total_commission')
+			->orderByDesc('created_at')
+			->get();
+			return Datatables::of($datas)
+			->editColumn('created_at', function($row) {
+				return $row->created_at ? $row->created_at->format('d M Y, h:i A') : '';
+			})
+			->editColumn('description', function($row) {
+				return strip_tags($row->description);
 			})
 			->toJson();
     }
@@ -685,6 +700,7 @@ class StaffController extends Controller
 
 	
 	  public function user_income_detail($user_id=null){
+           /*
 		   $user_informations = User::where('id',$user_id)->first();
            if (!$user_informations) {
                abort(404);
@@ -752,6 +768,18 @@ class StaffController extends Controller
                'team_purchases',
                'genUsers'
            ));
+           */
+
+		   $user_informations = User::select(
+				'users.id',
+				'users.name',
+				'users.email',
+				'users.phone'
+			)
+			->where('id',$user_id)
+			->first();
+		
+           return view('admin.staff.user_income_detail',compact('user_informations'));
     }
     public function create(){
         $divisions = \App\Models\Division::orderBy('name')->get();

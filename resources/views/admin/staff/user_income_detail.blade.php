@@ -20,6 +20,7 @@
 						</div>
 						<div class="product-area">
 						
+							{{-- Commented out new changes
 							{{-- Stats Cards --}}
 							<div class="row mb-4" style="margin-top: 20px;">
 								<div class="col-md-3">
@@ -155,6 +156,30 @@
 											@endif
 										</div>
 									</div>
+								</div>
+							</div>
+							--}}
+
+							<div class="row justify-content-center" style="padding-top:20px;">
+								<div class="col-md-6">
+									<table class="table table-bordered text-center">
+										<tbody>
+											<tr>
+												<th scope="row">Name</th>
+												<td>{{$user_informations->name}}</td>
+											</tr>
+											<!-- Email -->
+											<tr>
+												<th scope="row">Email</th>
+												<td>{{$user_informations->email}}</td>
+											</tr>
+											<!-- Phone -->
+											<tr>
+												<th scope="row">Phone</th>
+												<td>{{$user_informations->phone}}</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 
