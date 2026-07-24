@@ -312,6 +312,11 @@ class ArticleController extends Controller
             $img->save(base_path().'/../assets/images/post/'.$thumbnail);
             @unlink('assets/images/post/'.$data->image_big);
             $input['image_big'] = $thumbnail;
+        } elseif ($request->cover_image_id) {
+            $cover = \App\Models\NewsCover::find($request->cover_image_id);
+            if ($cover) {
+                $input['image_big'] = $cover->cover_image;
+            }
         }
 
         if($request->is_pending == 1){

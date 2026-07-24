@@ -302,6 +302,25 @@
                                                     </div>
                                                 </div>
 
+                                                <input type="hidden" name="cover_image_id" id="cover_image_id">
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-12">
+                                                        <div class="left-area">
+                                                            <h4 class="heading" style="color: green;">Search from Existing Images</h4>
+                                                        </div>
+
+                                                        <input type="text"
+                                                               id="search-cover"
+                                                               class="input-field"
+                                                               placeholder="Type image title...">
+
+                                                        <div id="cover-results"
+                                                             class="row mt-3 cover-scroll-container"
+                                                             style="max-height:300px;overflow-y:auto;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="modal fade" id="imageBigModal" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                                         <div class="modal-content">
@@ -1142,7 +1161,48 @@
             const [file] = this.files;
             if (file) {
                 previewImg.src = URL.createObjectURL(file);
+                $('#cover_image_id').val('');
             }
+        });
+
+        $('#search-cover').on('keyup', function () {
+            let keyword = $(this).val();
+
+            if(keyword.length < 2){
+                $('#cover-results').html('');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('article.searchCoverImages') }}",
+                type: "GET",
+                data: {
+                    search: keyword
+                },
+                success: function(response){
+                    let html = '';
+                    response.forEach(function(item){
+                        html += `
+                            <div class="col-4 mb-2">
+                                <img src="/assets/images/post/${item.cover_image}"
+                                     class="img-thumbnail w-100 search-cover-image"
+                                     data-id="${item.id}"
+                                     data-image="/assets/images/post/${item.cover_image}"
+                                     style="cursor:pointer;">
+                            </div>
+                        `;
+                    });
+                    $('#cover-results').html(html);
+                }
+            });
+        });
+
+        $(document).on('click', '.search-cover-image', function(){
+            $('.search-cover-image').removeClass('active');
+            $(this).addClass('active');
+            $('#cover_image_id').val($(this).data('id'));
+            $('#preview-img').attr('src', $(this).data('image'));
+            $('#image-upload').val('');
         });
 
         function colorSecondVisualLine(titleEl) {
