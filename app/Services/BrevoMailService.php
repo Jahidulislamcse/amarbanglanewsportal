@@ -6,7 +6,7 @@ class BrevoMailService
 {
     public static function send($toEmail, $toName, $subject, $htmlContent)
     {
-        $apiKey = trim(config('services.brevo.key'));
+        $apiKey = trim(config('services.brevo.key') ?? '');
 
         $payload = [
             "sender" => [
@@ -26,6 +26,8 @@ class BrevoMailService
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT => 10,
             CURLOPT_HTTPHEADER => [
                 "accept: application/json",
                 "api-key: " . $apiKey,

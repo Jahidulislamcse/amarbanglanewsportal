@@ -1257,6 +1257,10 @@ $(".chooseOtp").click(function(){
                     errorList.push(messages[0]);
                 });
                 alert("Registration Error:\n- " + errorList.join("\n- "));
+            }else if(res.error){
+                alert("Registration Error: " + res.error);
+            }else{
+                alert("Registration failed: Unknown error occurred.");
             }
         },
 
@@ -1274,6 +1278,8 @@ $(".chooseOtp").click(function(){
                 if (cleanText) {
                     errorMsg += ": " + cleanText;
                 }
+            } else if (xhr.statusText === "error" || !xhr.statusText) {
+                errorMsg += ": Please check your internet connection or try again. The server might be temporarily busy.";
             } else if (xhr.statusText) {
                 errorMsg += " (" + xhr.statusText + ")";
             }
@@ -1322,7 +1328,7 @@ $("#verifyOtpBtn").click(function(){
 
             }else{
 
-                alert(res.error);
+                alert(res.error || "OTP verification failed. Please try again.");
             }
         },
 
@@ -1340,6 +1346,8 @@ $("#verifyOtpBtn").click(function(){
                 if (cleanText) {
                     errorMsg += ": " + cleanText;
                 }
+            } else if (xhr.statusText === "error" || !xhr.statusText) {
+                errorMsg += ": Please check your connection or try again. The server might be temporarily busy.";
             } else if (xhr.statusText) {
                 errorMsg += " (" + xhr.statusText + ")";
             }

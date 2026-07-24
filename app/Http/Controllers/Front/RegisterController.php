@@ -396,7 +396,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'error' => $userFriendlyMessage
-            ], 500);
+            ]);
         }
     }
     
@@ -621,7 +621,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'error' => $userFriendlyMessage
-            ], 500);
+            ]);
         }
     }
     

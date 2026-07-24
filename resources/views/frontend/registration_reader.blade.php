@@ -268,10 +268,32 @@ function togglePassword(inputId, iconId) {
                     sessionStorage.setItem("contact", res.contact);
                 } else if(res.errors) {
                     alert(Object.values(res.errors).join("\n"));
+                } else if(res.error) {
+                    alert(res.error);
+                } else {
+                    alert("Registration failed: Unknown error occurred.");
                 }
             },
-            error: function() {
-                alert('Something went wrong!');
+            error: function(xhr) {
+                let errorMsg = "Something went wrong";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg += ": " + xhr.responseJSON.message;
+                } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg += ": " + xhr.responseJSON.error;
+                } else if (xhr.responseText) {
+                    let cleanText = xhr.responseText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                    if (cleanText.length > 150) {
+                        cleanText = cleanText.substring(0, 150) + "...";
+                    }
+                    if (cleanText) {
+                        errorMsg += ": " + cleanText;
+                    }
+                } else if (xhr.statusText === "error" || !xhr.statusText) {
+                    errorMsg += ": Please check your internet connection or try again. The server might be temporarily busy.";
+                } else if (xhr.statusText) {
+                    errorMsg += " (" + xhr.statusText + ")";
+                }
+                alert(errorMsg);
             }
         });
     });
@@ -293,11 +315,29 @@ $("#verifyOtpBtn").click(function () {
             if (res.success) {
                 window.location.href = res.url;
             } else {
-                alert(res.error);
+                alert(res.error || "OTP verification failed. Please try again.");
             }
         },
-        error: function() {
-            alert('OTP verification failed.');
+        error: function(xhr) {
+            let errorMsg = "OTP verification failed";
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg += ": " + xhr.responseJSON.message;
+            } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                errorMsg += ": " + xhr.responseJSON.error;
+            } else if (xhr.responseText) {
+                let cleanText = xhr.responseText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                if (cleanText.length > 150) {
+                    cleanText = cleanText.substring(0, 150) + "...";
+                }
+                if (cleanText) {
+                    errorMsg += ": " + cleanText;
+                }
+            } else if (xhr.statusText === "error" || !xhr.statusText) {
+                errorMsg += ": Please check your connection or try again. The server might be temporarily busy.";
+            } else if (xhr.statusText) {
+                errorMsg += " (" + xhr.statusText + ")";
+            }
+            alert(errorMsg);
         }
     });
 });
