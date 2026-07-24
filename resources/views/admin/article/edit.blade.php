@@ -22,6 +22,14 @@
             </div>
         </div>
         @include('includes.admin.form-both')
+        @php
+            $categorySlug = !empty($data->category->slug) ? $data->category->slug : 'uncategorized';
+            $detailsUrl = route('frontend.postBySubcategory.details', [$categorySlug, $data->slug]);
+        @endphp
+        <div id="approved-action-buttons" class="mt-2 mb-3" style="display: {{ $data->is_pending == 0 ? 'block' : 'none' }};">
+            <a href="javascript:void(0)" class="download-postcard-btn btn btn-info" style="background:#145a32; border-color:#145a32;" data-title="{{ e($data->title) }}" data-image="{{ $data->image_big ? asset('assets/images/post/'.$data->image_big) : asset('assets/images/nopic.png') }}" data-date="{{ enToBn(date('d M Y', strtotime($data->schedule_post_date ?? $data->created_at->toDateTimeString()))) }}"> <i class="fas fa-image"></i> Download Photocard</a>
+            <a href="javascript:void(0)" class="copy-post-link-btn btn btn-success ml-2" data-url="{{ $detailsUrl }}"> <i class="fas fa-copy"></i> Copy Link</a>
+        </div>
         <div class="gocover"
             style="background: url({{ asset('assets/images/' . $gs->admin_loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);">
         </div>
@@ -768,14 +776,6 @@
                                                     <div class="col-lg-12">
                                                         <input type="submit" data-draft="0"
                                                             class="btn btn-success submit-btn1" value="Update News">
-                                                        @php
-                                                            $categorySlug = !empty($data->category->slug) ? $data->category->slug : 'uncategorized';
-                                                            $detailsUrl = route('frontend.postBySubcategory.details', [$categorySlug, $data->slug]);
-                                                        @endphp
-                                                        <div id="approved-action-buttons" style="display: {{ $data->is_pending == 0 ? 'inline-block' : 'none' }}; margin-left: 10px;">
-                                                            <a href="javascript:void(0)" class="download-postcard-btn btn btn-info" style="background:#145a32; border-color:#145a32;" data-title="{{ e($data->title) }}" data-image="{{ $data->image_big ? asset('assets/images/post/'.$data->image_big) : asset('assets/images/nopic.png') }}" data-date="{{ enToBn(date('d M Y', strtotime($data->schedule_post_date ?? $data->created_at->toDateTimeString()))) }}"> <i class="fas fa-image"></i> Download Photocard</a>
-                                                            <a href="javascript:void(0)" class="copy-post-link-btn btn btn-success ml-2" data-url="{{ $detailsUrl }}"> <i class="fas fa-copy"></i> Copy Link</a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1277,7 +1277,7 @@
             });
         });
 
-        // Show/hide action buttons upon successful post update
+        // Show/hide action buttons at top below success message upon successful post update
         $(document).ajaxSuccess(function(event, xhr, settings) {
             const actionUrl = $("#geniusformdata2").attr('action');
             if (actionUrl && settings.url && (settings.url === actionUrl || settings.url.indexOf('/article/update/') !== -1) && settings.type === "POST") {
@@ -1285,7 +1285,9 @@
                 if (response && !response.errors) {
                     const isApproved = $('#is_pending1').is(':checked');
                     if (isApproved) {
-                        $('#approved-action-buttons').css('display', 'inline-block');
+                        $('.download-postcard-btn').data('title', $('#title').val());
+                        $('.download-postcard-btn').data('image', $('#preview-img').attr('src'));
+                        $('#approved-action-buttons').css('display', 'block');
                     } else {
                         $('#approved-action-buttons').css('display', 'none');
                     }
