@@ -934,7 +934,7 @@ if ($default_language->id == 1) {
 
             if (diff <= 0) {
                 document.querySelector('.wc-countdown').innerHTML =
-                    ' ম্যাচ সূচি ও পয়েন্ট টেবিল দেখতে ক্লিক করুন';
+                    'ম্যাচ সূচি ও পয়েন্ট টেবিল দেখতে ক্লিক করুন';
                 return;
             }
 

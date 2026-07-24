@@ -768,6 +768,14 @@
                                                     <div class="col-lg-12">
                                                         <input type="submit" data-draft="0"
                                                             class="btn btn-success submit-btn1" value="Update News">
+                                                        @if ($data->is_pending == 0)
+                                                            <a href="javascript:void(0)" class="download-postcard-btn btn btn-info ml-2" style="background:#145a32; border-color:#145a32;" data-title="{{ e($data->title) }}" data-image="{{ $data->image_big ? asset('assets/images/post/'.$data->image_big) : asset('assets/images/nopic.png') }}" data-date="{{ enToBn(date('d M Y', strtotime($data->schedule_post_date ?? $data->created_at->toDateTimeString()))) }}"> <i class="fas fa-image"></i> Download Photocard</a>
+                                                            @php
+                                                                $categorySlug = !empty($data->category->slug) ? $data->category->slug : 'uncategorized';
+                                                                $detailsUrl = route('frontend.postBySubcategory.details', [$categorySlug, $data->slug]);
+                                                            @endphp
+                                                            <a href="javascript:void(0)" class="copy-post-link-btn btn btn-success ml-2" data-url="{{ $detailsUrl }}"> <i class="fas fa-copy"></i> Copy Link</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -863,6 +871,232 @@
     </div>
 
     {{-- DELETE MODAL ENDS --}}
+
+@php
+    $postcardLogoSrc = asset('assets/amarbangla.png');
+@endphp
+
+<!-- Postcard Wrapper Template -->
+<div id="news-postcard-wrapper"
+    style="position:absolute; left:-9999px; top:0; opacity:1; width:720px; overflow:hidden; z-index:9999; pointer-events:none;">
+    <div class="postcard-wrap">
+        <article class="postcard" aria-label="News postcard template">
+            <section class="photo-panel">
+                <img class="news-image" id="newsImage"
+                    src=""
+                    alt="">
+            </section>
+
+            <div class="orange-rule" aria-hidden="true"></div>
+
+            <div class="logo-panel" aria-label="Amarbangla24">
+                <img class="site-logo"
+                    src="{{ $postcardLogoSrc }}"
+                    alt="{{ $gs->title ?? 'Amar Bangla 24' }}">
+            </div>
+
+            <section class="headline-panel">
+                <h1 class="headline" id="newsTitle"></h1>
+            </section>
+
+            <section class="promo-strip" aria-label="Sponsor banner">
+                <div class="player-chip" aria-hidden="true"></div>
+                <div class="promo-copy">
+                    <span>পাঠক রেজিস্ট্রেশন করে বুঝে নিন প্রতি নিউজ ভিউতে ইনকাম, কুইজ মানি সহ আরও অনেক কিছু <span class="highlight">শুধুমাত্র আমার বাংলায়</span></span>
+                </div>
+            </section>
+
+            <footer class="meta-strip " >
+                <time id="newsDate" style="margin-bottom: 30px;"></time>
+                <span class="center" style="margin-bottom: 30px;">বিস্তারিত কমেন্টে</span>
+                <span class="site" style="margin-bottom: 30px;">amarbangla24.com.bd</span>
+            </footer>
+        </article>
+    </div>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700;900&family=Noto+Sans+Bengali:wght@400;700;900&display=swap');
+
+    #news-postcard-wrapper .postcard-wrap {
+        width: min(100%, 720px);
+    }
+
+    #news-postcard-wrapper .postcard {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1080 / 1248;
+        overflow: hidden;
+        background: #082f1f;
+        border: 10px solid #145a32;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+        font-family: "Noto Serif Bengali", "Noto Sans Bengali", "SolaimanLipi", "Siyam Rupali", Georgia, serif;
+    }
+
+    #news-postcard-wrapper .photo-panel {
+        position: relative;
+        height: 56.8%;
+        overflow: hidden;
+        background: #0a3322;
+    }
+
+    #news-postcard-wrapper .news-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center top;
+        filter: brightness(0.78) contrast(1.05) saturate(0.95);
+    }
+
+    #news-postcard-wrapper .photo-panel::after {
+        display: none;
+    }
+
+    #news-postcard-wrapper .orange-rule {
+        position: absolute;
+        top: 56.3%;
+        left: 0;
+        right: 0;
+        height: 7px;
+        background: linear-gradient(90deg, #0d4b2b, #6fcf97 48%, #d7270d);
+        z-index: 5;
+    }
+
+    #news-postcard-wrapper .logo-panel {
+        position: absolute;
+        top: calc(56.3% - 50px);
+        left: 50%;
+        z-index: 8;
+        width: clamp(280px, 45vw, 220px);
+        transform: translateX(-50%);
+        display: grid;
+        place-items: center;
+        padding: 0;
+        background: transparent;
+        border-radius: 12px;
+        box-shadow: none;
+    }
+
+    #news-postcard-wrapper .site-logo {
+        width: 100%;
+        max-width: 260px;
+        height: auto;
+        object-fit: contain;
+        display: block;
+    }
+
+    #news-postcard-wrapper .headline-panel {
+        position: relative;
+        height: 32.2%;
+        display: grid;
+        place-items: center;
+        padding:42px 18px 18px;
+         background: radial-gradient(circle at 16% 78%, rgba(255, 255, 255, 0.08) 0 1px, transparent 2px),
+            radial-gradient(circle at 84% 22%, rgba(255, 255, 255, 0.07) 0 1px, transparent 2px),
+            linear-gradient(115deg, rgba(32, 0, 10, 0.74) 0%, transparent 34%),
+            linear-gradient(145deg, #310004 0%, #760009 52%, #ca0508 100%);
+        background-size: auto, 34px 34px, auto, auto;
+    }
+
+    #news-postcard-wrapper .headline-panel::before,
+    #news-postcard-wrapper .headline-panel::after {
+        content: "";
+        position: absolute;
+        border: 2px solid rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    #news-postcard-wrapper .headline-panel::before {
+        width: 270px;
+        height: 270px;
+        left: -78px;
+        bottom: -126px;
+        box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.025), 0 0 0 32px rgba(255, 255, 255, 0.018);
+    }
+
+    #news-postcard-wrapper .headline-panel::after {
+        width: 230px;
+        height: 230px;
+        right: -84px;
+        top: 38px;
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+
+    #news-postcard-wrapper .headline{
+        font-family: 'SolaimanLipi', Arial, sans-serif !important;
+        margin:0;
+        width:96%;
+        max-width:96%;
+    
+        font-size:36px;
+        font-weight:900;
+        line-height:1.5;
+        letter-spacing:-0.5px;
+        text-align:center;
+    
+        display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+    
+        color:#fff;
+    
+        text-shadow:
+            0 2px 0 rgba(65,0,0,.9),
+            0 4px 10px rgba(0,0,0,.45);
+    }
+
+    #news-postcard-wrapper .promo-strip {
+        height: 6.6%;
+        position: relative;
+        overflow: hidden;
+        background: #f7faf5;
+        border-top: 2px solid rgba(13, 75, 43, 0.95);
+    }
+
+    #news-postcard-wrapper .promo-copy {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #310004;
+        font-weight: 700;
+    }
+
+    #news-postcard-wrapper .highlight {
+        color: #117a47;
+        -webkit-text-stroke: 1px #0c4f38;
+        text-shadow: none;
+    }
+
+    #news-postcard-wrapper .meta-strip {
+        padding: 0 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 0.02em;
+        height: 8%;
+    }
+
+    #news-postcard-wrapper .meta-strip time,
+    #news-postcard-wrapper .meta-strip .center,
+    #news-postcard-wrapper .meta-strip .site {
+        display: inline-block;
+    }
+
+    #news-postcard-wrapper .center {
+        text-align: center;
+        flex: 1;
+    }
+</style>
 @endsection
 
 
@@ -871,6 +1105,7 @@
     <script src="{{ asset('assets/admin/js/articleEdit.js') }}"></script>
     <script src="{{ asset('assets/admin/js/image_gallary.js') }}"></script>
     <script src="{{ asset('assets/admin/js/tagify.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         $("#title").on('keyup', function() {
             var title = $(this).val();
@@ -907,6 +1142,162 @@
             const [file] = this.files;
             if (file) {
                 previewImg.src = URL.createObjectURL(file);
+            }
+        });
+
+        function colorSecondVisualLine(titleEl) {
+            const text = titleEl.textContent.trim();
+            const originalHTML = titleEl.innerHTML;
+            const originalDisplay = titleEl.style.display;
+            const originalLineClamp = titleEl.style.webkitLineClamp;
+            const originalOverflow = titleEl.style.overflow;
+
+            titleEl.style.display = 'block';
+            titleEl.style.webkitLineClamp = 'unset';
+            titleEl.style.overflow = 'visible';
+
+            const words = text.split(' ');
+            titleEl.innerHTML = '';
+
+            const spans = [];
+            words.forEach((word, i) => {
+                const span = document.createElement('span');
+                span.textContent = word + (i < words.length - 1 ? ' ' : '');
+                titleEl.appendChild(span);
+                spans.push(span);
+            });
+
+            const lines = {};
+            spans.forEach(span => {
+                const top = Math.round(span.offsetTop);
+                if (!lines[top]) lines[top] = [];
+                lines[top].push(span);
+            });
+
+            const lineTops = Object.keys(lines)
+                .map(Number)
+                .sort((a, b) => a - b);
+
+            if (lineTops.length > 1) {
+                lines[lineTops[1]].forEach(span => {
+                    span.style.color = '#ffd700';
+                });
+            }
+
+            return () => {
+                titleEl.innerHTML = originalHTML;
+                titleEl.style.display = originalDisplay;
+                titleEl.style.webkitLineClamp = originalLineClamp;
+                titleEl.style.overflow = originalOverflow;
+            };
+        }
+
+        function triggerPostcardDownload(title, image, date) {
+            $('#newsImage').attr('src', image);
+            $('#newsTitle').text(title);
+            $('#newsDate').text(date);
+
+            setTimeout(() => {
+                const postcard = document.querySelector('#news-postcard-wrapper .postcard');
+                if (!postcard) return;
+
+                let restoreTitle = null;
+                const titleEl = document.getElementById('newsTitle');
+                if (titleEl) {
+                    restoreTitle = colorSecondVisualLine(titleEl);
+                }
+
+                html2canvas(postcard, {
+                    useCORS: true,
+                    scale: 2,
+                    logging: false,
+                    allowTaint: true
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'amarbangla-postcard-' + Date.now() + '.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(err => {
+                    console.error('Postcard generation error:', err);
+                }).finally(() => {
+                    if (restoreTitle) {
+                        restoreTitle();
+                    }
+                });
+            }, 400);
+        }
+
+        function triggerCopyLink(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                if (typeof $.notify === 'function') {
+                    $.notify("সংবাদের লিংকটি কপি করা হয়েছে! (Link Copied)", "success");
+                }
+            }).catch(err => {
+                console.error('Copy failed:', err);
+            });
+        }
+
+        $(document).on('click', '.download-postcard-btn', function() {
+            const btn = $(this);
+            const title = $('#title').val() || btn.data('title');
+            const image = $('#preview-img').attr('src') || btn.data('image');
+            const date = btn.data('date');
+
+            const originalText = btn.html();
+            btn.html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+            btn.css('pointer-events', 'none');
+
+            triggerPostcardDownload(title, image, date);
+
+            setTimeout(() => {
+                btn.html(originalText);
+                btn.css('pointer-events', 'auto');
+            }, 1500);
+        });
+
+        $(document).on('click', '.copy-post-link-btn', function() {
+            const btn = $(this);
+            const url = btn.data('url');
+            
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = btn.html();
+                btn.html('<i class="fas fa-check"></i> Copied!');
+                btn.css('background-color', '#6c757d');
+                btn.css('border-color', '#6c757d');
+                setTimeout(() => {
+                    btn.html(originalText);
+                    btn.css('background-color', '');
+                    btn.css('border-color', '');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Failed to copy link.');
+            });
+        });
+
+        // Instantly download photocard and copy link when post is updated with Approved status
+        $(document).ajaxSuccess(function(event, xhr, settings) {
+            const actionUrl = $("#geniusformdata2").attr('action');
+            if (actionUrl && settings.url && (settings.url === actionUrl || settings.url.indexOf('/article/update/') !== -1) && settings.type === "POST") {
+                const response = xhr.responseJSON;
+                if (response && !response.errors) {
+                    const isApproved = $('#is_pending1').is(':checked');
+                    if (isApproved) {
+                        const title = $('#title').val();
+                        const image = $('#preview-img').attr('src');
+                        const date = "{{ enToBn(date('d M Y', strtotime($data->schedule_post_date ?? $data->created_at->toDateTimeString()))) }}";
+                        @php
+                            $categorySlug = !empty($data->category->slug) ? $data->category->slug : 'uncategorized';
+                            $detailsUrl = route('frontend.postBySubcategory.details', [$categorySlug, $data->slug]);
+                        @endphp
+                        const url = "{{ $detailsUrl }}";
+
+                        triggerPostcardDownload(title, image, date);
+                        triggerCopyLink(url);
+                    }
+                }
             }
         });
     </script>
