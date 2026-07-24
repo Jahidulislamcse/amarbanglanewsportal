@@ -427,7 +427,7 @@ class StaffController extends Controller
 	public function userPostdatatables(Request $request){
             $reporterRate = DB::table('fees')->value('reporter_view_rate') ?? 0.01;
 			$datas = Post::where('user_id', $request->user_id)
-			->selectRaw('title, description, created_at, view_count, (view_count * ?) AS total_commission', [$reporterRate])
+			->selectRaw('id, title, description, image_big, image_small, rss_image, post_type, created_at, view_count, (view_count * ?) AS total_commission', [$reporterRate])
 			->orderByDesc('created_at')
 			->get();
 			return Datatables::of($datas)
@@ -435,11 +435,40 @@ class StaffController extends Controller
 				return $row->created_at ? $row->created_at->format('d M Y, h:i A') : '';
 			})
 			->editColumn('description', function($row) {
-				return strip_tags($row->description);
+				$imageUrl = '';
+				if ($row->post_type == 'rss') {
+					$imageUrl = $row->rss_image ? $row->rss_image : asset('assets/images/nopic.png');
+				} else {
+					$imageUrl = $row->image_big ? asset('assets/images/post/'.$row->image_big) : ($row->image_small ? asset('assets/images/post/'.$row->image_small) : asset('assets/images/nopic.png'));
+				}
+
+				$fullText = strip_tags($row->description);
+				$limit = 150;
+				$shortText = mb_strimwidth($fullText, 0, $limit, '...');
+
+				$html = '<div class="news-container d-flex align-items-start">';
+				if ($imageUrl) {
+					$html .= '<div class="news-img-container mr-2" style="flex-shrink: 0;">';
+					$html .= '<img src="'.$imageUrl.'" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" />';
+					$html .= '</div>';
+				}
+				$html .= '<div class="news-text-container">';
+				if (mb_strlen($fullText) > $limit) {
+					$html .= '<span class="news-short">'.e($shortText).'</span>';
+					$html .= '<span class="news-full" style="display:none;">'.e($fullText).'</span>';
+					$html .= '<br><a href="javascript:void(0);" class="toggle-news text-primary font-weight-bold" style="font-size: 12px; cursor: pointer;">See full news</a>';
+				} else {
+					$html .= '<span>'.e($fullText).'</span>';
+				}
+				$html .= '</div>';
+				$html .= '</div>';
+
+				return $html;
 			})
 			->editColumn('total_commission', function($row) {
 				return '৳' . number_format($row->total_commission, 2);
 			})
+			->rawColumns(['description'])
 			->toJson();
     }
 	

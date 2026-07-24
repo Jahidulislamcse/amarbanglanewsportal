@@ -275,10 +275,22 @@
 				}
 			});
 
-			/*$('#start_date, #end_date, #status').on('change', function () {
-				table.draw();
-			});*/
-
+			$(document).on('click', '.toggle-news', function(e) {
+				e.preventDefault();
+				var container = $(this).closest('.news-text-container');
+				var shortSpan = container.find('.news-short');
+				var fullSpan = container.find('.news-full');
+				
+				if (fullSpan.is(':visible')) {
+					fullSpan.hide();
+					shortSpan.show();
+					$(this).text('See full news');
+				} else {
+					shortSpan.hide();
+					fullSpan.show();
+					$(this).text('See less');
+				}
+			});
 
     </script>
 
