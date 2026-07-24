@@ -1319,7 +1319,7 @@
 
         $(document).on('click', '.copy-post-link-btn', function() {
             const btn = $(this);
-            const url = btn.data('url');
+            const url = btn.attr('data-url') || btn.data('url');
             
             navigator.clipboard.writeText(url).then(() => {
                 const originalText = btn.html();
@@ -1347,6 +1347,15 @@
                     if (isApproved) {
                         $('.download-postcard-btn').data('title', $('#title').val());
                         $('.download-postcard-btn').data('image', $('#preview-img').attr('src'));
+                        
+                        const newSlug = $('#slug').val() || "{{ $data->slug }}";
+                        const categorySlug = "{{ !empty($data->category->slug) ? $data->category->slug : 'uncategorized' }}";
+                        const baseUrl = "{{ url('/') }}";
+                        const updatedUrl = baseUrl + '/' + categorySlug + '/' + newSlug;
+
+                        $('.copy-post-link-btn').attr('data-url', updatedUrl);
+                        $('.copy-post-link-btn').data('url', updatedUrl);
+
                         $('#approved-action-buttons').css('display', 'block');
                     } else {
                         $('#approved-action-buttons').css('display', 'none');
