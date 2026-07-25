@@ -134,11 +134,11 @@
                                 <table id="districtTable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('English Name') }}</th>
-                                            <th>{{ __('Bengali Name') }}</th>
-                                            <th>{{ __('Division') }}</th>
-                                            <th>{{ __('URL') }}</th>
-                                            <th>{{ __('Actions') }}</th>
+                                            <th>English Name</th>
+                                            <th>Bengali Name</th>
+                                            <th>Division</th>
+                                            <th>URL</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                 </table>
