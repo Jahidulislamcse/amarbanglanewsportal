@@ -91,7 +91,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>{{ __('Division') }} *</label>
+                                                <label>Division*</label>
                                                 <select name="division_id" class="form-control" required style="height: calc(2.25rem + 2px);">
                                                     <option value="">{{ __('Select Division') }}</option>
                                                     @foreach ($divisions as $division)
@@ -416,7 +416,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group mb-0">
-                                <label class="font-weight-bold">{{ __('Division') }} *</label>
+                                <label class="font-weight-bold">Division *</label>
                                 <select name="division_id" class="form-control" required style="height: calc(2.25rem + 2px);">
                                     ${divisionsHtml}
                                 </select>
