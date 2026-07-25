@@ -701,6 +701,15 @@
                     form[0].reset();
                     displaySuccess(data);
                 }
+            },
+            error: function(xhr, status, error) {
+                $('.gocover').hide();
+                form.find('button[type="submit"]').prop('disabled', false);
+                let errorMsg = 'Something went wrong. Please check if your database is running and migrations are applied.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                displayErrors([errorMsg]);
             }
         });
     });
@@ -742,6 +751,15 @@
                     parentTr.removeClass('shown');
                     displaySuccess(data);
                 }
+            },
+            error: function(xhr, status, error) {
+                $('.gocover').hide();
+                form.find('button[type="submit"]').prop('disabled', false);
+                let errorMsg = 'Something went wrong. Please check if your database is running and migrations are applied.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                displayErrors([errorMsg]);
             }
         });
     });
