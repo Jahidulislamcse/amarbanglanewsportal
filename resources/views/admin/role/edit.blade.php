@@ -330,7 +330,7 @@
 
                         <div class="row justify-content-center">
                           <div class="col-lg-4 d-flex justify-content-between">
-                            <label class="control-label">{{ __('Location Management') }} *</label>
+                            <label class="control-label">{{ __('City Corporations') }} *</label>
                             <label class="switch">
                               <input type="checkbox" name="section[]" value="location_management" {{is_array($values) && in_array('location_management',$values) ? 'checked': ''}}>
                               <span class="slider round"></span>

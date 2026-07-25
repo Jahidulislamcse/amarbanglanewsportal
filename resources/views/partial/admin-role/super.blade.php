@@ -361,7 +361,7 @@
 
 <li>
     <a href="{{ route('admin.locations.index') }}" class="wave-effect">
-        <i class="fas fa-map-marker-alt"></i>{{ __('Location Management') }}
+        <i class="fas fa-map-marker-alt"></i>{{ __('City Corporations') }}
     </a>
 </li>
 

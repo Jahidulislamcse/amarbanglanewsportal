@@ -31,12 +31,12 @@
     <div class="mr-breadcrumb">
         <div class="row">
             <div class="col-lg-12">
-                <h4 class="heading">{{ __('Location Management') }}</h4>
+                <h4 class="heading">{{ __('City Corporations') }}</h4>
                 <ul class="links">
                     <li>
                         <a href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }} </a>
                     </li>
-                    <li><a href="javascript:;">{{ __('Location Management') }}</a></li>
+                    <li><a href="javascript:;">{{ __('City Corporations') }}</a></li>
                 </ul>
             </div>
         </div>
