@@ -16,6 +16,7 @@ class District extends Model
         'is_city_corporation',
     ];
     protected $table    = 'districts';
+    public $timestamps = false;
 
  
 }

@@ -16,6 +16,7 @@ class Unions extends Model
     
     ];
     protected $table    = 'unions';
+    public $timestamps = false;
 
  
 }

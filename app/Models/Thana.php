@@ -16,6 +16,7 @@ class Thana extends Model
     
     ];
     protected $table    = 'upazilas';
+    public $timestamps = false;
 
  
 }
