@@ -73,13 +73,17 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = new District();
-        $input = $request->all();
-        $input['is_city_corporation'] = 1; // Always force to true
-        $data->fill($input)->save();
+        try {
+            $data = new District();
+            $input = $request->all();
+            $input['is_city_corporation'] = 1; // Always force to true
+            $data->fill($input)->save();
 
-        $msg = 'City Corporation added successfully.';
-        return response()->json($msg);
+            $msg = 'City Corporation added successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function districtsUpdate(Request $request, $id)
@@ -96,22 +100,30 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = District::findOrFail($id);
-        $input = $request->all();
-        $input['is_city_corporation'] = 1; // Always force to true
-        $data->update($input);
+        try {
+            $data = District::findOrFail($id);
+            $input = $request->all();
+            $input['is_city_corporation'] = 1; // Always force to true
+            $data->update($input);
 
-        $msg = 'City Corporation updated successfully.';
-        return response()->json($msg);
+            $msg = 'City Corporation updated successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function districtsDelete($id)
     {
-        $data = District::findOrFail($id);
-        $data->delete();
+        try {
+            $data = District::findOrFail($id);
+            $data->delete();
 
-        $msg = 'City Corporation deleted successfully.';
-        return response()->json($msg);
+            $msg = 'City Corporation deleted successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     /* =========================================================================
@@ -159,12 +171,16 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = new Thana();
-        $input = $request->all();
-        $data->fill($input)->save();
+        try {
+            $data = new Thana();
+            $input = $request->all();
+            $data->fill($input)->save();
 
-        $msg = 'Thana added successfully.';
-        return response()->json($msg);
+            $msg = 'Thana added successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function thanasUpdate(Request $request, $id)
@@ -181,21 +197,29 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = Thana::findOrFail($id);
-        $input = $request->all();
-        $data->update($input);
+        try {
+            $data = Thana::findOrFail($id);
+            $input = $request->all();
+            $data->update($input);
 
-        $msg = 'Thana updated successfully.';
-        return response()->json($msg);
+            $msg = 'Thana updated successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function thanasDelete($id)
     {
-        $data = Thana::findOrFail($id);
-        $data->delete();
+        try {
+            $data = Thana::findOrFail($id);
+            $data->delete();
 
-        $msg = 'Thana deleted successfully.';
-        return response()->json($msg);
+            $msg = 'Thana deleted successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     /* =========================================================================
@@ -249,12 +273,16 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = new Unions();
-        $input = $request->all();
-        $data->fill($input)->save();
+        try {
+            $data = new Unions();
+            $input = $request->all();
+            $data->fill($input)->save();
 
-        $msg = 'Ward added successfully.';
-        return response()->json($msg);
+            $msg = 'Ward added successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function wardsUpdate(Request $request, $id)
@@ -271,20 +299,28 @@ class LocationController extends Controller
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }
 
-        $data = Unions::findOrFail($id);
-        $input = $request->all();
-        $data->update($input);
+        try {
+            $data = Unions::findOrFail($id);
+            $input = $request->all();
+            $data->update($input);
 
-        $msg = 'Ward updated successfully.';
-        return response()->json($msg);
+            $msg = 'Ward updated successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 
     public function wardsDelete($id)
     {
-        $data = Unions::findOrFail($id);
-        $data->delete();
+        try {
+            $data = Unions::findOrFail($id);
+            $data->delete();
 
-        $msg = 'Ward deleted successfully.';
-        return response()->json($msg);
+            $msg = 'Ward deleted successfully.';
+            return response()->json($msg);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => [$e->getMessage()]]);
+        }
     }
 }
