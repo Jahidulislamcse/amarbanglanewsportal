@@ -45,91 +45,91 @@
     <div class="product-area">
         <div class="row">
             <div class="col-lg-12">
+                <div class="mr-table allproduct">
                 
-                <!-- Navigation Tabs -->
-                <ul class="nav nav-tabs mb-4" id="locationTabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="districts-tab" data-toggle="tab" href="#districts-content" role="tab" aria-controls="districts-content" aria-selected="true">
-                            <i class="fas fa-map-marker-alt mr-1"></i> {{ __('City Corporations') }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="thanas-tab" data-toggle="tab" href="#thanas-content" role="tab" aria-controls="thanas-content" aria-selected="false">
-                            <i class="fas fa-map mr-1"></i> {{ __('Thanas') }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="wards-tab" data-toggle="tab" href="#wards-content" role="tab" aria-controls="wards-content" aria-selected="false">
-                            <i class="fas fa-city mr-1"></i> {{ __('Wards') }}
-                        </a>
-                    </li>
-                </ul>
-                
-                <!-- Global messages -->
-                <div class="alert alert-success" style="display: none;" id="globalSuccessAlert">
-                    <p class="mb-0"></p>
-                </div>
-                <div class="alert alert-danger" style="display: none;" id="globalErrorAlert">
-                    <ul class="mb-0"></ul>
-                </div>
-                
-                <div class="tab-content" id="locationTabsContent">
+                    <!-- Navigation Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="locationTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="districts-tab" data-toggle="tab" href="#districts-content" role="tab" aria-controls="districts-content" aria-selected="true">
+                                <i class="fas fa-map-marker-alt mr-1"></i> {{ __('City Corporations') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="thanas-tab" data-toggle="tab" href="#thanas-content" role="tab" aria-controls="thanas-content" aria-selected="false">
+                                <i class="fas fa-map mr-1"></i> {{ __('Thanas') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="wards-tab" data-toggle="tab" href="#wards-content" role="tab" aria-controls="wards-content" aria-selected="false">
+                                <i class="fas fa-city mr-1"></i> {{ __('Wards') }}
+                            </a>
+                        </li>
+                    </ul>
                     
-                    <!-- TAB 1: CITY CORPORATIONS -->
-                    <div class="tab-pane fade show active" id="districts-content" role="tabpanel" aria-labelledby="districts-tab">
-                        <div class="text-right mb-3">
-                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addDistrictCollapse" aria-expanded="false" aria-controls="addDistrictCollapse">
-                                <i class="fas fa-plus mr-1"></i> {{ __('Add City Corporation') }}
-                            </button>
-                        </div>
+                    <!-- Global messages -->
+                    <div class="alert alert-success" style="display: none;" id="globalSuccessAlert">
+                        <p class="mb-0"></p>
+                    </div>
+                    <div class="alert alert-danger" style="display: none;" id="globalErrorAlert">
+                        <ul class="mb-0"></ul>
+                    </div>
+                    
+                    <div class="tab-content" id="locationTabsContent">
                         
-                        <div class="collapse mb-4" id="addDistrictCollapse">
-                            <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
-                                <h5>{{ __('Add New City Corporation') }}</h5>
-                                <form class="ajax-location-add-form" action="{{ route('admin.districts.store') }}" method="POST">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Division*</label>
-                                                <select name="division_id" class="form-control" required style="height: calc(2.25rem + 2px);">
-                                                    <option value="">{{ __('Select Division') }}</option>
-                                                    @foreach ($divisions as $division)
-                                                        <option value="{{ $division->id }}">{{ $division->name }} / {{ $division->bn_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('English Name') }} *</label>
-                                                <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Dhaka North') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('Bengali Name') }} *</label>
-                                                <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. ঢাকা উত্তর') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('URL') }}</label>
-                                                <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.dncc.gov.bd') }}" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12 text-right">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addDistrictCollapse">{{ __('Cancel') }}</button>
-                                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <!-- TAB 1: CITY CORPORATIONS -->
+                        <div class="tab-pane fade show active" id="districts-content" role="tabpanel" aria-labelledby="districts-tab">
+                            <div class="text-right mb-3">
+                                <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addDistrictCollapse" aria-expanded="false" aria-controls="addDistrictCollapse">
+                                    <i class="fas fa-plus mr-1"></i> {{ __('Add City Corporation') }}
+                                </button>
                             </div>
-                        </div>
-                        
-                        <div class="mr-table allproduct">
+                            
+                            <div class="collapse mb-4" id="addDistrictCollapse">
+                                <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
+                                    <h5>{{ __('Add New City Corporation') }}</h5>
+                                    <form class="ajax-location-add-form" action="{{ route('admin.districts.store') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Division*</label>
+                                                    <select name="division_id" class="form-control" required style="height: calc(2.25rem + 2px);">
+                                                        <option value="">{{ __('Select Division') }}</option>
+                                                        @foreach ($divisions as $division)
+                                                            <option value="{{ $division->id }}">{{ $division->name }} / {{ $division->bn_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('English Name') }} *</label>
+                                                    <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Dhaka North') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('Bengali Name') }} *</label>
+                                                    <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. ঢাকা উত্তর') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('URL') }}</label>
+                                                    <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.dncc.gov.bd') }}" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addDistrictCollapse">{{ __('Cancel') }}</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
                             <div class="table-responsiv">
                                 <table id="districtTable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
                                     <thead>
@@ -144,65 +144,63 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- TAB 2: THANAS -->
-                    <div class="tab-pane fade" id="thanas-content" role="tabpanel" aria-labelledby="thanas-tab">
-                        <div class="text-right mb-3">
-                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addThanaCollapse" aria-expanded="false" aria-controls="addThanaCollapse">
-                                <i class="fas fa-plus mr-1"></i> {{ __('Add Thana') }}
-                            </button>
-                        </div>
                         
-                        <div class="collapse mb-4" id="addThanaCollapse">
-                            <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
-                                <h5>{{ __('Add New Thana') }}</h5>
-                                <form class="ajax-location-add-form" action="{{ route('admin.thanas.store') }}" method="POST">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('City Corporation') }} *</label>
-                                                <select name="district_id" class="form-control" required style="height: calc(2.25rem + 2px);">
-                                                    <option value="">{{ __('Select City Corporation') }}</option>
-                                                    @foreach ($districts as $district)
-                                                        <option value="{{ $district->id }}">
-                                                            {{ $district->name }} / {{ $district->bn_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('English Name') }} *</label>
-                                                <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Mirpur') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('Bengali Name') }} *</label>
-                                                <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. মিরপুর') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('URL') }}</label>
-                                                <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.mirpur.gov.bd') }}" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12 text-right">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addThanaCollapse">{{ __('Cancel') }}</button>
-                                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <!-- TAB 2: THANAS -->
+                        <div class="tab-pane fade" id="thanas-content" role="tabpanel" aria-labelledby="thanas-tab">
+                            <div class="text-right mb-3">
+                                <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addThanaCollapse" aria-expanded="false" aria-controls="addThanaCollapse">
+                                    <i class="fas fa-plus mr-1"></i> {{ __('Add Thana') }}
+                                </button>
                             </div>
-                        </div>
-                        
-                        <div class="mr-table allproduct">
+                            
+                            <div class="collapse mb-4" id="addThanaCollapse">
+                                <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
+                                    <h5>{{ __('Add New Thana') }}</h5>
+                                    <form class="ajax-location-add-form" action="{{ route('admin.thanas.store') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('City Corporation') }} *</label>
+                                                    <select name="district_id" class="form-control" required style="height: calc(2.25rem + 2px);">
+                                                        <option value="">{{ __('Select City Corporation') }}</option>
+                                                        @foreach ($districts as $district)
+                                                            <option value="{{ $district->id }}">
+                                                                {{ $district->name }} / {{ $district->bn_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('English Name') }} *</label>
+                                                    <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Mirpur') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('Bengali Name') }} *</label>
+                                                    <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. মিরপুর') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('URL') }}</label>
+                                                    <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.mirpur.gov.bd') }}" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addThanaCollapse">{{ __('Cancel') }}</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
                             <div class="table-responsiv">
                                 <table id="thanaTable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
                                     <thead>
@@ -217,72 +215,70 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- TAB 3: WARDS -->
-                    <div class="tab-pane fade" id="wards-content" role="tabpanel" aria-labelledby="wards-tab">
-                        <div class="text-right mb-3">
-                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addWardCollapse" aria-expanded="false" aria-controls="addWardCollapse">
-                                <i class="fas fa-plus mr-1"></i> {{ __('Add Ward') }}
-                            </button>
-                        </div>
                         
-                        <div class="collapse mb-4" id="addWardCollapse">
-                            <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
-                                <h5>{{ __('Add New Ward') }}</h5>
-                                <form class="ajax-location-add-form" action="{{ route('admin.wards.store') }}" method="POST">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('Thana') }} *</label>
-                                                <select name="upazilla_id" class="form-control" required style="height: calc(2.25rem + 2px);">
-                                                    <option value="">{{ __('Select Thana') }}</option>
-                                                    @foreach ($thanas as $thana)
-                                                        @php
-                                                            $dName = $districts->firstWhere('id', $thana->district_id);
-                                                            $districtLabel = $dName ? $dName->name : '';
-                                                        @endphp
-                                                        <option value="{{ $thana->id }}">
-                                                            {{ $thana->name }} / {{ $thana->bn_name }}
-                                                            @if ($districtLabel)
-                                                                [{{ $districtLabel }}]
-                                                            @endif
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('English Name') }} *</label>
-                                                <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Ward 1') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('Bengali Name') }} *</label>
-                                                <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. ওয়ার্ড ১') }}" required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>{{ __('URL') }}</label>
-                                                <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.ward1.gov.bd') }}" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12 text-right">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addWardCollapse">{{ __('Cancel') }}</button>
-                                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <!-- TAB 3: WARDS -->
+                        <div class="tab-pane fade" id="wards-content" role="tabpanel" aria-labelledby="wards-tab">
+                            <div class="text-right mb-3">
+                                <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#addWardCollapse" aria-expanded="false" aria-controls="addWardCollapse">
+                                    <i class="fas fa-plus mr-1"></i> {{ __('Add Ward') }}
+                                </button>
                             </div>
-                        </div>
-                        
-                        <div class="mr-table allproduct">
+                            
+                            <div class="collapse mb-4" id="addWardCollapse">
+                                <div class="card card-body" style="border: 1px solid #dee2e6; border-radius: 6px;">
+                                    <h5>{{ __('Add New Ward') }}</h5>
+                                    <form class="ajax-location-add-form" action="{{ route('admin.wards.store') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('Thana') }} *</label>
+                                                    <select name="upazilla_id" class="form-control" required style="height: calc(2.25rem + 2px);">
+                                                        <option value="">{{ __('Select Thana') }}</option>
+                                                        @foreach ($thanas as $thana)
+                                                            @php
+                                                                $dName = $districts->firstWhere('id', $thana->district_id);
+                                                                $districtLabel = $dName ? $dName->name : '';
+                                                            @endphp
+                                                            <option value="{{ $thana->id }}">
+                                                                {{ $thana->name }} / {{ $thana->bn_name }}
+                                                                @if ($districtLabel)
+                                                                    [{{ $districtLabel }}]
+                                                                @endif
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('English Name') }} *</label>
+                                                    <input type="text" name="name" class="form-control" placeholder="{{ __('e.g. Ward 1') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('Bengali Name') }} *</label>
+                                                    <input type="text" name="bn_name" class="form-control" placeholder="{{ __('e.g. ওয়ার্ড ১') }}" required autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>{{ __('URL') }}</label>
+                                                    <input type="text" name="url" class="form-control" placeholder="{{ __('e.g. www.ward1.gov.bd') }}" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#addWardCollapse">{{ __('Cancel') }}</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
                             <div class="table-responsiv">
                                 <table id="wardTable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
                                     <thead>
@@ -298,8 +294,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 
+                </div>
             </div>
         </div>
     </div>
