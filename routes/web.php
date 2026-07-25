@@ -326,26 +326,26 @@ Route::prefix('admin')->group(function(){
     });
 
     Route::group(['middleware' => 'permissions:location_management'], function () {
+        // Single location index page
+        Route::get('/locations', 'Admin\LocationController@index')->name('admin.locations.index');
+
         // Districts / City Corporations
-        Route::get('/districts/datatables', 'Admin\DistrictController@datatables')->name('admin.districts.datatables');
-        Route::get('/districts', 'Admin\DistrictController@index')->name('admin.districts.index');
-        Route::post('/districts/store', 'Admin\DistrictController@store')->name('admin.districts.store');
-        Route::post('/districts/update/{id}', 'Admin\DistrictController@update')->name('admin.districts.update');
-        Route::get('/districts/delete/{id}', 'Admin\DistrictController@delete')->name('admin.districts.delete');
+        Route::get('/districts/datatables', 'Admin\LocationController@districtsDatatables')->name('admin.districts.datatables');
+        Route::post('/districts/store', 'Admin\LocationController@districtsStore')->name('admin.districts.store');
+        Route::post('/districts/update/{id}', 'Admin\LocationController@districtsUpdate')->name('admin.districts.update');
+        Route::get('/districts/delete/{id}', 'Admin\LocationController@districtsDelete')->name('admin.districts.delete');
 
         // Thanas
-        Route::get('/thanas/datatables', 'Admin\ThanaController@datatables')->name('admin.thanas.datatables');
-        Route::get('/thanas', 'Admin\ThanaController@index')->name('admin.thanas.index');
-        Route::post('/thanas/store', 'Admin\ThanaController@store')->name('admin.thanas.store');
-        Route::post('/thanas/update/{id}', 'Admin\ThanaController@update')->name('admin.thanas.update');
-        Route::get('/thanas/delete/{id}', 'Admin\ThanaController@delete')->name('admin.thanas.delete');
+        Route::get('/thanas/datatables', 'Admin\LocationController@thanasDatatables')->name('admin.thanas.datatables');
+        Route::post('/thanas/store', 'Admin\LocationController@thanasStore')->name('admin.thanas.store');
+        Route::post('/thanas/update/{id}', 'Admin\LocationController@thanasUpdate')->name('admin.thanas.update');
+        Route::get('/thanas/delete/{id}', 'Admin\LocationController@thanasDelete')->name('admin.thanas.delete');
 
         // Wards / Unions
-        Route::get('/wards/datatables', 'Admin\WardController@datatables')->name('admin.wards.datatables');
-        Route::get('/wards', 'Admin\WardController@index')->name('admin.wards.index');
-        Route::post('/wards/store', 'Admin\WardController@store')->name('admin.wards.store');
-        Route::post('/wards/update/{id}', 'Admin\WardController@update')->name('admin.wards.update');
-        Route::get('/wards/delete/{id}', 'Admin\WardController@delete')->name('admin.wards.delete');
+        Route::get('/wards/datatables', 'Admin\LocationController@wardsDatatables')->name('admin.wards.datatables');
+        Route::post('/wards/store', 'Admin\LocationController@wardsStore')->name('admin.wards.store');
+        Route::post('/wards/update/{id}', 'Admin\LocationController@wardsUpdate')->name('admin.wards.update');
+        Route::get('/wards/delete/{id}', 'Admin\LocationController@wardsDelete')->name('admin.wards.delete');
     });
 
 
