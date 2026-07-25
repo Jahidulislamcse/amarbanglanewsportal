@@ -329,6 +329,25 @@
 </li>
 @endif
 
+@if (Auth::guard('admin')->user()->sectionCheck('location_management'))
+<li>
+    <a href="#locations" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+        <i class="fas fa-map-marker-alt"></i>{{ __('Location Management') }}
+    </a>
+    <ul class="collapse list-unstyled" id="locations" data-parent="#accordion">
+        <li>
+            <a href="{{ route('admin.districts.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Districts / City Corp') }}</span></a>
+        </li>
+        <li>
+            <a href="{{ route('admin.thanas.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Thanas') }}</span></a>
+        </li>
+        <li>
+            <a href="{{ route('admin.wards.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Wards / Unions') }}</span></a>
+        </li>
+    </ul>
+</li>
+@endif
+
 @if (Auth::guard('admin')->user()->sectionCheck('role_management'))
 <li>
     <a href="{{ route('admin.role.index') }}" class=" wave-effect"><i class="fas fa-user-tag"></i>{{ __('Role Management') }}</a>

@@ -291,18 +291,23 @@
                           </div>
                        </div>
 
-                       <div class="row justify-content-center">
-                          <div class="col-lg-4 d-flex justify-content-between">
-                            <label class="control-label">{{ __('Rashifall') }} *</label>
-                            <label class="switch">
-                              <input type="checkbox" name="section[]" value="rashifall">
-                              <span class="slider round"></span>
-                            </label>
-                          </div>
-                          <div class="col-lg-2"></div>
-                          <div class="col-lg-4 d-flex justify-content-between">
-                          </div>
-                       </div>
+                        <div class="row justify-content-center">
+                           <div class="col-lg-4 d-flex justify-content-between">
+                             <label class="control-label">{{ __('Rashifall') }} *</label>
+                             <label class="switch">
+                               <input type="checkbox" name="section[]" value="rashifall">
+                               <span class="slider round"></span>
+                             </label>
+                           </div>
+                           <div class="col-lg-2"></div>
+                           <div class="col-lg-4 d-flex justify-content-between">
+                             <label class="control-label">{{ __('Location Management') }} *</label>
+                             <label class="switch">
+                               <input type="checkbox" name="section[]" value="location_management">
+                               <span class="slider round"></span>
+                             </label>
+                           </div>
+                        </div>
 
                         <div class="row">
                           <div class="col-lg-5">

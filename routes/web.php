@@ -325,6 +325,29 @@ Route::prefix('admin')->group(function(){
         //-------------SubCategories Area End---------------
     });
 
+    Route::group(['middleware' => 'permissions:location_management'], function () {
+        // Districts / City Corporations
+        Route::get('/districts/datatables', 'Admin\DistrictController@datatables')->name('admin.districts.datatables');
+        Route::get('/districts', 'Admin\DistrictController@index')->name('admin.districts.index');
+        Route::post('/districts/store', 'Admin\DistrictController@store')->name('admin.districts.store');
+        Route::post('/districts/update/{id}', 'Admin\DistrictController@update')->name('admin.districts.update');
+        Route::get('/districts/delete/{id}', 'Admin\DistrictController@delete')->name('admin.districts.delete');
+
+        // Thanas
+        Route::get('/thanas/datatables', 'Admin\ThanaController@datatables')->name('admin.thanas.datatables');
+        Route::get('/thanas', 'Admin\ThanaController@index')->name('admin.thanas.index');
+        Route::post('/thanas/store', 'Admin\ThanaController@store')->name('admin.thanas.store');
+        Route::post('/thanas/update/{id}', 'Admin\ThanaController@update')->name('admin.thanas.update');
+        Route::get('/thanas/delete/{id}', 'Admin\ThanaController@delete')->name('admin.thanas.delete');
+
+        // Wards / Unions
+        Route::get('/wards/datatables', 'Admin\WardController@datatables')->name('admin.wards.datatables');
+        Route::get('/wards', 'Admin\WardController@index')->name('admin.wards.index');
+        Route::post('/wards/store', 'Admin\WardController@store')->name('admin.wards.store');
+        Route::post('/wards/update/{id}', 'Admin\WardController@update')->name('admin.wards.update');
+        Route::get('/wards/delete/{id}', 'Admin\WardController@delete')->name('admin.wards.delete');
+    });
+
 
     Route::group(['middleware' => 'permissions:add_post'], function () {
 

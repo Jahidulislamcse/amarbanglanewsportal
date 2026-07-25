@@ -13,7 +13,7 @@ class District extends Model
         'name',
         'bn_name',
         'url',
-    
+        'is_city_corporation',
     ];
     protected $table    = 'districts';
 
