@@ -102,7 +102,7 @@
                     <span class="sig-name">Mahmuda Khatun</span>
                     <span class="sig-title">Editor & Publisher</span>
                 </h5>
-                <div class="{{ $isRestrictedUser ? 'crossed-qr' : '' }}">
+                <div class="qr-code-container {{ $isRestrictedUser ? 'crossed-qr' : '' }}">
                     {!! QrCode::size(40)->generate($url) !!}
                     @if($isRestrictedUser)
                         <svg class="qr-cross-line" viewBox="0 0 100 100" preserveAspectRatio="none">
