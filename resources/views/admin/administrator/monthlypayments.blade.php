@@ -72,9 +72,38 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card-box">
+                <div class="stat-title">All Time Total</div>
+                <div class="stat-value">৳ {{ number_format($allTimeTotal, 2) }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-box">
                 <div class="stat-title">This Month Total</div>
                 <div class="stat-value">৳ {{ number_format($thisMonthTotal, 2) }}</div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-box">
+                <div class="stat-title">Last 7 Days Total</div>
+                <div class="stat-value">৳ {{ number_format($last7DaysTotal, 2) }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-box">
+        <div class="stat-title mb-3"><strong>Last 7 Days Statistics</strong></div>
+        <div class="row">
+            @foreach($last7DaysStats as $stat)
+                <div class="col-6 col-md-3 col-lg mb-3">
+                    <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #eef0f2; text-align: center; transition: transform 0.2s; height: 100%;">
+                        <div class="text-muted" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">{{ $stat['label'] }}</div>
+                        <div class="font-weight-bold" style="font-size: 13px; color: #495057; margin-bottom: 5px;">{{ $stat['day'] }}</div>
+                        <div class="font-weight-bold" style="font-size: 15px; color: #28a745;">
+                            ৳ {{ number_format($stat['amount'], 2) }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 
