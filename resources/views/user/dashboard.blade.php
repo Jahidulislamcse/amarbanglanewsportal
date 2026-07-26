@@ -907,7 +907,7 @@
                                             <option value="office" data-charge="0">Collect from Office (৳ 0)</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-4 mb-2" id="paySelectedAddressWrapper">
                                         <input type="text" name="address" id="paySelectedAddress"
                                             class="form-control" placeholder="Delivery address" required>
                                         <small class="text-danger font-weight-bold d-block mt-1">
@@ -917,6 +917,12 @@
                                         <small class="text-muted d-block mt-1 font-weight-bold">
                                             🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                                         </small>
+                                    </div>
+                                    <div class="col-md-4 mb-2" id="paySelectedOfficeNotice" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <strong>Notice:</strong> Please collect the product from our office once it is marked as ready.<br>
+                                            <strong>সতর্কতা:</strong> পণ্যটি প্রস্তুত হলে অনুগ্রহ করে অফিস থেকে সংগ্রহ করবেন।
+                                        </div>
                                     </div>
                                     <div class="col-md-2 mb-2">
                                         <button type="button" class="btn btn-success w-100" id="paySelectedButton">
@@ -1442,7 +1448,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-12 mb-3">
+                                        <div class="col-md-12 mb-3" id="productPayAddressWrapper">
                                             <label class="font-weight-bold">
                                                 {{ __('Delivery Address') }}
                                             </label>
@@ -1455,6 +1461,12 @@
                                             <small class="text-muted d-block mt-1 font-weight-bold">
                                                 🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                                             </small>
+                                        </div>
+                                        <div class="col-md-12 mb-3" id="productPayOfficeNotice" style="display: none;">
+                                             <div class="alert alert-info">
+                                                 <strong>Notice:</strong> Please collect the product from our office once it is marked as ready.<br>
+                                                 <strong>সতর্কতা:</strong> পণ্যটি প্রস্তুত হলে অনুগ্রহ করে অফিস থেকে সংগ্রহ করবেন।
+                                             </div>
                                         </div>
 
                                     </div>
@@ -1665,6 +1677,56 @@
             const defaultImg =
                 "https://static.vecteezy.com/system/resources/previews/048/910/778/original/default-image-missing-placeholder-free-vector.jpg";
 
+            // Listen for changes on productPayZone
+            const productPayZoneSelect = document.getElementById('productPayZone');
+            if (productPayZoneSelect) {
+                productPayZoneSelect.addEventListener('change', function() {
+                    const addressWrapper = document.getElementById('productPayAddressWrapper');
+                    const officeNotice = document.getElementById('productPayOfficeNotice');
+                    const addressField = document.getElementById('productPayAddress');
+                    
+                    if (this.value === 'office') {
+                        if (addressWrapper) addressWrapper.style.display = 'none';
+                        if (officeNotice) officeNotice.style.display = 'block';
+                        if (addressField) {
+                            addressField.removeAttribute('required');
+                            addressField.value = '';
+                        }
+                    } else {
+                        if (addressWrapper) addressWrapper.style.display = 'block';
+                        if (officeNotice) officeNotice.style.display = 'none';
+                        if (addressField) {
+                            addressField.setAttribute('required', 'required');
+                        }
+                    }
+                });
+            }
+
+            // Listen for changes on paySelectedZone
+            const paySelectedZoneSelect = document.getElementById('paySelectedZone');
+            if (paySelectedZoneSelect) {
+                paySelectedZoneSelect.addEventListener('change', function() {
+                    const addressWrapper = document.getElementById('paySelectedAddressWrapper');
+                    const officeNotice = document.getElementById('paySelectedOfficeNotice');
+                    const addressField = document.getElementById('paySelectedAddress');
+                    
+                    if (this.value === 'office') {
+                        if (addressWrapper) addressWrapper.style.display = 'none';
+                        if (officeNotice) officeNotice.style.display = 'block';
+                        if (addressField) {
+                            addressField.removeAttribute('required');
+                            addressField.value = '';
+                        }
+                    } else {
+                        if (addressWrapper) addressWrapper.style.display = 'block';
+                        if (officeNotice) officeNotice.style.display = 'none';
+                        if (addressField) {
+                            addressField.setAttribute('required', 'required');
+                        }
+                    }
+                });
+            }
+
             // Hide specific products in dynamic cross-sell list that matches the current main product ID
             function filterCrossSellList(mainProductId) {
                 document.querySelectorAll('.cross-sell-item').forEach(item => {
@@ -1874,12 +1936,12 @@
                 const quantityInput = document.getElementById('productPayQuantity');
                 const quantity = parseInt(quantityInput.value, 10);
 
-                if (!phone || !address || isNaN(quantity) || quantity < 1) {
+                if (!phone || (deliveryZone !== 'office' && !address) || isNaN(quantity) || quantity < 1) {
                     const form = document.getElementById('productPayDetailsForm');
                     if (form.reportValidity) {
                         form.reportValidity();
                     } else {
-                        alert('Please fill out Phone Number, Quantity and Address fields.');
+                        alert(deliveryZone === 'office' ? 'Please fill out Phone Number and Quantity fields.' : 'Please fill out Phone Number, Quantity and Address fields.');
                     }
                     return;
                 }
@@ -1994,7 +2056,7 @@
                         maximumFractionDigits: 2
                     });
                 document.getElementById('confirmOrderPhone').innerText = phone;
-                document.getElementById('confirmOrderAddress').innerText = address;
+                document.getElementById('confirmOrderAddress').innerText = deliveryZone === 'office' ? 'Collect from Office' : address;
                 document.getElementById('finalPaymentHiddenInputs').innerHTML = hiddenInputsHTML;
 
                 // Transition modals
@@ -2022,12 +2084,12 @@
                         return;
                     }
 
-                    if (!phone || !address) {
+                    if (!phone || (deliveryZone !== 'office' && !address)) {
                         const form = document.getElementById('paySelectedForm');
                         if (form.reportValidity) {
                             form.reportValidity();
                         } else {
-                            alert('Please fill out Phone Number and Address fields.');
+                            alert(deliveryZone === 'office' ? 'Please fill out Phone Number field.' : 'Please fill out Phone Number and Address fields.');
                         }
                         return;
                     }
@@ -2148,7 +2210,7 @@
                             maximumFractionDigits: 2
                         });
                     document.getElementById('confirmOrderPhone').innerText = phone;
-                    document.getElementById('confirmOrderAddress').innerText = address;
+                    document.getElementById('confirmOrderAddress').innerText = deliveryZone === 'office' ? 'Collect from Office' : address;
                     document.getElementById('finalPaymentHiddenInputs').innerHTML = hiddenInputsHTML;
 
                     // Show confirmation modal

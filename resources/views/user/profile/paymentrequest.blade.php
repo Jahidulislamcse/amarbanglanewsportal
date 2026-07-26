@@ -234,7 +234,7 @@
                             </div>
                         </div>
 
-                        <div style="margin-bottom: 20px;">
+                        <div style="margin-bottom: 20px;" id="pgAddressWrapper">
                             <label style="display: block; font-weight: 600; color: #475569; font-size: 13px; margin-bottom: 6px;">ডেলিভারি ঠিকানা *</label>
                             <textarea name="address" class="form-control" rows="3"
                                       placeholder="আপনার সম্পূর্ণ ডেলিভারি ঠিকানা লিখুন (গ্রাম, ডাকঘর, থানা, জেলা)" required
@@ -242,6 +242,12 @@
                             <span style="display: block; font-size: 12px; color: #64748b; margin-top: 6px; font-weight: 500;">
                                 🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                             </span>
+                        </div>
+
+                        <div style="margin-bottom: 20px; display: none;" id="pgOfficeNotice">
+                            <div style="background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px 16px; color: #0369a1; font-size: 13px; font-weight: 500;">
+                                ℹ️ পণ্যটি প্রস্তুত হলে অনুগ্রহ করে অফিস থেকে সংগ্রহ করবেন।
+                            </div>
                         </div>
 
                         <div style="background: #f1f5f9; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border: 1px dashed #cbd5e1;">
@@ -300,6 +306,25 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
     const charge = parseInt(this.options[this.selectedIndex].dataset.charge || '120', 10);
     const products = {{ $packageTotal ?? 0 }};
     document.getElementById('pgGrandTotal').textContent = '৳' + (products + charge).toLocaleString('en-BD');
+
+    const addressWrapper = document.getElementById('pgAddressWrapper');
+    const officeNotice = document.getElementById('pgOfficeNotice');
+    const addressField = addressWrapper ? addressWrapper.querySelector('textarea[name="address"]') : null;
+    
+    if (this.value === 'office') {
+        if (addressWrapper) addressWrapper.style.display = 'none';
+        if (officeNotice) officeNotice.style.display = 'block';
+        if (addressField) {
+            addressField.removeAttribute('required');
+            addressField.value = '';
+        }
+    } else {
+        if (addressWrapper) addressWrapper.style.display = 'block';
+        if (officeNotice) officeNotice.style.display = 'none';
+        if (addressField) {
+            addressField.setAttribute('required', 'required');
+        }
+    }
 });
 </script>
 @endif

@@ -160,7 +160,7 @@ class EpsPaymentController extends Controller
             'product_ids.*' => 'exists:products,id',
             'quantities' => 'nullable|array',
             'phone_number' => 'nullable|string|max:30',
-            'address'      => 'required|string|max:1000',
+            'address'      => 'required_unless:delivery_zone,office|nullable|string|max:1000',
             'delivery_zone'=> 'nullable|string|in:inside,outside,office',
             'sizes'        => 'nullable|array',
         ]);
@@ -233,7 +233,8 @@ class EpsPaymentController extends Controller
         } else {
             $zoneLabel = 'Collect from Office';
         }
-        $fullAddress = $request->address . " [Zone: {$zoneLabel}]";
+        $addressText = $request->address ?: 'Collect from Office';
+        $fullAddress = $addressText . " [Zone: {$zoneLabel}]";
 
         $this->storePendingPayment($transactionId, 'product_purchase', [
             'user_id'        => $user->id,
