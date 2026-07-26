@@ -672,6 +672,10 @@
                                     <span class="badge badge-warning font-weight-bold"
                                         style="background-color: #f59e0b; color: #fff; font-size: 13px;">কমিশন: ১০%</span>
                                 </div>
+                                <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                    <span class="font-weight-bold text-dark">মোট কমিশন:</span>
+                                    <span class="font-weight-bold text-success" style="font-size: 14.5px;">৳ {{ bn(number_format($product_commission, 2)) }}</span>
+                                </div>
                             </div>
 
                             @if (count($team_purchases) > 0)
