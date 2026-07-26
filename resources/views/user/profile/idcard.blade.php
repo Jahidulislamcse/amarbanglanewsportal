@@ -75,9 +75,9 @@
                 </div>
                 <div class="visualization">
                     <div class="profile-card">
-                    </div>
-                    <div class="profile-photo">
-                        <img src="<?php echo asset('assets/images/admin/' . $data->photo); ?>" alt="Profile Photo">
+                        <div class="profile-photo">
+                            <img src="<?php echo asset('assets/images/admin/' . $data->photo); ?>" alt="Profile Photo">
+                        </div>
                     </div>
                 </div>
                 <div class="fixed">
@@ -93,12 +93,12 @@
                 </div>
             </div>
             <div class="signature">
-                @if(!$isRestrictedUser)
-                <div class="s1" >
-                   <img src="{{ asset('assets/idcard/publisher.png') }}" alt="">
-                </div>
-                @endif
                 <h5>
+                    @if(!$isRestrictedUser)
+                    <div class="s1" >
+                       <img src="{{ asset('assets/idcard/publisher.png') }}" alt="">
+                    </div>
+                    @endif
                     <span class="sig-name">Mahmuda Khatun</span>
                     <span class="sig-title">Editor & Publisher</span>
                 </h5>
