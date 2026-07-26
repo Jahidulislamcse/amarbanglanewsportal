@@ -64,7 +64,7 @@
     ?>
     <div id="epaper_sss">
         <div id="frontCard" class="id-card front">
-            
+            <div class="punch-hole"></div>
              <div class="press-bar">
                 <img src="{{ asset('assets/idcard/PRESS BAR.PNG') }}" alt="">
             </div>
@@ -118,6 +118,7 @@
 
         <!-- BACK SIDE -->
          <div id="backCard" class="id-card back">
+            <div class="punch-hole"></div>
             <div class="back-header">
                 <img src="{{ asset('assets/idcard/Back amarbangla.png') }}" alt="Logo">
             </div>
