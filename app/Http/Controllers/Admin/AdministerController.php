@@ -773,11 +773,46 @@ class AdministerController extends Controller
             ->whereYear('paid_at', now()->year)
             ->sum('amount');
 
+        $allTimeTotal = ProductPayment::where('status', 'paid')->sum('amount');
+
+        $last7DaysTotal = ProductPayment::where('status', 'paid')
+            ->where('paid_at', '>=', now()->subDays(6)->startOfDay())
+            ->sum('amount');
+
+        $last7DaysStats = [];
+        $startDate = now()->subDays(6)->startOfDay();
+        
+        $rawStats = ProductPayment::where('status', 'paid')
+            ->where('paid_at', '>=', $startDate)
+            ->selectRaw('DATE(paid_at) as paid_date, SUM(amount) as total_amount')
+            ->groupBy('paid_date')
+            ->pluck('total_amount', 'paid_date')
+            ->toArray();
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $formattedDate = $date->format('Y-m-d');
+            $label = $date->format('d M');
+            $dayOfWeek = $date->format('l');
+            
+            $amount = isset($rawStats[$formattedDate]) ? (float)$rawStats[$formattedDate] : 0.0;
+            
+            $last7DaysStats[] = [
+                'date' => $formattedDate,
+                'label' => $label,
+                'day' => $dayOfWeek,
+                'amount' => $amount
+            ];
+        }
+
         return view('admin.administrator.product-payments', compact(
             'payments',
             'users',
             'products',
-            'thisMonthTotal'
+            'thisMonthTotal',
+            'allTimeTotal',
+            'last7DaysTotal',
+            'last7DaysStats'
         ));
     }
 
