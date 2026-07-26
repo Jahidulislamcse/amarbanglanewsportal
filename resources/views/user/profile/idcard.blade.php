@@ -92,14 +92,12 @@
 
                 </div>
             </div>
-            @if(!$isRestrictedUser)
-            <div class="sig">
+            <div class="signature">
+                @if(!$isRestrictedUser)
                 <div class="s1" >
                    <img src="{{ asset('assets/idcard/publisher.png') }}" alt="">
                 </div>
-            </div>
-            @endif
-            <div class="signature">
+                @endif
                 <h5>
                     <span class="sig-name">Mahmuda Khatun</span>
                     <span class="sig-title">Editor & Publisher</span>
