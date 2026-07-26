@@ -1041,9 +1041,10 @@ class AdministerController extends Controller
             'phone'      => 'required',
             'role_id'    => 'required',
             'password'   => 'required',
-            'divisions' => 'nullable|array',
+            'divisions'  => 'nullable|array',
             'divisions.*' => 'integer',
             'photo'      => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'blood'      => 'required',
         ];
     
         $validator = Validator::make($request->all(), $rules);
@@ -1057,6 +1058,7 @@ class AdministerController extends Controller
         $admin->email    = $request->email;
         $admin->phone    = $request->phone;
         $admin->role_id  = $request->role_id;
+        $admin->blood    = $request->blood;
         $admin->details  = $request->details;
         $admin->password = bcrypt($request->password);
         $admin->display_password = $request->password;
@@ -1096,6 +1098,7 @@ class AdministerController extends Controller
             'divisions' => 'nullable|array',
             'status'    => 'required|in:0,1',
             'photo'     => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'blood'     => 'required',
         ];
     
         $validator = Validator::make($request->all(), $rules);

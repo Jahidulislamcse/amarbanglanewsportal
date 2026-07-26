@@ -62,6 +62,22 @@
                                 <input type="text" class="input-field" name="phone" placeholder="{{ __('Phone Number') }}" required="" value="{{ $data->phone }}">
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="left-area">
+                                    <h4 class="heading">{{ __("Blood Group") }} *</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <select name="blood" id="blood" class="input-field" required>
+                                    <option value="">{{ __('Blood Group') }}</option>
+                                    @foreach (blood_groups(2) as $klb => $blood_group)
+                                        <option value="{{ $klb }}" {{ $klb == $data->blood ? 'selected' : '' }}>{{ $blood_group }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 						
 						
 
