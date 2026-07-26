@@ -75,6 +75,7 @@ class User extends Authenticatable
         'is_ban',
         'package1_purchased',
         'package_bypass_until',
+        'referral_commission_paid',
      ];
 
     /**
@@ -93,6 +94,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'referral_commission_paid' => 'boolean',
     ];
 
     public function posts(){

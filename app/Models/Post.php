@@ -150,4 +150,29 @@ class Post extends Model
     {
         return $this->hasMany(PostQuizAnswer::class, 'post_id');
     }
+
+    protected static function booted()
+    {
+        static::updated(function ($post) {
+            if ($post->wasChanged('is_pending') && $post->is_pending == 0) {
+                if ($post->user_id) {
+                    $user = \App\Models\User::find($post->user_id);
+                    if ($user && $user->referred_by && !$user->referral_commission_paid && !$user->is_reader) {
+                        $referrer = \App\Models\User::find($user->referred_by);
+                        if ($referrer) {
+                            $fees = \App\Models\Fee::first();
+                            if ($fees && $referrer->views > 9) {
+                                $referrer->increment('referral_earning', $fees->common_reffer_commission);
+                                $referrer->increment('balance', $fees->common_reffer_commission);
+                                
+                                // Mark commission as paid
+                                $user->referral_commission_paid = true;
+                                $user->save();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

@@ -557,23 +557,7 @@ class RegisterController extends Controller
                 }
             }
         
-            if($referrer)
-            {
-                $fees = Fee::first();
         
-                if($fees && $referrer->views > 9)
-                {
-                    $referrer->increment(
-                        'referral_earning',
-                        $fees->common_reffer_commission
-                    );
-        
-                    $referrer->increment(
-                        'balance',
-                        $fees->common_reffer_commission
-                    );
-                }
-            }
         
             UserOthersInfo::create([
                 'user_id' => $author->id,
