@@ -903,8 +903,8 @@
                                     <div class="col-md-3 mb-2">
                                         <select id="paySelectedZone" class="form-control" required>
                                             <option value="inside" data-charge="80">Inside Dhaka (৳ 80)</option>
-                                            <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)
-                                            </option>
+                                            <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)</option>
+                                            <option value="office" data-charge="0">Collect from Office (৳ 0)</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 mb-2">
@@ -915,7 +915,7 @@
                                             অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
                                         </small>
                                         <small class="text-muted d-block mt-1 font-weight-bold">
-                                            🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                            🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                                         </small>
                                     </div>
                                     <div class="col-md-2 mb-2">
@@ -1424,8 +1424,8 @@
                                             </label>
                                             <select id="productPayZone" class="form-control" required>
                                                 <option value="inside" data-charge="80">Inside Dhaka (৳ 80)</option>
-                                                <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)
-                                                </option>
+                                                <option value="outside" data-charge="120" selected>Outside Dhaka (৳ 120)</option>
+                                                <option value="office" data-charge="0">Collect from Office (৳ 0)</option>
                                             </select>
                                         </div>
 
@@ -1453,7 +1453,7 @@
                                                 অন্যথায় ডেলিভারি বিলম্বিত হতে পারে।
                                             </small>
                                             <small class="text-muted d-block mt-1 font-weight-bold">
-                                                🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                                🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                                             </small>
                                         </div>
 
@@ -1943,7 +1943,7 @@
                   <td class="text-right">৳ ${mainSubtotal.toFixed(2)}</td>
               </tr>
               <tr>
-                  <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'})</td>
+                  <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : (deliveryZone === 'outside' ? 'Outside Dhaka' : 'Collect from Office')})</td>
                   <td class="text-center font-weight-bold">1</td>
                   <td class="text-right">৳ ${deliveryCharge.toFixed(2)}</td>
               </tr>
@@ -2035,7 +2035,7 @@
                     let totalAmount = deliveryCharge;
                     let tableBodyHTML = `
                   <tr>
-                      <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'})</td>
+                      <td>Delivery Charge (${deliveryZone === 'inside' ? 'Inside Dhaka' : (deliveryZone === 'outside' ? 'Outside Dhaka' : 'Collect from Office')})</td>
                       <td class="text-center font-weight-bold">1</td>
                       <td class="text-right">৳ ${deliveryCharge.toFixed(2)}</td>
                   </tr>

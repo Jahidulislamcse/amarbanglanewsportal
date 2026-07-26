@@ -90,9 +90,9 @@
                 ">
                     <i class="fas fa-info-circle text-white"></i>
                 </div>
-                <h4 style="margin: 0; font-weight: 700; font-size: 22px; color: #ffffff;">
+                <h5 style="margin: 0; font-weight: 700; font-size: 22px; color: #ffffff;">
                     প্রফেশনাল সাংবাদিকতার জন্য নিচের নির্ধারিত Accessories গুলো এখনই সংগ্রহ করুন।
-                </h4>
+                </h5>
             </div>
             <p style="margin: 0; font-size: 14px; opacity: 0.95; line-height: 1.6; color: #ffe4e6; font-weight: 500;">
                 সম্মানিত প্রতিনিধি, ইতিমধ্যে আপনার {{ str_replace(['0','1','2','3','4','5','6','7','8','9'], ['০','১','২','৩','৪','৫','৬','৭','৮','৯'], $postCount) }}টি সংবাদ আমার বাংলা 24 এ প্রকাশিত হয়েছে । আমাদের সাথে থাকার জন্য আপনাকে আন্তরিক ধন্যবাদ! আমার বাংলার 24 এর সাংবাদিকতা পরিচয়কে আরও পেশাদার করতে অনুগ্রহ করে নিচের নির্ধারিত Accessories গুলো সংগ্রহ করুন।
@@ -124,7 +124,7 @@
                 </div>
 
                 <h6 style="font-weight: 700; color: #1e293b; margin: 0 0 16px 0; font-size: 15px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-box-open text-rose-600"></i> প্যাকেজে অন্তর্ভুক্ত সামগ্রীসমূহ
+                    <i class="fas fa-box-open text-rose-600"></i> অতি-প্রয়োজনীয় সামগ্রীসমূহ
                 </h6>
 
                 {{-- Products List --}}
@@ -222,6 +222,7 @@
                                         style="height: 42px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; width: 100%;">
                                     <option value="inside" data-charge="80">ঢাকার ভিতরে (৳ ৮০)</option>
                                     <option value="outside" data-charge="120" selected>ঢাকার বাইরে (৳ ১২০)</option>
+                                    <option value="office" data-charge="0">অফিস থেকে সংগ্রহ (৳ ০)</option>
                                 </select>
                             </div>
                         </div>
@@ -232,7 +233,7 @@
                                       placeholder="আপনার সম্পূর্ণ ডেলিভারি ঠিকানা লিখুন (গ্রাম, ডাকঘর, থানা, জেলা)" required
                                       style="border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; width: 100%; padding: 10px;"></textarea>
                             <span style="display: block; font-size: 12px; color: #64748b; margin-top: 6px; font-weight: 500;">
-                                🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা।
+                                🚚 ডেলিভারি চার্জ: ঢাকার ভিতরে ৮০ টাকা, ঢাকার বাইরে ১২০ টাকা, অফিস থেকে সংগ্রহ ০ টাকা।
                             </span>
                         </div>
 

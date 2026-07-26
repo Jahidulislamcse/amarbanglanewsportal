@@ -45,6 +45,8 @@ class Order extends Model
                         $deliveryCharge = 80;
                     } elseif (strpos($order->address, '[Zone: Outside Dhaka]') !== false) {
                         $deliveryCharge = 120;
+                    } elseif (strpos($order->address, '[Zone: Collect from Office]') !== false) {
+                        $deliveryCharge = 0;
                     }
                 }
 

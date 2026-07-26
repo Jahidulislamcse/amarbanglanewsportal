@@ -161,7 +161,7 @@ class EpsPaymentController extends Controller
             'quantities' => 'nullable|array',
             'phone_number' => 'nullable|string|max:30',
             'address'      => 'required|string|max:1000',
-            'delivery_zone'=> 'nullable|string|in:inside,outside',
+            'delivery_zone'=> 'nullable|string|in:inside,outside,office',
             'sizes'        => 'nullable|array',
         ]);
 
@@ -182,7 +182,13 @@ class EpsPaymentController extends Controller
         }
 
         $deliveryZone = $request->input('delivery_zone', 'outside');
-        $deliveryCharge = $deliveryZone === 'inside' ? 80 : 120;
+        if ($deliveryZone === 'office') {
+            $deliveryCharge = 0;
+        } elseif ($deliveryZone === 'inside') {
+            $deliveryCharge = 80;
+        } else {
+            $deliveryCharge = 120;
+        }
         $amount = $deliveryCharge;
         $productNames = [];
 
@@ -220,7 +226,13 @@ class EpsPaymentController extends Controller
             return back()->with('error', 'Unable to initialize payment.');
         }
 
-        $zoneLabel = $deliveryZone === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka';
+        if ($deliveryZone === 'inside') {
+            $zoneLabel = 'Inside Dhaka';
+        } elseif ($deliveryZone === 'outside') {
+            $zoneLabel = 'Outside Dhaka';
+        } else {
+            $zoneLabel = 'Collect from Office';
+        }
         $fullAddress = $request->address . " [Zone: {$zoneLabel}]";
 
         $this->storePendingPayment($transactionId, 'product_purchase', [
