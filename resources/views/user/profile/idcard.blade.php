@@ -86,7 +86,7 @@
                         {{ $title }}
                         @if(!empty($areaName))
                             <br>
-                            <span style="font-size:12px;">{{ $areaName }}</span>
+                            <span style="font-size:10px; font-weight:normal; color:#666;">{{ $areaName }}</span>
                         @endif
                     </p>
 
