@@ -100,8 +100,10 @@
             </div>
             @endif
             <div class="signature">
-               
-                <h5> Mahmuda Khatun <br> Editor & Publisher</h5>
+                <h5>
+                    <span class="sig-name">Mahmuda Khatun</span>
+                    <span class="sig-title">Editor & Publisher</span>
+                </h5>
                 <div class="{{ $isRestrictedUser ? 'crossed-qr' : '' }}">
                     {!! QrCode::size(40)->generate($url) !!}
                     @if($isRestrictedUser)
@@ -119,48 +121,50 @@
         <!-- BACK SIDE -->
          <div id="backCard" class="id-card back">
             <div class="punch-hole"></div>
-            <div class="back-header">
-                <img src="{{ asset('assets/idcard/Back amarbangla.png') }}" alt="Logo">
-            </div>
-            <p id="found"><strong>If found please return</strong></p>
-            <div class="contact">
-                <div class="phn">
-                    <div class="p1">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
+            <div class="back-content">
+                <div class="back-header">
+                    <img src="{{ asset('assets/idcard/Back amarbangla.png') }}" alt="Logo">
+                </div>
+                <p id="found"><strong>If found please return</strong></p>
+                <div class="contact">
+                    <div class="phn">
+                        <div class="p1">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <div class="p2">
+                            <p>09643-214620</p>
+                            <p>01711-774263</p>
+                        </div>
                     </div>
-                    <div class="p2">
-                        <p>09643-214620</p>
-                        <p>01711-774263</p>
+                    <div class="mail">
+                        <div class="p3">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div class="p4">
+                            <p>amarbangla24.com.bd</p>
+                            <p>amarbangla24media@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="location">
+                        <div class="p5">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="p6">
+                            <p>Kabbokosh Bhaban, <br> Level-5, Suite-10, <br> KarwanBazar, Dhaka-1215</p>
+                        </div>
                     </div>
                 </div>
-                <div class="mail">
-                    <div class="p3">
-                        <i class="fa-solid fa-globe"></i>
-                    </div>
-                    <div class="p4">
-                        <p>amarbangla24.com.bd</p>
-                        <p>amarbangla24media@gmail.com</p>
+                <div class="info">
+                    <div class="p7"><i class="fa-solid fa-note-sticky"></i></div>
+                    <div class="p8">
+                        <p>ID No: ABNW-{{ $data->id }} <br>Cell: {{ $data->phone }} <br>Blood: {{ blood_groups(2, $blood) ? blood_groups(2, $blood) : $data->blood }}
+                        </p>
                     </div>
                 </div>
-                <div class="location">
-                    <div class="p5">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </div>
-                    <div class="p6">
-                        <p>Kabbokosh Bhaban, <br> Level-5, Suite-10, <br> KarwanBazar, Dhaka-1215</p>
-                    </div>
-                </div>
-            </div>
-            <div class="info">
-                <div class="p7"><i class="fa-solid fa-note-sticky"></i></div>
-                <div class="p8">
-                    <p>ID No: ABNW-{{ $data->id }} <br>Cell: {{ $data->phone }} <br>Blood: {{ blood_groups(2, $blood) ? blood_groups(2, $blood) : $data->blood }}
-                    </p>
-                </div>
-            </div>
 
-            <div class="barcode">
-                <img src="{{ $code }}" alt="Barcode">
+                <div class="barcode">
+                    <img src="{{ $code }}" alt="Barcode">
+                </div>
             </div>
 
             <div class="back-bar">
