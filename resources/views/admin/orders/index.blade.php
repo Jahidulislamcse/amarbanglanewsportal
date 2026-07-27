@@ -118,7 +118,7 @@
                         </div>
                     </form>
 
-                    <button type="button" class="btn btn-info btn-block btn-sm mt-3 download-slip-btn"
+                    {{-- <button type="button" class="btn btn-info btn-block btn-sm mt-3 download-slip-btn"
                             data-order-id="{{ $order->id }}"
                             data-order-date="{{ $order->created_at->format('d M Y') }}"
                             data-order-total="{{ number_format($order->total_amount, 2) }}"
@@ -131,7 +131,7 @@
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
                     >
                         <i class="fas fa-download"></i> Download Slip
-                    </button>
+                    </button> --}}
                 </div>
             </div>
         </div>
