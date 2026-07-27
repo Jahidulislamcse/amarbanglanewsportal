@@ -176,6 +176,16 @@ class LoginController extends Controller
             // Set login timestamp for 24-hour auto logout
             session(['admin_login_time' => time()]);
 
+            // Set in_charge flag for division admin (role_id == 4)
+            $admin = Admin::find($tempId);
+            if ($admin && $admin->role_id == 4) {
+                Admin::where('role_id', 4)->update(['in_charge' => false]);
+                $admin->update([
+                    'in_charge' => true,
+                    'in_charge_start_at' => now(),
+                ]);
+            }
+
             session()->forget(['admin_login_temp_id', 'admin_login_otp', 'admin_login_otp_expires_at', 'admin_login_remember']);
 
             return response()->json(route('admin.dashboard'));

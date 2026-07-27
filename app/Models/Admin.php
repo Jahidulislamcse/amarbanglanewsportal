@@ -16,7 +16,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','photo','role_id','token','verify','display_password','serial','details', 'blood', 'status',
+        'name', 'email', 'password','phone','photo','role_id','token','verify','display_password','serial','details', 'blood', 'status', 'in_charge', 'in_charge_start_at',
     ];
 
     /**
@@ -35,6 +35,7 @@ class Admin extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'in_charge_start_at' => 'datetime',
     ];
     
     public function divisions()

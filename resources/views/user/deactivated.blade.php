@@ -103,16 +103,35 @@
 
     <hr>
 
-    <h4>Contact Admin</h4>
+    @if($has_active_shift)
+        <h4 style="margin-bottom: 12px; color: #198754;">Active Duty Admin</h4>
+        @foreach($admins as $admin)
+            <div class="admin" style="border: 2px solid #198754; background: #f4fbf7; padding: 15px; position: relative;">
+                <span style="position: absolute; top: 10px; right: 10px; background: #198754; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; animation: pulse 1.5s infinite;">🟢 Active Shift</span>
+                <div style="font-size: 16px; margin-bottom: 6px;"><strong>{{ $admin->name }}</strong></div>
+                <div class="phone" style="font-size: 18px; color: #198754;">📞 {{ $admin->phone }}</div>
+            </div>
+        @endforeach
 
-    @forelse($admins as $admin)
-        <div class="admin">
-            <div><strong>{{ $admin->name }}</strong></div>
-            <div class="phone">📞 {{ $admin->phone }}</div>
-        </div>
-    @empty
-        <p>No admin available</p>
-    @endforelse
+        <style>
+            @keyframes pulse {
+                0% { opacity: 0.6; }
+                50% { opacity: 1; }
+                100% { opacity: 0.6; }
+            }
+        </style>
+    @else
+        <h4>Contact Admin</h4>
+
+        @forelse($admins as $admin)
+            <div class="admin">
+                <div><strong>{{ $admin->name }}</strong></div>
+                <div class="phone">📞 {{ $admin->phone }}</div>
+            </div>
+        @empty
+            <p>No admin available</p>
+        @endforelse
+    @endif
 
     <br>
 

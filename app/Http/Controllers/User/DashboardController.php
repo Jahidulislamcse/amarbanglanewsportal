@@ -818,11 +818,25 @@ class DashboardController extends Controller
         
         $reporterDivisionIds = $user->division_id ? [$user->division_id] : [];
 
-        $admins = \App\Models\Admin::where('role_id', 4)
-        ->whereHas('divisions', function ($q) use ($reporterDivisionIds) {
-            $q->whereIn('division_id', $reporterDivisionIds);
-        })
-        ->get(['id', 'name', 'phone']);
+        $activeAdmins = \App\Models\Admin::where('role_id', 4)
+            ->where('in_charge', true)
+            ->where('in_charge_start_at', '>=', now()->subHours(8))
+            ->whereHas('divisions', function ($q) use ($reporterDivisionIds) {
+                $q->whereIn('division_id', $reporterDivisionIds);
+            })
+            ->get(['id', 'name', 'phone']);
+
+        if ($activeAdmins->isNotEmpty()) {
+            $admins = $activeAdmins;
+            $has_active_shift = true;
+        } else {
+            $admins = \App\Models\Admin::where('role_id', 4)
+                ->whereHas('divisions', function ($q) use ($reporterDivisionIds) {
+                    $q->whereIn('division_id', $reporterDivisionIds);
+                })
+                ->get(['id', 'name', 'phone']);
+            $has_active_shift = false;
+        }
 
         $nextPayment = $user->next_payment_date;
         $isDeactivated = $nextPayment && now()->greaterThan($nextPayment);
@@ -832,6 +846,7 @@ class DashboardController extends Controller
             return view('user.deactivated', [
                 'admins' => $admins,
                 'nextPayment' => $nextPayment,
+                'has_active_shift' => $has_active_shift,
             ]);
         }
         
@@ -847,6 +862,7 @@ class DashboardController extends Controller
 
     
         $data['admins'] = $admins;
+        $data['has_active_shift'] = $has_active_shift;
     
         $data['posts'] = Post::whereUserId(auth()->id())->count();
         $data['articles'] = Post::wherePostType('article')->whereUserId(auth()->id())->count();

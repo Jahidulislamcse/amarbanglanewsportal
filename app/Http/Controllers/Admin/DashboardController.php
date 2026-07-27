@@ -83,6 +83,19 @@ class DashboardController extends Controller
         $data['subscribers'] = Subscriber::orderBy('id', 'desc')->take(10)->get();
         $data['categories'] = Category::where('language_id', '=', $default_language->id);
 
+        // Shifting Duty remaining seconds for Divisional Admin (role_id == 4)
+        $remainingSeconds = 0;
+        $adminUser = Auth::guard('admin')->user();
+        if ($adminUser->role_id == 4) {
+            if ($adminUser->in_charge_start_at) {
+                $elapsed = time() - strtotime($adminUser->in_charge_start_at);
+                $remainingSeconds = max(0, 28800 - $elapsed);
+            } else {
+                $remainingSeconds = 28800;
+            }
+        }
+        $data['remainingSeconds'] = $remainingSeconds;
+
         return view('admin.dashboard',$data);
     }
 	

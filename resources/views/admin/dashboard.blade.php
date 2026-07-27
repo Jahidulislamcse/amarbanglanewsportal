@@ -24,6 +24,36 @@
 
 @section('content')
 <div class="content-area">
+    @if (Auth::guard('admin')->user()->role_id == 4)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm mb-4" style="border-left: 5px solid #dc3545; border-radius: 8px; background: #fff;">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap">
+                            <div>
+                                <h4 class="text-danger mb-2">
+                                    <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true" style="width: 14px; height: 14px; margin-right: 5px;"></span>
+                                    সক্রিয় দায়িত্ব শিফট (Active Duty Shift)
+                                </h4>
+                                <p class="text-muted mb-0" style="font-size: 15px;">
+                                    আপনি বর্তমানে আপনার বিভাগের দায়িত্বে আছেন। এই শিফটে আপনার দায়িত্ব হলো সকল কল রিসিভ করা এবং মেসেজের উত্তর দেওয়া।
+                                </p>
+                            </div>
+                            <div class="text-center mt-3 mt-md-0" style="min-width: 220px;">
+                                <div id="duty-timer" class="font-weight-bold text-dark" style="font-size: 2.2rem; font-family: monospace; letter-spacing: 2px;" data-seconds="{{ $remainingSeconds }}">08:00:00</div>
+                                <small class="text-secondary font-weight-bold">অবশিষ্ট সময় (Time Remaining)</small>
+                            </div>
+                        </div>
+                        
+                        <div class="progress mt-3" style="height: 10px; background-color: #e9ecef; border-radius: 5px; overflow: hidden;">
+                            <div id="duty-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%; transition: width 1s linear; background-color: #28a745;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row row-cards-one">
         <div class="col-md-12 col-lg-6 col-xl-4">
             <div class="mycard bg1">
@@ -249,5 +279,58 @@
 @endsection
 
 @section('scripts')
-
+@if (Auth::guard('admin')->user()->role_id == 4)
+<script>
+$(document).ready(function() {
+    let remainingSeconds = parseInt($('#duty-timer').data('seconds')) || 0;
+    const totalShiftSeconds = 28800; // 8 hours
+    
+    function formatTime(seconds) {
+        let h = Math.floor(seconds / 3600);
+        let m = Math.floor((seconds % 3600) / 60);
+        let s = seconds % 60;
+        
+        return [
+            h.toString().padStart(2, '0'),
+            m.toString().padStart(2, '0'),
+            s.toString().padStart(2, '0')
+        ].join(':');
+    }
+    
+    function updateProgress(seconds) {
+        let pct = (seconds / totalShiftSeconds) * 100;
+        pct = Math.max(0, Math.min(100, pct));
+        
+        const progressBar = $('#duty-progress-bar');
+        progressBar.css('width', pct + '%');
+        
+        // Dynamic colors
+        if (seconds <= 3600) { // < 1 hour: Red
+            progressBar.css('background-color', '#dc3545');
+        } else if (seconds <= 10800) { // < 3 hours: Yellow
+            progressBar.css('background-color', '#ffc107');
+        } else { // Green
+            progressBar.css('background-color', '#28a745');
+        }
+    }
+    
+    // Initial update
+    $('#duty-timer').text(formatTime(remainingSeconds));
+    updateProgress(remainingSeconds);
+    
+    let shiftInterval = setInterval(function() {
+        if (remainingSeconds <= 0) {
+            clearInterval(shiftInterval);
+            $('#duty-timer').text('00:00:00');
+            alert('আপনার দায়িত্ব শিফটের সময় শেষ হয়েছে। আপনি স্বয়ংক্রিয়ভাবে লগআউট হয়ে যাচ্ছেন।');
+            window.location.href = "{{ route('admin.logout') }}";
+        } else {
+            remainingSeconds--;
+            $('#duty-timer').text(formatTime(remainingSeconds));
+            updateProgress(remainingSeconds);
+        }
+    }, 1000);
+});
+</script>
+@endif
 @endsection
