@@ -117,6 +117,21 @@
                             </div>
                         </div>
                     </form>
+
+                    <button type="button" class="btn btn-info btn-block btn-sm mt-3 download-slip-btn"
+                            data-order-id="{{ $order->id }}"
+                            data-order-date="{{ $order->created_at->format('d M Y H:i') }}"
+                            data-order-total="{{ number_format($order->total_amount, 2) }}"
+                            data-customer-name="{{ $order->user->name ?? '-' }}"
+                            data-customer-phone="{{ $order->phone_number ?: ($order->user->phone ?? '-') }}"
+                            data-customer-address="{{ $order->address ?: '-' }}"
+                            data-logo-url="{{ $gs->logo ? asset('assets/images/logo/' . $gs->logo) : asset('assets/images/logo.png') }}"
+                            data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
+                            data-site-url="{{ optional($contact)->website ?? url('/') }}"
+                            data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
+                    >
+                        <i class="fas fa-download"></i> Download Slip
+                    </button>
                 </div>
             </div>
         </div>
@@ -129,4 +144,208 @@
     {{ $orders->appends(request()->query())->links() }}
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function() {
+    $('.download-slip-btn').on('click', async function() {
+        const btn = $(this);
+        const originalHtml = btn.html();
+        
+        // Disable button & show loader
+        btn.prop('disabled', true);
+        btn.html('<i class="fas fa-spinner fa-spin"></i> Generating...');
+        
+        try {
+            // Get data
+            const orderId = btn.data('order-id');
+            const orderDate = btn.data('order-date');
+            const orderTotal = btn.data('order-total');
+            const customerName = btn.data('customer-name');
+            const customerPhone = btn.data('customer-phone');
+            const customerAddress = btn.data('customer-address');
+            const logoUrl = btn.data('logo-url');
+            const siteName = btn.data('site-name');
+            const siteUrl = btn.data('site-url');
+            const sitePhone = btn.data('site-phone');
+
+            // Load logo image
+            const loadImage = (src) => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => resolve(img);
+                    img.onerror = () => resolve(null);
+                    setTimeout(() => resolve(null), 1500); // 1.5s timeout
+                    img.src = src;
+                });
+            };
+
+            const logoImg = logoUrl ? await loadImage(logoUrl) : null;
+
+            // Setup Canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 1500;
+            canvas.height = 1000;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Double border
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 6;
+            ctx.strokeRect(30, 30, 1440, 940);
+            ctx.lineWidth = 2;
+            ctx.strokeRect(45, 45, 1410, 910);
+
+            // Header Banner
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(45, 45, 1410, 110);
+
+            // Header Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 44px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('PAYMENT SLIP', 750, 100);
+
+            // Vertical divider line
+            ctx.setLineDash([15, 10]);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#94a3b8';
+            ctx.beginPath();
+            ctx.moveTo(750, 190);
+            ctx.lineTo(750, 810);
+            ctx.stroke();
+
+            // Reset text settings
+            ctx.setLineDash([]);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'alphabetic';
+
+            // Left Column (Merchant Details)
+            let startY = 250;
+            if (logoImg) {
+                let drawWidth = logoImg.width;
+                let drawHeight = logoImg.height;
+                const maxW = 400;
+                const maxH = 160;
+                const ratio = Math.min(maxW / drawWidth, maxH / drawHeight);
+                drawWidth = drawWidth * ratio;
+                drawHeight = drawHeight * ratio;
+                ctx.drawImage(logoImg, 100, 210 + (maxH - drawHeight) / 2, drawWidth, drawHeight);
+                startY = 430;
+            }
+
+            // Draw Site Name
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 48px Arial';
+            ctx.fillText(siteName, 100, startY);
+
+            // Draw Site URL
+            ctx.fillStyle = '#0284c7';
+            ctx.font = '34px Arial';
+            ctx.fillText(siteUrl, 100, startY + 70);
+
+            // Draw Site Phone
+            ctx.fillStyle = '#334155';
+            ctx.font = '34px Arial';
+            ctx.fillText('Phone: ' + sitePhone, 100, startY + 130);
+
+            // Right Column (Customer Details)
+            // Deliver To Badge
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fillRect(820, 210, 240, 50);
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 26px Arial';
+            ctx.fillText('DELIVER TO', 840, 245);
+
+            // Customer Name
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 50px Arial';
+            ctx.fillText(customerName, 820, 320);
+
+            // Customer Phone
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 38px Arial';
+            ctx.fillText('Phone: ' + customerPhone, 820, 390);
+
+            // Customer Address (Wrapped)
+            ctx.fillStyle = '#334155';
+            ctx.font = '34px Arial';
+            
+            function drawWrappedText(context, text, x, y, maxWidth, lineHeight) {
+                const paragraphs = String(text).split('\n');
+                let currentY = y;
+                for (let i = 0; i < paragraphs.length; i++) {
+                    const words = paragraphs[i].split(' ');
+                    let line = '';
+                    for (let n = 0; n < words.length; n++) {
+                        let testLine = line + words[n] + ' ';
+                        let metrics = context.measureText(testLine);
+                        let testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            context.fillText(line, x, currentY);
+                            line = words[n] + ' ';
+                            currentY += lineHeight;
+                        } else {
+                            line = testLine;
+                        }
+                    }
+                    context.fillText(line, x, currentY);
+                    currentY += lineHeight;
+                }
+            }
+
+            drawWrappedText(ctx, customerAddress, 820, 460, 580, 46);
+
+            // Footer background
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(45, 831, 1410, 124);
+
+            // Footer separator
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(45, 830);
+            ctx.lineTo(1455, 830);
+            ctx.stroke();
+
+            // Draw Order ID
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 36px Arial';
+            ctx.fillText('Order ID: #' + orderId, 100, 905);
+
+            // Draw Date
+            ctx.fillStyle = '#64748b';
+            ctx.font = '32px Arial';
+            ctx.fillText('Date: ' + orderDate, 550, 905);
+
+            // Draw Total Amount
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 44px Arial';
+            ctx.fillText('Total Amount: ৳ ' + orderTotal, 1400, 905);
+
+            // Download PNG
+            const dataUrl = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `payment_slip_order_${orderId}.png`;
+            link.href = dataUrl;
+            link.click();
+            
+        } catch (error) {
+            console.error('Error generating payment slip:', error);
+            alert('Failed to generate payment slip PNG.');
+        } finally {
+            // Restore button state
+            btn.prop('disabled', false);
+            btn.html(originalHtml);
+        }
+    });
+});
+</script>
 @endsection

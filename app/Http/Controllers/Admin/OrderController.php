@@ -37,8 +37,9 @@ class OrderController extends Controller
         });
 
         $orders = $query->paginate(20);
+        $contact = \App\Models\Contact::first();
 
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders', 'contact'));
     }
 
     public function updateStatus(Request $request, Order $order)
