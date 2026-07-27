@@ -53,11 +53,11 @@
                                                 {{ ucfirst($salary->status) }}
                                             </span>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <a href="{{ route('admin.salaries.receipt', $salary->id) }}" class="btn btn-info btn-sm">
                                                 <i class="fas fa-download"></i> Download Slip
                                             </a>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @empty
                                     <tr>
