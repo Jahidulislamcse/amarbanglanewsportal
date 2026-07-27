@@ -342,14 +342,16 @@ class FrontendController extends Controller
     
         if ($category) {
     
-            if ($category == '2') {
-    
+            if ($category == '2' || $category == 'admin') {
+                $category = 'admin';
                 $data = Admin::join('roles', 'admins.role_id', '=', 'roles.id')
                     ->where('admins.id', $id)
                     ->where('admins.status', 1)
                     ->select('admins.name', 'admins.photo', 'admins.details', "$name AS role_name")
                     ->first();
-    
+                if (!$data) {
+                    abort(404);
+                }
             } else {
 
                 $data = User::select('users.name', 'users.photo', 'users.details', 'users.report_type', 'users.next_payment_date', 'users.division_id', 'users.district_id', 'users.thana_id', 'users.union_id')
