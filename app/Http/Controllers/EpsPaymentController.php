@@ -66,7 +66,7 @@ class EpsPaymentController extends Controller
         $amount = $fee->rep_monthly_fee;
 
         $response = $eps->initialize([
-            'order_id' => 'MF-' . $transactionId,
+            'order_id' => $transactionId,
             'transaction_id' => $transactionId,
             'amount' => $amount,
             'customer_name' => $user->name,

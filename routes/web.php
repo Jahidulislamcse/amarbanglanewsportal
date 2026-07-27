@@ -99,7 +99,7 @@ Route::post('/checkout', [OrderCheckoutController::class, 'checkout'])
     ->name('checkout.store');
 
 Route::get('/eps/pay', [EpsPaymentController::class, 'pay'])->name('eps.pay');
-Route::get('/monthly-fee/pay', [EpsPaymentController::class, 'monthlyPay'])->name('monthly-fee.pay');
+Route::get('/monthly-fee/pay', [EpsPaymentController::class, 'monthlyPay'])->middleware('auth')->name('monthly-fee.pay');
 Route::get('/eps/success', [EpsPaymentController::class, 'success'])->name('eps.success');
 Route::get('/eps/fail', [EpsPaymentController::class, 'fail'])->name('eps.fail');
 Route::get('/eps/cancel', [EpsPaymentController::class, 'cancel'])->name('eps.cancel');
