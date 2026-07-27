@@ -616,7 +616,7 @@
                 </button>
             </div>
             <div class="modal-body text-left" style="position: relative; min-height: 200px;">
-                <div id="ordersModalLoader" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 10; display: flex; align-items: center; justify-content: center;">
+                <div id="ordersModalLoader" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 10; display: none; align-items: center; justify-content: center;">
                     <div class="spinner-border text-success" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
@@ -1083,14 +1083,14 @@ $(document).ready(function() {
         
         $('#ordersModalUserName').text(userName);
         $('#user-orders-table tbody').html('');
-        $('#ordersModalLoader').show();
+        $('#ordersModalLoader').css('display', 'flex');
         $('#userOrdersModal').modal('show');
         
         $.ajax({
-            url: "{{ url('/admin/user') }}/" + userId + "/orders",
+            url: "{{ route('admin.staff.orders', ['id' => ':id'], false) }}".replace(':id', userId),
             type: 'GET',
             success: function(orders) {
-                $('#ordersModalLoader').hide();
+                $('#ordersModalLoader').css('display', 'none');
                 var html = '';
                 if (!orders || orders.length === 0) {
                     html = '<tr><td colspan="5" class="text-center text-muted">No orders found for this user.</td></tr>';
@@ -1100,7 +1100,7 @@ $(document).ready(function() {
                         if (order.items && order.items.length > 0) {
                             order.items.forEach(function(item) {
                                 var productName = item.product ? item.product.name : 'Unknown Product';
-                                itemsHtml += '<li>' + productName + ' <strong class="text-muted">x' + item.quantity + '</strong> (<span class="text-success">৳' + parseFloat(item.price).toFixed(2) + '</span>)</li>';
+                                itemsHtml += '<li>' + productName + ' <strong class="text-muted">x' + item.quantity + '</strong> (<span class="text-success">৳' + parseFloat(item.price || 0).toFixed(2) + '</span>)</li>';
                             });
                         } else {
                             itemsHtml += '<li>No items in this order</li>';
@@ -1116,14 +1116,23 @@ $(document).ready(function() {
                             statusBadge = '<span class="badge badge-secondary">' + order.status + '</span>';
                         }
 
-                        var date = new Date(order.created_at);
-                        var formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) + ' ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        var formattedDate = 'N/A';
+                        if (order.created_at) {
+                            var dateStr = order.created_at.toString().trim();
+                            if (dateStr.indexOf(' ') > 0 && dateStr.indexOf('T') === -1) {
+                                dateStr = dateStr.replace(/-/g, '/');
+                            }
+                            var date = new Date(dateStr);
+                            if (!isNaN(date.getTime())) {
+                                formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) + ' ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                            }
+                        }
 
                         html += '<tr>' +
                             '<td>' + (order.transaction_id || order.id) + '</td>' +
                             '<td>' + itemsHtml + '</td>' +
                             '<td>' + statusBadge + '</td>' +
-                            '<td class="text-right font-weight-bold text-success">৳' + parseFloat(order.total_amount).toFixed(2) + '</td>' +
+                            '<td class="text-right font-weight-bold text-success">৳' + parseFloat(order.total_amount || 0).toFixed(2) + '</td>' +
                             '<td>' + formattedDate + '</td>' +
                             '</tr>';
                     });
@@ -1131,7 +1140,7 @@ $(document).ready(function() {
                 $('#user-orders-table tbody').html(html);
             },
             error: function() {
-                $('#ordersModalLoader').hide();
+                $('#ordersModalLoader').css('display', 'none');
                 $('#user-orders-table tbody').html('<tr><td colspan="5" class="text-center text-danger">Error loading orders.</td></tr>');
             }
         });
