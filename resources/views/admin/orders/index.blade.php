@@ -125,7 +125,7 @@
                             data-customer-name="{{ $order->user->name ?? '-' }}"
                             data-customer-phone="{{ $order->phone_number ?: ($order->user->phone ?? '-') }}"
                             data-customer-address="{{ $order->address ?: '-' }}"
-                            data-logo-url="{{ $gs->logo ? asset('assets/images/logo/' . $gs->logo) : asset('assets/images/logo.png') }}"
+                            data-logo-url="{{ asset('assets/amarbangla.png') }}"
                             data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
                             data-site-url="amarbangla24.com.bd"
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
@@ -174,7 +174,6 @@ $(document).ready(function() {
             const loadImage = (src) => {
                 return new Promise((resolve) => {
                     const img = new Image();
-                    img.crossOrigin = 'anonymous';
                     img.onload = () => resolve(img);
                     img.onerror = () => resolve(null);
                     setTimeout(() => resolve(null), 1500); // 1.5s timeout
