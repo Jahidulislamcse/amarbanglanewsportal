@@ -33,10 +33,10 @@
                             <div>
                                 <h4 class="text-danger mb-2">
                                     <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true" style="width: 14px; height: 14px; margin-right: 5px;"></span>
-                                    সক্রিয় দায়িত্ব শিফট (Active Duty Shift)
+                                    Active Duty Shift
                                 </h4>
                                 <p class="text-muted mb-0" style="font-size: 15px;">
-                                    আপনি বর্তমানে আপনার বিভাগের দায়িত্বে আছেন। এই শিফটে আপনার দায়িত্ব হলো সকল কল রিসিভ করা এবং মেসেজের উত্তর দেওয়া।
+                                    এই শিফটে সকল কল রিসিভ করা এবং মেসেজের উত্তর দেওয়া আপনার দায়িত্ব।
                                 </p>
                             </div>
                             <div class="text-center mt-3 mt-md-0" style="min-width: 220px;">
