@@ -120,14 +120,14 @@
 
                     <button type="button" class="btn btn-info btn-block btn-sm mt-3 download-slip-btn"
                             data-order-id="{{ $order->id }}"
-                            data-order-date="{{ $order->created_at->format('d M Y H:i') }}"
+                            data-order-date="{{ $order->created_at->format('d M Y') }}"
                             data-order-total="{{ number_format($order->total_amount, 2) }}"
                             data-customer-name="{{ $order->user->name ?? '-' }}"
                             data-customer-phone="{{ $order->phone_number ?: ($order->user->phone ?? '-') }}"
                             data-customer-address="{{ $order->address ?: '-' }}"
                             data-logo-url="{{ $gs->logo ? asset('assets/images/logo/' . $gs->logo) : asset('assets/images/logo.png') }}"
                             data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
-                            data-site-url="{{ optional($contact)->website ?? url('/') }}"
+                            data-site-url="amarbangla24.com.bd"
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
                     >
                         <i class="fas fa-download"></i> Download Slip
@@ -210,7 +210,7 @@ $(document).ready(function() {
             ctx.font = 'bold 44px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('PAYMENT SLIP', 750, 100);
+            ctx.fillText('DELIVERY SLIP', 750, 100);
 
             // Vertical divider line
             ctx.setLineDash([15, 10]);
@@ -333,7 +333,7 @@ $(document).ready(function() {
             // Download PNG
             const dataUrl = canvas.toDataURL('image/png');
             const link = document.createElement('a');
-            link.download = `payment_slip_order_${orderId}.png`;
+            link.download = `delivery_slip_order_${orderId}.png`;
             link.href = dataUrl;
             link.click();
             
