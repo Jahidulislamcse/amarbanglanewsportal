@@ -229,9 +229,12 @@ class StaffController extends Controller
                                  <a target="_blank" href="' . route('admin.staff.user_income_detail', $data->id) . '">
                                     <i class="fas fa-search"></i> View Income
                                  </a>';
-                 $nextPaymentBtn = '<button class="btn btn-success btn-sm rounded-pill update-next-payment" data-id="' . $data->id . '">
-                             Update Next Payment
-                        </button>';
+                 $nextPaymentBtn = '';
+                 if (Auth::guard('admin')->id() === 1) {
+                     $nextPaymentBtn = '<button class="btn btn-success btn-sm rounded-pill update-next-payment" data-id="' . $data->id . '">
+                                 Update Next Payment
+                            </button>';
+                 }
      
                 return '<div class="action-list">' . $count_detail . 
                        '<a data-href="' . route('admin.staff.edit', $data->id) . '" class="edit" data-toggle="modal" data-target="#modal1">
@@ -1058,6 +1061,13 @@ class StaffController extends Controller
     
     public function updateNextPaymentDate(Request $request)
     {
+        if (Auth::guard('admin')->id() !== 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action. Only the primary administrator is allowed to update the next payment date.'
+            ], 403);
+        }
+
         $request->validate([
             'id' => 'required|exists:users,id',
         ]);
