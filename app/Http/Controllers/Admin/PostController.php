@@ -441,7 +441,7 @@ class PostController extends Controller
         $input = $request->all();
         $query = Post::with(['category','language','admin','user'])
             ->where('status', 'true')
-            ->where('is_pending', 3);
+            ->where('is_referred', 1);
             
         if (!empty($input['lang'])) {
             $query->where('language_id', $input['lang']);
@@ -471,7 +471,7 @@ class PostController extends Controller
             )
             ->addColumn('image_big', function(Post $data){
                 if($data->post_type == 'rss'){
-                    $rss_image = $data->rss_image ?  $data->rss_image : url('assets/images/nopic.png');
+                    $rss_image = $data->rss_image ?  $rss_image : url('assets/images/nopic.png');
                     return '<img src="'.$rss_image.'" alt="Image" style="height:50px;">';
                 } else {
                     $image_big = $data->image_big ? url('assets/images/post/'.$data->image_big) : url('assets/images/nopic.png');
@@ -527,9 +527,17 @@ class PostController extends Controller
                 
                 return implode('<br>', $html);
             })
-            ->addColumn('is_approve', fn($data) =>
-                '<span class="badge badge-info text-white">Reffer to Head</span>'
-            )
+            ->addColumn('is_approve', function(Post $data) {
+                if ($data->is_pending == 0) {
+                    return '<span class="badge badge-success">Approved</span>';
+                } elseif ($data->is_pending == 2) {
+                    return '<span class="badge badge-danger">Rejected</span>';
+                } elseif ($data->is_pending == 3) {
+                    return '<span class="badge badge-info text-white">Reffer to Head</span>';
+                } else {
+                    return '<span class="badge badge-warning text-white">Pending</span>';
+                }
+            })
             ->addColumn('action', function(Post $data){
                 return '
                 <div class="godropdown">

@@ -50,6 +50,7 @@ class Post extends Model
 		'reject_reason',
 		'approved_at',
 		'rejected_by',
+		'is_referred',
 
     ];
     protected $table    = 'posts';

@@ -333,6 +333,7 @@ class ArticleController extends Controller
             $input['approved_at'] = null;
         } elseif ($request->is_pending == 3) {
             $input['is_pending'] = 3;
+            $input['is_referred'] = 1;
             $input['reject_reason'] = null;
             $input['approve_by'] = null;
             $input['approved_at'] = null;
