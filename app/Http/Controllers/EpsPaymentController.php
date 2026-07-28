@@ -85,6 +85,14 @@ class EpsPaymentController extends Controller
             return back()->with('error', 'Unable to initialize payment.');
         }
 
+        MonthlyFeePayment::create([
+            'user_id' => $user->id,
+            'transaction_id' => $transactionId,
+            'amount' => $amount,
+            'payment_type' => 'monthly_fee',
+            'status' => 'pending',
+        ]);
+
         $this->storePendingPayment($transactionId, 'monthly_fee', [
             'user_id' => $user->id,
             'transaction_id' => $transactionId,
