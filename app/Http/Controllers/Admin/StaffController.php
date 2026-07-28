@@ -257,7 +257,7 @@ class StaffController extends Controller
                                 <i class="fas fa-shopping-basket"></i> Orders
                             </button>';
                 }
-                return '<span class="text-muted">No Order</span>';
+                return '<span class="badge badge-warning">No Order</span>';
             })
             ->rawColumns(['name', 'photo','report_type', 'action', 'total_commission', 'orders', 'next_payment_date'])
             ->toJson();
