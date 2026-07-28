@@ -67,6 +67,7 @@ class StaffController extends Controller
         $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.created_at >= "' . Carbon::now()->subDays(7)->startOfDay()->toDateTimeString() . '") AS last_7_days_posts_count');
         $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 1) AS pending_posts_count');
         $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM posts WHERE posts.user_id = users.id AND posts.is_pending = 2) AS rejected_posts_count');
+        $selectColumns[] = DB::raw('(SELECT COUNT(*) FROM orders WHERE orders.user_id = users.id) AS total_orders_count');
 
         $q = User::select($selectColumns);
         
@@ -251,9 +252,12 @@ class StaffController extends Controller
                 return number_format($data->total_commission, 2);
             })
             ->addColumn('orders', function ($data) {
-                return '<button class="btn btn-outline-primary btn-sm rounded-pill view-orders" data-id="' . $data->id . '" data-name="' . e($data->name) . '">
-                            <i class="fas fa-shopping-basket"></i> Orders
-                        </button>';
+                if ($data->total_orders_count > 0) {
+                    return '<button class="btn btn-outline-primary btn-sm rounded-pill view-orders" data-id="' . $data->id . '" data-name="' . e($data->name) . '">
+                                <i class="fas fa-shopping-basket"></i> Orders
+                            </button>';
+                }
+                return '<span class="text-muted">No Order</span>';
             })
             ->rawColumns(['name', 'photo','report_type', 'action', 'total_commission', 'orders', 'next_payment_date'])
             ->toJson();
