@@ -720,18 +720,30 @@
     }
 
     function reporterButtons(title) {
+        var prependSerial = function (data) {
+            data.header.unshift("SL No");
+            for (var i = 0; i < data.body.length; i++) {
+                data.body[i].unshift(i + 1);
+            }
+        };
         return [
             {
                 extend: 'excelHtml5',
                 title: title,
-                exportOptions: { columns: ':visible:not(:last-child)' }
+                exportOptions: {
+                    columns: ':visible:not(:last-child)',
+                    customizeData: prependSerial
+                }
             },
             {
                 extend: 'pdfHtml5',
                 title: title,
                 orientation: 'landscape',
                 pageSize: 'A4',
-                exportOptions: { columns: ':visible:not(:last-child)' },
+                exportOptions: {
+                    columns: ':visible:not(:last-child)',
+                    customizeData: prependSerial
+                },
                 customize: function(doc) {
                     doc.styles.tableHeader.alignment = 'left';
                     doc.defaultStyle.alignment = 'left';
@@ -741,12 +753,18 @@
             {
                 extend: 'csvHtml5',
                 title: title,
-                exportOptions: { columns: ':visible:not(:last-child)' }
+                exportOptions: {
+                    columns: ':visible:not(:last-child)',
+                    customizeData: prependSerial
+                }
             },
             {
                 extend: 'print',
                 title: title,
-                exportOptions: { columns: ':visible:not(:last-child)' }
+                exportOptions: {
+                    columns: ':visible:not(:last-child)',
+                    customizeData: prependSerial
+                }
             }
         ];
     }

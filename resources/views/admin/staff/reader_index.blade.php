@@ -461,7 +461,13 @@
 				extend: 'excelHtml5',
 				title: 'Reporter List',
 				exportOptions: {
-					columns: ':visible:not(:last-child)' // Exclude the action column
+					columns: ':visible:not(:last-child)', // Exclude the action column
+					customizeData: function(data) {
+						data.header.unshift("SL No");
+						for (var i = 0; i < data.body.length; i++) {
+							data.body[i].unshift(i + 1);
+						}
+					}
 				}
 			},
 			{
@@ -470,7 +476,13 @@
 				orientation: 'landscape', // optional: 'portrait' or 'landscape'
 				pageSize: 'A4',
 				exportOptions: {
-					columns: ':visible:not(:last-child)'
+					columns: ':visible:not(:last-child)',
+					customizeData: function(data) {
+						data.header.unshift("SL No");
+						for (var i = 0; i < data.body.length; i++) {
+							data.body[i].unshift(i + 1);
+						}
+					}
 				},
 				customize: function (doc) {
 					doc.styles.tableHeader.alignment = 'left'; 
@@ -483,14 +495,26 @@
 				extend: 'csvHtml5',
 				title: 'Reporter List',
 				exportOptions: {
-					columns: ':visible:not(:last-child)'
+					columns: ':visible:not(:last-child)',
+					customizeData: function(data) {
+						data.header.unshift("SL No");
+						for (var i = 0; i < data.body.length; i++) {
+							data.body[i].unshift(i + 1);
+						}
+					}
 				}
 			},
 			{
 				extend: 'print',
 				title: 'Reporter List',
 				exportOptions: {
-					columns: ':visible:not(:last-child)'
+					columns: ':visible:not(:last-child)',
+					customizeData: function(data) {
+						data.header.unshift("SL No");
+						for (var i = 0; i < data.body.length; i++) {
+							data.body[i].unshift(i + 1);
+						}
+					}
 				}
 			}
 		]
