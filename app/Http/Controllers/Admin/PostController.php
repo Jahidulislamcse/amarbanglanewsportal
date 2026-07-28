@@ -441,7 +441,8 @@ class PostController extends Controller
         $input = $request->all();
         $query = Post::with(['category','language','admin','user'])
             ->where('status', 'true')
-            ->where('is_referred', 1);
+            // ->where('is_referred', 1)
+            ->where('is_pending', 3);
             
         if (!empty($input['lang'])) {
             $query->where('language_id', $input['lang']);
