@@ -103,9 +103,9 @@
         <li>
             <a href="{{ route('feature.index') }}"><span>{{ __('Featured Posts') }}</span></a>
         </li>
-        <li>
+        {{-- <li>
             <a href="{{ route('breaking.index') }}"><span>{{ __('Breaking News') }}</span></a>
-        </li>
+        </li> --}}
         @php
             $adminId = Auth::guard('admin')->id();
             $hasDivision = \App\Models\AdminDivision::where('admin_id', $adminId)->exists();

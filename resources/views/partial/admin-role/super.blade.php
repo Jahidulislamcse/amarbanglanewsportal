@@ -171,9 +171,9 @@
         <li>
             <a href="{{ route('feature.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Featured News') }}</span></a>
         </li>
-        <li>
+        {{-- <li>
             <a href="{{ route('breaking.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Breaking News') }}</span></a>
-        </li>
+        </li> --}}
         <li>
             <a href="{{ route('pending.index') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Pending News') }}</span></a>
         </li>
