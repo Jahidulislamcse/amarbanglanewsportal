@@ -183,6 +183,11 @@
 		<li>
             <a href="{{ route('post.postledger') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('News Ledger') }}</span></a>
         </li>
+        @if(Auth::guard('admin')->user()->id == 1)
+        <li>
+            <a href="{{ route('post.critical') }}"><span><i class="fas fa-angle-double-right"></i>{{ __('Critical News') }}</span></a>
+        </li>
+        @endif
 		
 
     </ul>

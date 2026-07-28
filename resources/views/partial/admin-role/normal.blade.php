@@ -126,6 +126,13 @@
                     <span>{{ __('Rejected Posts') }}</span>
                 </a>
             </li>
+            @if(Auth::guard('admin')->user()->id == 1)
+            <li>
+                <a href="{{ route('post.critical') }}">
+                    <span>{{ __('Critical News') }}</span>
+                </a>
+            </li>
+            @endif
         @endif
 
 

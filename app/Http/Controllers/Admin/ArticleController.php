@@ -331,6 +331,12 @@ class ArticleController extends Controller
             $input['rejected_by'] = auth()->guard('admin')->id();
             $input['approve_by'] = null;
             $input['approved_at'] = null;
+        } elseif ($request->is_pending == 3) {
+            $input['is_pending'] = 3;
+            $input['reject_reason'] = null;
+            $input['approve_by'] = null;
+            $input['approved_at'] = null;
+            $input['rejected_by'] = null;
         } else {
             $input['is_pending'] = 1;
             $input['reject_reason'] = null;

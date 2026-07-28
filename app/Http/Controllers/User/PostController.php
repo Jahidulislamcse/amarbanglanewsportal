@@ -88,6 +88,8 @@ class PostController extends Controller
                                     if ($data->reject_reason) {
                                         $is_approve .= '<br><small class="text-danger" title="'.e($data->reject_reason).'">Reason: '.e($data->reject_reason).'</small>';
                                     }
+                                } elseif ($data->is_pending == 3) {
+                                    $is_approve = '<span class="badge badge-info">referred to head</span>';
                                 } else {
                                     $is_approve = $data->is_pending == 0 ? '<span class="badge badge-success">approve</span>':'<span class="badge badge-warning">pending</span>';
                                 }

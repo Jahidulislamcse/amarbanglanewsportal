@@ -490,6 +490,8 @@ Route::prefix('admin')->group(function(){
         Route::get('/post/approved/datatables', 'Admin\PostController@approvedDatatables')->name('post.approved.datatables');
          Route::get('/post/rejected', 'Admin\PostController@rejected')->name('post.rejected');
         Route::get('/post/rejected/datatables', 'Admin\PostController@rejectedDatatables')->name('post.rejected.datatables');
+        Route::get('/post/critical', 'Admin\PostController@critical')->name('post.critical');
+        Route::get('/post/critical/datatables', 'Admin\PostController@criticalDatatables')->name('post.critical.datatables');
  
 
 		Route::get('/postledger','Admin\PostController@postledger')->name('post.postledger');

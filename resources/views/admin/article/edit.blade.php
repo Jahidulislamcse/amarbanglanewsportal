@@ -617,6 +617,14 @@
                                                                     <label for="is_pending3"
                                                                         class="custom-control-label">{{ __('Rejected') }}</label>
                                                                 </div>
+                                                                <div
+                                                                    class="custom-control custom-radio d-inline-block mr-5">
+                                                                    <input type="radio" class="custom-control-input"
+                                                                        name="is_pending" value="3" id="is_pending4"
+                                                                        @if ($data->is_pending == 3) checked @endif>
+                                                                    <label for="is_pending4"
+                                                                        class="custom-control-label">{{ __('Reffer to Head') }}</label>
+                                                                </div>
 
                                                                 <div id="reject_reason_container"
                                                                     style="margin-top: 15px; display: {{ $data->is_pending == 2 ? 'block' : 'none' }};">

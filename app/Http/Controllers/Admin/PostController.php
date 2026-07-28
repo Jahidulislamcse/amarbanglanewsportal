@@ -64,6 +64,9 @@ class PostController extends Controller
             ->editColumn('created_at', fn($data) => $data->created_at ? $data->created_at->format('d M Y, h:i A') : '')
             ->editColumn('admin_id', fn($data) => $data->admin ? $data->admin->name : ($data->user ? $data->user->name : 'Deleted'))
             ->addColumn('is_approve', function(Post $data){
+                if ($data->is_pending == 3) {
+                    return '<span class="badge badge-info text-white">Reffer to Head</span>';
+                }
                 return $data->is_pending != 0 
                     ? '<span class="badge badge-warning text-white">pending</span>' 
                     : '<span class="badge badge-success">approve</span>';
@@ -418,6 +421,127 @@ class PostController extends Controller
                 </div>';
             })
             ->rawColumns(['checkbox','image_big','category_id','language_id','admin_id','is_approve','rejected_by','reject_reason','action'])
+            ->make(true);
+    }
+	
+    public function critical()
+    {
+        if (Auth::guard('admin')->user()->id != 1) {
+            abort(403, 'Unauthorized action.');
+        }
+        $languages = Language::all();
+        return view('admin.post.critical', compact('languages'));
+    }
+
+    public function criticalDatatables(Request $request)
+    {
+        if (Auth::guard('admin')->user()->id != 1) {
+            abort(403, 'Unauthorized action.');
+        }
+        $input = $request->all();
+        $query = Post::with(['category','language','admin','user'])
+            ->where('status', 'true')
+            ->where('is_pending', 3);
+            
+        if (!empty($input['lang'])) {
+            $query->where('language_id', $input['lang']);
+        }
+    
+        if (!empty($input['category'])) {
+            $query->where('category_id', $input['category']);
+        }
+    
+        $query->orderBy('id','desc');
+        
+        return Datatables::of($query)
+            ->filterColumn('admin_id', function($query, $keyword) {
+                $query->where(function($q) use ($keyword) {
+                    $q->whereHas('admin', function($sq) use ($keyword) {
+                        $sq->where('name', 'like', "%{$keyword}%")
+                           ->orWhere('phone', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('user', function($sq) use ($keyword) {
+                        $sq->where('name', 'like', "%{$keyword}%")
+                           ->orWhere('phone', 'like', "%{$keyword}%");
+                    });
+                });
+            })
+            ->addColumn('checkbox', fn($data) =>
+                '<input type="checkbox" class="form-check-input m-0 p-0 postCheck" value="'.$data->id.'">'
+            )
+            ->addColumn('image_big', function(Post $data){
+                if($data->post_type == 'rss'){
+                    $rss_image = $data->rss_image ?  $data->rss_image : url('assets/images/nopic.png');
+                    return '<img src="'.$rss_image.'" alt="Image" style="height:50px;">';
+                } else {
+                    $image_big = $data->image_big ? url('assets/images/post/'.$data->image_big) : url('assets/images/nopic.png');
+                    return '<img src="'.$image_big.'" alt="Image" style="height:50px;">';
+                }
+            })
+            ->editColumn('category_id', fn($data) =>
+                $data->category ? '<span class="badge badge-primary">'.$data->category->title.'</span>' : ''
+            )
+            ->editColumn('language_id', fn($data) =>
+                $data->language ? '<span class="badge badge-info">'.$data->language->language.'</span>' : ''
+            )
+            ->editColumn('admin_id', function(Post $data) {
+                $author = $data->admin;
+                $reporter = $data->user;
+                
+                $html = [];
+                
+                if ($reporter && $reporter->name) {
+                    $repText = 'Reporter: ' . $reporter->name;
+                    if ($reporter->phone) {
+                        $repText .= ' (' . $reporter->phone . ')';
+                    }
+                    if ($reporter->report_type) {
+                        $reportType = json_decode($reporter->report_type, true);
+                        $reportTypeId = $reportType[0] ?? null;
+                        if ($reportTypeId) {
+                            $area = getReporterAreaName($data->language_id, $reportTypeId, $reporter);
+                            if ($area) {
+                                $repText .= '<br><small class="text-muted">Area: ' . $area . '</small>';
+                            }
+                        }
+                    }
+                    $html[] = $repText;
+                }
+                
+                if ($author && $author->name) {
+                    $authText = 'Author: ' . $author->name;
+                    if ($author->phone) {
+                        $authText .= ' (' . $author->phone . ')';
+                    }
+                    $html[] = $authText;
+                }
+                
+                if (empty($html)) {
+                    return 'Deleted';
+                }
+                
+                if (count($html) === 1) {
+                    $single = $html[0];
+                    return preg_replace('/^(Reporter|Author):\s*/', '', $single);
+                }
+                
+                return implode('<br>', $html);
+            })
+            ->addColumn('is_approve', fn($data) =>
+                '<span class="badge badge-info text-white">Reffer to Head</span>'
+            )
+            ->addColumn('action', function(Post $data){
+                return '
+                <div class="godropdown">
+                    <button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button>
+                    <div class="action-list">
+                        <a href="'.route('post.edit',$data->id).'"> <i class="fas fa-edit"></i> Edit</a>
+                        <a href="'.route('frontend.postBySubcategory.details',[$data->category->slug ?? '','' .$data->slug]).'" target="_blank"> <i class="fa fa-info-circle"></i> View</a>
+                        <a href="javascript:;" data-href="'.route('post.delete',$data->id).'" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
+                    </div>
+                </div>';
+            })
+            ->rawColumns(['checkbox','image_big','category_id','language_id','admin_id','is_approve','action'])
             ->make(true);
     }
 	
