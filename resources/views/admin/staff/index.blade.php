@@ -774,8 +774,8 @@
             ordering: false,
             processing: true,
             serverSide: true,
-            pageLength: 30,
-            lengthMenu: [30, 50, 100, 150, 200],
+            pageLength: 100,
+            lengthMenu: [100, 200, 300, 400, 500],
             dom: 'Blfrtip',
             ajax: {
                 url: '{{ route('admin.staff.datatables') }}',

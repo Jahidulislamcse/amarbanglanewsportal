@@ -422,8 +422,8 @@
 		serverSide: true,
 		order: [[6, 'desc']], // default sort by Balance desc (now column index 6 due to reader_type)
 		
-        pageLength: 30,
-        lengthMenu: [30, 50, 100, 150, 200],
+        pageLength: 100,
+        lengthMenu: [100, 200, 300, 400, 500],
         dom: 'Blfrtip',
         
 		ajax: {
