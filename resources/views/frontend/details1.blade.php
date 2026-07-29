@@ -2160,7 +2160,8 @@
         </svg>
     </div>
     <div>
-        <h4 id="toast-title" style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।</h4>
+        <h4 id="toast-title" style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">পড়া সম্পন্ন হয়েছে!</h4>
+        <p id="toast-message" style="margin: 3px 0 0 0; font-size: 13px; color: #ccc;">আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।</p>
     </div>
 </div>
 
@@ -2283,9 +2284,11 @@
                     if (response.status === 'success') {
                         if (response.incremented) {
                             if (response.reader_balance_incremented) {
-                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated." : "Reading completed!";
+                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
+                                document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ব্যালেন্স ও ভিউ যুক্ত করা হয়েছে।" : "Your views and balance have been updated.";
                             } else {
-                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "আপনার ভিউ যুক্ত করা হয়েছে।" : "Your view has been registered.";
+                                document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "পড়া সম্পন্ন হয়েছে!" : "Reading completed!";
+                                document.getElementById('toast-message').innerText = "{{ $lid }}" === "1" ? "আপনার ভিউ যুক্ত করা হয়েছে।" : "Your view has been registered.";
                             }
                         } else {
                             document.getElementById('toast-title').innerText = "{{ $lid }}" === "1" ? "ধন্যবাদ!" : "Thank you!";
