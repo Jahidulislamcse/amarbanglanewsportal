@@ -1013,6 +1013,30 @@ class AdministerController extends Controller
 				$inputs['check_id']= $id;
 				$data->fill($inputs)->save();
 			}
+
+            // Create expense transaction for approved wallet payment request
+            $category = TransactionCategory::firstOrCreate([
+                'name' => 'User Withdrawal'
+            ]);
+
+            $reqUser = User::find($input['user_id']);
+            $bearerName = $reqUser ? ($reqUser->name . ' (' . $reqUser->phone . ')') : 'User (' . $input['user_id'] . ')';
+
+            $exists = Transaction::where('category_id', $category->id)
+                ->where('note', 'like', '%Check ID: ' . $id . '%')
+                ->exists();
+
+            if (!$exists) {
+                Transaction::create([
+                    'type'             => 'expense',
+                    'title'            => 'User Withdrawal',
+                    'bearer'           => $bearerName,
+                    'amount'           => $input['amount'],
+                    'transaction_date' => now()->toDateString(),
+                    'category_id'      => $category->id,
+                    'note'             => 'Withdrawal approved (Wallet update). Check ID: ' . $id,
+                ]);
+            }
 		}
 		
 		$input['admin_id']=auth()->user()->id;

@@ -558,6 +558,20 @@ class EpsPaymentController extends Controller
                         $user->next_payment_date ?? now()
                     )->addMonth(),
                 ]);
+
+                $category = TransactionCategory::firstOrCreate([
+                    'name' => 'Monthly Fee'
+                ]);
+
+                Transaction::create([
+                    'type'             => 'income',
+                    'title'            => 'Monthly Fee Payment',
+                    'bearer'           => $user->name . ' (' . ($user->phone ?? 'N/A') . ')',
+                    'amount'           => $payment->amount,
+                    'transaction_date' => now()->toDateString(),
+                    'category_id'      => $category->id,
+                    'note'             => 'User monthly fee payment. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                ]);
             }
         }
 
@@ -602,14 +616,64 @@ class EpsPaymentController extends Controller
                     }
                 }
             }
+
+            if ($user) {
+                $category = TransactionCategory::firstOrCreate([
+                    'name' => 'Product Purchase'
+                ]);
+
+                Transaction::create([
+                    'type'             => 'income',
+                    'title'            => 'Product Purchase',
+                    'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
+                    'amount'           => $payment->amount,
+                    'transaction_date' => now()->toDateString(),
+                    'category_id'      => $category->id,
+                    'note'             => 'Product Purchase: ' . $payment->product_name . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                ]);
+            }
         }
 
         if ($payment instanceof BookPurchase) {
             $payment->update(['status' => 'approved']);
+
+            $user = User::find($payment->user_id);
+            if ($user) {
+                $category = TransactionCategory::firstOrCreate([
+                    'name' => 'Book Purchase'
+                ]);
+
+                Transaction::create([
+                    'type'             => 'income',
+                    'title'            => 'Book Purchase',
+                    'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
+                    'amount'           => $payment->amount,
+                    'transaction_date' => now()->toDateString(),
+                    'category_id'      => $category->id,
+                    'note'             => 'Book Purchase. Book ID: ' . $payment->book_id . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                ]);
+            }
         }
 
         if ($payment instanceof CoursePurchase) {
             $payment->update(['status' => 'approved']);
+
+            $user = User::find($payment->user_id);
+            if ($user) {
+                $category = TransactionCategory::firstOrCreate([
+                    'name' => 'Course Purchase'
+                ]);
+
+                Transaction::create([
+                    'type'             => 'income',
+                    'title'            => 'Course Purchase',
+                    'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
+                    'amount'           => $payment->amount,
+                    'transaction_date' => now()->toDateString(),
+                    'category_id'      => $category->id,
+                    'note'             => 'Course Purchase. Course ID: ' . $payment->course_id . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                ]);
+            }
         }
     }
 
