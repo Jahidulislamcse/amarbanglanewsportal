@@ -823,6 +823,11 @@ class StaffController extends Controller
                ->where('status', 'paid')
                ->orderBy('id', 'desc')
                ->get();
+
+           $order_records = \App\Models\Order::with('items.product')
+               ->where('user_id', $user_id)
+               ->orderBy('id', 'desc')
+               ->get();
  
            return view('admin.staff.user_income_detail', compact(
                'user_informations',
@@ -836,7 +841,8 @@ class StaffController extends Controller
                'prize_money_by_week',
                'withdraw_records',
                'approved_withdraw_total',
-               'monthly_fee_payments'
+               'monthly_fee_payments',
+               'order_records'
            ));
     }
     public function create(){

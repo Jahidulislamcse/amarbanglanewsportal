@@ -82,6 +82,16 @@
 														<th style="padding: 8px 0; font-weight: 600;">Phone</th>
 														<td style="padding: 8px 0;">{{ $user_informations->phone }}</td>
 													</tr>
+													<tr>
+														<th style="padding: 8px 0; font-weight: 600;">Package 1</th>
+														<td style="padding: 8px 0;">
+															@if($user_informations->package1_purchased)
+																<span class="badge badge-success text-white">Purchased</span>
+															@else
+																<span class="badge badge-secondary text-white">Not Purchased</span>
+															@endif
+														</td>
+													</tr>
 												</tbody>
 											</table>
 										</div>
@@ -170,72 +180,90 @@
 								</div>
 							</div>
 
+							<style>
+								[data-toggle="collapse"] {
+									transition: background-color 0.15s ease-in-out;
+								}
+								[data-toggle="collapse"]:hover {
+									background-color: #f8f9fc !important;
+								}
+								[data-toggle="collapse"] .fa-chevron-down {
+									transition: transform 0.2s ease-in-out;
+								}
+								[data-toggle="collapse"].collapsed .fa-chevron-down {
+									transform: rotate(-90deg);
+								}
+							</style>
+
 							<div class="row">
 								{{-- Top Reporter Achievements Card --}}
 								<div class="col-md-12 mb-4">
 									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
-										<div class="card-header bg-light py-3">
+										<div class="card-header bg-light py-3 d-flex justify-content-between align-items-center collapsed" style="cursor: pointer;" data-toggle="collapse" data-target="#topReporterCollapse" aria-expanded="false" aria-controls="topReporterCollapse">
 											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-trophy mr-2"></i>Top Reporter Records / Achievements</h6>
+											<i class="fas fa-chevron-down text-primary"></i>
 										</div>
-										<div class="card-body">
-											@if(count($top_reporter_records) > 0)
-												<div class="table-responsive">
-													<table class="table table-hover mb-0">
-														<thead>
-															<tr>
-																<th>Type</th>
-																<th>Period</th>
-																<th>Rank / Position</th>
-																<th>Total Views</th>
-																<th>Prize Amount</th>
-															</tr>
-														</thead>
-														<tbody>
-															@foreach($top_reporter_records as $record)
+										<div id="topReporterCollapse" class="collapse">
+											<div class="card-body">
+												@if(count($top_reporter_records) > 0)
+													<div class="table-responsive">
+														<table class="table table-hover mb-0">
+															<thead>
 																<tr>
-																	<td>
-																		@if($record->week)
-																			<span class="badge badge-info text-white">Weekly</span>
-																		@else
-																			<span class="badge badge-success text-white">Monthly</span>
-																		@endif
-																	</td>
-																	<td>
-																		@if($record->week)
-																			{{ $record->week }}
-																		@else
-																			{{ date('F', mktime(0, 0, 0, $record->month, 1)) }}, {{ $record->year }}
-																		@endif
-																	</td>
-																	<td>
-																		<span class="font-weight-bold text-dark">
-																			@if($record->position == 1)
-																				1st Place 🥇
-																			@elseif($record->position == 2)
-																				2nd Place 🥈
-																			@elseif($record->position == 3)
-																				3rd Place 🥉
-																			@else
-																				{{ $record->position }}th Place
-																			@endif
-																		</span>
-																	</td>
-																	<td>{{ number_format($record->total_views) }}</td>
-																	<td>
-																		@if($record->week && isset($prize_money_by_week[$record->week]))
-																			৳{{ number_format($prize_money_by_week[$record->week], 2) }}
-																		@else
-																			-
-																		@endif
-																	</td>
+																	<th>Type</th>
+																	<th>Period</th>
+																	<th>Rank / Position</th>
+																	<th>Total Views</th>
+																	<th>Prize Amount</th>
 																</tr>
-															@endforeach
-														</tbody>
-													</table>
-												</div>
-											@else
-												<p class="text-muted text-center my-4">No Top Reporter records found for this user.</p>
-											@endif
+															</thead>
+															<tbody>
+																@foreach($top_reporter_records as $record)
+																	<tr>
+																		<td>
+																			@if($record->week)
+																				<span class="badge badge-info text-white">Weekly</span>
+																			@else
+																				<span class="badge badge-success text-white">Monthly</span>
+																			@endif
+																		</td>
+																		<td>
+																			@if($record->week)
+																				{{ $record->week }}
+																			@else
+																				{{ date('F', mktime(0, 0, 0, $record->month, 1)) }}, {{ $record->year }}
+																			@endif
+																		</td>
+																		<td>
+																			<span class="font-weight-bold text-dark">
+																				@if($record->position == 1)
+																					1st Place 🥇
+																				@elseif($record->position == 2)
+																					2nd Place 🥈
+																				@elseif($record->position == 3)
+																					3rd Place 🥉
+																				@else
+																					{{ $record->position }}th Place
+																				@endif
+																			</span>
+																		</td>
+																		<td>{{ number_format($record->total_views) }}</td>
+																		<td>
+																			@if($record->week && isset($prize_money_by_week[$record->week]))
+																				৳{{ number_format($prize_money_by_week[$record->week], 2) }}
+																			@else
+																				-
+																			@endif
+																		</td>
+																	</tr>
+																@endforeach
+															</tbody>
+														</table>
+													</div>
+												@else
+													<p class="text-muted text-center my-4">No Top Reporter records found for this user.</p>
+												@endif
+											</div>
 										</div>
 									</div>
 								</div>
@@ -245,63 +273,66 @@
 								{{-- Withdraw Records Card --}}
 								<div class="col-md-12 mb-4">
 									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
-										<div class="card-header bg-light py-3">
+										<div class="card-header bg-light py-3 d-flex justify-content-between align-items-center collapsed" style="cursor: pointer;" data-toggle="collapse" data-target="#withdrawCollapse" aria-expanded="false" aria-controls="withdrawCollapse">
 											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-hand-holding-usd mr-2"></i>Withdrawal Requests / Records</h6>
+											<i class="fas fa-chevron-down text-primary"></i>
 										</div>
-										<div class="card-body">
-											@if(count($withdraw_records) > 0)
-												<div class="table-responsive">
-													<table class="table table-hover mb-0">
-														<thead>
-															<tr>
-																<th>Request Date</th>
-																<th>Method</th>
-																<th>Requested Amount</th>
-																<th>Approved Amount</th>
-																<th>Account Details</th>
-																<th>Status</th>
-																<th>Verify Date / Verifier</th>
-															</tr>
-														</thead>
-														<tbody>
-															@foreach($withdraw_records as $withdraw)
+										<div id="withdrawCollapse" class="collapse">
+											<div class="card-body">
+												@if(count($withdraw_records) > 0)
+													<div class="table-responsive">
+														<table class="table table-hover mb-0">
+															<thead>
 																<tr>
-																	<td>{{ $withdraw->request_date ? date('d M Y', strtotime($withdraw->request_date)) : ($withdraw->created_at ? $withdraw->created_at->format('d M Y') : '') }}</td>
-																	<td><span class="badge badge-secondary text-uppercase">{{ $withdraw->payment_type }}</span></td>
-																	<td>৳{{ number_format($withdraw->request_amount, 2) }}</td>
-																	<td>৳{{ number_format($withdraw->approve_amount, 2) }}</td>
-																	<td style="max-width: 250px; word-break: break-all;">
-																		<small>{{ $withdraw->account_details }}</small>
-																	</td>
-																	<td>
-																		@if($withdraw->status == 0)
-																			<span class="badge badge-warning text-white">Pending</span>
-																		@elseif($withdraw->status == 1)
-																			<span class="badge badge-success text-white">Approved</span>
-										                                @else
-																			<span class="badge badge-danger text-white">Rejected</span>
-																		@endif
-																	</td>
-																	<td>
-																		@if($withdraw->status == 1 || $withdraw->status == 2)
-																			<small>
-																				{{ $withdraw->verify_date ? date('d M Y', strtotime($withdraw->verify_date)) : '' }}
-																				@if($withdraw->verifier)
-																					<br>By: {{ $withdraw->verifier->name }}
-																				@endif
-																			</small>
-																		@else
-																			-
-																		@endif
-																	</td>
+																	<th>Request Date</th>
+																	<th>Method</th>
+																	<th>Requested Amount</th>
+																	<th>Approved Amount</th>
+																	<th>Account Details</th>
+																	<th>Status</th>
+																	<th>Verify Date / Verifier</th>
 																</tr>
-															@endforeach
-														</tbody>
-													</table>
-												</div>
-											@else
-												<p class="text-muted text-center my-4">No withdrawal requests found for this user.</p>
-											@endif
+															</thead>
+															<tbody>
+																@foreach($withdraw_records as $withdraw)
+																	<tr>
+																		<td>{{ $withdraw->request_date ? date('d M Y', strtotime($withdraw->request_date)) : ($withdraw->created_at ? $withdraw->created_at->format('d M Y') : '') }}</td>
+																		<td><span class="badge badge-secondary text-uppercase">{{ $withdraw->payment_type }}</span></td>
+																		<td>৳{{ number_format($withdraw->request_amount, 2) }}</td>
+																		<td>৳{{ number_format($withdraw->approve_amount, 2) }}</td>
+																		<td style="max-width: 250px; word-break: break-all;">
+																			<small>{{ $withdraw->account_details }}</small>
+																		</td>
+																		<td>
+																			@if($withdraw->status == 0)
+																				<span class="badge badge-warning text-white">Pending</span>
+																			@elseif($withdraw->status == 1)
+																				<span class="badge badge-success text-white">Approved</span>
+																			@else
+																				<span class="badge badge-danger text-white">Rejected</span>
+																			@endif
+																		</td>
+																		<td>
+																			@if($withdraw->status == 1 || $withdraw->status == 2)
+																				<small>
+																					{{ $withdraw->verify_date ? date('d M Y', strtotime($withdraw->verify_date)) : '' }}
+																					@if($withdraw->verifier)
+																						<br>By: {{ $withdraw->verifier->name }}
+																					@endif
+																				</small>
+																			@else
+																				-
+																			@endif
+																		</td>
+																	</tr>
+																@endforeach
+															</tbody>
+														</table>
+													</div>
+												@else
+													<p class="text-muted text-center my-4">No withdrawal requests found for this user.</p>
+												@endif
+											</div>
 										</div>
 									</div>
 								</div>
@@ -311,38 +342,102 @@
 								{{-- Monthly Fee Payments Card --}}
 								<div class="col-md-12 mb-4">
 									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
-										<div class="card-header bg-light py-3">
+										<div class="card-header bg-light py-3 d-flex justify-content-between align-items-center collapsed" style="cursor: pointer;" data-toggle="collapse" data-target="#monthlyFeeCollapse" aria-expanded="false" aria-controls="monthlyFeeCollapse">
 											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-receipt mr-2"></i>Monthly Fee Payments (Paid Only)</h6>
+											<i class="fas fa-chevron-down text-primary"></i>
 										</div>
-										<div class="card-body">
-											@if(count($monthly_fee_payments) > 0)
-												<div class="table-responsive">
-													<table class="table table-hover mb-0">
-														<thead>
-															<tr>
-																<th>Payment Date</th>
-																<th>Method</th>
-																<th>Transaction ID</th>
-																<th>EPS Txn ID</th>
-																<th>Amount</th>
-															</tr>
-														</thead>
-														<tbody>
-															@foreach($monthly_fee_payments as $payment)
+										<div id="monthlyFeeCollapse" class="collapse">
+											<div class="card-body">
+												@if(count($monthly_fee_payments) > 0)
+													<div class="table-responsive">
+														<table class="table table-hover mb-0">
+															<thead>
 																<tr>
-																	<td>{{ $payment->paid_at ? $payment->paid_at->format('d M Y, h:i A') : ($payment->created_at ? $payment->created_at->format('d M Y, h:i A') : '') }}</td>
-																	<td><span class="badge badge-secondary text-uppercase">{{ $payment->payment_type ?? 'N/A' }}</span></td>
-																	<td>{{ $payment->transaction_id }}</td>
-																	<td>{{ $payment->eps_transaction_id ?? '-' }}</td>
-																	<td>৳{{ number_format($payment->amount, 2) }}</td>
+																	<th>Payment Date</th>
+																	<th>Method</th>
+																	<th>Transaction ID</th>
+																	<th>EPS Txn ID</th>
+																	<th>Amount</th>
 																</tr>
-															@endforeach
-														</tbody>
-													</table>
-												</div>
-											@else
-												<p class="text-muted text-center my-4">No paid monthly fee payments found for this user.</p>
-											@endif
+															</thead>
+															<tbody>
+																@foreach($monthly_fee_payments as $payment)
+																	<tr>
+																		<td>{{ $payment->paid_at ? $payment->paid_at->format('d M Y, h:i A') : ($payment->created_at ? $payment->created_at->format('d M Y, h:i A') : '') }}</td>
+																		<td><span class="badge badge-secondary text-uppercase">{{ $payment->payment_type ?? 'N/A' }}</span></td>
+																		<td>{{ $payment->transaction_id }}</td>
+																		<td>{{ $payment->eps_transaction_id ?? '-' }}</td>
+																		<td>৳{{ number_format($payment->amount, 2) }}</td>
+																	</tr>
+																@endforeach
+															</tbody>
+														</table>
+													</div>
+												@else
+													<p class="text-muted text-center my-4">No paid monthly fee payments found for this user.</p>
+												@endif
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								{{-- Order List Card --}}
+								<div class="col-md-12 mb-4">
+									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
+										<div class="card-header bg-light py-3 d-flex justify-content-between align-items-center collapsed" style="cursor: pointer;" data-toggle="collapse" data-target="#orderCollapse" aria-expanded="false" aria-controls="orderCollapse">
+											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-shopping-bag mr-2"></i>Order List / Purchase History</h6>
+											<i class="fas fa-chevron-down text-primary"></i>
+										</div>
+										<div id="orderCollapse" class="collapse">
+											<div class="card-body">
+												@if(count($order_records) > 0)
+													<div class="table-responsive">
+														<table class="table table-hover mb-0">
+															<thead>
+																<tr>
+																	<th>Order ID / Txn ID</th>
+																	<th>Date</th>
+																	<th>Products / Qty</th>
+																	<th>Total Amount</th>
+																	<th>Status</th>
+																</tr>
+															</thead>
+															<tbody>
+																@foreach($order_records as $order)
+																	<tr>
+																		<td>
+																			<strong>#{{ $order->id }}</strong>
+																			@if($order->transaction_id)
+																				<br><small class="text-muted">Txn: {{ $order->transaction_id }}</small>
+																			@endif
+																		</td>
+																		<td>{{ $order->created_at ? $order->created_at->format('d M Y, h:i A') : '' }}</td>
+																		<td>
+																			@if ($order->items && count($order->items) > 0)
+																				<ul class="list-unstyled mb-0">
+																					@foreach($order->items as $item)
+																						<li><small>{{ $item->product->name ?? 'Product' }} (x{{ $item->quantity }}) - ৳{{ number_format($item->price, 2) }}</small></li>
+																					@endforeach
+																				</ul>
+																			@else
+																				<small class="text-muted">No items</small>
+																			@endif
+																		</td>
+																		<td>৳{{ number_format($order->total_amount, 2) }}</td>
+																		<td>
+																			<span class="badge badge-secondary text-uppercase">{{ $order->status ?? 'pending' }}</span>
+																		</td>
+																	</tr>
+																@endforeach
+															</tbody>
+														</table>
+													</div>
+												@else
+													<p class="text-muted text-center my-4">No orders found for this user.</p>
+												@endif
+											</div>
 										</div>
 									</div>
 								</div>
