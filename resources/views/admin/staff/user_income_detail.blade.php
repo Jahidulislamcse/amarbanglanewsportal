@@ -308,6 +308,47 @@
 							</div>
 
 							<div class="row">
+								{{-- Monthly Fee Payments Card --}}
+								<div class="col-md-12 mb-4">
+									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
+										<div class="card-header bg-light py-3">
+											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-receipt mr-2"></i>Monthly Fee Payments (Paid Only)</h6>
+										</div>
+										<div class="card-body">
+											@if(count($monthly_fee_payments) > 0)
+												<div class="table-responsive">
+													<table class="table table-hover mb-0">
+														<thead>
+															<tr>
+																<th>Payment Date</th>
+																<th>Method</th>
+																<th>Transaction ID</th>
+																<th>EPS Txn ID</th>
+																<th>Amount</th>
+															</tr>
+														</thead>
+														<tbody>
+															@foreach($monthly_fee_payments as $payment)
+																<tr>
+																	<td>{{ $payment->paid_at ? $payment->paid_at->format('d M Y, h:i A') : ($payment->created_at ? $payment->created_at->format('d M Y, h:i A') : '') }}</td>
+																	<td><span class="badge badge-secondary text-uppercase">{{ $payment->payment_type ?? 'N/A' }}</span></td>
+																	<td>{{ $payment->transaction_id }}</td>
+																	<td>{{ $payment->eps_transaction_id ?? '-' }}</td>
+																	<td>৳{{ number_format($payment->amount, 2) }}</td>
+																</tr>
+															@endforeach
+														</tbody>
+													</table>
+												</div>
+											@else
+												<p class="text-muted text-center my-4">No paid monthly fee payments found for this user.</p>
+											@endif
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
 								<div class="col-lg-12">
 									<div class="mr-table allproduct">
     									@include('includes.admin.form-success')
