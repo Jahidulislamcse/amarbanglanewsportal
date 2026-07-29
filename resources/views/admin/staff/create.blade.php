@@ -261,91 +261,93 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Division') }} *</h4>
+                            <!-- Reporting Area Section -->
+                            <div class="mb-4" style="border: 1px solid #e5e7eb; border-radius: 16px; background: #faf8f5; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                                <h5 style="color: #922B21; font-weight: bold; margin-top: 0; margin-bottom: 15px; border-left: 3px solid #922B21; padding-left: 8px;">{{ __('Reporting Area') }}</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Division') }} *</h4>
+                                        </div>
+                                        <select name="division_id" id="division_id" class="form-control" required>
+                                            <option value="">Select Division</option>
+                                            @foreach($divisions as $division)
+                                                <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <select name="division_id" id="division_id" class="form-control" required>
-                                        <option value="">Select Division</option>
-                                        @foreach($divisions as $division)
-                                            <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('District') }} *</h4>
+                                        </div>
+                                        <select name="district_id" id="district_id" class="form-control" required>
+                                            <option value="">Select District</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('District') }} *</h4>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Upazila') }} *</h4>
+                                        </div>
+                                        <select name="thana_id" id="thana_id" class="form-control" required>
+                                            <option value="">Select Upazila</option>
+                                        </select>
                                     </div>
-                                    <select name="district_id" id="district_id" class="form-control" required>
-                                        <option value="">Select District</option>
-                                    </select>
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Union') }} ({{ __('Optional') }})</h4>
+                                        </div>
+                                        <select name="union_id" id="union_id" class="form-control">
+                                            <option value="">Select Union</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Upazila') }} *</h4>
+                            <!-- Permanent Address Section -->
+                            <div class="mb-4" style="border: 1px solid #e5e7eb; border-radius: 16px; background: #faf8f5; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                                <h5 style="color: #922B21; font-weight: bold; margin-top: 0; margin-bottom: 15px; border-left: 3px solid #922B21; padding-left: 8px;">{{ __('Permanent Address') }}</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Permanent Division') }} *</h4>
+                                        </div>
+                                        <select name="permanent_division_id" id="permanent_division_id" class="form-control" required>
+                                            <option value="">{{ __('Select Division') }}</option>
+                                            @foreach($all_divisions as $division)
+                                                <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <select name="thana_id" id="thana_id" class="form-control" required>
-                                        <option value="">Select Upazila</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Union') }} ({{ __('Optional') }})</h4>
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Permanent District') }} *</h4>
+                                        </div>
+                                        <select name="permanent_district_id" id="permanent_district_id" class="form-control" required>
+                                            <option value="">{{ __('Select District') }}</option>
+                                        </select>
                                     </div>
-                                    <select name="union_id" id="union_id" class="form-control">
-                                        <option value="">Select Union</option>
-                                    </select>
                                 </div>
-                            </div>
 
-                            <div class="row mt-4 mb-2">
-                                <div class="col-lg-12">
-                                    <h5 style="color: #922B21; font-weight: bold; border-left: 3px solid #922B21; padding-left: 8px;">{{ __('Permanent Address') }}</h5>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Permanent Division') }} *</h4>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Permanent Upazila') }} *</h4>
+                                        </div>
+                                        <select name="permanent_thana_id" id="permanent_thana_id" class="form-control" required>
+                                            <option value="">{{ __('Select Upazila') }}</option>
+                                        </select>
                                     </div>
-                                    <select name="permanent_division_id" id="permanent_division_id" class="form-control" required>
-                                        <option value="">{{ __('Select Division') }}</option>
-                                        @foreach($all_divisions as $division)
-                                            <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Permanent District') }} *</h4>
+                                    <div class="col-lg-6">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Permanent Union') }} ({{ __('Optional') }})</h4>
+                                        </div>
+                                        <select name="permanent_union_id" id="permanent_union_id" class="form-control">
+                                            <option value="">{{ __('Select Union') }}</option>
+                                        </select>
                                     </div>
-                                    <select name="permanent_district_id" id="permanent_district_id" class="form-control" required>
-                                        <option value="">{{ __('Select District') }}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Permanent Upazila') }} *</h4>
-                                    </div>
-                                    <select name="permanent_thana_id" id="permanent_thana_id" class="form-control" required>
-                                        <option value="">{{ __('Select Upazila') }}</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="left-area">
-                                        <h4 class="heading">{{ __('Permanent Union') }} ({{ __('Optional') }})</h4>
-                                    </div>
-                                    <select name="permanent_union_id" id="permanent_union_id" class="form-control">
-                                        <option value="">{{ __('Select Union') }}</option>
-                                    </select>
                                 </div>
                             </div>
 
