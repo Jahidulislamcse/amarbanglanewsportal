@@ -867,6 +867,7 @@ if ($default_language->id == 1) {
             width: 100%;
             justify-content: center;
             gap: 8px;
+            margin-top: 10px;
         }
 
         .live-player-box, .radio-coming-box {
