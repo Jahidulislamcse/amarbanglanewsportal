@@ -814,6 +814,10 @@ class StaffController extends Controller
                ->where('user_id', $user_id)
                ->orderBy('id', 'desc')
                ->get();
+
+           $approved_withdraw_total = \App\Models\PaymentRequest::where('user_id', $user_id)
+               ->where('status', 1)
+               ->sum('approve_amount') ?? 0;
  
            return view('admin.staff.user_income_detail', compact(
                'user_informations',
@@ -825,7 +829,8 @@ class StaffController extends Controller
                'top_reporter_records',
                'top_reporter_prize_total',
                'prize_money_by_week',
-               'withdraw_records'
+               'withdraw_records',
+               'approved_withdraw_total'
            ));
     }
     public function create(){

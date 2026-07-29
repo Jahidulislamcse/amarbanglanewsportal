@@ -47,6 +47,12 @@
 									</div>
 								</div>
 								<div class="col-md-4 col-lg">
+									<div class="card bg-secondary text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Approved Withdraw</h6>
+										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($approved_withdraw_total, 2) }}</h3>
+									</div>
+								</div>
+								<div class="col-md-4 col-lg">
 									<div class="card bg-warning text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Current Balance</h6>
 										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($user_informations->balance ?? 0, 2) }}</h3>
