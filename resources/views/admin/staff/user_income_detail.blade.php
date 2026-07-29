@@ -236,6 +236,72 @@
 							</div>
 
 							<div class="row">
+								{{-- Withdraw Records Card --}}
+								<div class="col-md-12 mb-4">
+									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
+										<div class="card-header bg-light py-3">
+											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-hand-holding-usd mr-2"></i>Withdrawal Requests / Records</h6>
+										</div>
+										<div class="card-body">
+											@if(count($withdraw_records) > 0)
+												<div class="table-responsive">
+													<table class="table table-hover mb-0">
+														<thead>
+															<tr>
+																<th>Request Date</th>
+																<th>Method</th>
+																<th>Requested Amount</th>
+																<th>Approved Amount</th>
+																<th>Account Details</th>
+																<th>Status</th>
+																<th>Verify Date / Verifier</th>
+															</tr>
+														</thead>
+														<tbody>
+															@foreach($withdraw_records as $withdraw)
+																<tr>
+																	<td>{{ $withdraw->request_date ? date('d M Y', strtotime($withdraw->request_date)) : ($withdraw->created_at ? $withdraw->created_at->format('d M Y') : '') }}</td>
+																	<td><span class="badge badge-secondary text-uppercase">{{ $withdraw->payment_type }}</span></td>
+																	<td>৳{{ number_format($withdraw->request_amount, 2) }}</td>
+																	<td>৳{{ number_format($withdraw->approve_amount, 2) }}</td>
+																	<td style="max-width: 250px; word-break: break-all;">
+																		<small>{{ $withdraw->account_details }}</small>
+																	</td>
+																	<td>
+																		@if($withdraw->status == 0)
+																			<span class="badge badge-warning text-white">Pending</span>
+																		@elseif($withdraw->status == 1)
+																			<span class="badge badge-success text-white">Approved</span>
+										                                @else
+																			<span class="badge badge-danger text-white">Rejected</span>
+																		@endif
+																	</td>
+																	<td>
+																		@if($withdraw->status == 1 || $withdraw->status == 2)
+																			<small>
+																				{{ $withdraw->verify_date ? date('d M Y', strtotime($withdraw->verify_date)) : '' }}
+																				@if($withdraw->verifier)
+																					<br>By: {{ $withdraw->verifier->name }}
+																				@endif
+																			</small>
+																		@else
+																			-
+																		@endif
+																	</td>
+																</tr>
+															@endforeach
+														</tbody>
+													</table>
+												</div>
+											@else
+												<p class="text-muted text-center my-4">No withdrawal requests found for this user.</p>
+											@endif
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
 								<div class="col-lg-12">
 									<div class="mr-table allproduct">
     									@include('includes.admin.form-success')

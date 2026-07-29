@@ -809,6 +809,11 @@ class StaffController extends Controller
            $prize_money_by_week = \App\Models\ReporterPrizeMoney::where('user_id', $user_id)
                ->pluck('amount', 'week')
                ->toArray();
+
+           $withdraw_records = \App\Models\PaymentRequest::with('verifier')
+               ->where('user_id', $user_id)
+               ->orderBy('id', 'desc')
+               ->get();
  
            return view('admin.staff.user_income_detail', compact(
                'user_informations',
@@ -819,7 +824,8 @@ class StaffController extends Controller
                'genUsers',
                'top_reporter_records',
                'top_reporter_prize_total',
-               'prize_money_by_week'
+               'prize_money_by_week',
+               'withdraw_records'
            ));
     }
     public function create(){
