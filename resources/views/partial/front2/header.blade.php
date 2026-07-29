@@ -248,30 +248,40 @@ if ($default_language->id == 1) {
                         </div>
                     </div>
 
-                    <a href="{{ route('worldcup.points') }}" class="worldcup-link">
-                        <div class="worldcup-box">
-
-                            <div class="wc-icon">
-                                <img src="https://i.pinimg.com/originals/43/a7/fd/43a7fdc82210641cddb095d0804e0f35.png"
-                                    alt="World Cup" />
+                    <a href="https://amarbangla24.tv/" target="_blank" class="live-player-link">
+                        <div class="live-player-box">
+                            <div class="lp-icon">
+                                <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                    <polygon points="10 8 16 11 10 14 10 8" fill="currentColor"></polygon>
+                                </svg>
+                                <span class="live-dot"></span>
                             </div>
-
-                            <div class="wc-content">
-                                <div class="wc-title">
-                                    বিশ্বকাপ ২০২৬
-                                </div>
-
-                                <div class="wc-countdown">
-                                    <span id="wcDays">০</span> দিন
-                                    <span id="wcHours">০</span> ঘণ্টা
-                                    <span id="wcMinutes">০</span> মিনিট
-                                </div>
-
-
+                            <div class="lp-content" style="text-align: left;">
+                                <div class="lp-title">Amar Bangla 24</div>
+                                <div class="lp-subtitle">লাইভ প্লেয়ার</div>
                             </div>
-
                         </div>
                     </a>
+
+                    <div class="radio-coming-box">
+                        <div class="rc-icon">
+                            <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="8" width="20" height="12" rx="2" ry="2"></rect>
+                                <line x1="6" y1="8" x2="6" y2="3"></line>
+                                <circle cx="6" cy="3" r="1" fill="currentColor"></circle>
+                                <circle cx="8" cy="14" r="3"></circle>
+                                <rect x="15" y="11" width="4" height="2" rx="1"></rect>
+                                <circle cx="17" cy="16" r="1" fill="currentColor"></circle>
+                            </svg>
+                        </div>
+                        <div class="rc-content" style="text-align: left;">
+                            <div class="rc-title">Amar Bangla 24 Radio</div>
+                            <div class="rc-subtitle">Coming Soon</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -730,56 +740,103 @@ if ($default_language->id == 1) {
         gap: 15px;
     }
 
-    .worldcup-box {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 15px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #7b1fa2, #1565c0);
-        color: #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, .15);
-        white-space: nowrap;
+    .live-player-link {
+        text-decoration: none !important;
+        display: block;
     }
 
-    .wc-icon {
-        width: 62px;
-        height: 62px;
+    .live-player-box, .radio-coming-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #fff;
+        white-space: nowrap;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
         overflow: hidden;
+    }
 
+    .live-player-box {
+        background: linear-gradient(135deg, #ff007f, #ff4500);
+        box-shadow: 0 2px 10px rgba(255, 0, 127, 0.2);
+    }
+
+    .live-player-link:hover .live-player-box {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 0, 127, 0.4);
+    }
+
+    .radio-coming-box {
+        background: linear-gradient(135deg, #4776e6, #8e54e9);
+        box-shadow: 0 2px 10px rgba(71, 118, 230, 0.2);
+        cursor: default;
+    }
+
+    .radio-coming-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(71, 118, 230, 0.4);
+    }
+
+    .lp-icon, .rc-icon {
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        position: relative;
+        flex-shrink: 0;
     }
 
-    .wc-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .wc-title {
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 2px;
-    }
-
-    .wc-countdown {
-        font-size: 15px;
-        font-weight: 700;
-        color: #ffeb3b;
-    }
-
-    .wc-countdown span {
+    .header-svg-icon {
+        width: 20px;
+        height: 20px;
         color: #fff;
     }
 
-    .worldcup-box small {
-        display: block;
+    .live-dot {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background-color: #00e676;
+        border: 1.5px solid #ff4500;
+        animation: pulse-live 1.5s infinite;
+    }
+
+    @keyframes pulse-live {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+        }
+        70% {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 5px rgba(0, 230, 118, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+        }
+    }
+
+    .lp-title, .rc-title {
         font-size: 11px;
-        opacity: .85;
+        font-weight: 500;
+        opacity: 0.9;
+        line-height: 1.2;
+    }
+
+    .lp-subtitle, .rc-subtitle {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.2;
     }
 
     .header-right-wrap {
@@ -790,80 +847,24 @@ if ($default_language->id == 1) {
         flex-wrap: nowrap;
     }
 
-    /* WORLD CUP CARD INLINE FIX */
-    .worldcup-box {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 12px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #7b1fa2, #1565c0);
-        color: #fff;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-
-    .worldcup-link {
-        text-decoration: none !important;
-        display: block;
-    }
-
-    .worldcup-link:hover {
-        text-decoration: none;
-    }
-
-    .worldcup-link:hover .worldcup-box {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, .25);
-    }
-
-    .worldcup-box {
-        cursor: pointer;
-        transition: .3s ease;
-    }
-
-    .wc-icon img {
-        width: 42px;
-        height: 42px;
-        object-fit: contain;
-    }
-
     /* MOBILE OPTIMIZATION */
     @media(max-width:768px) {
-
         .header-right-wrap {
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .worldcup-box {
+        .live-player-box, .radio-coming-box {
             width: 100%;
             max-width: 320px;
             justify-content: center;
             margin-top: 8px;
         }
 
-        .wc-icon {
-            width: 52px;
-            height: 52px;
-            font-size: 18px;
-        }
-
-        .wc-title {
-            font-size: 11px;
-        }
-
-        .wc-countdown {
-            font-size: 12px;
-        }
-
         .widget_area {
             width: 100%;
             text-align: center;
         }
-    }
-
-    @media(max-width:768px) {
 
         .header_logo {
             text-align: center;
@@ -887,78 +888,6 @@ if ($default_language->id == 1) {
             max-width: 100%;
             height: auto !important;
         }
-
-        .worldcup-box {
-            display: inline-flex;
-            margin-top: 10px;
-            padding: 6px 12px;
-        }
-
-        .wc-title {
-            font-size: 11px;
-        }
-
-        .wc-countdown {
-            font-size: 13px;
-        }
     }
 </style>
 
-<script>
-    (function() {
-
-
-        const targetDate = new Date('2026-06-11T19:00:00Z').getTime();
-
-        const bnDigits = {
-            '0': '০',
-            '1': '১',
-            '2': '২',
-            '3': '৩',
-            '4': '৪',
-            '5': '৫',
-            '6': '৬',
-            '7': '৭',
-            '8': '৮',
-            '9': '৯'
-        };
-
-        function toBangla(num) {
-            return String(num).replace(/\d/g, d => bnDigits[d]);
-        }
-
-        function updateCountdown() {
-
-            const now = Date.now();
-            const diff = targetDate - now;
-
-            if (diff <= 0) {
-                document.querySelector('.wc-countdown').innerHTML =
-                    'ম্যাচ সূচি ও পয়েন্ট টেবিল দেখতে ক্লিক করুন';
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            const hours = Math.floor(
-                (diff % (1000 * 60 * 60 * 24)) /
-                (1000 * 60 * 60)
-            );
-
-            const minutes = Math.floor(
-                (diff % (1000 * 60 * 60)) /
-                (1000 * 60)
-            );
-
-            document.getElementById('wcDays').textContent = toBangla(days);
-            document.getElementById('wcHours').textContent = toBangla(hours);
-            document.getElementById('wcMinutes').textContent = toBangla(minutes);
-        }
-
-        updateCountdown();
-
-        // প্রতি মিনিটে আপডেট
-        setInterval(updateCountdown, 60000);
-
-    })();
-</script>
