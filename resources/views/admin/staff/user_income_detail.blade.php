@@ -36,8 +36,8 @@
 								</div>
 								<div class="col-md-3">
 									<div class="card bg-info text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Team Commission (Lifetime)</h6>
-										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($product_commission, 2) }}</h3>
+										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Referral Earning</h6>
+										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($user_informations->referral_earning ?? 0, 2) }}</h3>
 									</div>
 								</div>
 								<div class="col-md-3">
