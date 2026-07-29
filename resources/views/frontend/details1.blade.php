@@ -2174,7 +2174,6 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(2px);
         pointer-events: none;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         transition: opacity 0.5s ease;
     }
     .stay-timer-track-top {
@@ -2220,7 +2219,6 @@
         height: 8px;
         width: 0;
         background: linear-gradient(to right, #00ff87, #60efff);
-        box-shadow: 0 0 10px #00ff87, 0 0 20px #00ff87, inset 0 1px 2px rgba(255,255,255,0.6);
         animation: grow-top 15s linear forwards;
     }
     .stay-timer-border-right {
@@ -2229,7 +2227,6 @@
         width: 8px;
         height: 0;
         background: linear-gradient(to bottom, #60efff, #00ff87);
-        box-shadow: 0 0 10px #00ff87, 0 0 20px #00ff87, inset 1px 0 2px rgba(255,255,255,0.6);
         animation: grow-right 15s linear forwards;
     }
     .stay-timer-border-bottom {
@@ -2238,7 +2235,6 @@
         height: 8px;
         width: 0;
         background: linear-gradient(to left, #00ff87, #60efff);
-        box-shadow: 0 0 10px #00ff87, 0 0 20px #00ff87, inset 0 -1px 2px rgba(255,255,255,0.6);
         animation: grow-bottom 15s linear forwards;
     }
     .stay-timer-border-left {
@@ -2247,7 +2243,6 @@
         width: 8px;
         height: 0;
         background: linear-gradient(to top, #60efff, #00ff87);
-        box-shadow: 0 0 10px #00ff87, 0 0 20px #00ff87, inset -1px 0 2px rgba(255,255,255,0.6);
         animation: grow-left 15s linear forwards;
     }
 
