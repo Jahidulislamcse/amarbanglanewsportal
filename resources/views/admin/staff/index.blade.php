@@ -282,35 +282,21 @@
                <button type="button" id="toggle-no-post-reporters" class="btn btn-outline-info rounded-pill px-4">
                    <i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only
                </button>
-                <button type="button" id="toggle-no-purchase-with-posts" class="btn btn-outline-warning rounded-pill px-4">
-                    <i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase
-                </button>
-                <button type="button" id="toggle-expired-reporters" class="btn btn-outline-danger rounded-pill px-4">
-                    <i class="fas fa-hourglass-half mr-2"></i> Expired Payments
-                </button>
-          </div>
-      </div>
-          </div>
-
-     <div class="row reporter-filter-row" id="expired-subfilters-row" style="display: none;">
-         <div class="d-flex flex-wrap gap-3 align-items-center mb-4 p-3 bg-light rounded shadow-sm border col-12">
-             <div class="mr-auto d-flex align-items-center">
-                 <h6 class="m-0 text-secondary"><i class="fas fa-filter mr-2 text-danger"></i> Expired Period:</h6>
-             </div>
-             <div class="d-flex flex-wrap gap-2">
-                 <button type="button" id="sub-expired-recent" class="btn btn-sm btn-outline-success rounded-pill px-3">
-                     <i class="fas fa-hourglass-start mr-1"></i> Recently Expired (Within 10 Days)
-                 </button>
-                 <button type="button" id="sub-expired-1month" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                     <i class="fas fa-calendar-alt mr-1"></i> 1month (11-30 Days)
-                 </button>
-                 <button type="button" id="sub-expired-more" class="btn btn-sm btn-outline-warning rounded-pill px-3">
-                     <i class="fas fa-calendar-times mr-1"></i> more (31-90 Days)
-                 </button>
-                 <button type="button" id="sub-expired-inactive" class="btn btn-sm btn-outline-danger rounded-pill px-3">
-                     <i class="fas fa-user-times mr-1"></i> inactive (More than 3 Months)
-                 </button>
-             </div>
+               <button type="button" id="toggle-no-purchase-with-posts" class="btn btn-outline-warning rounded-pill px-4">
+                   <i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase
+               </button>
+               <button type="button" id="toggle-expired-recent" class="btn btn-outline-success rounded-pill px-4">
+                   <i class="fas fa-hourglass-start mr-2"></i> Recently Expired
+               </button>
+               <button type="button" id="toggle-expired-1month" class="btn btn-outline-primary rounded-pill px-4">
+                   <i class="fas fa-calendar-alt mr-2"></i> 1month
+               </button>
+               <button type="button" id="toggle-expired-more" class="btn btn-outline-warning rounded-pill px-4">
+                   <i class="fas fa-calendar-times mr-2"></i> more
+               </button>
+               <button type="button" id="toggle-expired-inactive" class="btn btn-outline-danger rounded-pill px-4">
+                   <i class="fas fa-user-times mr-2"></i> inactive
+               </button>
          </div>
      </div>
          </div>
@@ -987,14 +973,9 @@
     var expiredMoreTable = null;
     var expiredInactiveTable = null;
 
-    var activeExpiredSubFilter = 'expired_recent';
-
     function showReporterPanel(showType) {
         if (showType === true) showType = 'rejected';
         if (showType === false) showType = 'active';
-
-        var expiredTypes = ['expired_recent', 'expired_1month', 'expired_more', 'expired_inactive'];
-        var isExpiredType = expiredTypes.indexOf(showType) !== -1;
 
         $('#reporters-section').toggle(showType === 'active');
         $('#rejected-reporters-section').toggle(showType === 'rejected');
@@ -1006,39 +987,22 @@
         $('#expired-more-section').toggle(showType === 'expired_more');
         $('#expired-inactive-section').toggle(showType === 'expired_inactive');
 
-        // Toggle sub-filters row visibility
-        $('#expired-subfilters-row').toggle(isExpiredType);
-
         var buttons = [
             { id: '#toggle-rejected-reporters', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'rejected', activeHtml: '<i class="fas fa-user-slash mr-2"></i> Hide Rejected', defaultHtml: '<i class="fas fa-user-slash mr-2"></i> Show Rejected' },
             { id: '#toggle-no-purchase-reporters', activeClass: 'btn-secondary', outlineClass: 'btn-outline-secondary', type: 'no_purchase', activeHtml: '<i class="fas fa-shopping-cart mr-2"></i> Hide No Purchase', defaultHtml: '<i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters' },
             { id: '#toggle-no-post-reporters', activeClass: 'btn-info', outlineClass: 'btn-outline-info', type: 'no_posts', activeHtml: '<i class="fas fa-newspaper mr-2"></i> Hide No Post', defaultHtml: '<i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only' },
             { id: '#toggle-no-purchase-with-posts', activeClass: 'btn-warning', outlineClass: 'btn-outline-warning', type: 'no_purchase_with_posts', activeHtml: '<i class="fas fa-shopping-basket mr-2"></i> Hide Reporters with Post without Purchase', defaultHtml: '<i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase' },
-            { id: '#toggle-expired-reporters', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'expired_parent', activeHtml: '<i class="fas fa-hourglass-half mr-2"></i> Hide Expired Payments', defaultHtml: '<i class="fas fa-hourglass-half mr-2"></i> Expired Payments' }
+            { id: '#toggle-expired-recent', activeClass: 'btn-success', outlineClass: 'btn-outline-success', type: 'expired_recent', activeHtml: '<i class="fas fa-hourglass-start mr-2"></i> Hide Recently Expired', defaultHtml: '<i class="fas fa-hourglass-start mr-2"></i> Recently Expired' },
+            { id: '#toggle-expired-1month', activeClass: 'btn-primary', outlineClass: 'btn-outline-primary', type: 'expired_1month', activeHtml: '<i class="fas fa-calendar-alt mr-2"></i> Hide 1month', defaultHtml: '<i class="fas fa-calendar-alt mr-2"></i> 1month' },
+            { id: '#toggle-expired-more', activeClass: 'btn-warning', outlineClass: 'btn-outline-warning', type: 'expired_more', activeHtml: '<i class="fas fa-calendar-times mr-2"></i> Hide more', defaultHtml: '<i class="fas fa-calendar-times mr-2"></i> more' },
+            { id: '#toggle-expired-inactive', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'expired_inactive', activeHtml: '<i class="fas fa-user-times mr-2"></i> Hide inactive', defaultHtml: '<i class="fas fa-user-times mr-2"></i> inactive' }
         ];
 
         buttons.forEach(function(btn) {
-            var isActive = (showType === btn.type) || (btn.type === 'expired_parent' && isExpiredType);
-            if (isActive) {
+            if (showType === btn.type) {
                 $(btn.id).addClass('active ' + btn.activeClass).removeClass(btn.outlineClass).html(btn.activeHtml);
             } else {
                 $(btn.id).removeClass('active ' + btn.activeClass).addClass(btn.outlineClass).html(btn.defaultHtml);
-            }
-        });
-
-        // Sub-buttons styling
-        var subButtons = [
-            { id: '#sub-expired-recent', activeClass: 'btn-success', outlineClass: 'btn-outline-success', type: 'expired_recent' },
-            { id: '#sub-expired-1month', activeClass: 'btn-primary', outlineClass: 'btn-outline-primary', type: 'expired_1month' },
-            { id: '#sub-expired-more', activeClass: 'btn-warning', outlineClass: 'btn-outline-warning', type: 'expired_more' },
-            { id: '#sub-expired-inactive', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'expired_inactive' }
-        ];
-
-        subButtons.forEach(function(btn) {
-            if (showType === btn.type) {
-                $(btn.id).addClass('active ' + btn.activeClass).removeClass(btn.outlineClass);
-            } else {
-                $(btn.id).removeClass('active ' + btn.activeClass).addClass(btn.outlineClass);
             }
         });
 
@@ -1097,14 +1061,30 @@
 
     function redrawAllTables() {
         table.draw();
-        if (rejectedTable) rejectedTable.draw();
-        if (noPurchaseTable) noPurchaseTable.draw();
-        if (noPostTable) noPostTable.draw();
-        if (noPurchaseWithPostsTable) noPurchaseWithPostsTable.draw();
-        if (expiredRecentTable) expiredRecentTable.draw();
-        if (expired1monthTable) expired1monthTable.draw();
-        if (expiredMoreTable) expiredMoreTable.draw();
-        if (expiredInactiveTable) expiredInactiveTable.draw();
+        if (rejectedTable) {
+            rejectedTable.draw();
+        }
+        if (noPurchaseTable) {
+            noPurchaseTable.draw();
+        }
+        if (noPostTable) {
+            noPostTable.draw();
+        }
+        if (noPurchaseWithPostsTable) {
+            noPurchaseWithPostsTable.draw();
+        }
+        if (expiredRecentTable) {
+            expiredRecentTable.draw();
+        }
+        if (expired1monthTable) {
+            expired1monthTable.draw();
+        }
+        if (expiredMoreTable) {
+            expiredMoreTable.draw();
+        }
+        if (expiredInactiveTable) {
+            expiredInactiveTable.draw();
+        }
     }
 
     $('#report_type, #reporter_area, #date_filter, #sort_by').change(redrawAllTables);
@@ -1150,29 +1130,24 @@
         showReporterPanel(willShow ? 'no_purchase_with_posts' : 'active');
     });
 
-    $('#toggle-expired-reporters').click(function() {
-        var willShow = !$('#expired-subfilters-row').is(':visible');
-        showReporterPanel(willShow ? activeExpiredSubFilter : 'active');
+    $('#toggle-expired-recent').click(function() {
+        var willShow = !$('#expired-recent-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_recent' : 'active');
     });
 
-    $('#sub-expired-recent').click(function() {
-        activeExpiredSubFilter = 'expired_recent';
-        showReporterPanel('expired_recent');
+    $('#toggle-expired-1month').click(function() {
+        var willShow = !$('#expired-1month-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_1month' : 'active');
     });
 
-    $('#sub-expired-1month').click(function() {
-        activeExpiredSubFilter = 'expired_1month';
-        showReporterPanel('expired_1month');
+    $('#toggle-expired-more').click(function() {
+        var willShow = !$('#expired-more-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_more' : 'active');
     });
 
-    $('#sub-expired-more').click(function() {
-        activeExpiredSubFilter = 'expired_more';
-        showReporterPanel('expired_more');
-    });
-
-    $('#sub-expired-inactive').click(function() {
-        activeExpiredSubFilter = 'expired_inactive';
-        showReporterPanel('expired_inactive');
+    $('#toggle-expired-inactive').click(function() {
+        var willShow = !$('#expired-inactive-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_inactive' : 'active');
     });
 
     populateDistricts();
