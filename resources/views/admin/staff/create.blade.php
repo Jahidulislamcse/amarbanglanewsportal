@@ -294,10 +294,57 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="left-area">
-                                        <h4 class="heading">{{ __('Union') }} *</h4>
+                                        <h4 class="heading">{{ __('Union') }} ({{ __('Optional') }})</h4>
                                     </div>
-                                    <select name="union_id" id="union_id" class="form-control" required>
+                                    <select name="union_id" id="union_id" class="form-control">
                                         <option value="">Select Union</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4 mb-2">
+                                <div class="col-lg-12">
+                                    <h5 style="color: #922B21; font-weight: bold; border-left: 3px solid #922B21; padding-left: 8px;">{{ __('Permanent Address') }}</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Division') }} *</h4>
+                                    </div>
+                                    <select name="permanent_division_id" id="permanent_division_id" class="form-control" required>
+                                        <option value="">{{ __('Select Division') }}</option>
+                                        @foreach($all_divisions as $division)
+                                            <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent District') }} *</h4>
+                                    </div>
+                                    <select name="permanent_district_id" id="permanent_district_id" class="form-control" required>
+                                        <option value="">{{ __('Select District') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Upazila') }} *</h4>
+                                    </div>
+                                    <select name="permanent_thana_id" id="permanent_thana_id" class="form-control" required>
+                                        <option value="">{{ __('Select Upazila') }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="left-area">
+                                        <h4 class="heading">{{ __('Permanent Union') }} ({{ __('Optional') }})</h4>
+                                    </div>
+                                    <select name="permanent_union_id" id="permanent_union_id" class="form-control">
+                                        <option value="">{{ __('Select Union') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -402,6 +449,93 @@
                     });
                 }
             });
+        });
+
+        $(document).on('change', '#permanent_division_id', function() {
+            let division_id = $(this).val();
+            let lang_id = $('#lang_id').val() || 0;
+            let district = "Select District";
+            let upazila = "Select Upazila";
+            let union = "Select Union";
+            if(division_id) {
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('front.getDistricts') }}',
+                    data: {
+                        division_id: division_id,
+                        article_language_id: lang_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        $('#permanent_district_id').empty().append('<option value="">'+district+'</option>');
+                        $('#permanent_thana_id').empty().append('<option value="">'+upazila+'</option>');
+                        $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+                        
+                        $.each(data, function(key, value){
+                            $('#permanent_district_id').append('<option value="'+ value.id +'" data-slug="'+value.name+'">'+ value.name +'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#permanent_district_id').empty().append('<option value="">'+district+'</option>');
+                $('#permanent_thana_id').empty().append('<option value="">'+upazila+'</option>');
+                $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+            }
+        });
+
+        $(document).on('change', '#permanent_district_id', function() {
+            let district_id = $(this).val();
+            let lang_id = $('#lang_id').val() || 0;
+            let upazila = "Select Upazila";
+            let union = "Select Union";
+            if(district_id) {
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('front.getThanas') }}',
+                    data: {
+                        district_id: district_id,
+                        article_language_id: lang_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        $('#permanent_thana_id').empty().append('<option value="">'+upazila+'</option>');
+                        $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+
+                        $.each(data, function(key, value){
+                            $('#permanent_thana_id').append('<option value="'+ value.id +'" data-slug="'+value.name+'">'+ value.name +'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#permanent_thana_id').empty().append('<option value="">'+upazila+'</option>');
+                $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+            }
+        });
+
+        $(document).on('change', '#permanent_thana_id', function() {
+            let thana_id = $(this).val();
+            let lang_id = $('#lang_id').val() || 0;
+            let union = "Select Union";
+            if(thana_id) {
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('front.getUnions') }}',
+                    data: {
+                        thana_id: thana_id,
+                        article_language_id: lang_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+
+                        $.each(data, function(key, value){
+                            $('#permanent_union_id').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#permanent_union_id').empty().append('<option value="">'+union+'</option>');
+            }
         });
     </script>
 @endsection

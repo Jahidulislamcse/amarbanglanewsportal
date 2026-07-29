@@ -790,8 +790,17 @@ class StaffController extends Controller
            ));
     }
     public function create(){
-        $divisions = \App\Models\Division::orderBy('name')->get();
-        return view('admin.staff.create', compact('divisions'));
+        $admin = Auth::guard('admin')->user();
+        if ($admin && (
+            $admin->role->name === 'Divisional Admin' ||
+            $admin->role->name === 'Hed Of Admin'
+        )) {
+            $divisions = $admin->divisions()->orderBy('name')->get();
+        } else {
+            $divisions = \App\Models\Division::orderBy('name')->get();
+        }
+        $all_divisions = \App\Models\Division::orderBy('name')->get();
+        return view('admin.staff.create', compact('divisions', 'all_divisions'));
     }
     public function store(Request $request){
         $rules = [
@@ -807,7 +816,11 @@ class StaffController extends Controller
             'division_id' => 'required',
             'district_id' => 'required',
             'thana_id' => 'required',
-            'union_id' => 'required',
+            'union_id' => 'nullable',
+            'permanent_division_id' => 'required',
+            'permanent_district_id' => 'required',
+            'permanent_thana_id' => 'required',
+            'permanent_union_id' => 'nullable',
             'eduaction' => 'required',
             'education_year' => 'required',
             'nid_no' => 'required',
@@ -816,6 +829,7 @@ class StaffController extends Controller
             'has_experience' => 'required|in:0,1',
             'experience_organization' => 'required_if:has_experience,1|max:255',
             'experience_designation' => 'required_if:has_experience,1|max:255',
+            'experience' => 'nullable|string',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nid' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nid_back' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -826,8 +840,26 @@ class StaffController extends Controller
         if($validator->fails()){
             return response()->json(['errors'=>$validator->getMessageBag()->toArray()]);
         }
+
+        $admin = Auth::guard('admin')->user();
+        if ($admin && (
+            $admin->role->name === 'Divisional Admin' ||
+            $admin->role->name === 'Hed Of Admin'
+        )) {
+            $assignedDivisionIds = $admin->divisions->pluck('id')->toArray();
+            if (!in_array($request->division_id, $assignedDivisionIds)) {
+                return response()->json(['errors' => ['division_id' => ['You can only create users under your assigned division(s).']]]);
+            }
+        }
+
         $data  = new User();
         $input = $request->all();
+
+        if (empty($input['has_experience'])) {
+            $input['experience_organization'] = null;
+            $input['experience_designation'] = null;
+            $input['experience'] = null;
+        }
 
         if($request->hasFile('photo')){
             $file = $request->file('photo');
