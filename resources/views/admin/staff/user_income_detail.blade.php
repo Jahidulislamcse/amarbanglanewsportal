@@ -22,25 +22,31 @@
 						
 							{{-- Stats Cards --}}
 							<div class="row mb-4" style="margin-top: 20px;">
-								<div class="col-md-3">
+								<div class="col-md-4 col-lg">
 									<div class="card bg-primary text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Total Views</h6>
 										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">{{ number_format($user_informations->views ?? 0) }}</h3>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4 col-lg">
 									<div class="card bg-success text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Total View Income</h6>
 										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($view_income, 2) }}</h3>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4 col-lg">
 									<div class="card bg-info text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Referral Earning</h6>
 										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($user_informations->referral_earning ?? 0, 2) }}</h3>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4 col-lg">
+									<div class="card bg-danger text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Top Reporter Prize</h6>
+										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($top_reporter_prize_total, 2) }}</h3>
+									</div>
+								</div>
+								<div class="col-md-4 col-lg">
 									<div class="card bg-warning text-white text-center p-3" style="border-radius: 10px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 										<h6 style="color: #fff; font-size: 14px; font-weight: 500;">Current Balance</h6>
 										<h3 style="color: #fff; font-weight: 700; margin-top: 5px;">৳{{ number_format($user_informations->balance ?? 0, 2) }}</h3>
@@ -175,6 +181,7 @@
 																<th>Period</th>
 																<th>Rank / Position</th>
 																<th>Total Views</th>
+																<th>Prize Amount</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -208,6 +215,13 @@
 																		</span>
 																	</td>
 																	<td>{{ number_format($record->total_views) }}</td>
+																	<td>
+																		@if($record->week && isset($prize_money_by_week[$record->week]))
+																			৳{{ number_format($prize_money_by_week[$record->week], 2) }}
+																		@else
+																			-
+																		@endif
+																	</td>
 																</tr>
 															@endforeach
 														</tbody>

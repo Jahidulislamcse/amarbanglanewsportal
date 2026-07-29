@@ -805,6 +805,11 @@ class StaffController extends Controller
                ->orderBy('id', 'desc')
                ->get();
 
+           $top_reporter_prize_total = \App\Models\ReporterPrizeMoney::where('user_id', $user_id)->sum('amount') ?? 0;
+           $prize_money_by_week = \App\Models\ReporterPrizeMoney::where('user_id', $user_id)
+               ->pluck('amount', 'week')
+               ->toArray();
+ 
            return view('admin.staff.user_income_detail', compact(
                'user_informations',
                'view_income',
@@ -812,7 +817,9 @@ class StaffController extends Controller
                'product_commission',
                'team_purchases',
                'genUsers',
-               'top_reporter_records'
+               'top_reporter_records',
+               'top_reporter_prize_total',
+               'prize_money_by_week'
            ));
     }
     public function create(){
