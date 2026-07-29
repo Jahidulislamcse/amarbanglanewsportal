@@ -310,21 +310,28 @@ class AdministerController extends Controller
                                 $detailsBtn = '';
                                 if ($data->user) {
                                     $user = $data->user;
-                                    $quizWinnerMoney = \App\Models\UserPrizeMoney::where('user_id', $user->id)->sum('amount');
-                                    $totalWithdraw = \App\Models\PaymentRequest::where('user_id', $user->id)->sum('approve_amount');
                                     
-                                    $detailsBtn = '<a href="javascript:;" class="view-details text-primary" ' .
-                                                  'data-name="' . e($user->name) . '" ' .
-                                                  'data-created="' . ($user->created_at ? $user->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
-                                                  'data-referral="' . number_format($user->referral_earning, 2) . '" ' .
-                                                  'data-views-income="' . number_format($user->view_income, 2) . '" ' .
-                                                  'data-quiz-money="' . number_format($user->daily_quiz_money, 2) . '" ' .
-                                                  'data-quiz-winner-money="' . number_format($quizWinnerMoney, 2) . '" ' .
-                                                  'data-withdraw="' . number_format($totalWithdraw, 2) . '" ' .
-                                                  'data-balance="' . number_format($user->balance, 2) . '" ' .
-                                                  'data-ban="' . $user->is_ban . '" title="Details">' .
-                                                  '<i class="fas fa-eye"></i> Details' .
-                                                  '</a>';
+                                    if ($user->is_reader != 1) {
+                                        $detailsBtn = '<a href="' . route('admin.staff.user_income_detail', $user->id) . '" target="_blank" class="text-primary" title="View Income">' .
+                                                      '<i class="fas fa-eye"></i> View Income' .
+                                                      '</a>';
+                                    } else {
+                                        $quizWinnerMoney = \App\Models\UserPrizeMoney::where('user_id', $user->id)->sum('amount');
+                                        $totalWithdraw = \App\Models\PaymentRequest::where('user_id', $user->id)->sum('approve_amount');
+                                        
+                                        $detailsBtn = '<a href="javascript:;" class="view-details text-primary" ' .
+                                                      'data-name="' . e($user->name) . '" ' .
+                                                      'data-created="' . ($user->created_at ? $user->created_at->format('d M Y, h:i A') : 'N/A') . '" ' .
+                                                      'data-referral="' . number_format($user->referral_earning, 2) . '" ' .
+                                                      'data-views-income="' . number_format($user->view_income, 2) . '" ' .
+                                                      'data-quiz-money="' . number_format($user->daily_quiz_money, 2) . '" ' .
+                                                      'data-quiz-winner-money="' . number_format($quizWinnerMoney, 2) . '" ' .
+                                                      'data-withdraw="' . number_format($totalWithdraw, 2) . '" ' .
+                                                      'data-balance="' . number_format($user->balance, 2) . '" ' .
+                                                      'data-ban="' . $user->is_ban . '" title="Details">' .
+                                                      '<i class="fas fa-eye"></i> Details' .
+                                                      '</a>';
+                                    }
                                 }
 
                                 return '<div class="godropdown"><button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button><div class="action-list">'.$detailsBtn.''.$edit.$delete.'</div></div>';
