@@ -799,13 +799,20 @@ class StaffController extends Controller
                $genUsers[$r->gen][] = $r;
            }
 
+           $top_reporter_records = \App\Models\TopReporter::where('user_id', $user_id)
+               ->orderBy('year', 'desc')
+               ->orderBy('month', 'desc')
+               ->orderBy('id', 'desc')
+               ->get();
+
            return view('admin.staff.user_income_detail', compact(
                'user_informations',
                'view_income',
                'reporterRate',
                'product_commission',
                'team_purchases',
-               'genUsers'
+               'genUsers',
+               'top_reporter_records'
            ));
     }
     public function create(){

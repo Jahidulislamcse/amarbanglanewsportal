@@ -159,6 +159,69 @@
 							</div>
 
 							<div class="row">
+								{{-- Top Reporter Achievements Card --}}
+								<div class="col-md-12 mb-4">
+									<div class="card shadow-sm h-100" style="border-radius: 10px; border: 1px solid #e3e6f0;">
+										<div class="card-header bg-light py-3">
+											<h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-trophy mr-2"></i>Top Reporter Records / Achievements</h6>
+										</div>
+										<div class="card-body">
+											@if(count($top_reporter_records) > 0)
+												<div class="table-responsive">
+													<table class="table table-hover mb-0">
+														<thead>
+															<tr>
+																<th>Type</th>
+																<th>Period</th>
+																<th>Rank / Position</th>
+																<th>Total Views</th>
+															</tr>
+														</thead>
+														<tbody>
+															@foreach($top_reporter_records as $record)
+																<tr>
+																	<td>
+																		@if($record->week)
+																			<span class="badge badge-info text-white">Weekly</span>
+																		@else
+																			<span class="badge badge-success text-white">Monthly</span>
+																		@endif
+																	</td>
+																	<td>
+																		@if($record->week)
+																			{{ $record->week }}
+																		@else
+																			{{ date('F', mktime(0, 0, 0, $record->month, 1)) }}, {{ $record->year }}
+																		@endif
+																	</td>
+																	<td>
+																		<span class="font-weight-bold text-dark">
+																			@if($record->position == 1)
+																				1st Place 🥇
+																			@elseif($record->position == 2)
+																				2nd Place 🥈
+																			@elseif($record->position == 3)
+																				3rd Place 🥉
+																			@else
+																				{{ $record->position }}th Place
+																			@endif
+																		</span>
+																	</td>
+																	<td>{{ number_format($record->total_views) }}</td>
+																</tr>
+															@endforeach
+														</tbody>
+													</table>
+												</div>
+											@else
+												<p class="text-muted text-center my-4">No Top Reporter records found for this user.</p>
+											@endif
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
 								<div class="col-lg-12">
 									<div class="mr-table allproduct">
     									@include('includes.admin.form-success')
