@@ -2170,38 +2170,50 @@
     .stay-timer-border-top {
         top: 0;
         left: 0;
-        height: 8px;
+        height: 10px;
         width: 0;
-        background: linear-gradient(to right, #c0001d, #28a745);
-        box-shadow: 0 2px 8px rgba(192, 0, 29, 0.4);
-        animation: grow-top 30s linear forwards;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%), repeating-linear-gradient(45deg, #c0001d, #c0001d 10px, #28a745 10px, #28a745 20px);
+        background-size: 100% 100%, 28px 28px;
+        box-shadow: 0 3px 10px rgba(40, 167, 69, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+        animation: grow-top 15s linear forwards, flow-top-zebra 1s linear infinite;
     }
     .stay-timer-border-right {
         top: 0;
         right: 0;
-        width: 8px;
+        width: 10px;
         height: 0;
-        background: linear-gradient(to bottom, #28a745, #c0001d);
-        box-shadow: -2px 0 8px rgba(40, 167, 69, 0.4);
-        animation: grow-right 30s linear forwards;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%), repeating-linear-gradient(45deg, #28a745, #28a745 10px, #c0001d 10px, #c0001d 20px);
+        background-size: 100% 100%, 28px 28px;
+        box-shadow: -3px 0 10px rgba(40, 167, 69, 0.4), inset 2px 0 4px rgba(255, 255, 255, 0.6);
+        animation: grow-right 15s linear forwards, flow-right-zebra 1s linear infinite;
     }
     .stay-timer-border-bottom {
         bottom: 0;
         right: 0;
-        height: 8px;
+        height: 10px;
         width: 0;
-        background: linear-gradient(to left, #c0001d, #28a745);
-        box-shadow: 0 -2px 8px rgba(192, 0, 29, 0.4);
-        animation: grow-bottom 30s linear forwards;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%), repeating-linear-gradient(45deg, #c0001d, #c0001d 10px, #28a745 10px, #28a745 20px);
+        background-size: 100% 100%, 28px 28px;
+        box-shadow: 0 -3px 10px rgba(40, 167, 69, 0.4), inset 0 -2px 4px rgba(255, 255, 255, 0.6);
+        animation: grow-bottom 15s linear forwards, flow-bottom-zebra 1s linear infinite;
     }
     .stay-timer-border-left {
         bottom: 0;
         left: 0;
-        width: 8px;
+        width: 10px;
         height: 0;
-        background: linear-gradient(to top, #28a745, #c0001d);
-        box-shadow: 2px 0 8px rgba(40, 167, 69, 0.4);
-        animation: grow-left 30s linear forwards;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%), repeating-linear-gradient(45deg, #28a745, #28a745 10px, #c0001d 10px, #c0001d 20px);
+        background-size: 100% 100%, 28px 28px;
+        box-shadow: 3px 0 10px rgba(40, 167, 69, 0.4), inset -2px 0 4px rgba(255, 255, 255, 0.6);
+        animation: grow-left 15s linear forwards, flow-left-zebra 1s linear infinite;
     }
 
     @keyframes grow-top {
@@ -2223,11 +2235,28 @@
         0%, 75% { height: 0; }
         100% { height: 100%; }
     }
+
+    @keyframes flow-top-zebra {
+        from { background-position: 0 0, 0 0; }
+        to { background-position: 0 0, 28px 0; }
+    }
+    @keyframes flow-right-zebra {
+        from { background-position: 0 0, 0 0; }
+        to { background-position: 0 0, 0 28px; }
+    }
+    @keyframes flow-bottom-zebra {
+        from { background-position: 0 0, 0 0; }
+        to { background-position: 0 0, -28px 0; }
+    }
+    @keyframes flow-left-zebra {
+        from { background-position: 0 0, 0 0; }
+        to { background-position: 0 0, 0 -28px; }
+    }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var duration = 30000; // 30 seconds
+        var duration = 15000; // 15 seconds
         
         setTimeout(function() {
             // Trigger AJAX request after 30 seconds
