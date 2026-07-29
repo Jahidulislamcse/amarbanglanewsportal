@@ -285,6 +285,18 @@
                <button type="button" id="toggle-no-purchase-with-posts" class="btn btn-outline-warning rounded-pill px-4">
                    <i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase
                </button>
+               <button type="button" id="toggle-expired-recent" class="btn btn-outline-success rounded-pill px-4">
+                   <i class="fas fa-hourglass-start mr-2"></i> Recently Expired
+               </button>
+               <button type="button" id="toggle-expired-1month" class="btn btn-outline-primary rounded-pill px-4">
+                   <i class="fas fa-calendar-alt mr-2"></i> 1month
+               </button>
+               <button type="button" id="toggle-expired-more" class="btn btn-outline-warning rounded-pill px-4">
+                   <i class="fas fa-calendar-times mr-2"></i> more
+               </button>
+               <button type="button" id="toggle-expired-inactive" class="btn btn-outline-danger rounded-pill px-4">
+                   <i class="fas fa-user-times mr-2"></i> inactive
+               </button>
          </div>
      </div>
          </div>
@@ -485,6 +497,142 @@
                     <h4 class="mb-3 text-warning">Reporters Having Posts with No Purchase List</h4>
                     <div class="table-responsive">
                         <table id="nopurchasewithpoststable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row expired-recent-section" id="expired-recent-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-success">Recently Expired List (Within 10 Days)</h4>
+                    <div class="table-responsive">
+                        <table id="expiredrecenttable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row expired-1month-section" id="expired-1month-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-primary">1 Month Expired List (11-30 Days)</h4>
+                    <div class="table-responsive">
+                        <table id="expired1monthtable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row expired-more-section" id="expired-more-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-warning">Expired More Than 1 Month List (31-90 Days)</h4>
+                    <div class="table-responsive">
+                        <table id="expiredmoretable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Photo') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Desination') }}</th>
+                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>{{ __('Next Payment') }}</th>
+                                    <th>{{ __('Total Posts') }}</th>
+                                    <th>{{ __('7D Posts') }}</th>
+                                    <th>{{ __('Pending News') }}</th>
+                                    <th>{{ __('Rejected News') }}</th>
+                                    <th>{{ __('Views') }}</th>
+                                    <th>{{ __('Balance') }}</th>
+                                    <th>{{ __('Orders') }}</th>
+                                    <th>{{ __('Joining') }}</th>
+                                    <th>{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row expired-inactive-section" id="expired-inactive-section" style="display: none;">
+            <div class="col-lg-12">
+                <div class="mr-table allproduct">
+                    <h4 class="mb-3 text-danger">Inactive Expired List (More Than 3 Months / >90 Days)</h4>
+                    <div class="table-responsive">
+                        <table id="expiredinactivetable" class="table table-hover dt-responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th>{{ __('Photo') }}</th>
@@ -817,6 +965,13 @@
     var table = buildReporterTable('#geniustable', 'active', 'Reporter List');
 
     var noPurchaseTable = null;
+    var rejectedTable = null;
+    var noPostTable = null;
+    var noPurchaseWithPostsTable = null;
+    var expiredRecentTable = null;
+    var expired1monthTable = null;
+    var expiredMoreTable = null;
+    var expiredInactiveTable = null;
 
     function showReporterPanel(showType) {
         if (showType === true) showType = 'rejected';
@@ -827,38 +982,29 @@
         $('#no-purchase-reporters-section').toggle(showType === 'no_purchase');
         $('#no-post-reporters-section').toggle(showType === 'no_posts');
         $('#no-purchase-with-posts-section').toggle(showType === 'no_purchase_with_posts');
+        $('#expired-recent-section').toggle(showType === 'expired_recent');
+        $('#expired-1month-section').toggle(showType === 'expired_1month');
+        $('#expired-more-section').toggle(showType === 'expired_more');
+        $('#expired-inactive-section').toggle(showType === 'expired_inactive');
 
-        $('#toggle-rejected-reporters').text(showType === 'rejected' ? 'Hide Rejected' : 'Show Rejected');
-        $('#toggle-no-purchase-reporters').text(showType === 'no_purchase' ? 'Hide No Purchase' : 'No purchased Reporters');
-        $('#toggle-no-post-reporters').text(showType === 'no_posts' ? 'Hide No Post' : 'No Post/Pending/Rejected Post Only');
-        $('#toggle-no-purchase-with-posts').text(showType === 'no_purchase_with_posts' ? 'Hide Reporters with Post without Purchase' : 'Reporters with Post without Purchase');
+        var buttons = [
+            { id: '#toggle-rejected-reporters', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'rejected', activeHtml: '<i class="fas fa-user-slash mr-2"></i> Hide Rejected', defaultHtml: '<i class="fas fa-user-slash mr-2"></i> Show Rejected' },
+            { id: '#toggle-no-purchase-reporters', activeClass: 'btn-secondary', outlineClass: 'btn-outline-secondary', type: 'no_purchase', activeHtml: '<i class="fas fa-shopping-cart mr-2"></i> Hide No Purchase', defaultHtml: '<i class="fas fa-shopping-cart mr-2"></i> No purchased Reporters' },
+            { id: '#toggle-no-post-reporters', activeClass: 'btn-info', outlineClass: 'btn-outline-info', type: 'no_posts', activeHtml: '<i class="fas fa-newspaper mr-2"></i> Hide No Post', defaultHtml: '<i class="fas fa-newspaper mr-2"></i> No Post/Pending/Rejected Post Only' },
+            { id: '#toggle-no-purchase-with-posts', activeClass: 'btn-warning', outlineClass: 'btn-outline-warning', type: 'no_purchase_with_posts', activeHtml: '<i class="fas fa-shopping-basket mr-2"></i> Hide Reporters with Post without Purchase', defaultHtml: '<i class="fas fa-shopping-basket mr-2"></i> Reporters with Post without Purchase' },
+            { id: '#toggle-expired-recent', activeClass: 'btn-success', outlineClass: 'btn-outline-success', type: 'expired_recent', activeHtml: '<i class="fas fa-hourglass-start mr-2"></i> Hide Recently Expired', defaultHtml: '<i class="fas fa-hourglass-start mr-2"></i> Recently Expired' },
+            { id: '#toggle-expired-1month', activeClass: 'btn-primary', outlineClass: 'btn-outline-primary', type: 'expired_1month', activeHtml: '<i class="fas fa-calendar-alt mr-2"></i> Hide 1month', defaultHtml: '<i class="fas fa-calendar-alt mr-2"></i> 1month' },
+            { id: '#toggle-expired-more', activeClass: 'btn-warning', outlineClass: 'btn-outline-warning', type: 'expired_more', activeHtml: '<i class="fas fa-calendar-times mr-2"></i> Hide more', defaultHtml: '<i class="fas fa-calendar-times mr-2"></i> more' },
+            { id: '#toggle-expired-inactive', activeClass: 'btn-danger', outlineClass: 'btn-outline-danger', type: 'expired_inactive', activeHtml: '<i class="fas fa-user-times mr-2"></i> Hide inactive', defaultHtml: '<i class="fas fa-user-times mr-2"></i> inactive' }
+        ];
 
-        if (showType === 'rejected') {
-            $('#toggle-rejected-reporters').addClass('active btn-danger').removeClass('btn-outline-danger');
-            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
-            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
-            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
-        } else if (showType === 'no_purchase') {
-            $('#toggle-no-purchase-reporters').addClass('active btn-secondary').removeClass('btn-outline-secondary');
-            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
-            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
-            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
-        } else if (showType === 'no_posts') {
-            $('#toggle-no-post-reporters').addClass('active btn-info').removeClass('btn-outline-info');
-            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
-            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
-            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
-        } else if (showType === 'no_purchase_with_posts') {
-            $('#toggle-no-purchase-with-posts').addClass('active btn-warning').removeClass('btn-outline-warning');
-            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
-            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
-            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
-        } else {
-            $('#toggle-rejected-reporters').removeClass('active btn-danger').addClass('btn-outline-danger');
-            $('#toggle-no-purchase-reporters').removeClass('active btn-secondary').addClass('btn-outline-secondary');
-            $('#toggle-no-post-reporters').removeClass('active btn-info').addClass('btn-outline-info');
-            $('#toggle-no-purchase-with-posts').removeClass('active btn-warning').addClass('btn-outline-warning');
-        }
+        buttons.forEach(function(btn) {
+            if (showType === btn.type) {
+                $(btn.id).addClass('active ' + btn.activeClass).removeClass(btn.outlineClass).html(btn.activeHtml);
+            } else {
+                $(btn.id).removeClass('active ' + btn.activeClass).addClass(btn.outlineClass).html(btn.defaultHtml);
+            }
+        });
 
         if (showType === 'rejected') {
             if (!rejectedTable) {
@@ -884,6 +1030,30 @@
             } else {
                 noPurchaseWithPostsTable.draw();
             }
+        } else if (showType === 'expired_recent') {
+            if (!expiredRecentTable) {
+                expiredRecentTable = buildReporterTable('#expiredrecenttable', 'expired_recent', 'Recently Expired Reporter List');
+            } else {
+                expiredRecentTable.draw();
+            }
+        } else if (showType === 'expired_1month') {
+            if (!expired1monthTable) {
+                expired1monthTable = buildReporterTable('#expired1monthtable', 'expired_1month', '1 Month Expired Reporter List');
+            } else {
+                expired1monthTable.draw();
+            }
+        } else if (showType === 'expired_more') {
+            if (!expiredMoreTable) {
+                expiredMoreTable = buildReporterTable('#expiredmoretable', 'expired_more', 'More than 1 Month Expired Reporter List');
+            } else {
+                expiredMoreTable.draw();
+            }
+        } else if (showType === 'expired_inactive') {
+            if (!expiredInactiveTable) {
+                expiredInactiveTable = buildReporterTable('#expiredinactivetable', 'expired_inactive', 'Inactive Reporter List');
+            } else {
+                expiredInactiveTable.draw();
+            }
         } else {
             table.draw();
         }
@@ -902,6 +1072,18 @@
         }
         if (noPurchaseWithPostsTable) {
             noPurchaseWithPostsTable.draw();
+        }
+        if (expiredRecentTable) {
+            expiredRecentTable.draw();
+        }
+        if (expired1monthTable) {
+            expired1monthTable.draw();
+        }
+        if (expiredMoreTable) {
+            expiredMoreTable.draw();
+        }
+        if (expiredInactiveTable) {
+            expiredInactiveTable.draw();
         }
     }
 
@@ -946,6 +1128,26 @@
     $('#toggle-no-purchase-with-posts').click(function() {
         var willShow = !$('#no-purchase-with-posts-section').is(':visible');
         showReporterPanel(willShow ? 'no_purchase_with_posts' : 'active');
+    });
+
+    $('#toggle-expired-recent').click(function() {
+        var willShow = !$('#expired-recent-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_recent' : 'active');
+    });
+
+    $('#toggle-expired-1month').click(function() {
+        var willShow = !$('#expired-1month-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_1month' : 'active');
+    });
+
+    $('#toggle-expired-more').click(function() {
+        var willShow = !$('#expired-more-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_more' : 'active');
+    });
+
+    $('#toggle-expired-inactive').click(function() {
+        var willShow = !$('#expired-inactive-section').is(':visible');
+        showReporterPanel(willShow ? 'expired_inactive' : 'active');
     });
 
     populateDistricts();

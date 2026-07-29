@@ -116,6 +116,25 @@ class StaffController extends Controller
                     ->whereColumn('posts.user_id', 'users.id')
                     ->where('posts.is_pending', 0);
             });
+        } elseif ($request->status_filter === 'expired_recent') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->whereNotNull('users.next_payment_date');
+            $q->where('users.next_payment_date', '<', Carbon::now()->toDateString());
+            $q->where('users.next_payment_date', '>=', Carbon::now()->subDays(10)->toDateString());
+        } elseif ($request->status_filter === 'expired_1month') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->whereNotNull('users.next_payment_date');
+            $q->where('users.next_payment_date', '<', Carbon::now()->subDays(10)->toDateString());
+            $q->where('users.next_payment_date', '>=', Carbon::now()->subDays(30)->toDateString());
+        } elseif ($request->status_filter === 'expired_more') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->whereNotNull('users.next_payment_date');
+            $q->where('users.next_payment_date', '<', Carbon::now()->subDays(30)->toDateString());
+            $q->where('users.next_payment_date', '>=', Carbon::now()->subDays(90)->toDateString());
+        } elseif ($request->status_filter === 'expired_inactive') {
+            $q->where('users.is_approve', '!=', 2);
+            $q->whereNotNull('users.next_payment_date');
+            $q->where('users.next_payment_date', '<', Carbon::now()->subDays(90)->toDateString());
         } elseif ($request->user_status === 'pending') {
             $q->where('users.is_approve', 0);
         } elseif ($request->user_status === 'approved') {
