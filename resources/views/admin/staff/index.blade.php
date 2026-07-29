@@ -292,8 +292,8 @@
       </div>
           </div>
 
-     <div class="row reporter-filter-row" id="expired-subfilters-row" style="display: none; margin-left: 0; margin-right: 0;">
-         <div class="d-flex flex-wrap gap-3 align-items-center mb-4 p-3 bg-white rounded shadow-sm border col-12" style="border-left: 5px solid #dc3545 !important;">
+     <div class="row reporter-filter-row" id="expired-subfilters-row" style="display: none;">
+         <div class="d-flex flex-wrap gap-3 align-items-center mb-4 p-3 bg-light rounded shadow-sm border col-12">
              <div class="mr-auto d-flex align-items-center">
                  <h6 class="m-0 text-secondary"><i class="fas fa-filter mr-2 text-danger"></i> Expired Period:</h6>
              </div>
