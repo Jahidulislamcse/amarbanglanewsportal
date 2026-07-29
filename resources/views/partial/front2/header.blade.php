@@ -248,38 +248,40 @@ if ($default_language->id == 1) {
                         </div>
                     </div>
 
-                    <a href="https://amarbangla24.tv/" target="_blank" class="live-player-link">
-                        <div class="live-player-box">
-                            <div class="lp-icon">
-                                <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                                    <polygon points="10 8 16 11 10 14 10 8" fill="currentColor"></polygon>
-                                </svg>
-                                <span class="live-dot"></span>
+                    <div class="header-cards-group">
+                        <a href="https://amarbangla24.tv/" target="_blank" class="live-player-link">
+                            <div class="live-player-box">
+                                <div class="lp-icon">
+                                    <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                                        <polygon points="10 8 16 11 10 14 10 8" fill="currentColor"></polygon>
+                                    </svg>
+                                    <span class="live-dot"></span>
+                                </div>
+                                <div class="lp-content" style="text-align: left;">
+                                    <div class="lp-title">Amar Bangla 24</div>
+                                    <div class="lp-subtitle">লাইভ টিভি</div>
+                                </div>
                             </div>
-                            <div class="lp-content" style="text-align: left;">
-                                <div class="lp-title">Amar Bangla 24</div>
-                                <div class="lp-subtitle">লাইভ প্লেয়ার</div>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
 
-                    <div class="radio-coming-box">
-                        <div class="rc-icon">
-                            <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="8" width="20" height="12" rx="2" ry="2"></rect>
-                                <line x1="6" y1="8" x2="6" y2="3"></line>
-                                <circle cx="6" cy="3" r="1" fill="currentColor"></circle>
-                                <circle cx="8" cy="14" r="3"></circle>
-                                <rect x="15" y="11" width="4" height="2" rx="1"></rect>
-                                <circle cx="17" cy="16" r="1" fill="currentColor"></circle>
-                            </svg>
-                        </div>
-                        <div class="rc-content" style="text-align: left;">
-                            <div class="rc-title">Amar Bangla 24 Radio</div>
-                            <div class="rc-subtitle">Coming Soon</div>
+                        <div class="radio-coming-box">
+                            <div class="rc-icon">
+                                <svg class="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="8" width="20" height="12" rx="2" ry="2"></rect>
+                                    <line x1="6" y1="8" x2="6" y2="3"></line>
+                                    <circle cx="6" cy="3" r="1" fill="currentColor"></circle>
+                                    <circle cx="8" cy="14" r="3"></circle>
+                                    <rect x="15" y="11" width="4" height="2" rx="1"></rect>
+                                    <circle cx="17" cy="16" r="1" fill="currentColor"></circle>
+                                </svg>
+                            </div>
+                            <div class="rc-content" style="text-align: left;">
+                                <div class="rc-title">Amar Bangla 24 Radio</div>
+                                <div class="rc-subtitle">Coming Soon</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -745,6 +747,13 @@ if ($default_language->id == 1) {
         display: block;
     }
 
+    .header-cards-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
     .live-player-box, .radio-coming-box {
         display: flex;
         align-items: center;
@@ -854,11 +863,33 @@ if ($default_language->id == 1) {
             flex-wrap: wrap;
         }
 
-        .live-player-box, .radio-coming-box {
+        .header-cards-group {
             width: 100%;
-            max-width: 320px;
             justify-content: center;
-            margin-top: 8px;
+            gap: 8px;
+        }
+
+        .live-player-box, .radio-coming-box {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .lp-icon, .rc-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .header-svg-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .lp-title, .rc-title {
+            font-size: 10px;
+        }
+
+        .lp-subtitle, .rc-subtitle {
+            font-size: 11px;
         }
 
         .widget_area {
