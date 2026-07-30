@@ -134,10 +134,6 @@
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
                 <span class="mr-2"><strong>Filter by Category:</strong></span>
-                <a href="{{ route('transactions.index', array_filter(['type' => $type])) }}" 
-                   class="btn btn-sm {{ empty($categoryId) ? 'btn-dark' : 'btn-outline-dark' }}">
-                    All Categories
-                </a>
                 @foreach($transactionCategories as $category)
                     <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id])) }}" 
                        class="btn btn-sm {{ $categoryId == $category->id ? 'btn-dark' : 'btn-outline-secondary' }}">

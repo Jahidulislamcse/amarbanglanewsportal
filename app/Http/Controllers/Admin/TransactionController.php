@@ -13,6 +13,11 @@ class TransactionController extends Controller
     {
         $type = $request->get('type');
         $categoryId = $request->get('category_id');
+        $transactionCategories = TransactionCategory::orderBy('name')->get();
+
+        if (!$categoryId && $transactionCategories->isNotEmpty()) {
+            $categoryId = $transactionCategories->first()->id;
+        }
     
         $query = Transaction::query();
     
@@ -40,8 +45,6 @@ class TransactionController extends Controller
     
         $totalIncome = $incomeQuery->sum('amount');
         $totalExpense = $expenseQuery->sum('amount');
-    
-        $transactionCategories = TransactionCategory::orderBy('name')->get();
 
         return view('admin.transaction.index', compact(
             'transactions',
