@@ -115,6 +115,7 @@
             </div>
 
             <div class="my-3">
+                <span class="mr-2"><strong>Filter by Type:</strong></span>
                 <a href="{{ route('transactions.index') }}"
                    class="btn btn-sm {{ empty($type) ? 'btn-dark' : 'btn-outline-dark' }}">
                     All
@@ -129,6 +130,18 @@
                    class="btn btn-sm {{ $type === 'expense' ? 'btn-danger' : 'btn-outline-danger' }}">
                     Expense
                 </a>
+            </div>
+
+            <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
+                <span class="mr-2"><strong>Filter by Category:</strong></span>
+                <button class="btn btn-sm btn-dark category-filter-btn" data-category="all">
+                    All Categories
+                </button>
+                @foreach($transactionCategories as $category)
+                    <button class="btn btn-sm btn-outline-secondary category-filter-btn" data-category="{{ $category->id }}">
+                        {{ $category->name }}
+                    </button>
+                @endforeach
             </div>
             
             <table class="table table-hover">
@@ -145,11 +158,11 @@
                 </thead>
                 <tbody>
                     @foreach($transactions as $transaction)
-                    <tr>
+                    <tr class="transaction-row" data-category="{{ $transaction->category_id }}">
                         <td>{{ $transaction->transaction_date }}</td>
                         <td>{{ $transaction->title }}</td>
                         <td>{{ $transaction->bearer }}</td>
-                        <td>{{ $transaction->trcategory->name }}</td>
+                        <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
                         <td>
                             <span class="badge badge-{{ $transaction->type == 'income' ? 'success' : 'danger' }}">
                                 {{ ucfirst($transaction->type) }}
@@ -182,4 +195,41 @@
     </div>
 
 </div>
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const filterButtons = document.querySelectorAll('.category-filter-btn');
+    const rows = document.querySelectorAll('.transaction-row');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const selectedCategory = this.getAttribute('data-category');
+
+            // Update button styles
+            filterButtons.forEach(btn => {
+                btn.classList.remove('btn-dark');
+                btn.classList.add('btn-outline-secondary');
+            });
+            this.classList.remove('btn-outline-secondary');
+            this.classList.add('btn-dark');
+
+            // Filter rows
+            rows.forEach(row => {
+                if (selectedCategory === 'all') {
+                    row.style.display = '';
+                } else {
+                    const rowCategory = row.getAttribute('data-category');
+                    if (rowCategory === selectedCategory) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
+@endsection
 @endsection
