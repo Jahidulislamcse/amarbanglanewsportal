@@ -200,6 +200,7 @@
                             @if($rowCategoryName !== $currentCategoryName)
                                 @php
                                     $currentCategoryName = $rowCategoryName;
+                                    $sl = 1;
                                 @endphp
                                 <tr>
                                     <td colspan="8" class="font-weight-bold" style="background-color: #f1f3f5; color: #495057; font-size: 15px; border-bottom: 2px solid #dee2e6;">
