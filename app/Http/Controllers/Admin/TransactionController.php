@@ -27,7 +27,7 @@ class TransactionController extends Controller
         $transactions = $query
         ->with('trcategory') 
         ->orderBy('transaction_date', 'desc')
-        ->paginate(100)
+        ->paginate(300)
         ->withQueryString();
 
         $incomeQuery = Transaction::where('type', 'income');
