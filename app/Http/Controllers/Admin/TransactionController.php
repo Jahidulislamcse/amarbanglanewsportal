@@ -58,6 +58,19 @@ class TransactionController extends Controller
         $totalIncome = Transaction::where('type', 'income')->sum('amount');
         $totalExpense = Transaction::where('type', 'expense')->sum('amount');
 
+        $monthlyIncome = 0;
+        $monthlyExpense = 0;
+
+        if ($month) {
+            $monthlyIncome = Transaction::where('type', 'income')
+                ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+                ->sum('amount');
+
+            $monthlyExpense = Transaction::where('type', 'expense')
+                ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+                ->sum('amount');
+        }
+    
         $availableMonths = Transaction::selectRaw("DISTINCT DATE_FORMAT(transaction_date, '%Y-%m') as month_val")
             ->whereNotNull('transaction_date')
             ->orderBy('month_val', 'desc')
@@ -67,6 +80,8 @@ class TransactionController extends Controller
             'transactions',
             'totalIncome',
             'totalExpense',
+            'monthlyIncome',
+            'monthlyExpense',
             'type',
             'categoryId',
             'month',

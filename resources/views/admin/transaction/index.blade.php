@@ -3,6 +3,58 @@
 @section('content')
 <div class="content-area">
 
+    @if($month)
+        @php
+            $dateObj = DateTime::createFromFormat('Y-m', $month);
+            $formattedMonth = $dateObj ? $dateObj->format('F Y') : $month;
+        @endphp
+        <div class="row row-cards-one mb-4">
+            <div class="col-md-12 col-lg-6 col-xl-4">
+                <div class="mycard bg1" style="background: linear-gradient(135deg, #ff7b00 0%, #ffae00 100%);">
+                    <div class="left">
+                        <h5 class="title">{{ __('Monthly Income') }} ({{ $formattedMonth }})</h5>
+                        <span class="number">{{ number_format($monthlyIncome, 2) }}</span>
+                    </div>
+                    <div class="right d-flex align-self-center">
+                        <div class="icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-6 col-xl-4">
+                <div class="mycard bg2" style="background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);">
+                    <div class="left">
+                        <h5 class="title">{{ __('Monthly Expense') }} ({{ $formattedMonth }})</h5>
+                        <span class="number">{{ number_format($monthlyExpense, 2) }}</span>
+                    </div>
+                    <div class="right d-flex align-self-center">
+                        <div class="icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-6 col-xl-4">
+                <div class="mycard bg3" style="background: linear-gradient(135deg, #00a86b 0%, #00e676 100%);">
+                    <div class="left">
+                        <h5 class="title">{{ __('Monthly Balance') }} ({{ $formattedMonth }})</h5>
+                        <span class="number">
+                            {{ number_format($monthlyIncome - $monthlyExpense, 2) }}
+                        </span>
+                    </div>
+                    <div class="right d-flex align-self-center">
+                        <div class="icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row row-cards-one">
 
         <div class="col-md-12 col-lg-6 col-xl-4">
