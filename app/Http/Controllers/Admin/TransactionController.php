@@ -13,10 +13,18 @@ class TransactionController extends Controller
     {
         $type = $request->get('type');
         $categoryId = $request->get('category_id');
+        $month = $request->get('month'); // format: YYYY-MM
+        
         $transactionCategories = TransactionCategory::orderBy('name')->get();
 
-        if (!$categoryId && $transactionCategories->isNotEmpty()) {
-            $categoryId = $transactionCategories->first()->id;
+        if (!$month && $categoryId === 'all') {
+            $categoryId = null;
+        }
+
+        if ($categoryId !== 'all') {
+            if (!$categoryId && $transactionCategories->isNotEmpty()) {
+                $categoryId = $transactionCategories->first()->id;
+            }
         }
     
         $query = Transaction::query();
@@ -25,18 +33,35 @@ class TransactionController extends Controller
             $query->where('type', $type);
         }
 
-        if ($categoryId) {
+        if ($month) {
+            $query->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+        }
+
+        if ($categoryId && $categoryId !== 'all') {
             $query->where('category_id', $categoryId);
+        }
+        
+        if ($month && $categoryId === 'all') {
+            $query->select('transactions.*')
+                  ->leftJoin('transaction_categories', 'transaction_categories.id', '=', 'transactions.category_id')
+                  ->orderBy('transaction_categories.name', 'asc')
+                  ->orderBy('transactions.transaction_date', 'desc');
+        } else {
+            $query->orderBy('transactions.transaction_date', 'desc');
         }
     
         $transactions = $query
         ->with('trcategory') 
-        ->orderBy('transaction_date', 'desc')
         ->paginate(300)
         ->withQueryString();
 
         $totalIncome = Transaction::where('type', 'income')->sum('amount');
         $totalExpense = Transaction::where('type', 'expense')->sum('amount');
+
+        $availableMonths = Transaction::selectRaw("DISTINCT DATE_FORMAT(transaction_date, '%Y-%m') as month_val")
+            ->whereNotNull('transaction_date')
+            ->orderBy('month_val', 'desc')
+            ->pluck('month_val');
 
         return view('admin.transaction.index', compact(
             'transactions',
@@ -44,7 +69,9 @@ class TransactionController extends Controller
             'totalExpense',
             'type',
             'categoryId',
-            'transactionCategories'
+            'month',
+            'transactionCategories',
+            'availableMonths'
         ));
 
     }

@@ -114,19 +114,44 @@
 
             </div>
 
+            <form action="{{ route('transactions.index') }}" method="GET" class="mb-4 d-flex align-items-center flex-wrap" style="gap: 15px;">
+                @if($type)
+                    <input type="hidden" name="type" value="{{ $type }}">
+                @endif
+                @if($categoryId)
+                    <input type="hidden" name="category_id" value="{{ $categoryId }}">
+                @endif
+
+                <div class="d-flex align-items-center" style="gap: 8px;">
+                    <strong>Filter by Month:</strong>
+                    <select name="month" class="form-control form-control-sm" onchange="this.form.submit()" style="width: auto; min-width: 150px;">
+                        <option value="">All Time</option>
+                        @foreach($availableMonths as $m)
+                            @php
+                                $dateObj = DateTime::createFromFormat('Y-m', $m);
+                                $formattedMonth = $dateObj ? $dateObj->format('F Y') : $m;
+                            @endphp
+                            <option value="{{ $m }}" {{ $month === $m ? 'selected' : '' }}>
+                                {{ $formattedMonth }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
+
             <div class="my-3">
                 <span class="mr-2"><strong>Filter by Type:</strong></span>
-                <a href="{{ route('transactions.index', array_filter(['category_id' => $categoryId])) }}"
+                <a href="{{ route('transactions.index', array_filter(['category_id' => $categoryId, 'month' => $month])) }}"
                    class="btn btn-sm {{ empty($type) ? 'btn-dark' : 'btn-outline-dark' }}">
                     All
                 </a>
             
-                <a href="{{ route('transactions.index', array_filter(['type' => 'income', 'category_id' => $categoryId])) }}"
+                <a href="{{ route('transactions.index', array_filter(['type' => 'income', 'category_id' => $categoryId, 'month' => $month])) }}"
                    class="btn btn-sm {{ $type === 'income' ? 'btn-success' : 'btn-outline-success' }}">
                     Income
                 </a>
             
-                <a href="{{ route('transactions.index', array_filter(['type' => 'expense', 'category_id' => $categoryId])) }}"
+                <a href="{{ route('transactions.index', array_filter(['type' => 'expense', 'category_id' => $categoryId, 'month' => $month])) }}"
                    class="btn btn-sm {{ $type === 'expense' ? 'btn-danger' : 'btn-outline-danger' }}">
                     Expense
                 </a>
@@ -134,8 +159,15 @@
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
                 <span class="mr-2"><strong>Filter by Category:</strong></span>
+                @if($month)
+                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
+                       class="btn btn-sm {{ $categoryId === 'all' ? 'btn-dark' : 'btn-outline-dark' }}">
+                        Month All Transactions (Grouped)
+                    </a>
+                @endif
+
                 @foreach($transactionCategories as $category)
-                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id])) }}" 
+                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id, 'month' => $month])) }}" 
                        class="btn btn-sm {{ $categoryId == $category->id ? 'btn-dark' : 'btn-outline-secondary' }}">
                         {{ $category->name }}
                     </a>
