@@ -149,6 +149,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>{{ __('SL') }}</th>
                         <th>{{ __('Date') }}</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Bearer') }}</th>
@@ -159,8 +160,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $sl = $transactions->firstItem();
+                    @endphp
                     @foreach($transactions as $transaction)
                     <tr>
+                        <td>{{ $sl++ }}</td>
                         <td>{{ $transaction->transaction_date }}</td>
                         <td>{{ $transaction->title }}</td>
                         <td>{{ $transaction->bearer }}</td>
