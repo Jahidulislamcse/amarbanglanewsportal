@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdvanceSalary;
 use App\Models\Employee;
+use App\Models\Transaction;
+use App\Models\TransactionCategory;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -40,7 +42,21 @@ class AdvanceSalaryController extends Controller
 
         $data = $request->all();
         $data['status'] = 'approved';
-        AdvanceSalary::create($data);
+        $advance = AdvanceSalary::create($data);
+
+        $employee = Employee::find($advance->employee_id);
+        if ($employee) {
+            $category = TransactionCategory::firstOrCreate(['name' => 'Advance Salary']);
+            Transaction::create([
+                'type' => 'expense',
+                'title' => 'Advance Salary',
+                'bearer' => $employee->name . ' (' . ($employee->phone ?? 'N/A') . ')',
+                'amount' => $advance->amount,
+                'transaction_date' => $advance->payment_date,
+                'category_id' => $category->id,
+                'note' => 'Advance Salary payment for month ' . $advance->month . '/' . $advance->year . '. Notes: ' . ($advance->notes ?? 'N/A'),
+            ]);
+        }
 
         return redirect()->route('admin.advance-salaries.index')
             ->with('success', 'Advance payment recorded successfully.');
@@ -67,6 +83,20 @@ class AdvanceSalaryController extends Controller
     {
         $advance = AdvanceSalary::findOrFail($id);
         $advance->update(['status' => 'approved', 'payment_date' => date('Y-m-d')]);
+
+        $employee = Employee::find($advance->employee_id);
+        if ($employee) {
+            $category = TransactionCategory::firstOrCreate(['name' => 'Advance Salary']);
+            Transaction::create([
+                'type' => 'expense',
+                'title' => 'Advance Salary',
+                'bearer' => $employee->name . ' (' . ($employee->phone ?? 'N/A') . ')',
+                'amount' => $advance->amount,
+                'transaction_date' => $advance->payment_date,
+                'category_id' => $category->id,
+                'note' => 'Approved Advance Salary request for month ' . $advance->month . '/' . $advance->year . '. Notes: ' . ($advance->notes ?? 'N/A'),
+            ]);
+        }
 
         return redirect()->route('admin.advance-salaries.index')
             ->with('success', 'Advance request approved successfully.');

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AdvanceSalary;
 use App\Models\Employee;
 use App\Models\Salary;
+use App\Models\Transaction;
+use App\Models\TransactionCategory;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -60,7 +62,7 @@ class SalaryController extends Controller
         $basicSalary = $employee->salary;
         $netSalary = max(0, $basicSalary - $advancePaid);
 
-        Salary::create([
+        $salary = Salary::create([
             'employee_id' => $employee->id,
             'year' => $year,
             'month' => $month,
@@ -69,6 +71,17 @@ class SalaryController extends Controller
             'salary_paid' => $netSalary,
             'status' => 'paid',
             'payment_date' => date('Y-m-d'),
+        ]);
+
+        $category = TransactionCategory::firstOrCreate(['name' => 'Salary']);
+        Transaction::create([
+            'type' => 'expense',
+            'title' => 'Employee Salary',
+            'bearer' => $employee->name . ' (' . ($employee->phone ?? 'N/A') . ')',
+            'amount' => $netSalary,
+            'transaction_date' => $salary->payment_date,
+            'category_id' => $category->id,
+            'note' => 'Salary paid for month ' . $month . '/' . $year . '. Basic: ' . number_format($basicSalary, 2) . ', Advance Deducted: ' . number_format($advancePaid, 2) . ', Paid Net: ' . number_format($netSalary, 2),
         ]);
 
         return redirect()->back()->with('success', 'Salary payment recorded successfully.');
