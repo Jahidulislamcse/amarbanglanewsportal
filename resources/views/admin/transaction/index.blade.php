@@ -6,13 +6,13 @@
     <div class="row row-cards-one">
 
         <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="mycard bg1" style="padding: 16px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);">
+            <div class="mycard bg1" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
-                    <h5 class="title" style="font-size: 14px; margin-bottom: 5px; opacity: 0.95;">{{ __('Total Income') }}</h5>
-                    <span class="number" style="font-size: 22px; font-weight: 700;">{{ number_format($totalIncome, 2) }}</span>
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Total Income') }}</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">{{ number_format($totalIncome, 2) }}</span>
                 </div>
-                <div class="right d-flex align-self-center">
-                    <div class="icon" style="font-size: 24px; opacity: 0.85;">
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0;">
                         <i class="fas fa-arrow-down"></i>
                     </div>
                 </div>
@@ -20,13 +20,13 @@
         </div>
 
         <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="mycard bg2" style="padding: 16px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);">
+            <div class="mycard bg2" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
-                    <h5 class="title" style="font-size: 14px; margin-bottom: 5px; opacity: 0.95;">{{ __('Total Expense') }}</h5>
-                    <span class="number" style="font-size: 22px; font-weight: 700;">{{ number_format($totalExpense, 2) }}</span>
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Total Expense') }}</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">{{ number_format($totalExpense, 2) }}</span>
                 </div>
-                <div class="right d-flex align-self-center">
-                    <div class="icon" style="font-size: 24px; opacity: 0.85;">
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0;">
                         <i class="fas fa-arrow-up"></i>
                     </div>
                 </div>
@@ -34,15 +34,15 @@
         </div>
 
         <div class="col-md-12 col-lg-6 col-xl-4">
-            <div class="mycard bg3" style="padding: 16px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);">
+            <div class="mycard bg3" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
-                    <h5 class="title" style="font-size: 14px; margin-bottom: 5px; opacity: 0.95;">{{ __('Balance') }}</h5>
-                    <span class="number" style="font-size: 22px; font-weight: 700;">
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Balance') }}</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">
                         {{ number_format($totalIncome - $totalExpense, 2) }}
                     </span>
                 </div>
-                <div class="right d-flex align-self-center">
-                    <div class="icon" style="font-size: 24px; opacity: 0.85;">
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0;">
                         <i class="fas fa-wallet"></i>
                     </div>
                 </div>
@@ -56,15 +56,15 @@
             $dateObj = DateTime::createFromFormat('Y-m', $month);
             $formattedMonth = $dateObj ? $dateObj->format('F Y') : $month;
         @endphp
-        <div class="row row-cards-one mt-4">
+        <div class="row row-cards-one mt-2">
             <div class="col-md-12 col-lg-6 col-xl-4">
-                <div class="mycard bg1" style="background: linear-gradient(135deg, #ff7b00 0%, #ffae00 100%); padding: 15px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.04);">
+                <div class="mycard bg1" style="background: linear-gradient(135deg, #ff7b00 0%, #ffae00 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
-                        <h6 class="title" style="font-size: 13px; margin-bottom: 5px; opacity: 0.9;">{{ __('Monthly Income') }} ({{ $formattedMonth }})</h6>
-                        <span class="number" style="font-size: 20px; font-weight: 700;">{{ number_format($monthlyIncome, 2) }}</span>
+                        <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Income') }} ({{ $formattedMonth }})</h6>
+                        <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">{{ number_format($monthlyIncome, 2) }}</span>
                     </div>
-                    <div class="right d-flex align-self-center">
-                        <div class="icon" style="font-size: 22px; opacity: 0.7;">
+                    <div class="right">
+                        <div class="icon" style="font-size: 28px; opacity: 0.8; line-height: 1; margin: 0;">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                     </div>
@@ -72,13 +72,13 @@
             </div>
 
             <div class="col-md-12 col-lg-6 col-xl-4">
-                <div class="mycard bg2" style="background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%); padding: 15px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.04);">
+                <div class="mycard bg2" style="background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
-                        <h6 class="title" style="font-size: 13px; margin-bottom: 5px; opacity: 0.9;">{{ __('Monthly Expense') }} ({{ $formattedMonth }})</h6>
-                        <span class="number" style="font-size: 20px; font-weight: 700;">{{ number_format($monthlyExpense, 2) }}</span>
+                        <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Expense') }} ({{ $formattedMonth }})</h6>
+                        <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">{{ number_format($monthlyExpense, 2) }}</span>
                     </div>
-                    <div class="right d-flex align-self-center">
-                        <div class="icon" style="font-size: 22px; opacity: 0.7;">
+                    <div class="right">
+                        <div class="icon" style="font-size: 28px; opacity: 0.8; line-height: 1; margin: 0;">
                             <i class="fas fa-calendar-check"></i>
                         </div>
                     </div>
@@ -86,15 +86,15 @@
             </div>
 
             <div class="col-md-12 col-lg-6 col-xl-4">
-                <div class="mycard bg3" style="background: linear-gradient(135deg, #00a86b 0%, #00e676 100%); padding: 15px 20px; margin-bottom: 20px; min-height: auto; box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.04);">
+                <div class="mycard bg3" style="background: linear-gradient(135deg, #00a86b 0%, #00e676 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
-                        <h6 class="title" style="font-size: 13px; margin-bottom: 5px; opacity: 0.9;">{{ __('Monthly Balance') }} ({{ $formattedMonth }})</h6>
-                        <span class="number" style="font-size: 20px; font-weight: 700;">
+                        <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Balance') }} ({{ $formattedMonth }})</h6>
+                        <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">
                             {{ number_format($monthlyIncome - $monthlyExpense, 2) }}
                         </span>
                     </div>
-                    <div class="right d-flex align-self-center">
-                        <div class="icon" style="font-size: 22px; opacity: 0.7;">
+                    <div class="right">
+                        <div class="icon" style="font-size: 28px; opacity: 0.8; line-height: 1; margin: 0;">
                             <i class="fas fa-history"></i>
                         </div>
                     </div>
