@@ -70,12 +70,25 @@ class TransactionController extends Controller
                 ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
                 ->sum('amount');
         }
+
+        $categoryTotalsQuery = Transaction::query();
+        if ($type) {
+            $categoryTotalsQuery->where('type', $type);
+        }
+        if ($month) {
+            $categoryTotalsQuery->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+        }
+        $categoryTotals = $categoryTotalsQuery->groupBy('category_id')
+            ->select('category_id')
+            ->selectRaw('SUM(amount) as total_amount')
+            ->pluck('total_amount', 'category_id')
+            ->toArray();
     
         $availableMonths = Transaction::selectRaw("DISTINCT DATE_FORMAT(transaction_date, '%Y-%m') as month_val")
             ->whereNotNull('transaction_date')
             ->orderBy('month_val', 'desc')
             ->pluck('month_val');
-
+ 
         return view('admin.transaction.index', compact(
             'transactions',
             'totalIncome',
@@ -86,7 +99,8 @@ class TransactionController extends Controller
             'categoryId',
             'month',
             'transactionCategories',
-            'availableMonths'
+            'availableMonths',
+            'categoryTotals'
         ));
 
     }
