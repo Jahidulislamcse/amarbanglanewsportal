@@ -22,7 +22,7 @@ class TransactionController extends Controller
         $transactions = $query
         ->with('trcategory') 
         ->orderBy('transaction_date', 'desc')
-        ->paginate(15)
+        ->paginate(100)
         ->withQueryString();
 
     
