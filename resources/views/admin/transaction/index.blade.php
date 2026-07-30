@@ -190,8 +190,24 @@
                 <tbody>
                     @php
                         $sl = $transactions->firstItem();
+                        $currentCategoryName = null;
                     @endphp
                     @foreach($transactions as $transaction)
+                        @if($categoryId === 'all')
+                            @php
+                                $rowCategoryName = optional($transaction->trcategory)->name ?? 'Uncategorized';
+                            @endphp
+                            @if($rowCategoryName !== $currentCategoryName)
+                                @php
+                                    $currentCategoryName = $rowCategoryName;
+                                @endphp
+                                <tr>
+                                    <td colspan="8" class="font-weight-bold" style="background-color: #f1f3f5; color: #495057; font-size: 15px; border-bottom: 2px solid #dee2e6;">
+                                        <i class="fas fa-folder-open mr-1"></i> {{ $currentCategoryName }}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endif
                     <tr>
                         <td>{{ $sl++ }}</td>
                         <td>{{ $transaction->transaction_date }}</td>
