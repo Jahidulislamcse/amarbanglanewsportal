@@ -35,16 +35,8 @@ class TransactionController extends Controller
         ->paginate(300)
         ->withQueryString();
 
-        $incomeQuery = Transaction::where('type', 'income');
-        $expenseQuery = Transaction::where('type', 'expense');
-
-        if ($categoryId) {
-            $incomeQuery->where('category_id', $categoryId);
-            $expenseQuery->where('category_id', $categoryId);
-        }
-    
-        $totalIncome = $incomeQuery->sum('amount');
-        $totalExpense = $expenseQuery->sum('amount');
+        $totalIncome = Transaction::where('type', 'income')->sum('amount');
+        $totalExpense = Transaction::where('type', 'expense')->sum('amount');
 
         return view('admin.transaction.index', compact(
             'transactions',
