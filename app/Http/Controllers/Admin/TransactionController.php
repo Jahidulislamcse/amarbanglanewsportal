@@ -12,11 +12,16 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $type = $request->get('type');
+        $categoryId = $request->get('category_id');
     
         $query = Transaction::query();
     
         if ($type) {
             $query->where('type', $type);
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
         }
     
         $transactions = $query
@@ -25,9 +30,16 @@ class TransactionController extends Controller
         ->paginate(100)
         ->withQueryString();
 
+        $incomeQuery = Transaction::where('type', 'income');
+        $expenseQuery = Transaction::where('type', 'expense');
+
+        if ($categoryId) {
+            $incomeQuery->where('category_id', $categoryId);
+            $expenseQuery->where('category_id', $categoryId);
+        }
     
-        $totalIncome = Transaction::where('type', 'income')->sum('amount');
-        $totalExpense = Transaction::where('type', 'expense')->sum('amount');
+        $totalIncome = $incomeQuery->sum('amount');
+        $totalExpense = $expenseQuery->sum('amount');
     
         $transactionCategories = TransactionCategory::orderBy('name')->get();
 
@@ -36,6 +48,7 @@ class TransactionController extends Controller
             'totalIncome',
             'totalExpense',
             'type',
+            'categoryId',
             'transactionCategories'
         ));
 
