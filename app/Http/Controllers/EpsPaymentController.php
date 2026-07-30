@@ -457,6 +457,12 @@ class EpsPaymentController extends Controller
     
     private function handlePaymentSuccess($payment): void
     {
+        \Log::info('EPS handlePaymentSuccess called', [
+            'payment_id' => $payment->id ?? null,
+            'payment_type' => is_object($payment) ? get_class($payment) : gettype($payment),
+            'transaction_id' => $payment->transaction_id ?? null,
+        ]);
+
         if ($payment instanceof PackageUpgradePayment) {
             $user = User::with(['referrer'])->find($payment->user_id);
             if ($user) {
@@ -576,6 +582,11 @@ class EpsPaymentController extends Controller
         }
 
         if ($payment instanceof ProductPayment) {
+            \Log::info('Processing ProductPayment success logs', [
+                'payment_id' => $payment->id,
+                'user_id' => $payment->user_id,
+            ]);
+
             $order = $this->createOrderForProductPayment($payment);
             $items = $order->items;
 
@@ -622,7 +633,13 @@ class EpsPaymentController extends Controller
                     'name' => 'Product Purchase'
                 ]);
 
-                Transaction::create([
+                \Log::info('Creating transaction for ProductPayment', [
+                    'payment_id' => $payment->id,
+                    'user_id' => $payment->user_id,
+                    'amount' => $payment->amount,
+                ]);
+
+                $transaction = Transaction::create([
                     'type'             => 'income',
                     'title'            => 'Product Purchase',
                     'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
@@ -630,6 +647,10 @@ class EpsPaymentController extends Controller
                     'transaction_date' => now()->toDateString(),
                     'category_id'      => $category->id,
                     'note'             => 'Product Purchase: ' . $payment->product_name . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                ]);
+
+                \Log::info('Transaction created successfully for ProductPayment', [
+                    'transaction_id' => $transaction->id,
                 ]);
             }
         }
