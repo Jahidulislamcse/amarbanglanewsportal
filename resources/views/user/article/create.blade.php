@@ -355,6 +355,24 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="left-area">
+                                                <h4 class="heading">{{ __('Hide Reporter Identity') }} *</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="custom-control custom-radio d-inline-block mr-5">
+                                                <input type="radio" class="custom-control-input" id="hide_reporter1" name="hide_reporter" value="1">
+                                                <label class="custom-control-label" for="hide_reporter1">{{__('Yes')}}</label>
+                                            </div>   
+                                            <div class="custom-control custom-radio d-inline-block">
+                                                <input type="radio" class="custom-control-input" id="hide_reporter2" name="hide_reporter" value="0" checked>
+                                                <label class="custom-control-label" for="hide_reporter2">{{__('No')}}</label>
+                                            </div>   
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="left-area">
                                                 <h4 class="heading">{{ __('Language') }} *</h4>
                                             </div>
                                         </div>
@@ -551,23 +569,6 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="left-area">
-                                                    <h4 class="heading">{{ __('Hide Reporter Identity') }} *</h4>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="custom-control custom-radio d-inline-block mr-5">
-                                                    <input type="radio" class="custom-control-input" id="hide_reporter1" name="hide_reporter" value="1">
-                                                    <label class="custom-control-label" for="hide_reporter1">{{__('Yes')}}</label>
-                                                </div>   
-                                                <div class="custom-control custom-radio d-inline-block">
-                                                    <input type="radio" class="custom-control-input" id="hide_reporter2" name="hide_reporter" value="0" checked>
-                                                    <label class="custom-control-label" for="hide_reporter2">{{__('No')}}</label>
-                                                </div>   
-                                            </div>
-                                        </div>
 
                                      
 
