@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
     @php
@@ -444,6 +444,30 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                <div class="col-lg-6">
+                                                <div class="left-area">
+                                                <h4 class="heading">{{ __('Hide Reporter Identity') }} *</h4>
+                                                </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                <div class="custom-control custom-radio d-inline-block mr-5">
+                                                <input type="radio" class="custom-control-input"
+                                                name="hide_reporter" value="1" id="hide_reporter1"
+                                                @if ($data->hide_reporter == 1) checked @endif>
+                                                <label for="hide_reporter1"
+                                                class="custom-control-label">{{ __('Yes') }}</label>
+                                                </div>
+                                                <div class="custom-control custom-radio d-inline-block mr-5">
+                                                <input type="radio" class="custom-control-input"
+                                                name="hide_reporter" value="0" id="hide_reporter2"
+                                                @if ($data->hide_reporter == 0) checked @endif>
+                                                <label for="hide_reporter2"
+                                                class="custom-control-label">{{ __('No') }}</label>
+                                                </div>
+                                                </div>
+                                                </div>
+
 
 
                                                 <div class="row">

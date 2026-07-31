@@ -105,6 +105,7 @@ class AdministerController extends Controller
                 ->get();
 
             $monthlyPayments = MonthlyFeePayment::with('user')
+                ->where('status', '!=', 'pending')
                 ->where('seen', 0)
                 ->latest()
                 ->take(5)
@@ -198,7 +199,7 @@ class AdministerController extends Controller
                 'time' => $p->created_at->diffForHumans(),
             ]),
  
-            'monthly_payment_count' => $isAdmin ? MonthlyFeePayment::where('seen', 0)->count() : 0,
+            'monthly_payment_count' => $isAdmin ? MonthlyFeePayment::where('status', '!=', 'pending')->where('seen', 0)->count() : 0,
  
             'monthly_payments' => $monthlyPayments->map(fn ($p) => [
                 'name' => $p->user->name ?? 'Unknown',

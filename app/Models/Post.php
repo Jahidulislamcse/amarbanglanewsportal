@@ -51,7 +51,7 @@ class Post extends Model
 		'approved_at',
 		'rejected_by',
 		'is_referred',
-
+		'hide_reporter',
     ];
     protected $table    = 'posts';
 
