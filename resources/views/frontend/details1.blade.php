@@ -509,7 +509,7 @@
                             <div class="col-md-1 col-sm-1 col-xs-2">
                                 <div class="reportar-img">
                                     @if ($data->hide_reporter == 1)
-                                        <img src="{{ asset('assets/images/logo.png') }}" width="100%">
+                                        <img src="{{ asset('assets/images/default.png') }}" width="100%">
                                     @elseif (!empty($user_info->photo))
                                         <img src="{{ asset('assets/images/admin/' . $user_info->photo) }}" width="100%">
                                     @else
@@ -525,7 +525,7 @@
                             <div class="col-md-11 col-sm-11 col-xs-10">
                                 <div class="reportar-sec">
                                     <div class="reportar-title">
-                                        <strong>{{ $data->hide_reporter == 1 ? 'Amar Bangla 24' : ($user_info->name ?? 'No Name') }}</strong>
+                                        <strong>{{ $data->hide_reporter == 1 ? 'আমার বাংলা-24' : ($user_info->name ?? 'No Name') }}</strong>
                                         @if ($data->hide_reporter != 1 && (!empty($reporter_title) || !empty($area)))
                                             <div class="reporter-area" style="font-size:13px;color:#777;margin-top:4px;">
                                                 <i class="fa fa-map-marker"></i>
