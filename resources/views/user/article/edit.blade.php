@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="left-area">
-                                            <h4 class="heading">{{ __('Hide Reporter Identity') }} *</h4>
+                                            <h4 class="heading">আপনি কি এই সংবাদে আপনার পরিচয় গোপন রাখতে চান? (Hide Reporter Identity) *</h4>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
