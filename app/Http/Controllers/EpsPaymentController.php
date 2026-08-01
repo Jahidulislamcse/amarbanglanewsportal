@@ -11,6 +11,7 @@ use App\Models\PackageUpgradePayment;
 use App\Models\Product;
 use App\Models\ProductPayment;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Book;
 use App\Models\BookPurchase;
 use App\Models\Course;
