@@ -234,6 +234,7 @@ Route::prefix('admin')->group(function(){
     });
     
     Route::group(['middleware' => 'permissions:transaction'], function () {
+        Route::get('transactions/pdf', [TransactionController::class, 'downloadPdf'])->name('transactions.pdf');
         Route::resource('transactions', TransactionController::class);
         
     });

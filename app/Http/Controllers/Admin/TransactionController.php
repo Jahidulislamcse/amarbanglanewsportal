@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\TransactionCategory;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -164,5 +165,75 @@ class TransactionController extends Controller
         return redirect()
             ->route('transactions.index')
             ->with('success', 'Transaction deleted successfully');
+    }
+
+    public function downloadPdf(Request $request)
+    {
+        $type = $request->get('type');
+        $categoryId = $request->get('category_id');
+        $month = $request->get('month'); // format: YYYY-MM
+
+        if (!$month) {
+            return redirect()->back()->with('unsuccess', 'Please select a month first to download PDF.');
+        }
+
+        $query = Transaction::query();
+        if ($type) {
+            $query->where('type', $type);
+        }
+        $query->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+
+        if ($categoryId && $categoryId !== 'all') {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($categoryId === 'all') {
+            $query->select('transactions.*')
+                  ->leftJoin('transaction_categories', 'transaction_categories.id', '=', 'transactions.category_id')
+                  ->orderBy('transaction_categories.name', 'asc')
+                  ->orderBy('transactions.transaction_date', 'desc');
+        } else {
+            $query->orderBy('transactions.transaction_date', 'desc');
+        }
+
+        $transactions = $query->with('trcategory')->get();
+
+        $monthlyIncome = Transaction::where('type', 'income')
+            ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+            ->sum('amount');
+
+        $monthlyExpense = Transaction::where('type', 'expense')
+            ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+            ->sum('amount');
+
+        $categoryTotalsQuery = Transaction::query();
+        if ($type) {
+            $categoryTotalsQuery->where('type', $type);
+        }
+        $categoryTotalsQuery->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+        $categoryTotals = $categoryTotalsQuery->groupBy('category_id')
+            ->select('category_id')
+            ->selectRaw('SUM(amount) as total_amount')
+            ->pluck('total_amount', 'category_id')
+            ->toArray();
+
+        $dateObj = \DateTime::createFromFormat('Y-m', $month);
+        $formattedMonth = $dateObj ? $dateObj->format('F Y') : $month;
+
+        $gs = \App\Models\GeneralSettings::find(1);
+
+        $pdf = Pdf::loadView('admin.transaction.pdf', compact(
+            'transactions',
+            'monthlyIncome',
+            'monthlyExpense',
+            'type',
+            'categoryId',
+            'month',
+            'formattedMonth',
+            'categoryTotals',
+            'gs'
+        ));
+
+        return $pdf->download('transactions_' . $month . '.pdf');
     }
 }

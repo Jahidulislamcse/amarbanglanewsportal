@@ -166,30 +166,38 @@
 
             </div>
 
-            <form action="{{ route('transactions.index') }}" method="GET" class="mb-4 d-flex align-items-center flex-wrap" style="gap: 15px;">
-                @if($type)
-                    <input type="hidden" name="type" value="{{ $type }}">
-                @endif
-                @if($categoryId)
-                    <input type="hidden" name="category_id" value="{{ $categoryId }}">
-                @endif
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4" style="gap: 15px;">
+                <form action="{{ route('transactions.index') }}" method="GET" class="d-flex align-items-center flex-wrap" style="gap: 15px; margin: 0;">
+                    @if($type)
+                        <input type="hidden" name="type" value="{{ $type }}">
+                    @endif
+                    @if($categoryId)
+                        <input type="hidden" name="category_id" value="{{ $categoryId }}">
+                    @endif
 
-                <div class="d-flex align-items-center" style="gap: 8px;">
-                    <strong>Filter by Month:</strong>
-                    <select name="month" class="form-control form-control-sm" onchange="this.form.submit()" style="width: auto; min-width: 150px;">
-                        <option value="">All Time</option>
-                        @foreach($availableMonths as $m)
-                            @php
-                                $dateObj = DateTime::createFromFormat('Y-m', $m);
-                                $formattedMonth = $dateObj ? $dateObj->format('F Y') : $m;
-                            @endphp
-                            <option value="{{ $m }}" {{ $month === $m ? 'selected' : '' }}>
-                                {{ $formattedMonth }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </form>
+                    <div class="d-flex align-items-center" style="gap: 8px;">
+                        <strong>Filter by Month:</strong>
+                        <select name="month" class="form-control form-control-sm" onchange="this.form.submit()" style="width: auto; min-width: 150px;">
+                            <option value="">All Time</option>
+                            @foreach($availableMonths as $m)
+                                @php
+                                    $dateObj = DateTime::createFromFormat('Y-m', $m);
+                                    $formattedMonth = $dateObj ? $dateObj->format('F Y') : $m;
+                                @endphp
+                                <option value="{{ $m }}" {{ $month === $m ? 'selected' : '' }}>
+                                    {{ $formattedMonth }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+
+                @if($month)
+                    <a href="{{ route('transactions.pdf', array_filter(['type' => $type, 'category_id' => $categoryId, 'month' => $month])) }}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-file-pdf mr-1"></i> Download PDF
+                    </a>
+                @endif
+            </div>
 
             <div class="my-3">
                 <span class="mr-2"><strong>Filter by Type:</strong></span>
