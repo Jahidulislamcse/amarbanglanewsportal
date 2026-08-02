@@ -681,25 +681,25 @@ class EpsPaymentController extends Controller
                     ]);
                 }
 
-                // Record the referral commission as an expense
+                // Record the sell commission as an expense
                 if (isset($order)) {
                     $commission = \App\Models\ProductCommission::where('order_id', $order->id)->first();
                     if ($commission && $commission->commission_amount > 0) {
                         $referrerUser = User::find($commission->referrer_id);
                         if ($referrerUser) {
                             $commissionCategory = TransactionCategory::firstOrCreate([
-                                'name' => 'Referral Commission'
+                                'name' => 'sell commission'
                             ]);
 
                             Transaction::create([
                                 'type'             => 'expense',
-                                'title'            => 'Referral Commission',
+                                'title'            => 'sell commission',
                                 'bearer'           => $referrerUser->name . ' (' . ($referrerUser->phone ?? 'N/A') . ')',
                                 'amount'           => $commission->commission_amount,
                                 'transaction_date' => now()->toDateString(),
                                 'category_id'      => $commissionCategory->id,
                                 'order_id'         => $order->id,
-                                'note'             => 'Referral commission for Order ID: ' . $order->id . ' paid to referrer ' . $referrerUser->name . ' (Transaction ID: ' . $payment->transaction_id . ')',
+                                'note'             => 'Sell commission for Order ID: ' . $order->id . ' paid to referrer ' . $referrerUser->name . ' (Transaction ID: ' . $payment->transaction_id . ')',
                             ]);
                         }
                     }

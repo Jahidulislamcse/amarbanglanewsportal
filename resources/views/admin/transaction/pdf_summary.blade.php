@@ -144,7 +144,7 @@
         <thead>
             <tr>
                 <th style="width: 10%;">SL</th>
-                <th style="width: 50%;">Category Name</th>
+                <th style="width: 50%;">Sector</th>
                 <th style="width: 20%;">Type</th>
                 <th style="width: 20%;" class="text-right">Total Amount</th>
             </tr>
