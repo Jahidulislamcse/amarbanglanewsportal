@@ -1,11 +1,58 @@
+@php
+    if (!function_exists('reshape_bengali')) {
+        function reshape_bengali($str) {
+            if (empty($str)) return '';
+            $str = str_replace(
+                ["\xe0\xa7\x8b", "\xe0\xa7\x8c"],
+                ["\xe0\xa7\x87\xe0\xa6\xbe", "\xe0\xa7\x87\xe0\xa7\x97"],
+                $str
+            );
+            $consonant = '[\x{0995}-\x{09b9}\x{09dc}-\x{09df}\x{09f0}\x{09f1}]';
+            $conjunct = '(?:' . $consonant . '\x{09cd})*' . $consonant;
+            $left_vowel = '([\x{09bf}\x{09c7}\x{09c8}])';
+            $pattern = '/(' . $conjunct . ')' . $left_vowel . '/u';
+            return preg_replace($pattern, '$2$1', $str);
+        }
+    }
+
+    if (!function_exists('utf8_to_entities')) {
+        function utf8_to_entities($str) {
+            if (empty($str)) return '';
+            $entities = '';
+            $len = strlen($str);
+            for ($i = 0; $i < $len; $i++) {
+                $c = ord($str[$i]);
+                if ($c < 128) {
+                    $entities .= $str[$i];
+                } elseif ($c < 224) {
+                    $char = (($c - 192) << 6) + (ord($str[++$i]) - 128);
+                    $entities .= '&#' . $char . ';';
+                } elseif ($c < 240) {
+                    $char = (($c - 224) << 12) + ((ord($str[++$i]) - 128) << 6) + (ord($str[++$i]) - 128);
+                    $entities .= '&#' . $char . ';';
+                } else {
+                    $char = (($c - 240) << 18) + ((ord($str[++$i]) - 128) << 12) + ((ord($str[++$i]) - 128) << 6) + (ord($str[++$i]) - 128);
+                    $entities .= '&#' . $char . ';';
+                }
+            }
+            return $entities;
+        }
+    }
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Transaction Report - {{ $formattedMonth }}</title>
     <style>
+        @font-face {
+            font-family: 'SolaimanLipi';
+            src: url('{{ dirname(base_path()) . "/assets/fonts/SolaimanLipi.ttf" }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
-            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
             font-size: 12px;
             color: #333;
             margin: 0;
@@ -72,7 +119,7 @@
 <body>
 
     <div class="header">
-        <h1>{{ $gs->title ?? 'Amar Bangla' }}</h1>
+        <h1>{!! utf8_to_entities(reshape_bengali($gs->title ?? 'Amar Bangla')) !!}</h1>
         <p>Transaction Report — {{ $formattedMonth }}</p>
     </div>
 
@@ -122,7 +169,7 @@
                     @if($rowCategoryName !== $currentCategoryName)
                         @if($currentCategoryName !== null)
                             <tr class="summary-row">
-                                <td colspan="6" class="text-right">Total {{ $currentCategoryName }}:</td>
+                                <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}:</td>
                                 <td class="text-right">৳ {{ number_format($categoryTotals[$currentCategoryId] ?? 0, 2) }}</td>
                             </tr>
                         @endif
@@ -133,7 +180,7 @@
                         @endphp
                         <tr class="category-header">
                             <td colspan="7">
-                                Folder: {{ $currentCategoryName }}
+                                Folder: {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}
                             </td>
                         </tr>
                     @endif
@@ -142,15 +189,15 @@
                     <td>{{ $sl++ }}</td>
                     <td>{{ $transaction->transaction_date }}</td>
                     <td>
-                        {{ $transaction->title }}
+                        {!! utf8_to_entities(reshape_bengali($transaction->title)) !!}
                         @if($transaction->order_id)
                             <span style="font-size: 8px; color: #555; background-color: #e9ecef; padding: 1px 3px; border-radius: 2px; font-weight: bold; margin-left: 3px;">
                                 #{{ $transaction->order_id }}
                             </span>
                         @endif
                     </td>
-                    <td>{{ $transaction->bearer }}</td>
-                    <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
+                    <td>{!! utf8_to_entities(reshape_bengali($transaction->bearer)) !!}</td>
+                    <td>{!! utf8_to_entities(reshape_bengali(optional($transaction->trcategory)->name ?? 'Uncategorized')) !!}</td>
                     <td>
                         <span class="badge {{ $transaction->type == 'income' ? 'badge-success' : 'badge-danger' }}">
                             {{ ucfirst($transaction->type) }}
@@ -167,7 +214,7 @@
                     $lastCategoryName = optional($lastTransaction->trcategory)->name ?? 'Uncategorized';
                 @endphp
                 <tr class="summary-row">
-                    <td colspan="6" class="text-right">Total {{ $categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized') }}:</td>
+                    <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
                     <td class="text-right">৳ {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
                 </tr>
             @endif
