@@ -680,6 +680,57 @@ class EpsPaymentController extends Controller
                         'note'             => 'Buying cost of products for Order ID: ' . $order->id . ' (Transaction ID: ' . $payment->transaction_id . ')',
                     ]);
                 }
+
+                // Record the referral commission as an expense
+                if (isset($order)) {
+                    $commission = \App\Models\ProductCommission::where('order_id', $order->id)->first();
+                    if ($commission && $commission->commission_amount > 0) {
+                        $referrerUser = User::find($commission->referrer_id);
+                        if ($referrerUser) {
+                            $commissionCategory = TransactionCategory::firstOrCreate([
+                                'name' => 'Referral Commission'
+                            ]);
+
+                            Transaction::create([
+                                'type'             => 'expense',
+                                'title'            => 'Referral Commission',
+                                'bearer'           => $referrerUser->name . ' (' . ($referrerUser->phone ?? 'N/A') . ')',
+                                'amount'           => $commission->commission_amount,
+                                'transaction_date' => now()->toDateString(),
+                                'category_id'      => $commissionCategory->id,
+                                'order_id'         => $order->id,
+                                'note'             => 'Referral commission for Order ID: ' . $order->id . ' paid to referrer ' . $referrerUser->name . ' (Transaction ID: ' . $payment->transaction_id . ')',
+                            ]);
+                        }
+                    }
+                }
+
+                // Record the courier cost as an expense
+                if (isset($order) && $order->address) {
+                    $courierCost = 0;
+                    if (strpos($order->address, '[Zone: Inside Dhaka]') !== false) {
+                        $courierCost = 80;
+                    } elseif (strpos($order->address, '[Zone: Outside Dhaka]') !== false) {
+                        $courierCost = 120;
+                    }
+
+                    if ($courierCost > 0) {
+                        $courierCategory = TransactionCategory::firstOrCreate([
+                            'name' => 'Courier Cost'
+                        ]);
+
+                        Transaction::create([
+                            'type'             => 'expense',
+                            'title'            => 'Courier Cost',
+                            'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
+                            'amount'           => $courierCost,
+                            'transaction_date' => now()->toDateString(),
+                            'category_id'      => $courierCategory->id,
+                            'order_id'         => $order->id,
+                            'note'             => 'Courier cost for Order ID: ' . $order->id . ' (Transaction ID: ' . $payment->transaction_id . ')',
+                        ]);
+                    }
+                }
             }
         }
 
