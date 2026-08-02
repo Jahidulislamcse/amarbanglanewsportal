@@ -236,4 +236,60 @@ class TransactionController extends Controller
 
         return $pdf->download('transactions_' . $month . '.pdf');
     }
+
+    public function downloadSummaryPdf(Request $request)
+    {
+        $type = $request->get('type');
+        $categoryId = $request->get('category_id');
+        $month = $request->get('month');
+
+        if (!$month) {
+            return redirect()->back()->with('unsuccess', 'Please select a month first to download summary PDF.');
+        }
+
+        $categoryTotalsQuery = Transaction::query()
+            ->leftJoin('transaction_categories', 'transaction_categories.id', '=', 'transactions.category_id')
+            ->select('transactions.category_id', 'transactions.type')
+            ->selectRaw('COALESCE(transaction_categories.name, "Uncategorized") as category_name')
+            ->selectRaw('SUM(transactions.amount) as total_amount')
+            ->whereRaw("DATE_FORMAT(transactions.transaction_date, '%Y-%m') = ?", [$month]);
+
+        if ($type) {
+            $categoryTotalsQuery->where('transactions.type', $type);
+        }
+
+        if ($categoryId && $categoryId !== 'all') {
+            $categoryTotalsQuery->where('transactions.category_id', $categoryId);
+        }
+
+        $categoryTotals = $categoryTotalsQuery->groupBy('transactions.category_id', 'transactions.type', 'transaction_categories.name')
+            ->orderBy('category_name', 'asc')
+            ->get();
+
+        $monthlyIncome = Transaction::where('type', 'income')
+            ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+            ->sum('amount');
+
+        $monthlyExpense = Transaction::where('type', 'expense')
+            ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+            ->sum('amount');
+
+        $dateObj = \DateTime::createFromFormat('Y-m', $month);
+        $formattedMonth = $dateObj ? $dateObj->format('F Y') : $month;
+
+        $gs = \App\Models\GeneralSettings::find(1);
+
+        $pdf = Pdf::loadView('admin.transaction.pdf_summary', compact(
+            'categoryTotals',
+            'monthlyIncome',
+            'monthlyExpense',
+            'type',
+            'categoryId',
+            'month',
+            'formattedMonth',
+            'gs'
+        ));
+
+        return $pdf->download('transaction_summary_' . $month . '.pdf');
+    }
 }
