@@ -178,8 +178,8 @@
                     @if($rowCategoryName !== $currentCategoryName)
                         @if($currentCategoryName !== null)
                             <tr class="summary-row">
-                                <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}:</td>
-                                <td class="text-right">&#2547; {{ number_format($categoryTotals[$currentCategoryId] ?? 0, 2) }}</td>
+                                <td colspan="6" class="text-right" style="font-weight: bold;">Total {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}:</td>
+                                <td class="text-right" style="font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($categoryTotals[$currentCategoryId] ?? 0, 2) }}</strong></td>
                             </tr>
                             <tr style="border: none; background-color: transparent;">
                                 <td colspan="7" style="height: 16px; border: none; padding: 0; background-color: transparent;"></td>
@@ -225,9 +225,9 @@
                     $lastCategoryId = $lastTransaction->category_id;
                     $lastCategoryName = optional($lastTransaction->trcategory)->name ?? 'Uncategorized';
                 @endphp
-                <tr class="summary-row">
-                    <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
-                    <td class="text-right">&#2547; {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
+                 <tr class="summary-row">
+                    <td colspan="6" class="text-right" style="font-weight: bold;">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
+                    <td class="text-right" style="font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</strong></td>
                 </tr>
             @endif
         </tbody>
@@ -238,19 +238,19 @@
             @if(empty($type) || $type === 'income')
                 <tr>
                     <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Income:</td>
-                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyIncome, 2) }}</td>
+                    <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyIncome, 2) }}</strong></td>
                 </tr>
             @endif
             @if(empty($type) || $type === 'expense')
                 <tr>
                     <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Expense:</td>
-                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyExpense, 2) }}</td>
+                    <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyExpense, 2) }}</strong></td>
                 </tr>
             @endif
             @if(empty($type))
                 <tr style="background-color: #f1f3f5;">
                     <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Net Balance:</td>
-                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyIncome - $monthlyExpense, 2) }}</td>
+                    <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyIncome - $monthlyExpense, 2) }}</strong></td>
                 </tr>
             @endif
         </table>
