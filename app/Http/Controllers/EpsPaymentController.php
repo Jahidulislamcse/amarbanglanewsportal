@@ -640,13 +640,14 @@ class EpsPaymentController extends Controller
                     'amount' => $payment->amount,
                 ]);
 
-                $transaction = Transaction::create([
+                 $transaction = Transaction::create([
                     'type'             => 'income',
                     'title'            => 'Product Sells',
                     'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
                     'amount'           => $payment->amount,
                     'transaction_date' => now()->toDateString(),
                     'category_id'      => $category->id,
+                    'order_id'         => $order->id ?? null,
                     'note'             => 'Product Sells: ' . $payment->product_name . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
                 ]);
 
@@ -675,6 +676,7 @@ class EpsPaymentController extends Controller
                         'amount'           => $totalBuyingPrice,
                         'transaction_date' => now()->toDateString(),
                         'category_id'      => $expenseCategory->id,
+                        'order_id'         => $order->id ?? null,
                         'note'             => 'Buying cost of products for Order ID: ' . $order->id . ' (Transaction ID: ' . $payment->transaction_id . ')',
                     ]);
                 }

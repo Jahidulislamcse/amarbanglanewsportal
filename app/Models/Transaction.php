@@ -13,7 +13,8 @@ class Transaction extends Model
         'amount',
         'transaction_date',
         'note',
-        'category_id'
+        'category_id',
+        'order_id'
     ];
 
     public function trcategory()
