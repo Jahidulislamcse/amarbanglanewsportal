@@ -151,25 +151,6 @@
         <p>Transaction Report - {{ $formattedMonth }}</p>
     </div>
 
-    <table style="width: 100%; border: none; margin-bottom: 25px; border-collapse: collapse;">
-        <tr>
-            <td style="width: 32%; border: 1px solid #c3e6cb; border-left: 5px solid #28a745; border-radius: 4px; padding: 12px; background-color: #f4faf6; text-align: center;">
-                <div style="font-size: 10px; text-transform: uppercase; color: #155724; font-weight: bold; margin-bottom: 5px;">Monthly Income</div>
-                <div style="font-size: 16px; font-weight: bold; color: #155724;"> {{ number_format($monthlyIncome, 2) }}</div>
-            </td>
-            <td style="width: 2%; border: none;"></td>
-            <td style="width: 32%; border: 1px solid #f5c6cb; border-left: 5px solid #dc3545; border-radius: 4px; padding: 12px; background-color: #fdf3f4; text-align: center;">
-                <div style="font-size: 10px; text-transform: uppercase; color: #721c24; font-weight: bold; margin-bottom: 5px;">Monthly Expense</div>
-                <div style="font-size: 16px; font-weight: bold; color: #721c24;"> {{ number_format($monthlyExpense, 2) }}</div>
-            </td>
-            <td style="width: 2%; border: none;"></td>
-            <td style="width: 32%; border: 1px solid #bee5eb; border-left: 5px solid #17a2b8; border-radius: 4px; padding: 12px; background-color: #f3fafd; text-align: center;">
-                <div style="font-size: 10px; text-transform: uppercase; color: #0c5460; font-weight: bold; margin-bottom: 5px;">Monthly Balance</div>
-                <div style="font-size: 16px; font-weight: bold; color: #0c5460;"> {{ number_format($monthlyIncome - $monthlyExpense, 2) }}</div>
-            </td>
-        </tr>
-    </table>
-
     <table class="list-table">
         <thead>
             <tr>
@@ -251,6 +232,29 @@
             @endif
         </tbody>
     </table>
+
+    <div style="width: 100%; margin-top: 25px; page-break-inside: avoid;">
+        <table style="width: 300px; margin-left: auto; border-collapse: collapse; border: 1px solid #ddd; background-color: #fafafa; font-family: 'SolaimanLipi', Arial, sans-serif;">
+            @if(empty($type) || $type === 'income')
+                <tr>
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Income:</td>
+                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyIncome, 2) }}</td>
+                </tr>
+            @endif
+            @if(empty($type) || $type === 'expense')
+                <tr>
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Expense:</td>
+                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyExpense, 2) }}</td>
+                </tr>
+            @endif
+            @if(empty($type))
+                <tr style="background-color: #f1f3f5;">
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Net Balance:</td>
+                    <td style="padding: 8px 12px; text-align: right; font-weight: bold; border: 1px solid #ddd; color: #212529;">&#2547; {{ number_format($monthlyIncome - $monthlyExpense, 2) }}</td>
+                </tr>
+            @endif
+        </table>
+    </div>
 
 </body>
 </html>
