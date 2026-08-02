@@ -276,7 +276,7 @@
                                 @endphp
                                 <tr>
                                     <td colspan="8" class="font-weight-bold" style="background-color: #f1f3f5; color: #495057; font-size: 15px; border-bottom: 2px solid #dee2e6; padding: 12px 18px;">
-                                        <i class="fas fa-folder-open mr-1"></i> {{ $currentCategoryName }}
+                                        <i class="fas fa-tags mr-1"></i> {{ $currentCategoryName }}
                                     </td>
                                 </tr>
                             @endif

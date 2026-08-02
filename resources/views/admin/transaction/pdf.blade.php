@@ -178,7 +178,7 @@
                     @if($rowCategoryName !== $currentCategoryName)
                         @if($currentCategoryName !== null)
                             <tr class="summary-row">
-                                <td colspan="6" class="text-right" style="font-weight: bold;">Total {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}:</td>
+                                <td colspan="6" class="text-right" style="font-weight: bold;">Total <span style="font-weight: normal; font-family: 'SolaimanLipi';">{!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}</span>:</td>
                                 <td class="text-right" style="font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($categoryTotals[$currentCategoryId] ?? 0, 2) }}</strong></td>
                             </tr>
                             <tr style="border: none; background-color: transparent;">
@@ -192,7 +192,7 @@
                         @endphp
                         <tr class="category-header">
                             <td colspan="7">
-                                Folder: {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}
+                                Category: <span style="font-weight: normal; font-family: 'SolaimanLipi';">{!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}</span>
                             </td>
                         </tr>
                     @endif
@@ -226,7 +226,7 @@
                     $lastCategoryName = optional($lastTransaction->trcategory)->name ?? 'Uncategorized';
                 @endphp
                  <tr class="summary-row">
-                    <td colspan="6" class="text-right" style="font-weight: bold;">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
+                    <td colspan="6" class="text-right" style="font-weight: bold;">Total <span style="font-weight: normal; font-family: 'SolaimanLipi';">{!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}</span>:</td>
                     <td class="text-right" style="font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</strong></td>
                 </tr>
             @endif
