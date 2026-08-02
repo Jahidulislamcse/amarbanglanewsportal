@@ -127,17 +127,17 @@
         <tr>
             <td style="width: 32%; border: 1px solid #c3e6cb; border-left: 5px solid #28a745; border-radius: 4px; padding: 12px; background-color: #f4faf6; text-align: center;">
                 <div style="font-size: 10px; text-transform: uppercase; color: #155724; font-weight: bold; margin-bottom: 5px;">Monthly Income</div>
-                <div style="font-size: 16px; font-weight: bold; color: #155724;">৳ {{ number_format($monthlyIncome, 2) }}</div>
+                <div style="font-size: 16px; font-weight: bold; color: #155724;"> {{ number_format($monthlyIncome, 2) }}</div>
             </td>
             <td style="width: 2%; border: none;"></td>
             <td style="width: 32%; border: 1px solid #f5c6cb; border-left: 5px solid #dc3545; border-radius: 4px; padding: 12px; background-color: #fdf3f4; text-align: center;">
                 <div style="font-size: 10px; text-transform: uppercase; color: #721c24; font-weight: bold; margin-bottom: 5px;">Monthly Expense</div>
-                <div style="font-size: 16px; font-weight: bold; color: #721c24;">৳ {{ number_format($monthlyExpense, 2) }}</div>
+                <div style="font-size: 16px; font-weight: bold; color: #721c24;"> {{ number_format($monthlyExpense, 2) }}</div>
             </td>
             <td style="width: 2%; border: none;"></td>
             <td style="width: 32%; border: 1px solid #bee5eb; border-left: 5px solid #17a2b8; border-radius: 4px; padding: 12px; background-color: #f3fafd; text-align: center;">
                 <div style="font-size: 10px; text-transform: uppercase; color: #0c5460; font-weight: bold; margin-bottom: 5px;">Monthly Balance</div>
-                <div style="font-size: 16px; font-weight: bold; color: #0c5460;">৳ {{ number_format($monthlyIncome - $monthlyExpense, 2) }}</div>
+                <div style="font-size: 16px; font-weight: bold; color: #0c5460;"> {{ number_format($monthlyIncome - $monthlyExpense, 2) }}</div>
             </td>
         </tr>
     </table>
@@ -215,7 +215,7 @@
                 @endphp
                 <tr class="summary-row">
                     <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
-                    <td class="text-right">৳ {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
+                    <td class="text-right"> {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
                 </tr>
             @endif
         </tbody>
