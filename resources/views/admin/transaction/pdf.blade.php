@@ -172,6 +172,9 @@
                                 <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($currentCategoryName)) !!}:</td>
                                 <td class="text-right">&#2547; {{ number_format($categoryTotals[$currentCategoryId] ?? 0, 2) }}</td>
                             </tr>
+                            <tr style="border: none; background-color: transparent;">
+                                <td colspan="7" style="height: 16px; border: none; padding: 0; background-color: transparent;"></td>
+                            </tr>
                         @endif
                         @php
                             $currentCategoryName = $rowCategoryName;
@@ -215,7 +218,7 @@
                 @endphp
                 <tr class="summary-row">
                     <td colspan="6" class="text-right">Total {!! utf8_to_entities(reshape_bengali($categoryId === 'all' ? $lastCategoryName : (optional($transactions->first()->trcategory)->name ?? 'Uncategorized'))) !!}:</td>
-                    <td class="text-right"> {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
+                    <td class="text-right">&#2547; {{ number_format($categoryTotals[$categoryId === 'all' ? $lastCategoryId : $categoryId] ?? 0, 2) }}</td>
                 </tr>
             @endif
         </tbody>
