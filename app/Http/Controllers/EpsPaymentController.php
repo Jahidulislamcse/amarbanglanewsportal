@@ -631,7 +631,7 @@ class EpsPaymentController extends Controller
 
             if ($user) {
                 $category = TransactionCategory::firstOrCreate([
-                    'name' => 'Product Purchase'
+                    'name' => 'Product Sells'
                 ]);
 
                 \Log::info('Creating transaction for ProductPayment', [
@@ -642,12 +642,12 @@ class EpsPaymentController extends Controller
 
                 $transaction = Transaction::create([
                     'type'             => 'income',
-                    'title'            => 'Product Purchase',
+                    'title'            => 'Product Sells',
                     'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
                     'amount'           => $payment->amount,
                     'transaction_date' => now()->toDateString(),
                     'category_id'      => $category->id,
-                    'note'             => 'Product Purchase: ' . $payment->product_name . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
+                    'note'             => 'Product Sells: ' . $payment->product_name . '. Transaction ID: ' . $payment->transaction_id . ' (Automatic Payment)',
                 ]);
 
                 \Log::info('Transaction created successfully for ProductPayment', [
