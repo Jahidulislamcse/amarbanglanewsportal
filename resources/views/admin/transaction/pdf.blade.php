@@ -1,6 +1,5 @@
 @php
     if (!function_exists('reshape_bengali')) {
-        font_weight: normal;
         function reshape_bengali($str) {
             if (empty($str)) return '';
             $str = str_replace(
