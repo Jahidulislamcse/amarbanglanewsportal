@@ -222,10 +222,6 @@
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
                 <span class="mr-2"><strong>Filter by Category:</strong></span>
-                <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
-                   class="btn btn-sm {{ $categoryId === 'all' || empty($categoryId) ? 'btn-dark' : 'btn-outline-dark' }}">
-                    {{ $month ? 'Month All Transactions (Grouped)' : 'All Categories' }}
-                </a>
 
                 @foreach($transactionCategories as $category)
                     <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id, 'month' => $month])) }}" 
@@ -233,6 +229,11 @@
                         {{ $category->name }}
                     </a>
                 @endforeach
+
+                <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
+                   class="btn btn-sm {{ $categoryId === 'all' ? 'btn-dark' : 'btn-outline-dark' }}">
+                    {{ $month ? 'Month All Transactions (Grouped)' : 'All Categories' }}
+                </a>
             </div>
             
             <table class="table table-hover">
