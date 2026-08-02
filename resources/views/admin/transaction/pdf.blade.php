@@ -141,7 +141,14 @@
                 <tr>
                     <td>{{ $sl++ }}</td>
                     <td>{{ $transaction->transaction_date }}</td>
-                    <td>{{ $transaction->title }}</td>
+                    <td>
+                        {{ $transaction->title }}
+                        @if($transaction->order_id)
+                            <span style="font-size: 8px; color: #555; background-color: #e9ecef; padding: 1px 3px; border-radius: 2px; font-weight: bold; margin-left: 3px;">
+                                #{{ $transaction->order_id }}
+                            </span>
+                        @endif
+                    </td>
                     <td>{{ $transaction->bearer }}</td>
                     <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
                     <td>

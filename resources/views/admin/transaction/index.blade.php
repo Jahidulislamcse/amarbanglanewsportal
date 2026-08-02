@@ -284,7 +284,14 @@
                     <tr>
                         <td>{{ $sl++ }}</td>
                         <td>{{ $transaction->transaction_date }}</td>
-                        <td>{{ $transaction->title }}</td>
+                        <td>
+                            {{ $transaction->title }}
+                            @if($transaction->order_id)
+                                <span class="badge badge-secondary" style="font-size: 10px; margin-left: 5px; font-weight: bold; background-color: #6c757d; color: #fff;">
+                                    #{{ $transaction->order_id }}
+                                </span>
+                            @endif
+                        </td>
                         <td>{{ $transaction->bearer }}</td>
                         <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
                         <td>
