@@ -256,7 +256,7 @@
                         $currentCategoryId = null;
                     @endphp
                     @foreach($transactions as $transaction)
-                        @if($categoryId === 'all' && $month)
+                        @if($categoryId === 'all')
                             @php
                                 $rowCategoryId = $transaction->category_id;
                                 $rowCategoryName = optional($transaction->trcategory)->name ?? 'Uncategorized';
@@ -323,7 +323,7 @@
                     </tr>
                     @endforeach
 
-                    @if($transactions->isNotEmpty() && ($categoryId !== 'all' || $month))
+                    @if($transactions->isNotEmpty())
                         @php
                             $lastTransaction = $transactions->last();
                             $lastCategoryId = $lastTransaction->category_id;

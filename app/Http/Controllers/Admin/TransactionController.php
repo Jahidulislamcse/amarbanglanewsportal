@@ -38,7 +38,7 @@ class TransactionController extends Controller
             $query->where('category_id', $categoryId);
         }
         
-        if ($month && $categoryId === 'all') {
+        if ($categoryId === 'all') {
             $query->select('transactions.*')
                   ->leftJoin('transaction_categories', 'transaction_categories.id', '=', 'transactions.category_id')
                   ->orderBy('transaction_categories.name', 'asc')
