@@ -192,16 +192,14 @@
                     </div>
                 </form>
 
-                @if($month)
-                    <div style="display: inline-flex; gap: 8px;">
-                        <a href="{{ route('transactions.pdf', array_filter(['type' => $type, 'category_id' => $categoryId, 'month' => $month])) }}" class="btn btn-sm btn-danger">
-                            <i class="fas fa-file-pdf mr-1"></i> Download PDF
-                        </a>
-                        <a href="{{ route('transactions.pdf.summary', array_filter(['type' => $type, 'category_id' => $categoryId, 'month' => $month])) }}" class="btn btn-sm btn-info">
-                            <i class="fas fa-file-pdf mr-1"></i> Download Summary 
-                        </a>
-                    </div>
-                @endif
+                <div style="display: inline-flex; gap: 8px;">
+                    <a href="{{ route('transactions.pdf', array_filter(['type' => $type, 'category_id' => $categoryId, 'month' => $month])) }}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-file-pdf mr-1"></i> Download PDF
+                    </a>
+                    <a href="{{ route('transactions.pdf.summary', array_filter(['type' => $type, 'category_id' => $categoryId, 'month' => $month])) }}" class="btn btn-sm btn-info">
+                        <i class="fas fa-file-pdf mr-1"></i> Download Summary PDF
+                    </a>
+                </div>
             </div>
 
             <div class="my-3">
