@@ -169,6 +169,9 @@ class TransactionController extends Controller
 
     public function downloadPdf(Request $request)
     {
+        ini_set('memory_limit', '512M');
+        set_time_limit(300);
+
         $type = $request->get('type');
         $categoryId = $request->get('category_id');
         $month = $request->get('month');
@@ -247,6 +250,9 @@ class TransactionController extends Controller
 
     public function downloadSummaryPdf(Request $request)
     {
+        ini_set('memory_limit', '512M');
+        set_time_limit(300);
+
         $type = $request->get('type');
         $categoryId = $request->get('category_id');
         $month = $request->get('month');

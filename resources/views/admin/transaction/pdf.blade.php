@@ -219,7 +219,7 @@
                 </tr>
             @endforeach
 
-            @if($transactions->isNotEmpty())
+            @if($transactions->isNotEmpty() && !empty($categoryId))
                 @php
                     $lastTransaction = $transactions->last();
                     $lastCategoryId = $lastTransaction->category_id;
