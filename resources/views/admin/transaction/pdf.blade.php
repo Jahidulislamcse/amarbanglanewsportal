@@ -45,10 +45,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Transaction Report - {{ $formattedMonth }}</title>
     <style>
+        @page {
+            margin: 15mm 15mm 20mm 15mm;
+        }
         @font-face {
             font-family: 'SolaimanLipi';
             src: url('{{ dirname(base_path()) . "/assets/fonts/SolaimanLipi.ttf" }}') format('truetype');
             font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SolaimanLipi';
+            src: url('{{ dirname(base_path()) . "/assets/fonts/SolaimanLipi.ttf" }}') format('truetype');
+            font-weight: bold;
             font-style: normal;
         }
         body {
@@ -57,6 +66,21 @@
             color: #333;
             margin: 0;
             padding: 0;
+        }
+        footer {
+            position: fixed;
+            bottom: -10mm;
+            left: 0px;
+            right: 0px;
+            height: 10mm;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            border-top: 1px solid #eaeaea;
+            padding-top: 5px;
+        }
+        .page-number:after {
+            content: counter(page);
         }
         .header {
             text-align: center;
@@ -117,6 +141,10 @@
     </style>
 </head>
 <body>
+
+    <footer>
+        Page <span class="page-number"></span>
+    </footer>
 
     <div class="header">
         <h1>{!! utf8_to_entities(reshape_bengali($gs->title ?? 'Amar Bangla')) !!}</h1>
