@@ -653,6 +653,31 @@ class EpsPaymentController extends Controller
                 \Log::info('Transaction created successfully for ProductPayment', [
                     'transaction_id' => $transaction->id,
                 ]);
+
+                // Record the order item total buying price as an expense
+                $totalBuyingPrice = 0;
+                if (isset($order) && isset($order->items) && $order->items->isNotEmpty()) {
+                    foreach ($order->items as $item) {
+                        $buyingPrice = optional($item->product)->buying_price ?? 0;
+                        $totalBuyingPrice += $buyingPrice * $item->quantity;
+                    }
+                }
+
+                if ($totalBuyingPrice > 0) {
+                    $expenseCategory = TransactionCategory::firstOrCreate([
+                        'name' => 'Product Buying Cost'
+                    ]);
+
+                    Transaction::create([
+                        'type'             => 'expense',
+                        'title'             => 'Product Buying Cost',
+                        'bearer'           => $user->name . ' (' . ($payment->phone_number ?? $user->phone ?? 'N/A') . ')',
+                        'amount'           => $totalBuyingPrice,
+                        'transaction_date' => now()->toDateString(),
+                        'category_id'      => $expenseCategory->id,
+                        'note'             => 'Buying cost of products for Order ID: ' . $order->id . ' (Transaction ID: ' . $payment->transaction_id . ')',
+                    ]);
+                }
             }
         }
 
@@ -809,7 +834,7 @@ class EpsPaymentController extends Controller
             $lockedPayment = ProductPayment::whereKey($payment->id)->lockForUpdate()->first();
 
             if ($lockedPayment->order_id) {
-                return $lockedPayment->order()->with('items')->first();
+                return $lockedPayment->order()->with('items.product')->first();
             }
 
             $order = Order::create([
@@ -833,7 +858,7 @@ class EpsPaymentController extends Controller
             $lockedPayment->update(['order_id' => $order->id]);
             $payment->order_id = $order->id;
 
-            return $order->load('items');
+            return $order->load('items.product');
         });
     }
 
