@@ -30,6 +30,7 @@
                     <select name="type" class="form-control" required>
                         <option value="income">Income</option>
                         <option value="expense">Expense</option>
+                        <option value="assets">Assets</option>
                     </select>
                 </div>
 

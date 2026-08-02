@@ -54,9 +54,11 @@ class TransactionController extends Controller
 
         $totalIncome = Transaction::where('type', 'income')->sum('amount');
         $totalExpense = Transaction::where('type', 'expense')->sum('amount');
+        $totalAssets = Transaction::where('type', 'assets')->sum('amount');
 
         $monthlyIncome = 0;
         $monthlyExpense = 0;
+        $monthlyAssets = 0;
 
         if ($month) {
             $monthlyIncome = Transaction::where('type', 'income')
@@ -64,6 +66,10 @@ class TransactionController extends Controller
                 ->sum('amount');
 
             $monthlyExpense = Transaction::where('type', 'expense')
+                ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
+                ->sum('amount');
+
+            $monthlyAssets = Transaction::where('type', 'assets')
                 ->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month])
                 ->sum('amount');
         }
@@ -90,8 +96,10 @@ class TransactionController extends Controller
             'transactions',
             'totalIncome',
             'totalExpense',
+            'totalAssets',
             'monthlyIncome',
             'monthlyExpense',
+            'monthlyAssets',
             'type',
             'categoryId',
             'month',
@@ -112,7 +120,7 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:income,expense',
+            'type' => 'required|in:income,expense,assets',
             'title' => 'required|string|max:255',
             'bearer' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
@@ -137,7 +145,7 @@ class TransactionController extends Controller
     public function update(Request $request, Transaction $transaction)
     {
         $request->validate([
-            'type' => 'required|in:income,expense',
+            'type' => 'required|in:income,expense,assets',
             'title' => 'required|string|max:255',
             'bearer' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
@@ -207,6 +215,12 @@ class TransactionController extends Controller
         }
         $monthlyExpense = $monthlyExpenseQuery->sum('amount');
 
+        $monthlyAssetsQuery = Transaction::where('type', 'assets');
+        if ($month) {
+            $monthlyAssetsQuery->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+        }
+        $monthlyAssets = $monthlyAssetsQuery->sum('amount');
+
         $categoryTotalsQuery = Transaction::query();
         if ($type) {
             $categoryTotalsQuery->where('type', $type);
@@ -232,6 +246,7 @@ class TransactionController extends Controller
             'transactions',
             'monthlyIncome',
             'monthlyExpense',
+            'monthlyAssets',
             'type',
             'categoryId',
             'month',
@@ -287,6 +302,12 @@ class TransactionController extends Controller
         }
         $monthlyExpense = $monthlyExpenseQuery->sum('amount');
 
+        $monthlyAssetsQuery = Transaction::where('type', 'assets');
+        if ($month) {
+            $monthlyAssetsQuery->whereRaw("DATE_FORMAT(transaction_date, '%Y-%m') = ?", [$month]);
+        }
+        $monthlyAssets = $monthlyAssetsQuery->sum('amount');
+
         $formattedMonth = 'All Time';
         if ($month) {
             $dateObj = \DateTime::createFromFormat('Y-m', $month);
@@ -299,6 +320,7 @@ class TransactionController extends Controller
             'categoryTotals',
             'monthlyIncome',
             'monthlyExpense',
+            'monthlyAssets',
             'type',
             'categoryId',
             'month',

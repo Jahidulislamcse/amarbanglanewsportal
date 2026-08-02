@@ -5,7 +5,7 @@
 
     <div class="row row-cards-one">
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg1" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Income') }}</h5>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg2" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Expense') }}</h5>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg3" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Balance') }}</h5>
@@ -49,6 +49,20 @@
             </div>
         </div>
 
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="mycard bg4" style="background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+                <div class="left">
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Lifetime Assets') }}</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2; color: #fff;">{{ number_format($totalAssets, 2) }}</span>
+                </div>
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0; color: #fff;">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     @if($month)
@@ -57,7 +71,7 @@
             $formattedMonth = $dateObj ? $dateObj->format('F Y') : $month;
         @endphp
         <div class="row row-cards-one mt-2">
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-3">
                 <div class="mycard bg1" style="background: linear-gradient(135deg, #ff7b00 0%, #ffae00 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
                         <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Income') }} ({{ $formattedMonth }})</h6>
@@ -71,7 +85,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-3">
                 <div class="mycard bg2" style="background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
                         <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Expense') }} ({{ $formattedMonth }})</h6>
@@ -85,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-3">
                 <div class="mycard bg3" style="background: linear-gradient(135deg, #00a86b 0%, #00e676 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
                     <div class="left">
                         <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Monthly Balance') }} ({{ $formattedMonth }})</h6>
@@ -96,6 +110,20 @@
                     <div class="right">
                         <div class="icon" style="font-size: 28px; opacity: 0.8; line-height: 1; margin: 0;">
                             <i class="fas fa-history"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-6 col-xl-3">
+                <div class="mycard bg4" style="background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04); border-radius: 6px;">
+                    <div class="left">
+                        <h6 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Monthly Assets') }} ({{ $formattedMonth }})</h6>
+                        <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2; color: #fff;">{{ number_format($monthlyAssets, 2) }}</span>
+                    </div>
+                    <div class="right">
+                        <div class="icon" style="font-size: 28px; opacity: 0.8; line-height: 1; margin: 0; color: #fff;">
+                            <i class="fas fa-coins"></i>
                         </div>
                     </div>
                 </div>
@@ -218,6 +246,11 @@
                    class="btn btn-sm {{ $type === 'expense' ? 'btn-danger' : 'btn-outline-danger' }}">
                     Expense
                 </a>
+
+                <a href="{{ route('transactions.index', array_filter(['type' => 'assets', 'category_id' => $categoryId, 'month' => $month])) }}"
+                   class="btn btn-sm {{ $type === 'assets' ? 'btn-warning' : 'btn-outline-warning' }}">
+                    Assets
+                </a>
             </div>
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
@@ -299,7 +332,7 @@
                         <td>{{ $transaction->bearer }}</td>
                         <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
                         <td>
-                            <span class="badge badge-{{ $transaction->type == 'income' ? 'success' : 'danger' }}">
+                            <span class="badge badge-{{ $transaction->type == 'income' ? 'success' : ($transaction->type == 'expense' ? 'danger' : 'warning') }}">
                                 {{ ucfirst($transaction->type) }}
                             </span>
                         </td>

@@ -127,6 +127,7 @@
         }
         .badge-success { background-color: #d4edda; color: #155724; }
         .badge-danger { background-color: #f8d7da; color: #721c24; }
+        .badge-warning { background-color: #fff3cd; color: #856404; }
     </style>
 </head>
 <body>
@@ -160,7 +161,7 @@
                         </span>
                     </td>
                     <td>
-                        <span class="badge {{ $total->type == 'income' ? 'badge-success' : 'badge-danger' }}">
+                        <span class="badge {{ $total->type == 'income' ? 'badge-success' : ($total->type == 'expense' ? 'badge-danger' : 'badge-warning') }}">
                             {{ ucfirst($total->type) }}
                         </span>
                     </td>
@@ -187,6 +188,14 @@
                     <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Expense:</td>
                     <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;">
                         <span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyExpense, 2) }}</strong>
+                    </td>
+                </tr>
+            @endif
+            @if(empty($type) || $type === 'assets')
+                <tr>
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Assets:</td>
+                    <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;">
+                        <span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyAssets, 2) }}</strong>
                     </td>
                 </tr>
             @endif
