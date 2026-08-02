@@ -219,12 +219,10 @@
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
                 <span class="mr-2"><strong>Filter by Category:</strong></span>
-                @if($month)
-                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
-                       class="btn btn-sm {{ $categoryId === 'all' ? 'btn-dark' : 'btn-outline-dark' }}">
-                        Month All Transactions (Grouped)
-                    </a>
-                @endif
+                <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
+                   class="btn btn-sm {{ $categoryId === 'all' || empty($categoryId) ? 'btn-dark' : 'btn-outline-dark' }}">
+                    {{ $month ? 'Month All Transactions (Grouped)' : 'All Categories' }}
+                </a>
 
                 @foreach($transactionCategories as $category)
                     <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id, 'month' => $month])) }}" 
@@ -254,7 +252,7 @@
                         $currentCategoryId = null;
                     @endphp
                     @foreach($transactions as $transaction)
-                        @if($categoryId === 'all')
+                        @if($categoryId === 'all' && $month)
                             @php
                                 $rowCategoryId = $transaction->category_id;
                                 $rowCategoryName = optional($transaction->trcategory)->name ?? 'Uncategorized';
@@ -314,7 +312,7 @@
                     </tr>
                     @endforeach
 
-                    @if($transactions->isNotEmpty())
+                    @if($transactions->isNotEmpty() && ($categoryId !== 'all' || $month))
                         @php
                             $lastTransaction = $transactions->last();
                             $lastCategoryId = $lastTransaction->category_id;
