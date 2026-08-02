@@ -18,14 +18,8 @@ class TransactionController extends Controller
         
         $transactionCategories = TransactionCategory::orderBy('name')->get();
 
-        if (!$month && $categoryId === 'all') {
-            $categoryId = null;
-        }
-
-        if ($categoryId !== 'all') {
-            if (!$categoryId && $transactionCategories->isNotEmpty()) {
-                $categoryId = $transactionCategories->first()->id;
-            }
+        if (!$categoryId) {
+            $categoryId = 'all';
         }
     
         $query = Transaction::query();
