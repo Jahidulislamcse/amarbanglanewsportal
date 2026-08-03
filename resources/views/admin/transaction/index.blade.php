@@ -5,7 +5,7 @@
 
     <div class="row row-cards-one">
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg1" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Income') }}</h5>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg2" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Expense') }}</h5>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-4">
+        <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard bg4" style="background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Lifetime Assets') }}</h5>
@@ -46,10 +46,6 @@
                 </div>
             </div>
         </div>
-
-    </div>
-
-    <div class="row row-cards-one mt-1">
 
         <div class="col-md-12 col-lg-6 col-xl-3">
             <div class="mycard" style="background: linear-gradient(135deg, #0a9396 0%, #57cc99 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
@@ -65,7 +61,11 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-3">
+    </div>
+
+    <div class="row row-cards-one mt-1">
+
+        <div class="col-md-12 col-lg-6 col-xl-6">
             <div class="mycard" style="background: linear-gradient(135deg, #184e77 0%, #1e6091 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Net Balance') }} (Income − Expense)</h5>
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-3">
+        <div class="col-md-12 col-lg-6 col-xl-6">
             <div class="mycard" style="background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Company Worth') }} (Net + Assets + Investment)</h5>
