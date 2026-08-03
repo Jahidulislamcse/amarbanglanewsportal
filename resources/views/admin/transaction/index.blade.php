@@ -5,7 +5,7 @@
 
     <div class="row row-cards-one">
 
-        <div class="col-md-12 col-lg-6 col-xl-3">
+        <div class="col-md-12 col-lg-6 col-xl-4">
             <div class="mycard bg1" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Income') }}</h5>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-3">
+        <div class="col-md-12 col-lg-6 col-xl-4">
             <div class="mycard bg2" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Expense') }}</h5>
@@ -33,23 +33,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6 col-xl-3">
-            <div class="mycard bg3" style="padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
-                <div class="left">
-                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9;">{{ __('Lifetime Balance') }}</h5>
-                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2;">
-                        {{ number_format($totalIncome - $totalExpense, 2) }}
-                    </span>
-                </div>
-                <div class="right">
-                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0;">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 col-lg-6 col-xl-3">
+        <div class="col-md-12 col-lg-6 col-xl-4">
             <div class="mycard bg4" style="background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
                 <div class="left">
                     <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Lifetime Assets') }}</h5>
