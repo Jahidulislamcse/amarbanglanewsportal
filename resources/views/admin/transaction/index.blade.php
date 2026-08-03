@@ -289,18 +289,39 @@
                 </a>
             </div>
 
-            <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
+            <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 6px;">
                 <span class="mr-2"><strong>Filter by Category:</strong></span>
 
+                @php
+                $catColors = [
+                    ['bg'=>'#e63946','light'=>'#fde8ea','text'=>'#9b1d24'],
+                    ['bg'=>'#2a9d8f','light'=>'#e0f5f3','text'=>'#1a6b63'],
+                    ['bg'=>'#e76f51','light'=>'#fdeee9','text'=>'#a0431f'],
+                    ['bg'=>'#457b9d','light'=>'#e3eef5','text'=>'#2b5875'],
+                    ['bg'=>'#6a4c93','light'=>'#ede7f6','text'=>'#4a2d6b'],
+                    ['bg'=>'#2b9348','light'=>'#e4f5e9','text'=>'#1a5c2d'],
+                    ['bg'=>'#f4a261','light'=>'#fef3e9','text'=>'#b06010'],
+                    ['bg'=>'#0077b6','light'=>'#e0f0fa','text'=>'#004e78'],
+                    ['bg'=>'#9b2226','light'=>'#fae0e1','text'=>'#6b1215'],
+                    ['bg'=>'#606c38','light'=>'#edf0e2','text'=>'#3c4420'],
+                    ['bg'=>'#bc6c25','light'=>'#faeee2','text'=>'#7c420f'],
+                    ['bg'=>'#3a0ca3','light'=>'#ebe6fc','text'=>'#25077a'],
+                ];
+                @endphp
+
                 @foreach($transactionCategories as $category)
-                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id, 'month' => $month])) }}" 
-                       class="btn btn-sm {{ $categoryId == $category->id ? 'btn-dark' : 'btn-outline-secondary' }}">
+                    @php
+                        $c = $catColors[$loop->index % count($catColors)];
+                        $isActive = $categoryId == $category->id;
+                    @endphp
+                    <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => $category->id, 'month' => $month])) }}"
+                       style="font-size: 12px; padding: 4px 11px; border-radius: 20px; border: 1.5px solid {{ $c['bg'] }}; background-color: {{ $isActive ? $c['bg'] : $c['light'] }}; color: {{ $isActive ? '#fff' : $c['text'] }}; font-weight: {{ $isActive ? '700' : '500' }}; text-decoration: none; display: inline-block;">
                         {{ $category->name }}
                     </a>
                 @endforeach
 
-                <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}" 
-                   class="btn btn-sm {{ $categoryId === 'all' ? 'btn-dark' : 'btn-outline-dark' }}">
+                <a href="{{ route('transactions.index', array_filter(['type' => $type, 'category_id' => 'all', 'month' => $month])) }}"
+                   style="font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1.5px solid #343a40; background-color: {{ $categoryId === 'all' ? '#343a40' : '#e9ecef' }}; color: {{ $categoryId === 'all' ? '#fff' : '#343a40' }}; font-weight: {{ $categoryId === 'all' ? '700' : '500' }}; text-decoration: none; display: inline-block;">
                     {{ $month ? 'Month All Transactions (Grouped)' : 'All Categories' }}
                 </a>
             </div>
