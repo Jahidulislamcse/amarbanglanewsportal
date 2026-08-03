@@ -35,6 +35,7 @@
                         <option value="income" {{ $transaction->type == 'income' ? 'selected' : '' }}>Income</option>
                         <option value="expense" {{ $transaction->type == 'expense' ? 'selected' : '' }}>Expense</option>
                         <option value="assets" {{ $transaction->type == 'assets' ? 'selected' : '' }}>Assets</option>
+                        <option value="investment" {{ $transaction->type == 'investment' ? 'selected' : '' }}>Investment</option>
                     </select>
                 </div>
 

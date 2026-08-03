@@ -65,6 +65,52 @@
 
     </div>
 
+    <div class="row row-cards-one mt-1">
+
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="mycard" style="background: linear-gradient(135deg, #0a9396 0%, #57cc99 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+                <div class="left">
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Lifetime Investment') }}</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2; color: #fff;">{{ number_format($totalInvestment, 2) }}</span>
+                </div>
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0; color: #fff;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="mycard" style="background: linear-gradient(135deg, #184e77 0%, #1e6091 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+                <div class="left">
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Net Balance') }} (Income − Expense)</h5>
+                    <span class="number" style="font-size: 26px; font-weight: 800; line-height: 1.2; color: #fff;">{{ number_format($totalIncome - $totalExpense, 2) }}</span>
+                </div>
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0; color: #fff;">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6 col-xl-3">
+            <div class="mycard" style="background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%); padding: 10px 18px; margin-bottom: 15px; min-height: 85px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); border-radius: 6px;">
+                <div class="left">
+                    <h5 class="title" style="font-size: 13px; margin-bottom: 2px; opacity: 0.9; color: #fff;">{{ __('Company Worth') }} (Net + Assets + Investment)</h5>
+                    <span class="number" style="font-size: 22px; font-weight: 800; line-height: 1.2; color: #fff;">{{ number_format(($totalIncome - $totalExpense) + $totalAssets + $totalInvestment, 2) }}</span>
+                </div>
+                <div class="right">
+                    <div class="icon" style="font-size: 28px; opacity: 0.85; line-height: 1; margin: 0; color: #fff;">
+                        <i class="fas fa-building"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     @if($month)
         @php
             $dateObj = DateTime::createFromFormat('Y-m', $month);
@@ -128,6 +174,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     @endif
 
@@ -251,6 +298,11 @@
                    class="btn btn-sm {{ $type === 'assets' ? 'btn-warning' : 'btn-outline-warning' }}">
                     Assets
                 </a>
+
+                <a href="{{ route('transactions.index', array_filter(['type' => 'investment', 'category_id' => $categoryId, 'month' => $month])) }}"
+                   class="btn btn-sm {{ $type === 'investment' ? 'btn-info' : 'btn-outline-info' }}">
+                    Investment
+                </a>
             </div>
 
             <div class="mb-4 d-flex align-items-center flex-wrap" style="gap: 8px;">
@@ -332,7 +384,7 @@
                         <td>{{ $transaction->bearer }}</td>
                         <td>{{ optional($transaction->trcategory)->name ?? 'Uncategorized' }}</td>
                         <td>
-                            <span class="badge badge-{{ $transaction->type == 'income' ? 'success' : ($transaction->type == 'expense' ? 'danger' : 'warning') }}">
+                            <span class="badge badge-{{ $transaction->type == 'income' ? 'success' : ($transaction->type == 'expense' ? 'danger' : ($transaction->type == 'assets' ? 'warning' : 'info')) }}">
                                 {{ ucfirst($transaction->type) }}
                             </span>
                         </td>

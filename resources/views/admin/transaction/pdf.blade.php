@@ -128,6 +128,7 @@
         .badge-success { background-color: #d4edda; color: #155724; }
         .badge-danger { background-color: #f8d7da; color: #721c24; }
         .badge-warning { background-color: #fff3cd; color: #856404; }
+        .badge-info { background-color: #d1ecf1; color: #0c5460; }
         .category-header {
             background-color: #f1f3f5;
             font-weight: bold;
@@ -212,7 +213,7 @@
                     <td>{!! utf8_to_entities(reshape_bengali($transaction->bearer)) !!}</td>
                     <td>{!! utf8_to_entities(reshape_bengali(optional($transaction->trcategory)->name ?? 'Uncategorized')) !!}</td>
                     <td>
-                        <span class="badge {{ $transaction->type == 'income' ? 'badge-success' : ($transaction->type == 'expense' ? 'badge-danger' : 'badge-warning') }}">
+                        <span class="badge {{ $transaction->type == 'income' ? 'badge-success' : ($transaction->type == 'expense' ? 'badge-danger' : ($transaction->type == 'assets' ? 'badge-warning' : 'badge-info')) }}">
                             {{ ucfirst($transaction->type) }}
                         </span>
                     </td>
@@ -254,9 +255,15 @@
                     <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyAssets, 2) }}</strong></td>
                 </tr>
             @endif
+            @if(empty($type) || $type === 'investment')
+                <tr>
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Total Investment (Lifetime):</td>
+                    <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyInvestment, 2) }}</strong></td>
+                </tr>
+            @endif
             @if(empty($type))
                 <tr style="background-color: #f1f3f5;">
-                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Net Balance:</td>
+                    <td style="padding: 8px 12px; font-weight: bold; border: 1px solid #ddd; color: #495057;">Net Balance (Income − Expense):</td>
                     <td style="padding: 8px 12px; text-align: right; border: 1px solid #ddd; color: #212529; font-weight: normal;"><span style="font-weight: normal; font-family: 'SolaimanLipi';">&#2547;</span> <strong style="font-weight: bold;">{{ number_format($monthlyIncome - $monthlyExpense, 2) }}</strong></td>
                 </tr>
             @endif

@@ -31,6 +31,7 @@
                         <option value="income">Income</option>
                         <option value="expense">Expense</option>
                         <option value="assets">Assets</option>
+                        <option value="investment">Investment</option>
                     </select>
                 </div>
 
