@@ -340,8 +340,9 @@ if (!function_exists('is_recents')) {
         return App\Models\Post::orderByDesc('id')
             ->where('is_pending', 0)
             ->where(function ($q) {
-                $q->whereNull('schedule_post_date')
-                  ->orWhere('schedule_post_date', '<=', now());
+                $q->where('schedule_post', 0)
+                  ->orWhereNull('schedule_post_date')
+                  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
             })
             ->whereIn('post_type', ['article', 'audio'])
             ->where('is_slider', '<>', 3)

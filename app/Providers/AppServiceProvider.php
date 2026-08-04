@@ -106,8 +106,9 @@ class AppServiceProvider extends ServiceProvider
             ->where('is_pending', 0)
             ->whereIn('status', ['true', '1', 1])
             ->where(function ($q) {
-                $q->whereNull('schedule_post_date')
-                  ->orWhere('schedule_post_date', '<=', now());
+                $q->where('schedule_post', 0)
+                  ->orWhereNull('schedule_post_date')
+                  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
             })
             ->where('created_at', '>=', now()->startOfDay())
             ->where('created_at', '<=', now())

@@ -658,8 +658,9 @@ class FrontendController extends Controller
 		$recents = \App\Models\Post::with('category')
 			->where('is_pending', 0)
 			->where(function ($q) {
-				$q->whereNull('schedule_post_date')
-				  ->orWhere('schedule_post_date', '<=', now());
+				$q->where('schedule_post', 0)
+				  ->orWhereNull('schedule_post_date')
+				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
 			})
 			->whereIn('post_type', ['article', 'audio'])
 			->where('is_slider', '<>', 3)
@@ -676,8 +677,9 @@ class FrontendController extends Controller
 			->where('is_pending', 0)
 			->whereIn('status', ['true', '1', 1])
 			->where(function ($q) {
-				$q->whereNull('schedule_post_date')
-				  ->orWhere('schedule_post_date', '<=', now());
+				$q->where('schedule_post', 0)
+				  ->orWhereNull('schedule_post_date')
+				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
 			})
 			->where('created_at', '>=', now()->startOfDay())
 			->where('created_at', '<=', now())
@@ -954,10 +956,14 @@ class FrontendController extends Controller
 		}
 		$last_news = $request->last_news;
 		$datas = Post::where('id', '<', $last_news)
-			->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
+			->where(function ($q) {
+				$q->where('schedule_post', 0)
+				  ->orWhereNull('schedule_post_date')
+				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
+			})
 			->whereIn('post_type', ['article', 'audio'])
 			->where('is_pending', 0)
-			->where('status', true)
+			->whereIn('status', ['true', '1', 1])
 
 			->where('language_id', '=', $default_language->id)
 			->latest('id')
