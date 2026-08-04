@@ -650,11 +650,17 @@ class FrontendController extends Controller
 		}
 		$lid = $default_language->id;
 
-		// Recent / Latest news
-		$recentLimit = \App\Models\GeneralSettings::first()->recent_news_limit ?? 5;
+		$gs = \App\Models\GeneralSettings::first();
+
+		// Recent / Latest news — mirrors is_recents() helper exactly,
+		// but also includes posts where schedule_post_date IS NULL (reporter submissions)
+		$recentLimit = $gs->recent_news_limit ?? 5;
 		$recents = \App\Models\Post::with('category')
 			->where('is_pending', 0)
-			->where('schedule_post_date', '<=', now())
+			->where(function ($q) {
+				$q->whereNull('schedule_post_date')
+				  ->orWhere('schedule_post_date', '<=', now());
+			})
 			->whereIn('post_type', ['article', 'audio'])
 			->where('is_slider', '<>', 3)
 			->where('language_id', $lid)
@@ -664,12 +670,15 @@ class FrontendController extends Controller
 			->get(['id','title','slug','image_big','rss_image','category_id']);
 
 		// Popular news (top viewed today)
-		$popularLimit = \App\Models\GeneralSettings::first()->popular_news_limit ?? 5;
+		$popularLimit = $gs->popular_news_limit ?? 5;
 		$populars = \App\Models\Post::with('category')
 			->where('language_id', $lid)
 			->where('is_pending', 0)
 			->where('status', true)
-			->where('schedule_post_date', '<=', now())
+			->where(function ($q) {
+				$q->whereNull('schedule_post_date')
+				  ->orWhere('schedule_post_date', '<=', now());
+			})
 			->where('created_at', '>=', now()->startOfDay())
 			->where('created_at', '<=', now())
 			->orderByDesc('view_count')
@@ -679,11 +688,12 @@ class FrontendController extends Controller
 		$mapPost = function ($post) {
 			$slug = optional(optional($post)->category)->slug ?? '';
 			return [
-				'title' => $post->title,
-				'slug'  => $post->slug,
+				'title'    => $post->title,
+				'slug'     => $post->slug,
 				'cat_slug' => $slug,
-				'image' => $post->image_big ? asset('assets/images/post/' . $post->image_big)
-					      : ($post->rss_image ? asset('assets/images/post/' . $post->rss_image) : asset('assets/images/nopic.png')),
+				'image'    => $post->image_big
+					? asset('assets/images/post/' . $post->image_big)
+					: ($post->rss_image ? asset('assets/images/post/' . $post->rss_image) : asset('assets/images/nopic.png')),
 			];
 		};
 

@@ -808,6 +808,10 @@ class PostController extends Controller
             $data->approved_at = now();
             $data->reject_reason = null;
             $data->rejected_by = null;
+            // Ensure schedule_post_date is set so the post appears in news queries
+            if (empty($data->schedule_post_date)) {
+                $data->schedule_post_date = now();
+            }
         }else{
             $data->is_pending = 1;
             $data->approve_by = null;
@@ -816,6 +820,11 @@ class PostController extends Controller
             $data->rejected_by = null;
         }
         $data->update();
+
+        // Clear homepage cache so approved post appears immediately
+        cache()->forget('home_index_data_lang_1');
+        cache()->forget('home_index_data_lang_2');
+
         return back()->with('success','Pending Status Updated successfully!');
     }
 
