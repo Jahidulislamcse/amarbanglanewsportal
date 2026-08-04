@@ -124,7 +124,7 @@
                             data-customer-phone="{{ $order->phone_number ?: ($order->user->phone ?? '-') }}"
                             data-customer-address="{{ $order->address ?: '-' }}"
                             data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
-                            data-site-name-bn="আমার বাংলা- 24"
+                            data-site-name-bn="আমার বাংলা 24"
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
                             data-site-address-bn="কাব্যকষ সুপার মার্কেট, লিফটের- ৫, স্যুট - ১০, কাওরানবাজার ঢাকা-১২১৫"
                             data-site-address="{{ optional($contact)->address ?? '-' }}"
