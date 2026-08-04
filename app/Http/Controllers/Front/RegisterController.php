@@ -140,6 +140,15 @@ class RegisterController extends Controller
             }
             $request->merge(['phone' => $phone]);
 
+            // Clean up any unverified draft registration with the same email or phone
+            $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
+            User::where(function($q) use ($request, $phone, $phone11) {
+                $q->where('email', $request->email)
+                  ->orWhere('phone', $phone)
+                  ->orWhere('phone', $phone11)
+                  ->orWhere('phone', 'like', '%' . $phone11);
+            })->where('verified', 0)->delete();
+
             $gs = GeneralSettings::findOrFail(1);
         
             if($gs->is_capcha == 1)
@@ -204,6 +213,10 @@ class RegisterController extends Controller
                     'password'=> 'required|min:4|confirmed',
                     'report_type'=> 'required',
                     'reporter_area'=> 'required',
+                    'has_experience' => 'required|in:0,1',
+                    'experience_organization' => 'required_if:has_experience,1|max:255',
+                    'experience_designation' => 'required_if:has_experience,1|max:255',
+                    'experience' => 'nullable|string',
                     'otp_via' => 'required|in:phone,email',
                     'nid' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
                     'nid_back' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
@@ -220,29 +233,6 @@ class RegisterController extends Controller
                 ]);
             }
 
-            if (\App\Models\User::where('email', $request->email)->exists()) {
-                return response()->json([
-                    'errors' => ['email' => ['This email is already registered.']]
-                ]);
-            }
-
-            $phone = preg_replace('/[^0-9]/', '', $request->phone);
-            if ($phone !== '' && substr($phone, 0, 1) == "0") {
-                $phone = "88" . $phone;
-            }
-            $phone13 = $phone;
-            $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
-            $phoneExists = \App\Models\User::where('phone', $phone13)
-                ->orWhere('phone', $phone11)
-                ->orWhere('phone', 'like', '%' . $phone11)
-                ->exists();
-
-            if ($phoneExists) {
-                return response()->json([
-                    'errors' => ['phone' => ['This phone number is already registered.']]
-                ]);
-            }
-        
             $otp = rand(1000,9999);
         
             $data = $request->except([
@@ -255,147 +245,125 @@ class RegisterController extends Controller
                 'signature'
             ]);
             
+            $data['password'] = bcrypt($request->password);
             $data['plain_password'] = $request->password;
+            $data['token'] = md5(time().$request->name.$request->email);
+            $data['report_type'] = json_encode($request->report_type);
+            $data['verified'] = 0;
+            $data['email_verified'] = 'No';
+            $data['is_approve'] = 0;
+            $data['affilate_code'] = $this->generateAffiliateCode();
         
             if ($file = $request->file('nid')) {
-        
-                $nidName =
-                    uniqid().'_nid.'.
-                    $file->getClientOriginalExtension();
-        
-                $file->move(
-                    storage_path('app/temp'),
-                    $nidName
-                );
-        
-                $data['nid_temp'] = $nidName;
+                $nidName = time().'_'.uniqid().'_nid.'.$file->getClientOriginalExtension();
+                $file->move(public_path('assets/images/admin/'), $nidName);
+                $data['nid'] = $nidName;
             }
 
             if ($file = $request->file('nid_back')) {
-
-                $nidBackName =
-                    uniqid().'_nid_back.'.
-                    $file->getClientOriginalExtension();
-
-                $file->move(
-                    storage_path('app/temp'),
-                    $nidBackName
-                );
-
-                $data['nid_back_temp'] = $nidBackName;
+                $nidBackName = time().'_'.uniqid().'_nid_back.'.$file->getClientOriginalExtension();
+                $file->move(public_path('assets/images/admin/'), $nidBackName);
+                $data['nid_back'] = $nidBackName;
             }
         
             if ($file = $request->file('photo')) {
-        
-                $photoName =
-                    uniqid().'_photo.'.
-                    $file->getClientOriginalExtension();
-        
-                $file->move(
-                    storage_path('app/temp'),
-                    $photoName
-                );
-        
-                $data['photo_temp'] = $photoName;
+                $photoName = time().'_'.uniqid().'_photo.'.$file->getClientOriginalExtension();
+                $file->move(public_path('assets/images/admin/'), $photoName);
+                $data['photo'] = $photoName;
             }
-        
-            if ($file = $request->file('signature')) {
-        
-                $signatureName =
-                    uniqid().'_signature.'.
-                    $file->getClientOriginalExtension();
-        
-                $file->move(
-                    storage_path('app/temp'),
-                    $signatureName
-                );
-        
-                $data['signature_temp'] = $signatureName;
+            
+            if (empty($data['has_experience'])) {
+                $data['experience_organization'] = null;
+                $data['experience_designation'] = null;
+                $data['experience'] = null;
             }
             
             $referrer = null;
-
             if ($request->filled('ref')) {
-            
                 $referrer = User::where('affilate_code', $request->ref)->first();
-            
                 $data['referrer_code'] = $request->ref;
                 $data['referred_by'] = $referrer?->id;
             }
+            
+            // Create user
+            $author = new User();
+            $author->fill($data)->save();
+
+            // Save signature
+            if ($file = $request->file('signature')) {
+                $signatureName = $author->id . '.png';
+                $file->move(public_path('assets/images/admin/'), $signatureName);
+            }
+
+            // Save credentials
+            UserOthersInfo::create([
+                'user_id' => $author->id,
+                'password' => $request->password
+            ]);
         
             Cache::put(
                 'register_otp_'.$request->email,
                 [
                     'otp' => $otp,
-                    'data' => $data
+                    'user_id' => $author->id,
+                    'email' => $request->email
                 ],
                 now()->addMinutes(10)
             );
         
-            $userPhone = preg_replace('/[^0-9]/', '', $request->phone);
-        
-            if (substr($userPhone, 0, 1) == "0") {
-                $userPhone = "88" . $userPhone;
-            }
-        
-            if($request->otp_via == 'phone')
-            {
-                $message =
-                "Your OTP for Amar Bangla 24 registration is: {$otp}. Valid for 10 minutes.";
-        
-                $smsSent = (new SmsService())->send(
-                    $userPhone,
-                    $message
-                );
-
-                if ($smsSent === false) {
-                    throw new \Exception("SMS gateway error occurred when sending verification code.");
+            $otpSentSuccessfully = false;
+            try {
+                if($request->otp_via == 'phone')
+                {
+                    $message = "Your OTP for Amar Bangla 24 registration is: {$otp}. Valid for 10 minutes.";
+                    $smsSent = (new SmsService())->send($phone, $message);
+                    if ($smsSent === false) {
+                        throw new \Exception("SMS gateway error occurred when sending verification code.");
+                    }
                 }
-            }
-            else
-            {
-                $html = "
-                    <h2>Amar Bangla 24 - OTP Verification</h2>
-                    <h1>{$otp}</h1>
-                    <p>This OTP is valid for 10 minutes.</p>
-                ";
-        
-                $mailSent = BrevoMailService::send(
-                    $request->email,
-                    $request->name,
-                    'Registration OTP',
-                    $html
-                );
-
-                // Check if response contains Brevo error
-                if (!$mailSent || strpos($mailSent, 'error') !== false || strpos($mailSent, 'unauthorized') !== false) {
-                    throw new \Exception("Email dispatch failed. Please verify your email configuration or try SMS verification.");
+                else
+                {
+                    $html = "
+                        <h2>Amar Bangla 24 - OTP Verification</h2>
+                        <h1>{$otp}</h1>
+                        <p>This OTP is valid for 10 minutes.</p>
+                    ";
+            
+                    $mailSent = BrevoMailService::send(
+                        $request->email,
+                        $request->name,
+                        'Registration OTP',
+                        $html
+                    );
+                    if (!$mailSent || strpos($mailSent, 'error') !== false || strpos($mailSent, 'unauthorized') !== false) {
+                        throw new \Exception("Email dispatch failed. Please verify your email configuration or try SMS verification.");
+                    }
                 }
+                $otpSentSuccessfully = true;
+            } catch (\Throwable $otpEx) {
+                \Log::warning("OTP transmission failed but registration draft saved: " . $otpEx->getMessage());
             }
-        
-            return response()->json([
-                'otp_sent' => true,
-                'contact' => $request->email
-            ]);
+
+            if ($otpSentSuccessfully) {
+                return response()->json([
+                    'otp_sent' => true,
+                    'contact' => $request->email
+                ]);
+            } else {
+                return response()->json([
+                    'otp_sent' => false,
+                    'otp_failed' => true,
+                    'message' => "আপনার আবেদনটি সফলভাবে খসড়া (Draft) হিসেবে সংরক্ষিত হয়েছে!\n\nসাময়িক নেটওয়ার্ক ত্রুটির কারণে ভেরিফিকেশন কোড পাঠানো সম্ভব হয়নি। আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার তথ্য ম্যানুয়ালি যাচাই করে অ্যাকাউন্টটি সক্রিয় করে দেবে। আপনার ধৈর্য্যের জন্য ধন্যবাদ।"
+                ]);
+            }
         } catch (\Throwable $e) {
             \Log::error("OTP Send Exception: " . $e->getMessage(), [
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ]);
 
-            $message = $e->getMessage();
-            $userFriendlyMessage = "System error during registration request. (Details: " . $message . ")";
-
-            if (stripos($message, 'sms') !== false || stripos($message, 'digitalsquare') !== false || stripos($message, 'bulksms') !== false) {
-                $userFriendlyMessage = "We are experiencing issues sending verification SMS. Please try selecting Email verification instead. (Details: " . $message . ")";
-            } elseif (stripos($message, 'email') !== false || stripos($message, 'mail') !== false || stripos($message, 'brevo') !== false || stripos($message, 'smtp') !== false) {
-                $userFriendlyMessage = "We are experiencing issues sending verification Email. Please try selecting Phone/SMS verification instead. (Details: " . $message . ")";
-            } elseif (stripos($message, 'database') !== false || stripos($message, 'sql') !== false || stripos($message, 'connection') !== false) {
-                $userFriendlyMessage = "Our server database is temporarily busy. Please wait a moment and try again. (Details: " . $message . ")";
-            }
-
             return response()->json([
-                'error' => $userFriendlyMessage
+                'error' => "System error during registration request: " . $e->getMessage()
             ]);
         }
     }
@@ -404,7 +372,6 @@ class RegisterController extends Controller
     {
         try {
             $cacheKey = 'register_otp_'.$request->contact;
-        
             $cached = Cache::get($cacheKey);
         
             if(!$cached){
@@ -419,159 +386,21 @@ class RegisterController extends Controller
                 ]);
             }
         
-            $input = $cached['data'];
-            
-            if (\App\Models\User::where('email', $input['email'])->exists()) {
-                return response()->json(['error' => 'This email is already registered']);
-            }
-            $phone = preg_replace('/[^0-9]/', '', $input['phone']);
-            if ($phone !== '' && substr($phone, 0, 1) == "0") {
-                $phone = "88" . $phone;
-            }
-            $phone13 = $phone;
-            $phone11 = str_starts_with($phone, '88') ? substr($phone, 2) : $phone;
-            $phoneExists = \App\Models\User::where('phone', $phone13)
-                ->orWhere('phone', $phone11)
-                ->orWhere('phone', 'like', '%' . $phone11)
-                ->exists();
-            if ($phoneExists) {
-                return response()->json(['error' => 'This phone number is already registered']);
+            $author = User::find($cached['user_id']);
+            if (!$author) {
+                return response()->json(['error' => 'User not found']);
             }
         
-            $plainPassword = $input['plain_password'];
-        
-            unset($input['plain_password']);
-        
-            $input['password'] = bcrypt($plainPassword);
-        
-            $input['token'] =
-                md5(time().$input['name'].$input['email']);
-        
-            $input['report_type'] =
-                json_encode($input['report_type']);
-        
-            $input['verified'] = 1;
-            $input['email_verified'] = 'Yes';
-        
-            $referrer = null;
-        
-            if(!empty($input['referrer_code']))
-            {
-                $referrer = User::where(
-                    'affilate_code',
-                    $input['referrer_code']
-                )->first();
-        
-                $input['referred_by'] =
-                    $referrer->id ?? null;
-            }
-        
-            $input['affilate_code'] =
-                $this->generateAffiliateCode();
-        
-            if(!empty($input['nid_temp']))
-            {
-                $nidName = time().'_'.$input['nid_temp'];
-                $oldPath = storage_path('app/temp/'.$input['nid_temp']);
-                $newPath = public_path('assets/images/admin/'.$nidName);
-                if (file_exists($oldPath)) {
-                    try {
-                        if (!file_exists(dirname($newPath))) {
-                            mkdir(dirname($newPath), 0777, true);
-                        }
-                        rename($oldPath, $newPath);
-                    } catch (\Exception $e) {
-                        \Log::error("Failed to move NID file: " . $e->getMessage());
-                    }
-                }
-                $input['nid'] = $nidName;
-                unset($input['nid_temp']);
-            }
-
-            if(!empty($input['nid_back_temp']))
-            {
-                $nidBackName = time().'_'.$input['nid_back_temp'];
-                $oldPath = storage_path('app/temp/'.$input['nid_back_temp']);
-                $newPath = public_path('assets/images/admin/'.$nidBackName);
-                if (file_exists($oldPath)) {
-                    try {
-                        if (!file_exists(dirname($newPath))) {
-                            mkdir(dirname($newPath), 0777, true);
-                        }
-                        rename($oldPath, $newPath);
-                    } catch (\Exception $e) {
-                        \Log::error("Failed to move NID Back file: " . $e->getMessage());
-                    }
-                }
-                $input['nid_back'] = $nidBackName;
-                unset($input['nid_back_temp']);
-            }
-        
-            if(!empty($input['photo_temp']))
-            {
-                $photoName = time().'_'.$input['photo_temp'];
-                $oldPath = storage_path('app/temp/'.$input['photo_temp']);
-                $newPath = public_path('assets/images/admin/'.$photoName);
-                if (file_exists($oldPath)) {
-                    try {
-                        if (!file_exists(dirname($newPath))) {
-                            mkdir(dirname($newPath), 0777, true);
-                        }
-                        rename($oldPath, $newPath);
-                    } catch (\Exception $e) {
-                        \Log::error("Failed to move Photo file: " . $e->getMessage());
-                    }
-                }
-                $input['photo'] = $photoName;
-                unset($input['photo_temp']);
-            }
-        
-            
-            if (empty($input['has_experience'])) {
-
-                $input['experience_organization'] = null;
-                $input['experience_designation'] = null;
-                $input['experience'] = null;
-            }
-        
-        
-            $signatureTemp = $input['signature_temp'] ?? null;
-            unset($input['signature_temp']);
-
-            $author = new User();
-            $author->fill($input)->save();
-
-            if (!empty($signatureTemp)) {
-                $oldPath = storage_path('app/temp/' . $signatureTemp);
-                $signatureName = $author->id . '.png';
-                $newPath = public_path('assets/images/admin/' . $signatureName);
-                if (file_exists($oldPath)) {
-                    try {
-                        if (!file_exists(dirname($newPath))) {
-                            mkdir(dirname($newPath), 0777, true);
-                        }
-                        rename($oldPath, $newPath);
-                    } catch (\Exception $e) {
-                        \Log::error("Failed to move Signature file: " . $e->getMessage());
-                    }
-                }
-            }
-        
-        
-        
-            UserOthersInfo::create([
-                'user_id' => $author->id,
-                'password' => $plainPassword
-            ]);
+            $author->verified = 1;
+            $author->email_verified = 'Yes';
+            $author->save();
         
             $userPhone = preg_replace('/[^0-9]/', '', $author->phone);
-        
             if (substr($userPhone, 0, 1) == "0") {
                 $userPhone = "88".$userPhone;
             }
         
-            $message =
-            "Welcome, {$author->name}! Your registration on আমার বাংলা 24 has been successfully completed. You will be notified once your information has been verified.";
+            $message = "Welcome, {$author->name}! Your registration on আমার বাংলা 24 has been successfully completed. You will be notified once your information has been verified.";
         
             (new SmsService())->send(
                 $userPhone,
@@ -581,9 +410,8 @@ class RegisterController extends Controller
             Cache::forget($cacheKey);
         
             Auth::guard('web')->login($author);
-        
             session()->flash('registration_success_popup', true);
-
+ 
             return response()->json([
                 'success' => true,
                 'url' => route('user.dashboard')
@@ -594,17 +422,8 @@ class RegisterController extends Controller
                 'line' => $e->getLine()
             ]);
 
-            $message = $e->getMessage();
-            $userFriendlyMessage = "System error during OTP verification. (Details: " . $message . ")";
-
-            if (stripos($message, 'database') !== false || stripos($message, 'sql') !== false || stripos($message, 'connection') !== false) {
-                $userFriendlyMessage = "Our server database is temporarily busy. Please wait a moment and try again. (Details: " . $message . ")";
-            } elseif (stripos($message, 'file') !== false || stripos($message, 'move') !== false || stripos($message, 'rename') !== false || stripos($message, 'permission') !== false) {
-                $userFriendlyMessage = "Failed to upload or store your files. Please make sure files are valid images and try again. (Details: " . $message . ")";
-            }
-
             return response()->json([
-                'error' => $userFriendlyMessage
+                'error' => "System error during OTP verification: " . $e->getMessage()
             ]);
         }
     }

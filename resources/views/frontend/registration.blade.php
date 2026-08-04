@@ -1264,6 +1264,11 @@ $(".chooseOtp").click(function(){
 
                 $("#otpModal").show();
 
+            }else if(res.otp_failed){
+
+                alert(res.message);
+                window.location.href = "{{ url('/') }}";
+
             }else if(res.errors){
 
                 showServerErrors(res.errors);

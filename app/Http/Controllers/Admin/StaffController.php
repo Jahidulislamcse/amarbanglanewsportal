@@ -1126,7 +1126,12 @@ class StaffController extends Controller
             $data->payment_status = 'upcoming';
             if (!$data->next_payment_date) {
                 $data->next_payment_date = now()->addDays(30);
-            }$data->next_payment_date = now()->addDays(30);
+            }
+            $data->next_payment_date = now()->addDays(30);
+            
+            // Mark user verified so they can log in
+            $data->verified = 1;
+            $data->email_verified = 'Yes';
             
             $data->save(); 
                     

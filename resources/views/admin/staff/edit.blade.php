@@ -67,6 +67,29 @@
     <div class="add-product-content  p-0 shadow-none">
         @include('includes.admin.form-error')
         @include('includes.admin.form-success')
+        
+        @if($data->verified == 0 || $data->email_verified != 'Yes')
+        <div class="alert alert-warning" style="border: 2px solid #d9534f; background-color: #fdf2f2; color: #b94a48; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(217, 83, 79, 0.15);">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <span style="font-size: 26px; color: #d9534f; animation: blinker 1.5s linear infinite; line-height: 1;">⚠️</span>
+                <style>
+                    @keyframes blinker {
+                        50% { opacity: 0; }
+                    }
+                </style>
+                <div>
+                    <h5 style="margin: 0 0 6px 0; font-weight: bold; color: #c9302c; font-size: 16px;">
+                        ব্যবহারকারী ওটিপি (OTP) ভেরিফাই করতে পারেননি / Unverified Phone & Email
+                    </h5>
+                    <p style="margin: 0; font-size: 13.5px; color: #444; line-height: 1.5;">
+                        এই ব্যবহারকারী রেজিস্ট্রেশন সম্পন্ন করার সময় ওটিপি (OTP) কোড ভেরিফাই করতে পারেননি (খসড়া/Draft রেজিস্ট্রেশন)। 
+                        সরাসরি <strong>অনুমোদন (Approve)</strong> করলে সিস্টেম তাকে স্বয়ংক্রিয়ভাবে ভেরিফাইড (Verified) হিসেবে চিহ্নিত করবে।
+                    </p>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="product-description">
