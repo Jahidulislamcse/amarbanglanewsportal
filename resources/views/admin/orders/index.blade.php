@@ -120,15 +120,14 @@
 
                     <button type="button" class="btn btn-info btn-block btn-sm mt-3 download-slip-btn"
                             data-order-id="{{ $order->id }}"
-                            data-order-date="{{ $order->created_at->format('d M Y') }}"
-                            data-order-total="{{ number_format($order->total_amount, 2) }}"
                             data-customer-name="{{ $order->user->name ?? '-' }}"
                             data-customer-phone="{{ $order->phone_number ?: ($order->user->phone ?? '-') }}"
                             data-customer-address="{{ $order->address ?: '-' }}"
-                            data-logo-url="{{ asset('assets/amarbangla.png') }}"
                             data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
-                            data-site-url="amarbangla24.com.bd"
+                            data-site-name-bn="আমার বাংলা- 24"
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
+                            data-site-address-bn="{{ optional($contact)->address_bn ?? '-' }}"
+                            data-site-address="{{ optional($contact)->address ?? '-' }}"
                     >
                         <i class="fas fa-download"></i> Download Slip
                     </button>
@@ -160,123 +159,38 @@ $(document).ready(function() {
         try {
             // Get data
             const orderId = btn.data('order-id');
-            const orderDate = btn.data('order-date');
-            const orderTotal = btn.data('order-total');
             const customerName = btn.data('customer-name');
             const customerPhone = btn.data('customer-phone');
             const customerAddress = btn.data('customer-address');
-            const logoUrl = btn.data('logo-url');
             const siteName = btn.data('site-name');
-            const siteUrl = btn.data('site-url');
+            const siteNameBn = btn.data('site-name-bn');
             const sitePhone = btn.data('site-phone');
+            const siteAddressBn = btn.data('site-address-bn');
+            const siteAddress = btn.data('site-address');
 
-            // Load logo image
-            const loadImage = (src) => {
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.onerror = () => resolve(null);
-                    setTimeout(() => resolve(null), 1500); // 1.5s timeout
-                    img.src = src;
-                });
-            };
-
-            const logoImg = logoUrl ? await loadImage(logoUrl) : null;
-
-            // Setup Canvas
+            // Setup Canvas (aspect ratio similar to DL envelope: ~2.3:1)
             const canvas = document.createElement('canvas');
             canvas.width = 1500;
-            canvas.height = 1000;
+            canvas.height = 650;
             const ctx = canvas.getContext('2d');
 
-            // Background
+            // Background (Pure white)
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Double border
-            ctx.strokeStyle = '#1e293b';
-            ctx.lineWidth = 6;
-            ctx.strokeRect(30, 30, 1440, 940);
-            ctx.lineWidth = 2;
-            ctx.strokeRect(45, 45, 1410, 910);
-
-            // Header Banner
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(45, 45, 1410, 110);
-
-            // Header Text
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 44px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('DELIVERY SLIP', 750, 100);
-
-            // Vertical divider line
-            ctx.setLineDash([15, 10]);
+            // Envelope border: simple black border inset by 20px
+            ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
-            ctx.strokeStyle = '#94a3b8';
-            ctx.beginPath();
-            ctx.moveTo(750, 190);
-            ctx.lineTo(750, 810);
-            ctx.stroke();
+            ctx.strokeRect(20, 20, 1460, 610);
 
-            // Reset text settings
-            ctx.setLineDash([]);
+            // Setup text settings
+            ctx.fillStyle = '#000000';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'alphabetic';
+            const fontStack = '"Segoe UI", Arial, Nikosh, SolaimanLipi, sans-serif';
 
-            // Left Column (Merchant Details)
-            let startY = 250;
-            if (logoImg) {
-                let drawWidth = logoImg.width;
-                let drawHeight = logoImg.height;
-                const maxW = 400;
-                const maxH = 160;
-                const ratio = Math.min(maxW / drawWidth, maxH / drawHeight);
-                drawWidth = drawWidth * ratio;
-                drawHeight = drawHeight * ratio;
-                ctx.drawImage(logoImg, 100, 210 + (maxH - drawHeight) / 2, drawWidth, drawHeight);
-                startY = 430;
-            }
-
-            // Draw Site Name
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 48px Arial';
-            ctx.fillText(siteName, 100, startY);
-
-            // Draw Site URL
-            ctx.fillStyle = '#0284c7';
-            ctx.font = '34px Arial';
-            ctx.fillText(siteUrl, 100, startY + 70);
-
-            // Draw Site Phone
-            ctx.fillStyle = '#334155';
-            ctx.font = '34px Arial';
-            ctx.fillText('Phone: ' + sitePhone, 100, startY + 130);
-
-            // Right Column (Customer Details)
-            // Deliver To Badge
-            ctx.fillStyle = '#f1f5f9';
-            ctx.fillRect(820, 210, 240, 50);
-            ctx.fillStyle = '#64748b';
-            ctx.font = 'bold 26px Arial';
-            ctx.fillText('DELIVER TO', 840, 245);
-
-            // Customer Name
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 50px Arial';
-            ctx.fillText(customerName, 820, 320);
-
-            // Customer Phone
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 38px Arial';
-            ctx.fillText('Phone: ' + customerPhone, 820, 390);
-
-            // Customer Address (Wrapped)
-            ctx.fillStyle = '#334155';
-            ctx.font = '34px Arial';
-            
             function drawWrappedText(context, text, x, y, maxWidth, lineHeight) {
+                if (!text) return y;
                 const paragraphs = String(text).split('\n');
                 let currentY = y;
                 for (let i = 0; i < paragraphs.length; i++) {
@@ -287,47 +201,62 @@ $(document).ready(function() {
                         let metrics = context.measureText(testLine);
                         let testWidth = metrics.width;
                         if (testWidth > maxWidth && n > 0) {
-                            context.fillText(line, x, currentY);
+                            context.fillText(line.trim(), x, currentY);
                             line = words[n] + ' ';
                             currentY += lineHeight;
                         } else {
                             line = testLine;
                         }
                     }
-                    context.fillText(line, x, currentY);
+                    context.fillText(line.trim(), x, currentY);
                     currentY += lineHeight;
                 }
+                return currentY;
             }
 
-            drawWrappedText(ctx, customerAddress, 820, 460, 580, 46);
+            // Left Column (Sender / প্রেরক)
+            ctx.font = 'bold 36px ' + fontStack;
+            ctx.fillText('প্রেরক,', 80, 120);
 
-            // Footer background
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillRect(45, 831, 1410, 124);
+            const indentXLeft = 110;
+            let currentYLeft = 185;
 
-            // Footer separator
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(45, 830);
-            ctx.lineTo(1455, 830);
-            ctx.stroke();
+            // Sender Name (Bengali name preferred, fallback to siteName)
+            ctx.font = 'bold 30px ' + fontStack;
+            ctx.fillText(siteNameBn || siteName || '-', indentXLeft, currentYLeft);
+            currentYLeft += 50;
 
-            // Draw Order ID
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 36px Arial';
-            ctx.fillText('Order ID: #' + orderId, 100, 905);
+            // Sender Phone
+            ctx.font = '30px ' + fontStack;
+            ctx.fillText('ফোন: ' + (sitePhone || '-'), indentXLeft, currentYLeft);
+            currentYLeft += 50;
 
-            // Draw Date
-            ctx.fillStyle = '#64748b';
-            ctx.font = '32px Arial';
-            ctx.fillText('Date: ' + orderDate, 550, 905);
+            // Sender Address
+            ctx.font = '30px ' + fontStack;
+            const siteAddressText = 'ঠিকানা: ' + (siteAddressBn || siteAddress || '-');
+            drawWrappedText(ctx, siteAddressText, indentXLeft, currentYLeft, 550, 42);
 
-            // Draw Total Amount
-            ctx.textAlign = 'right';
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 44px Arial';
-            ctx.fillText('Total Amount: ৳ ' + orderTotal, 1400, 905);
+            // Right Column (Receiver / প্রাপক)
+            ctx.font = 'bold 36px ' + fontStack;
+            ctx.fillText('প্রাপক,', 800, 120);
+
+            const indentXRight = 830;
+            let currentYRight = 185;
+
+            // Receiver Name
+            ctx.font = 'bold 30px ' + fontStack;
+            ctx.fillText(customerName, indentXRight, currentYRight);
+            currentYRight += 50;
+
+            // Receiver Phone
+            ctx.font = '30px ' + fontStack;
+            ctx.fillText('ফোন: ' + customerPhone, indentXRight, currentYRight);
+            currentYRight += 50;
+
+            // Receiver Address
+            ctx.font = '30px ' + fontStack;
+            const customerAddressText = 'ঠিকানা: ' + customerAddress;
+            drawWrappedText(ctx, customerAddressText, indentXRight, currentYRight, 580, 42);
 
             // Download PNG
             const dataUrl = canvas.toDataURL('image/png');
