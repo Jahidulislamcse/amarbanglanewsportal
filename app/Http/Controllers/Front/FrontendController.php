@@ -640,6 +640,59 @@ class FrontendController extends Controller
 			'html' => $html
 		]);
 	}
+
+	public function getRecentPopularNews()
+	{
+		if (session()->has('language')) {
+			$default_language = Language::find(session()->get('language'));
+		} else {
+			$default_language = Language::where('is_default', 1)->first();
+		}
+		$lid = $default_language->id;
+
+		// Recent / Latest news
+		$recentLimit = \App\Models\GeneralSettings::first()->recent_news_limit ?? 5;
+		$recents = \App\Models\Post::with('category')
+			->where('is_pending', 0)
+			->where('schedule_post_date', '<=', now())
+			->whereIn('post_type', ['article', 'audio'])
+			->where('is_slider', '<>', 3)
+			->where('language_id', $lid)
+			->where('status', true)
+			->orderByDesc('id')
+			->take($recentLimit)
+			->get(['id','title','slug','image_big','rss_image','category_id']);
+
+		// Popular news (top viewed today)
+		$popularLimit = \App\Models\GeneralSettings::first()->popular_news_limit ?? 5;
+		$populars = \App\Models\Post::with('category')
+			->where('language_id', $lid)
+			->where('is_pending', 0)
+			->where('status', true)
+			->where('schedule_post_date', '<=', now())
+			->where('created_at', '>=', now()->startOfDay())
+			->where('created_at', '<=', now())
+			->orderByDesc('view_count')
+			->take($popularLimit)
+			->get(['id','title','slug','image_big','rss_image','category_id','view_count']);
+
+		$mapPost = function ($post) {
+			$slug = optional(optional($post)->category)->slug ?? '';
+			return [
+				'title' => $post->title,
+				'slug'  => $post->slug,
+				'cat_slug' => $slug,
+				'image' => $post->image_big ? asset('assets/images/post/' . $post->image_big)
+					      : ($post->rss_image ? asset('assets/images/post/' . $post->rss_image) : asset('assets/images/nopic.png')),
+			];
+		};
+
+		return response()->json([
+			'recents'  => $recents->map($mapPost),
+			'populars' => $populars->map($mapPost),
+		]);
+	}
+
     public function allbangladesh($divisionSlug = null, $districtSlug = null, $upazilaSlug = null)
     {
         if (session()->has('language')) {
