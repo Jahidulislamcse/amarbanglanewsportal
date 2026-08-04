@@ -664,7 +664,7 @@ class FrontendController extends Controller
 			->whereIn('post_type', ['article', 'audio'])
 			->where('is_slider', '<>', 3)
 			->where('language_id', $lid)
-			->where('status', true)
+			->whereIn('status', ['true', '1', 1])
 			->orderByDesc('id')
 			->take($recentLimit)
 			->get(['id','title','slug','image_big','rss_image','category_id']);
@@ -674,7 +674,7 @@ class FrontendController extends Controller
 		$populars = \App\Models\Post::with('category')
 			->where('language_id', $lid)
 			->where('is_pending', 0)
-			->where('status', true)
+			->whereIn('status', ['true', '1', 1])
 			->where(function ($q) {
 				$q->whereNull('schedule_post_date')
 				  ->orWhere('schedule_post_date', '<=', now());

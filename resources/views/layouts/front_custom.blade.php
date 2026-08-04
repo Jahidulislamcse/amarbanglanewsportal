@@ -833,9 +833,10 @@ $(document).ready(function () {
     });
 
     /* ---- Auto-refresh: Latest News & Popular News tabs every 60 seconds ---- */
+    var siteBaseUrl = '{{ url('/') }}';
     function buildNewsItem(item) {
         var imgSrc = item.image || '{{ asset("assets/images/nopic.png") }}';
-        var url = item.cat_slug ? ('/' + item.cat_slug + '/' + item.slug) : '#';
+        var url = item.cat_slug ? (siteBaseUrl + '/' + item.cat_slug + '/' + item.slug) : '#';
         return '<div class="small-img tab-border">' +
             '<img width="600" height="337" src="' + imgSrc + '" ' +
             'class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" loading="lazy">' +
