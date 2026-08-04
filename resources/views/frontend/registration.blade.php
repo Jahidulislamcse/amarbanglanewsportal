@@ -329,33 +329,6 @@ bootstrap-select .dropdown-menu li a {
                               enctype="multipart/form-data"
                               novalidate>
                                 @include('includes.validation.form_validation')
-                                
-                                <div class="registration-prep-box" style="margin-bottom: 20px; background: #fdfefe; border: 1px solid #922B21; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                                    <div style="display: flex; align-items: flex-start; gap: 10px;">
-                                        <span style="font-size: 20px; color: #922B21; line-height: 1;">📝</span>
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: bold; color: #922B21; font-size: 16px; margin-bottom: 5px;">
-                                                নিবন্ধনের জন্য প্রস্তুতি (প্রয়োজনীয় তথ্য ও ফাইল)
-                                            </div>
-                                            <div style="color: #444; font-size: 14px; line-height: 1.5;">
-                                                নিবন্ধন শুরু করার পূর্বে দয়া করে নিশ্চিত করুন যে নিম্নোক্ত তথ্য ও ফাইলগুলো আপনার কাছে প্রস্তুত আছে:
-                                                <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #555;">
-                                                    <li><strong>ব্যক্তিগত তথ্য:</strong> নাম (অবশ্যই বাংলায়), সচল মোবাইল নম্বর ও ইমেল, জন্ম তারিখ, রক্তের গ্রুপ, পিতা ও মাতার নাম।</li>
-                                                    <li><strong>এনআইডি তথ্য:</strong> জাতীয় পরিচয়পত্র (NID) নম্বর।</li>
-                                                    <li><strong>ঠিকানা:</strong> বর্তমান ও স্থায়ী ঠিকানার বিভাগ, জেলা, উপজেলা/থানা ও ইউনিয়ন।</li>
-                                                    <li><strong>অভিজ্ঞতা:</strong> গণমাধ্যমে কাজের পূর্ব অভিজ্ঞতা সংক্রান্ত তথ্য (যদি থাকে)।</li>
-                                                    <li><strong>আপলোডের জন্য প্রয়োজনীয় ফাইল (সর্বোচ্চ ২ মেগাবাইট, JPG/PNG ফরম্যাট):</strong>
-                                                        <ul style="margin: 4px 0 0 0; padding-left: 20px; list-style-type: circle;">
-                                                            <li>আপনার পাসপোর্ট সাইজের রঙিন ছবি</li>
-                                                            <li>আপনার স্পষ্ট স্বাক্ষর (সাদা কাগজে স্বাক্ষর করে ছবি তুলুন)</li>
-                                                            <li>জাতীয় পরিচয়পত্রের সামনের (Front) ও পিছনের (Back) অংশের ছবি</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="registration-notice-box" style="margin-bottom: 20px; background: #fffcf4; border: 1px solid #ffd480; border-radius: 8px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                                     <div style="display: flex; align-items: flex-start; gap: 10px;">
@@ -792,6 +765,34 @@ bootstrap-select .dropdown-menu li a {
             </button>
         </div>
     </div>
+    
+    <div id="prepModal" class="modal">
+        <div class="modal-content" style="width: 550px; max-width: 90%; text-align: left; padding: 25px; border-radius: 12px; border-top: 5px solid #922B21; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+            <h4 style="font-weight: bold; color: #922B21; font-size: 18px; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 22px;">📝</span> নিবন্ধনের জন্য প্রস্তুতি (প্রয়োজনীয় তথ্য ও ফাইল)
+            </h4>
+            <div style="color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                নিবন্ধন শুরু করার পূর্বে দয়া করে নিশ্চিত করুন যে নিম্নোক্ত তথ্য ও ফাইলগুলো আপনার কাছে প্রস্তুত আছে:
+                <ul style="margin: 12px 0 0 0; padding-left: 20px; color: #555;">
+                    <li style="margin-bottom: 8px;"><strong>ব্যক্তিগত তথ্য:</strong> নাম (অবশ্যই বাংলায়), সচল মোবাইল নম্বর ও ইমেল, জন্ম তারিখ, রক্তের গ্রুপ, পিতা ও মাতার নাম।</li>
+                    <li style="margin-bottom: 8px;"><strong>এনআইডি তথ্য:</strong> জাতীয় পরিচয়পত্র (NID) নম্বর।</li>
+                    <li style="margin-bottom: 8px;"><strong>ঠিকানা:</strong> বর্তমান ও স্থায়ী ঠিকানার বিভাগ, জেলা, উপজেলা/থানা ও ইউনিয়ন।</li>
+                    <li style="margin-bottom: 8px;"><strong>অভিজ্ঞতা:</strong> গণমাধ্যমে কাজের পূর্ব অভিজ্ঞতা সংক্রান্ত তথ্য (যদি থাকে)।</li>
+                    <li style="margin-bottom: 8px;">
+                        <strong>আপলোডের জন্য প্রয়োজনীয় ফাইল (সর্বোচ্চ ২ মেগাবাইট, JPG/PNG ফরম্যাট):</strong>
+                        <ul style="margin: 6px 0 0 0; padding-left: 20px; list-style-type: circle;">
+                            <li style="margin-bottom: 4px;">আপনার পাসপোর্ট সাইজের রঙিন ছবি</li>
+                            <li style="margin-bottom: 4px;">আপনার স্পষ্ট স্বাক্ষর (সাদা কাগজে স্বাক্ষর করে ছবি তুলুন)</li>
+                            <li style="margin-bottom: 4px;">জাতীয় পরিচয়পত্রের সামনের (Front) ও পিছনের (Back) অংশের ছবি</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div style="text-align: right; border-top: 1px solid #eee; padding-top: 15px;">
+                <button type="button" class="btn btn-primary" id="closePrepModalBtn" style="min-width: 150px;">আমি প্রস্তুত / বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>
@@ -1128,6 +1129,20 @@ function showServerErrors(errors) {
 
 $(document).ready(function() {
     showSegment(1);
+
+    // Show preparation modal on page load
+    $('#prepModal').show();
+
+    // Close prep modal
+    $('#closePrepModalBtn').on('click', function() {
+        $('#prepModal').hide();
+    });
+
+    $(window).on('click', function(event) {
+        if ($(event.target).is('#prepModal')) {
+            $('#prepModal').hide();
+        }
+    });
 
     const CACHE_KEY = 'registration_form_cache';
     const EXCLUDED_FIELDS = ['password', 'password_confirmation', 'nid', 'nid_back', 'photo', 'signature', '_token'];
