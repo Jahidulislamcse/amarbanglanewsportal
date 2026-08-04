@@ -161,7 +161,7 @@ $(document).ready(function() {
             const orderId = btn.data('order-id');
             const customerName = btn.data('customer-name');
             const customerPhone = btn.data('customer-phone');
-            const customerAddress = btn.data('customer-address');
+            const customerAddress = String(btn.data('customer-address') || '').replace(/\s*\[Zone:\s*[^\]]+\]/gi, '');
             const siteName = btn.data('site-name');
             const siteNameBn = btn.data('site-name-bn');
             const sitePhone = btn.data('site-phone');
@@ -182,6 +182,13 @@ $(document).ready(function() {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
             ctx.strokeRect(20, 20, 1460, 610);
+
+            // Divider line in the horizontal center (vertical divider)
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(750, 20);
+            ctx.lineTo(750, 630);
+            ctx.stroke();
 
             // Setup text settings
             ctx.fillStyle = '#000000';
