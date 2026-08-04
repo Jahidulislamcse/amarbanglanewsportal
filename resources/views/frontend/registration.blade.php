@@ -20,7 +20,7 @@ section.login-signup {
 .modal{
     display:none;
     position:fixed;
-    z-index:99999;
+    z-index:9999999;
     left:0;
     top:0;
     width:100%;
