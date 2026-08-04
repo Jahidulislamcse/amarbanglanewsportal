@@ -632,7 +632,8 @@ class FrontendController extends Controller
 			'section' => $section,
 			'title' => $title,
 			'cat' => $categoryId,
-			'cat_section_list' => $cat_section_list
+			'cat_section_list' => $cat_section_list,
+			'default_language' => $default_language,
 		])->render();
 
 		return response()->json([
