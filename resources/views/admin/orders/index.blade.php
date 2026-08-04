@@ -168,10 +168,10 @@ $(document).ready(function() {
             const siteAddressBn = btn.data('site-address-bn');
             const siteAddress = btn.data('site-address');
 
-            // Setup Canvas (aspect ratio similar to DL envelope: ~2.3:1)
+            // Setup Canvas (reduced height by 20%)
             const canvas = document.createElement('canvas');
             canvas.width = 1500;
-            canvas.height = 650;
+            canvas.height = 520;
             const ctx = canvas.getContext('2d');
 
             // Background (Pure white)
@@ -181,13 +181,13 @@ $(document).ready(function() {
             // Envelope border: simple black border inset by 20px
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
-            ctx.strokeRect(20, 20, 1460, 610);
+            ctx.strokeRect(20, 20, 1460, 480);
 
             // Divider line in the horizontal center (vertical divider)
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(750, 20);
-            ctx.lineTo(750, 630);
+            ctx.lineTo(750, 500);
             ctx.stroke();
 
             // Setup text settings
@@ -223,10 +223,10 @@ $(document).ready(function() {
 
             // Left Column (Sender / প্রেরক)
             ctx.font = 'bold 36px ' + fontStack;
-            ctx.fillText('প্রেরক,', 80, 120);
+            ctx.fillText('প্রেরক,', 80, 95);
 
             const indentXLeft = 110;
-            let currentYLeft = 185;
+            let currentYLeft = 155;
 
             // Sender Name (Bengali name preferred, fallback to siteName)
             ctx.font = 'bold 30px ' + fontStack;
@@ -245,10 +245,10 @@ $(document).ready(function() {
 
             // Right Column (Receiver / প্রাপক)
             ctx.font = 'bold 36px ' + fontStack;
-            ctx.fillText('প্রাপক,', 800, 120);
+            ctx.fillText('প্রাপক,', 800, 95);
 
             const indentXRight = 830;
-            let currentYRight = 185;
+            let currentYRight = 155;
 
             // Receiver Name
             ctx.font = 'bold 30px ' + fontStack;
