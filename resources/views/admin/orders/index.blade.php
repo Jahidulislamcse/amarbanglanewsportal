@@ -126,7 +126,7 @@
                             data-site-name="{{ $gs->title ?? 'Amar Bangla' }}"
                             data-site-name-bn="আমার বাংলা- 24"
                             data-site-phone="{{ optional($contact)->phone ?? ($gs->payment_number ?? '-') }}"
-                            data-site-address-bn="{{ optional($contact)->address_bn ?? '-' }}"
+                            data-site-address-bn="কাব্যকষ সুপার মার্কেট, লিফটের- ৫, স্যুট - ১০, কাওরানবাজার ঢাকা-১২১৫"
                             data-site-address="{{ optional($contact)->address ?? '-' }}"
                     >
                         <i class="fas fa-download"></i> Download Slip
@@ -168,10 +168,10 @@ $(document).ready(function() {
             const siteAddressBn = btn.data('site-address-bn');
             const siteAddress = btn.data('site-address');
 
-            // Setup Canvas (reduced height by 20%)
+            // Setup Canvas (reduced height for a compact envelope)
             const canvas = document.createElement('canvas');
             canvas.width = 1500;
-            canvas.height = 520;
+            canvas.height = 400;
             const ctx = canvas.getContext('2d');
 
             // Background (Pure white)
@@ -181,13 +181,13 @@ $(document).ready(function() {
             // Envelope border: simple black border inset by 20px
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
-            ctx.strokeRect(20, 20, 1460, 480);
+            ctx.strokeRect(20, 20, 1460, 360);
 
             // Divider line in the horizontal center (vertical divider)
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(750, 20);
-            ctx.lineTo(750, 500);
+            ctx.lineTo(750, 380);
             ctx.stroke();
 
             // Setup text settings
@@ -223,47 +223,47 @@ $(document).ready(function() {
 
             // Left Column (Sender / প্রেরক)
             ctx.font = 'bold 36px ' + fontStack;
-            ctx.fillText('প্রেরক,', 80, 95);
+            ctx.fillText('প্রেরক,', 80, 80);
 
             const indentXLeft = 110;
-            let currentYLeft = 155;
+            let currentYLeft = 135;
 
             // Sender Name (Bengali name preferred, fallback to siteName)
             ctx.font = 'bold 30px ' + fontStack;
             ctx.fillText(siteNameBn || siteName || '-', indentXLeft, currentYLeft);
-            currentYLeft += 50;
+            currentYLeft += 45;
 
             // Sender Phone
             ctx.font = '30px ' + fontStack;
             ctx.fillText('ফোন: ' + (sitePhone || '-'), indentXLeft, currentYLeft);
-            currentYLeft += 50;
+            currentYLeft += 45;
 
             // Sender Address
             ctx.font = '30px ' + fontStack;
             const siteAddressText = 'ঠিকানা: ' + (siteAddressBn || siteAddress || '-');
-            drawWrappedText(ctx, siteAddressText, indentXLeft, currentYLeft, 550, 42);
+            drawWrappedText(ctx, siteAddressText, indentXLeft, currentYLeft, 550, 38);
 
             // Right Column (Receiver / প্রাপক)
             ctx.font = 'bold 36px ' + fontStack;
-            ctx.fillText('প্রাপক,', 800, 95);
+            ctx.fillText('প্রাপক,', 800, 80);
 
             const indentXRight = 830;
-            let currentYRight = 155;
+            let currentYRight = 135;
 
             // Receiver Name
             ctx.font = 'bold 30px ' + fontStack;
             ctx.fillText(customerName, indentXRight, currentYRight);
-            currentYRight += 50;
+            currentYRight += 45;
 
             // Receiver Phone
             ctx.font = '30px ' + fontStack;
             ctx.fillText('ফোন: ' + customerPhone, indentXRight, currentYRight);
-            currentYRight += 50;
+            currentYRight += 45;
 
             // Receiver Address
             ctx.font = '30px ' + fontStack;
             const customerAddressText = 'ঠিকানা: ' + customerAddress;
-            drawWrappedText(ctx, customerAddressText, indentXRight, currentYRight, 580, 42);
+            drawWrappedText(ctx, customerAddressText, indentXRight, currentYRight, 580, 38);
 
             // Download PNG
             const dataUrl = canvas.toDataURL('image/png');
