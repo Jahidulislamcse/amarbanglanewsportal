@@ -339,17 +339,13 @@ if (!function_exists('is_recents')) {
 
         return App\Models\Post::orderByDesc('id')
             ->where('is_pending', 0)
-            ->where(function ($q) {
-                $q->where('schedule_post', 0)
-                  ->orWhereNull('schedule_post_date')
-                  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
-            })
+            ->where('schedule_post_date', '<=', now())
             ->whereIn('post_type', ['article', 'audio'])
             ->where('is_slider', '<>', 3)
             ->where('language_id', $lid)
-            ->whereIn('status', ['true', '1', 1])
+            ->where('status', true)
             ->take($limit)
-            ->get(['id','title','slug','image_big','rss_image','category_id']);
+            ->get(['id','title','slug','image_big','category_id']);
     }
 }
 

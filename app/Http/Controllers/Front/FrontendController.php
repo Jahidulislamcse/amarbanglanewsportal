@@ -632,79 +632,13 @@ class FrontendController extends Controller
 			'section' => $section,
 			'title' => $title,
 			'cat' => $categoryId,
-			'cat_section_list' => $cat_section_list,
-			'default_language' => $default_language,
+			'cat_section_list' => $cat_section_list
 		])->render();
 
 		return response()->json([
 			'html' => $html
 		]);
 	}
-
-	public function getRecentPopularNews()
-	{
-		if (session()->has('language')) {
-			$default_language = Language::find(session()->get('language'));
-		} else {
-			$default_language = Language::where('is_default', 1)->first();
-		}
-		$lid = $default_language->id;
-
-		$gs = \App\Models\GeneralSettings::first();
-
-		// Recent / Latest news — mirrors is_recents() helper exactly,
-		// but also includes posts where schedule_post_date IS NULL (reporter submissions)
-		$recentLimit = $gs->recent_news_limit ?? 5;
-		$recents = \App\Models\Post::with('category')
-			->where('is_pending', 0)
-			->where(function ($q) {
-				$q->where('schedule_post', 0)
-				  ->orWhereNull('schedule_post_date')
-				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
-			})
-			->whereIn('post_type', ['article', 'audio'])
-			->where('is_slider', '<>', 3)
-			->where('language_id', $lid)
-			->whereIn('status', ['true', '1', 1])
-			->orderByDesc('id')
-			->take($recentLimit)
-			->get(['id','title','slug','image_big','rss_image','category_id']);
-
-		// Popular news (top viewed today)
-		$popularLimit = $gs->popular_news_limit ?? 5;
-		$populars = \App\Models\Post::with('category')
-			->where('language_id', $lid)
-			->where('is_pending', 0)
-			->whereIn('status', ['true', '1', 1])
-			->where(function ($q) {
-				$q->where('schedule_post', 0)
-				  ->orWhereNull('schedule_post_date')
-				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
-			})
-			->where('created_at', '>=', now()->startOfDay())
-			->where('created_at', '<=', now())
-			->orderByDesc('view_count')
-			->take($popularLimit)
-			->get(['id','title','slug','image_big','rss_image','category_id','view_count']);
-
-		$mapPost = function ($post) {
-			$slug = optional(optional($post)->category)->slug ?? '';
-			return [
-				'title'    => $post->title,
-				'slug'     => $post->slug,
-				'cat_slug' => $slug,
-				'image'    => $post->image_big
-					? asset('assets/images/post/' . $post->image_big)
-					: ($post->rss_image ? asset('assets/images/post/' . $post->rss_image) : asset('assets/images/nopic.png')),
-			];
-		};
-
-		return response()->json([
-			'recents'  => $recents->map($mapPost),
-			'populars' => $populars->map($mapPost),
-		]);
-	}
-
     public function allbangladesh($divisionSlug = null, $districtSlug = null, $upazilaSlug = null)
     {
         if (session()->has('language')) {
@@ -956,14 +890,10 @@ class FrontendController extends Controller
 		}
 		$last_news = $request->last_news;
 		$datas = Post::where('id', '<', $last_news)
-			->where(function ($q) {
-				$q->where('schedule_post', 0)
-				  ->orWhereNull('schedule_post_date')
-				  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
-			})
+			->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
 			->whereIn('post_type', ['article', 'audio'])
 			->where('is_pending', 0)
-			->whereIn('status', ['true', '1', 1])
+			->where('status', true)
 
 			->where('language_id', '=', $default_language->id)
 			->latest('id')

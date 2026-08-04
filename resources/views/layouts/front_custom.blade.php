@@ -831,47 +831,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    /* ---- Auto-refresh: Latest News & Popular News tabs every 60 seconds ---- */
-    var siteBaseUrl = '{{ url('/') }}';
-    function buildNewsItem(item) {
-        var imgSrc = item.image || '{{ asset("assets/images/nopic.png") }}';
-        var url = item.cat_slug ? (siteBaseUrl + '/' + item.cat_slug + '/' + item.slug) : '#';
-        return '<div class="small-img tab-border">' +
-            '<img width="600" height="337" src="' + imgSrc + '" ' +
-            'class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" loading="lazy">' +
-            '<h4 class="hadding_03"><a href="' + url + '">' + item.title + '</a></h4>' +
-            '</div>';
-    }
-
-    function refreshRecentPopularNews() {
-        $.ajax({
-            url: '{{ route("front.live.news.feed") }}',
-            type: 'GET',
-            success: function(data) {
-                // Update Latest News tab
-                if (data.recents && data.recents.length > 0) {
-                    var recentHtml = '';
-                    $.each(data.recents, function(i, item) {
-                        recentHtml += buildNewsItem(item);
-                    });
-                    $('#tab21 .gallery-list').html(recentHtml);
-                }
-                // Update Popular News tab
-                if (data.populars && data.populars.length > 0) {
-                    var popularHtml = '';
-                    $.each(data.populars, function(i, item) {
-                        popularHtml += buildNewsItem(item);
-                    });
-                    $('#tab22 .gallery-list').html(popularHtml);
-                }
-            }
-        });
-    }
-
-    // Auto-refresh every 60 seconds
-    setInterval(refreshRecentPopularNews, 60000);
-    /* ---- End Auto-refresh ---- */
 });
 </script>
 

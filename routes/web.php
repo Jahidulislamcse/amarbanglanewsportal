@@ -1301,7 +1301,6 @@ Route::any('/news/archive','Front\FrontendController@newsArchive')->name('front.
 
 Route::any('/news-sections/fetch','Front\FrontendController@fetchNews')->name('news.sections.fetch');
 Route::any('/news-division/fetch','Front\FrontendController@fetchDivisionNews')->name('news.division.fetch');
-Route::get('/live-news-feed','Front\FrontendController@getRecentPopularNews')->name('front.live.news.feed');
 
 Route::get('/tag/{search}','Front\FrontendController@searchByTag')->name('tag.search');
 Route::get('/{category}/{slug}/{print?}','Front\FrontendController@details')->name('frontend.postBySubcategory.details');

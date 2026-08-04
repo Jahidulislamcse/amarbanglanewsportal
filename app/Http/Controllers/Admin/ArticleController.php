@@ -356,24 +356,12 @@ class ArticleController extends Controller
         if ($hasSchedulePermission && $request->schedule_post == 1) {
             if ($date = $request->schedule_post_date) {
                 $input['schedule_post_date'] = $date;
-            } else {
-                $input['schedule_post_date'] = date('Y-m-d H:i:s');
             }
         } else {
             $input['schedule_post'] = 0;
-            // Ensure schedule_post_date is set so the post appears in is_recents() and live-news-feed
-            if (empty($data->schedule_post_date)) {
-                $input['schedule_post_date'] = date('Y-m-d H:i:s');
-            }
         }
         $input['post_type'] = 'article';
         $data->update($input);
-
-        // Clear homepage cache so the approved post appears immediately
-        if (isset($input['is_pending']) && $input['is_pending'] === 0) {
-            cache()->forget('home_index_data_lang_1');
-            cache()->forget('home_index_data_lang_2');
-        }
         
         $quiz = \App\Models\PostQuiz::where('post_id', $id)->first();
 

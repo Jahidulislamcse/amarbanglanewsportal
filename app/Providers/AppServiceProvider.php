@@ -104,12 +104,8 @@ class AppServiceProvider extends ServiceProvider
             $top_views = Post::with('category')
             ->where('language_id', $default_language->id)
             ->where('is_pending', 0)
-            ->whereIn('status', ['true', '1', 1])
-            ->where(function ($q) {
-                $q->where('schedule_post', 0)
-                  ->orWhereNull('schedule_post_date')
-                  ->orWhere('schedule_post_date', '<=', date('Y-m-d H:i:s'));
-            })
+            ->where('status', true)
+            ->where('schedule_post_date', '<=', now())
             ->where('created_at', '>=', now()->startOfDay())
             ->where('created_at', '<=', now())
             ->orderByDesc('view_count')
