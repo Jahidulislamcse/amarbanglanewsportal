@@ -203,15 +203,6 @@
             </select>
         </div>
 
-        <!--<div class="filter-item">-->
-        <!--    <label><b>Month</b></label>-->
-        <!--   <input -->
-        <!--    id="month" -->
-        <!--    type="month" -->
-        <!--    class="form-control" -->
-        <!--    value="{{ $startOfLastMonth->format('Y-m') }}" -->
-        <!--    max="{{ \Carbon\Carbon::now()->format('Y-m') }}">-->
-        <!--</div>-->
         
         <div class="filter-item">
             <label><b>Division</b></label>
