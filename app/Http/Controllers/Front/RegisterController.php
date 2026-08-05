@@ -59,24 +59,28 @@ class RegisterController extends Controller
        return response()->json($divisions);
     }
 	public function getDistricts(Request $request) {
-		
-	
 		$division_id = $request->get('division_id');
+		$is_city_corporation = $request->get('is_city_corporation');
 		
-		 if(session()->has('language')){
+		if(session()->has('language')){
             $default_language = Language::find(session()->get('language'));
         }else{
-
             $default_language = Language::where('is_default',1)->first();
         }
 		
-		if($request->get('article_language_id') && $request->get('article_language_id')>0){
-			  $districts = is_district($request->get('article_language_id'),$division_id);
-		}else{
-			 $districts = is_district($default_language->id,$division_id);
+		$lang_id = ($request->get('article_language_id') && $request->get('article_language_id')>0)
+			? $request->get('article_language_id')
+			: $default_language->id;
+		
+		$name_col = $lang_id == 1 ? 'bn_name' : 'name';
+		
+		$query = \App\Models\District::where('division_id', $division_id);
+		if ($is_city_corporation == 1) {
+			$query->where('is_city_corporation', 1);
 		}
+		
+		$districts = $query->select('id', "$name_col as name")->get();
        
-	
         return response()->json($districts);
     }
 

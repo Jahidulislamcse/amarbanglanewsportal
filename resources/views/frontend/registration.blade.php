@@ -524,6 +524,11 @@ bootstrap-select .dropdown-menu li a {
                                         <span>অনুগ্রহ করে এই রিপোর্টিং এলাকার বাইরের কোনো সংবাদ পোস্ট করবেন না এবং এই রিপোর্টিং এলাকার বাইরের কোনো সংবাদ অনুমোদন করা হবে না।</span>
                                     </div>
                                     
+                                    <div class="form-group" style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                                        <input type="checkbox" id="is_reporting_city_corp" name="is_reporting_city_corp" value="1" {{ old('is_reporting_city_corp') == '1' ? 'checked' : '' }} style="width: 18px; height: 18px; cursor: pointer; margin-right: 8px;">
+                                        <label for="is_reporting_city_corp" style="margin-bottom: 0; font-weight: bold; cursor: pointer; color: #333; font-size: 14px;">আপনি কি সিটি কর্পোরেশন এলাকার?</label>
+                                    </div>
+                                    
                                     <!-- Division & District -->
                                     <div class="form-group d-flex" style="margin-bottom: 15px;">
                                         <select name="division_id" id="division_id" class="form-control" data-selected="{{ old('division_id') }}" data-title="{{ __('Divsion') }}" required style="background-color: #fff;">
@@ -557,6 +562,11 @@ bootstrap-select .dropdown-menu li a {
                                 <!-- Permanent Address Section -->
                                 <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e9ecef; margin-bottom: 20px;">
                                     <h5 style="color: #922B21; font-weight: bold; margin-top: 0; margin-bottom: 15px; border-left: 3px solid #922B21; padding-left: 8px;">স্থায়ী ঠিকানা</h5>
+                                    
+                                    <div class="form-group" style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                                        <input type="checkbox" id="is_permanent_city_corp" name="is_permanent_city_corp" value="1" {{ old('is_permanent_city_corp') == '1' ? 'checked' : '' }} style="width: 18px; height: 18px; cursor: pointer; margin-right: 8px;">
+                                        <label for="is_permanent_city_corp" style="margin-bottom: 0; font-weight: bold; cursor: pointer; color: #333; font-size: 14px;">আপনি কি সিটি কর্পোরেশন এলাকার?</label>
+                                    </div>
                                     
                                     <!-- Permanent Division & Permanent District -->
                                     <div class="form-group d-flex" style="margin-bottom: 15px;">
@@ -1517,14 +1527,20 @@ $(document).ready(function() {
     let permanent_upazila = $('#permanent_thana_id').data('title') || "স্থায়ী উপজেলা";
     let permanent_union = $('#permanent_union_id').data('title') || "স্থায়ী ইউনিয়ন";
 
+    $(document).on('change', '#is_permanent_city_corp', function() {
+        $('#permanent_division_id').trigger('change');
+    });
+
     $(document).off('change', '#permanent_division_id').on('change', '#permanent_division_id', function() {
         let division_id = $(this).val();
+        let is_city_corp = $('#is_permanent_city_corp').is(':checked') ? 1 : 0;
         if(division_id) {
             $.ajax({
                 method: "POST",
                 url: '{{ route('front.getDistricts') }}',
                 data: {
                     division_id: division_id,
+                    is_city_corporation: is_city_corp,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(data) {
