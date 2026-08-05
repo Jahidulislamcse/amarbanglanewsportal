@@ -385,12 +385,7 @@
                             <div class="maintenance-alert-title">
                                 {{ __('Technical Maintenance / কারিগরি রক্ষণাবেক্ষণ') }}
                             </div>
-                            <div class="maintenance-alert-desc">
-                                {{ __('For technical purposes (server maintenance), the site may be temporarily unreachable for a while (maximum 24 hours). In case of any emergency, please keep an eye on our') }}
-                                <a href="{{ App\Models\SocialLink::where('name', 'facebook')->first()->link ?? 'https://www.facebook.com/' }}" target="_blank">
-                                    {{ __('Facebook Page') }} <i class="fas fa-external-link-alt" style="font-size: 11px;"></i>
-                                </a>.
-                            </div>
+                            
                             <div class="maintenance-alert-desc" style="margin-top: 8px; border-top: 1px dashed rgba(217, 119, 6, 0.2); padding-top: 8px;">
                                 কারিগরি উন্নয়ন কাজের জন্য (সার্ভার রক্ষণাবেক্ষণ) সাময়িকভাবে ওয়েবসাইটটি ডাউন থাকতে পারে (সর্বোচ্চ ২৪ ঘণ্টা)। যেকোনো জরুরি প্রয়োজনে অনুগ্রহ করে আমাদের 
                                 <a href="{{ App\Models\SocialLink::where('name', 'facebook')->first()->link ?? 'https://www.facebook.com/' }}" target="_blank">
