@@ -738,7 +738,7 @@
 	<!-- Footer Area Start -->
 	@include('partial.front2.footer')
 	<!-- Footer Area End -->
-<script src="{{asset('assets/front/js/login.js')}}"></script>
+<script src="{{asset('assets/front/js/login.js')}}?v=1.1"></script>
 
 <script>
 
