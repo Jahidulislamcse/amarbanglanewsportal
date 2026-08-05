@@ -526,7 +526,7 @@ bootstrap-select .dropdown-menu li a {
                                     
                                     <div class="form-group" style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
                                         <input type="checkbox" id="is_reporting_city_corp" name="is_reporting_city_corp" value="1" {{ old('is_reporting_city_corp') == '1' ? 'checked' : '' }} style="width: 18px; height: 18px; cursor: pointer; margin-right: 8px;">
-                                        <label for="is_reporting_city_corp" style="margin-bottom: 0; font-weight: bold; cursor: pointer; color: #333; font-size: 14px;">আপনি কি সিটি কর্পোরেশন এলাকার?</label>
+                                        <label for="is_reporting_city_corp" style="margin-bottom: 0; font-weight: bold; cursor: pointer; color: #333; font-size: 14px;">সিটি কর্পোরেশ এর অন্তর্ভুক্ত?</label>
                                     </div>
                                     
                                     <!-- Division & District -->
