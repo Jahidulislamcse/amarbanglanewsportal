@@ -506,62 +506,8 @@ class StaffController extends Controller
         $divisions = \App\Models\Division::orderBy('name')->get(['id', 'name']);
         $districts = \App\Models\District::orderBy('name')->get(['id', 'name', 'division_id']);
         $thanas = \App\Models\Thana::orderBy('name')->get(['id', 'name', 'district_id']);
-    
-        $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
-        $endOfLastMonth   = Carbon::now()->subMonth()->endOfMonth();
-    
-        $lastMonth = Carbon::now()->subMonth();
-        $year = $lastMonth->year;
-        $month = $lastMonth->month;
-    
-        $topReporters = TopReporter::with('user')
-            ->where('year', $year)
-            ->where('month', $month)
-            ->orderBy('position')
-            ->limit(3)
-            ->get()
-            ->map(function ($item) {
-                $user = $item->user;
-    
-                $item->id = $user->id;
-                $item->name = $user->name;
-                $item->phone = $user->phone;
-                $item->report_type = $user->report_type;
-                $item->reporter_area = $user->reporter_area;
-                $item->district_id = $user->district_id;
-                $item->thana_id = $user->thana_id;
-                $item->union_id = $user->union_id;
-                $item->photo = $user->photo;
-                $item->total_views = $item->total_views;
-    
-                return $item;
-            });
-
-    
-        $reportCategories = ReportCategory::pluck('title_bn', 'id')->toArray();
-    
-        $topReporters->transform(function($reporter) use ($reportCategories) {
-
-            $reportTypeIds = json_decode($reporter->report_type, true); 
-            $reportTypeId = $reportTypeIds[0] ?? null;
-        
-            $reporter->report_type_title = $reportTypeId 
-                ? ($reportCategories[$reportTypeId] ?? '') 
-                : '';
-
-            $reporter->reporter_area_title = $reportTypeId 
-                ? getReporterAreaName($reporter->language_id ?? 1, $reportTypeId, $reporter)
-                : '';
-        
-            return $reporter;
-        });
-
-
-        return view('admin.staff.index', compact(
+            return view('admin.staff.index', compact(
             'pending_status', 
-            'topReporters', 
-            'startOfLastMonth', 
-            'endOfLastMonth',
             'divisions',
             'districts',
             'thanas'
@@ -578,126 +524,7 @@ class StaffController extends Controller
         return response()->json($orders);
     }
     
-    public function generateTopReporters(Request $request)
-    {
-        $month = $request->month;
-    
-        if (!$month) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Month is required'
-            ]);
-        }
-    
-        [$year, $monthNumber] = explode('-', $month);
-    
-        $startDate = Carbon::create($year, $monthNumber, 1)->startOfMonth();
-        $endDate = Carbon::create($year, $monthNumber, 1)->endOfMonth();
-    
-        $topReporters = User::select(
-                'users.id',
-                DB::raw('SUM(CASE WHEN posts.status = "true" THEN posts.view_count ELSE 0 END) as total_views')
-            )
-            ->join('posts', 'posts.user_id', '=', 'users.id')
-            ->where('users.is_reader', 0)
-            ->whereBetween('posts.created_at', [$startDate, $endDate])
-            ->groupBy('users.id')
-            ->orderByDesc('total_views')
-            ->limit(3)
-            ->get();
-    
-        // Remove previous generated records
-        TopReporter::where('year', $year)
-            ->where('month', $monthNumber)
-            ->delete();
-    
-        foreach ($topReporters as $index => $reporter) {
-    
-            TopReporter::create([
-                'user_id' => $reporter->id,
-                'position' => $index + 1,
-                'total_views' => $reporter->total_views,
-                'year' => $year,
-                'month' => $monthNumber
-            ]);
-        }
-    
-        return response()->json([
-            'success' => true,
-            'message' => 'Top reporters generated successfully.'
-        ]);
-    }
 
-    
-    public function topReportersMonth(Request $request)
-    {
-        $year = $request->year;
-        $month = $request->month;
-    
-        $startOfMonth = Carbon::create($year, $month, 1)->startOfMonth();
-        $endOfMonth = Carbon::create($year, $month, 1)->endOfMonth();
-    
-       $topReporters = User::select(
-            'users.id',
-            'users.name',
-            'users.phone',
-            'users.report_type',
-            'users.reporter_area',
-            'users.district_id',
-            'users.thana_id',
-            'users.union_id',
-            'users.photo',
-            DB::raw('SUM(CASE WHEN posts.status = "true" THEN posts.view_count ELSE 0 END) as total_views')
-        )
-        ->join('posts', 'posts.user_id', '=', 'users.id')
-        ->where('users.is_reader', 0)
-        ->whereBetween('posts.created_at', [$startOfMonth, $endOfMonth])
-        ->groupBy('users.id', 'users.name', 'users.phone', 'users.report_type', 'users.reporter_area', 'users.district_id', 'users.thana_id', 'users.union_id', 'users.photo')
-        ->orderByDesc('total_views')
-        ->limit(3)
-        ->get();
-
-    
-        $reportCategories = ReportCategory::pluck('title_bn', 'id')->toArray();
-    
-        $topReporters->transform(function($reporter) use ($reportCategories) {
-
-            $reportTypeIds = json_decode($reporter->report_type, true); 
-            $reportTypeId = $reportTypeIds[0] ?? null;
-
-            $reporter->report_type_title = $reportTypeId 
-                ? ($reportCategories[$reportTypeId] ?? '') 
-                : '';
-
-            $reporter->reporter_area_title = $reportTypeId 
-                ? getReporterAreaName($reporter->language_id ?? 1, $reportTypeId, $reporter)
-                : '';
-        
-            return $reporter;
-        });
-
-
-
-    
-        $tbody = '';
-        foreach ($topReporters as $key => $reporter) {
-            $position = $key == 0 ? '1st' : ($key == 1 ? '2nd' : '3rd');
-            $tbody .= "<tr>
-                <td>{$position}</td>
-                <td><img src='".($reporter->photo ? asset('assets/images/admin/' . $reporter->photo) : asset('assets/images/default_user.png'))."' width='50' height='50' style='border-radius:50%;object-fit:cover'></td>
-                <td>{$reporter->name}</td>
-                <td>{$reporter->phone}</td>
-                <td>{$reporter->report_type_title}</td>
-                <td>{$reporter->reporter_area_title}</td>
-                <td>{$reporter->total_views}</td>
-            </tr>";
-        }
-    
-        return response()->json([
-            'tbody' => $tbody,
-            'date_range' => $startOfMonth->format('d M Y') . ' - ' . $endOfMonth->format('d M Y')
-        ]);
-    }
 
 
 
@@ -800,6 +627,7 @@ class StaffController extends Controller
            }
 
            $top_reporter_records = \App\Models\TopReporter::where('user_id', $user_id)
+               ->whereNotNull('week')
                ->orderBy('year', 'desc')
                ->orderBy('month', 'desc')
                ->orderBy('id', 'desc')

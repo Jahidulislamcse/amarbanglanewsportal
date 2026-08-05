@@ -314,58 +314,7 @@
          </div>
      </div>
 
-    <div class="row p-4">
-        <div class="col-lg-12">
-            <h4>Top 3 Reporters (<span id="reporter-date-range">{{ $startOfLastMonth->format('d M Y') }} - {{ $endOfLastMonth->format('d M Y') }}</span>)</h4>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="top-reporters-table">
-                    <thead>
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <!--<th>Next Payment Date</th>-->
-                                <th>Reporter Type</th>
-                                <th>Reporter Area</th>
-                                <th>Total Views</th>
-                            </tr>
-                        </thead>
 
-                    </thead>
-                    <tbody>
-                        @foreach($topReporters as $key => $reporter)
-                            <tr>
-                                <td>
-                                    @if($key == 0) 1st 
-                                    @elseif($key == 1) 2nd 
-                                    @elseif($key == 2) 3rd 
-                                    @endif
-                                </td>
-                                <td>
-                                    <img 
-                                        src="{{ $reporter->photo ? asset('assets/images/admin/' . $reporter->photo) : asset('assets/images/default_user.png') }}" 
-                                        alt="{{ $reporter->name }}" 
-                                        width="50" 
-                                        height="50" 
-                                        style="border-radius: 50%; object-fit: cover;">
-                                </td>
-                                <td>{{ $reporter->name }}</td>
-                                <td>{{ $reporter->phone }}</td>
-                                <td>{{ $reporter->report_type_title }}</td>
-                                 <td>{{ $reporter->reporter_area_title }}</td>
-
-                                <td>{{ $reporter->total_views }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                    
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
         <div class="row" id="reporters-section">
@@ -1204,32 +1153,7 @@
     });
 </script>
 
-<script>
-$(document).ready(function() {
 
-   function loadTopReporters(month) {
-    let [year, m] = month.split('-');
-
-        $.ajax({
-            url: "{{ route('admin.staff.top_reporters') }}",
-            type: 'GET',
-            data: { year: year, month: m },
-            success: function(res) {
-
-                $('#top-reporters-table tbody').html(res.tbody);
-                $('#reporter-date-range').text(res.date_range);
-            }
-        });
-    }
-    
-    $('#month').change(function() {
-        let month = $(this).val();
-        if(month) loadTopReporters(month);
-    });
-
-
-});
-</script>
 
 <script>
     $(document).on('click', '.email-cell', function() {
@@ -1268,42 +1192,7 @@ $(document).ready(function() {
         });
     });
 </script>
-<script>
-$('#generate-top-reporters').click(function() {
 
-    let month = $('#month').val();
-
-    if(!month){
-        alert('Please select a month');
-        return;
-    }
-
-    if(!confirm('Generate Top 3 Reporters for this month?')){
-        return;
-    }
-
-    $.ajax({
-        url: "{{ route('admin.staff.generate_top_reporters') }}",
-        type: "POST",
-        data: {
-            month: month,
-            _token: "{{ csrf_token() }}"
-        },
-        success: function(res){
-
-            if(res.success){
-                alert(res.message);
-            }else{
-                alert('Failed');
-            }
-        },
-        error: function(){
-            alert('Something went wrong');
-        }
-    });
-
-});
-</script>
 <script>
 $(document).ready(function() {
     function loadWeeklyBestCandidates() {

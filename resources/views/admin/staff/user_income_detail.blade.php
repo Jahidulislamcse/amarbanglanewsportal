@@ -221,18 +221,10 @@
 																@foreach($top_reporter_records as $record)
 																	<tr>
 																		<td>
-																			@if($record->week)
-																				<span class="badge badge-info text-white">Weekly</span>
-																			@else
-																				<span class="badge badge-success text-white">Monthly</span>
-																			@endif
+																			<span class="badge badge-info text-white">Weekly</span>
 																		</td>
 																		<td>
-																			@if($record->week)
-																				{{ $record->week }}
-																			@else
-																				{{ date('F', mktime(0, 0, 0, $record->month, 1)) }}, {{ $record->year }}
-																			@endif
+																			{{ $record->week }}
 																		</td>
 																		<td>
 																			<span class="font-weight-bold text-dark">
@@ -249,7 +241,7 @@
 																		</td>
 																		<td>{{ number_format($record->total_views) }}</td>
 																		<td>
-																			@if($record->week && isset($prize_money_by_week[$record->week]))
+																			@if(isset($prize_money_by_week[$record->week]))
 																				৳{{ number_format($prize_money_by_week[$record->week], 2) }}
 																			@else
 																				-

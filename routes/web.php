@@ -89,7 +89,7 @@ Route::get('/worldcup-test', function () {
 
 // routes/web.php
 
-Route::post('/admin/reporter/generate-top-reporters',[StaffController::class, 'generateTopReporters'])->name('admin.staff.generate_top_reporters');
+
 
 Route::get('/shop', [ProductShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{slug}', [ProductShopController::class, 'show'])->name('shop.show');
@@ -867,7 +867,7 @@ Route::prefix('admin')->group(function(){
         Route::post('/user/set-weekly-best', 'Admin\StaffController@setWeeklyBest')->name('admin.staff.set_weekly_best');
 
         
-        Route::get('/user/top-reporters', 'Admin\StaffController@topReportersMonth')->name('admin.staff.top_reporters');
+
 
         
         Route::get('/readers','Admin\StaffController@reader_index')->name('admin.reader.index');

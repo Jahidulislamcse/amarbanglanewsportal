@@ -764,19 +764,9 @@ class DashboardController extends Controller
             $startOfLastMonth = isset($dates[0]) ? Carbon::parse($dates[0]) : Carbon::now()->subDays(7);
             $endOfLastMonth = isset($dates[1]) ? Carbon::parse($dates[1]) : Carbon::now();
         } else {
-            $lastMonth = Carbon::now()->subMonth();
-            $year = $lastMonth->year;
-            $month = $lastMonth->month;
-            
-            $topReporters = TopReporter::with('user')
-                ->where('year', $year)
-                ->where('month', $month)
-                ->orderBy('position')
-                ->limit(3)
-                ->get();
-
-            $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
-            $endOfLastMonth   = Carbon::now()->subMonth()->endOfMonth();
+            $topReporters = collect();
+            $startOfLastMonth = Carbon::now()->subDays(7);
+            $endOfLastMonth   = Carbon::now();
         }
     
         $topReporters = $topReporters->map(function ($item) {
