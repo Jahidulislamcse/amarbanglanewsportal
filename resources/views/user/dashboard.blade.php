@@ -293,6 +293,168 @@
 @section('content')
     <div class="content-area">
 
+        @if(isset($notices) && $notices->count() > 0)
+            <!-- Custom Notice Board Section -->
+            <style>
+                @keyframes notice-glow {
+                    0% {
+                        box-shadow: 0 4px 15px rgba(20, 184, 166, 0.15);
+                    }
+                    50% {
+                        box-shadow: 0 8px 25px rgba(20, 184, 166, 0.35);
+                    }
+                    100% {
+                        box-shadow: 0 4px 15px rgba(20, 184, 166, 0.15);
+                    }
+                }
+                .notice-board-wrapper {
+                    margin-top: 15px;
+                    margin-bottom: 25px;
+                    animation: notice-glow 3s infinite ease-in-out;
+                    border-radius: 14px;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+                .notice-board-wrapper:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4) !important;
+                }
+                .notice-board-card {
+                    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+                    border: 1px solid #99f6e4;
+                    border-left: 6px solid #0d9488;
+                    border-radius: 14px;
+                    padding: 24px;
+                    color: #115e59;
+                    font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+                }
+                .notice-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-bottom: 15px;
+                    border-bottom: 1px dashed rgba(13, 148, 136, 0.2);
+                    padding-bottom: 12px;
+                }
+                .notice-header-icon {
+                    font-size: 24px;
+                    color: #0d9488;
+                }
+                .notice-header-title {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #0f766e;
+                    margin: 0;
+                }
+                .notice-body {
+                    display: flex;
+                    gap: 20px;
+                    align-items: flex-start;
+                }
+                .notice-image-container {
+                    flex: 0 0 200px;
+                    max-width: 200px;
+                }
+                .notice-image {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    border: 1px solid rgba(13, 148, 136, 0.1);
+                }
+                .notice-text-content {
+                    flex: 1;
+                    font-size: 15px;
+                    line-height: 1.6;
+                }
+                .notice-text-content a {
+                    color: #0f766e;
+                    text-decoration: underline;
+                    font-weight: 700;
+                }
+                .notice-text-content a:hover {
+                    color: #115e59;
+                }
+                @media (max-width: 768px) {
+                    .notice-body {
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                    .notice-image-container {
+                        max-width: 100%;
+                        flex: none;
+                        width: 100%;
+                        text-align: center;
+                    }
+                    .notice-image {
+                        max-width: 280px;
+                    }
+                }
+            </style>
+
+            <div class="row mx-0 mb-4">
+                <div class="col-md-12 p-0">
+                    @if($notices->count() == 1)
+                        @php $notice = $notices->first(); @endphp
+                        <div class="notice-board-wrapper">
+                            <div class="notice-board-card">
+                                <div class="notice-header">
+                                    <div class="notice-header-icon">
+                                        <i class="fas fa-bullhorn"></i>
+                                    </div>
+                                    <h4 class="notice-header-title">{{ $notice->title }}</h4>
+                                </div>
+                                <div class="notice-body">
+                                    @if($notice->image)
+                                        <div class="notice-image-container">
+                                            <img class="notice-image" src="{{ asset('assets/images/notices/'.$notice->image) }}" alt="Notice Image">
+                                        </div>
+                                    @endif
+                                    <div class="notice-text-content">
+                                        {!! $notice->text !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div id="noticeCarousel" class="carousel slide notice-board-wrapper" data-ride="carousel" data-interval="8000">
+                            <div class="carousel-inner">
+                                @foreach($notices as $key => $notice)
+                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                        <div class="notice-board-card">
+                                            <div class="notice-header">
+                                                <div class="notice-header-icon">
+                                                    <i class="fas fa-bullhorn"></i>
+                                                </div>
+                                                <h4 class="notice-header-title">{{ $notice->title }}</h4>
+                                            </div>
+                                            <div class="notice-body">
+                                                @if($notice->image)
+                                                    <div class="notice-image-container">
+                                                        <img class="notice-image" src="{{ asset('assets/images/notices/'.$notice->image) }}" alt="Notice Image">
+                                                    </div>
+                                                @endif
+                                                <div class="notice-text-content">
+                                                    {!! $notice->text !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <a class="carousel-control-prev" href="#noticeCarousel" role="button" data-slide="prev" style="width: 40px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1); opacity: 0.6;"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#noticeCarousel" role="button" data-slide="next" style="width: 40px;">
+                                <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1); opacity: 0.6;"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endif
+
         @if (auth()->user()->is_approve == 0)
             <style>
                 @keyframes soft-pulse {

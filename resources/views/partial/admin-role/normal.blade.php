@@ -242,6 +242,9 @@
             <a href="{{route('admin.generalsettings.logo')}}"><span>Logo</span></a>
         </li>
         <li>
+            <a href="{{route('admin.notice.index')}}"><span>Notice Board</span></a>
+        </li>
+        <li>
             <a href="{{route('admin.languagelogo.index')}}"><span><i class="fas fa-angle-double-right"></i>{{__('Language Base Logo')}}</span></a>
         </li>
         <li>

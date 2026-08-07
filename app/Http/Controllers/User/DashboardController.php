@@ -1000,6 +1000,7 @@ class DashboardController extends Controller
         //     ->pluck('book_id')
         //     ->toArray();
 
+        $data['notices'] = \App\Models\Notice::where('status', 1)->latest()->get();
 
         return view('user.dashboard', array_merge($data ?? [], [
             'topReporters' => $topReporters,

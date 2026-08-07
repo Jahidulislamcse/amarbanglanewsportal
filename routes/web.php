@@ -716,6 +716,16 @@ Route::prefix('admin')->group(function(){
 
         //------------General Settings-----------
         Route::post('/generalsettings/update','Admin\GeneralSettingsController@update')->name('admin.generalsettings.update');
+        
+        //-------------Admin Notice Board Section---------------
+        Route::get('notice/datatables','Admin\NoticeController@datatables')->name('admin.notice.datatables');
+        Route::get('/notice','Admin\NoticeController@index')->name('admin.notice.index');
+        Route::get('/notice/create','Admin\NoticeController@create')->name('admin.notice.create');
+        Route::post('/notice','Admin\NoticeController@store')->name('admin.notice.store');
+        Route::get('/notice/edit/{id}','Admin\NoticeController@edit')->name('admin.notice.edit');
+        Route::post('/notice/update/{id}','Admin\NoticeController@update')->name('admin.notice.update');
+        Route::get('/notice/delete/{id}','Admin\NoticeController@delete')->name('admin.notice.delete');
+
         Route::get('/generalsettings/logo','Admin\GeneralSettingsController@logo')->name('admin.generalsettings.logo');
         
         Route::get('/generalsettings/fees','Admin\GeneralSettingsController@fees')->name('admin.generalsettings.fees');
