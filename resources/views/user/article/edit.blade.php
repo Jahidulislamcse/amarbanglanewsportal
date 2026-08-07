@@ -81,10 +81,31 @@
                                                 <p class="sub-heading">{{ __('(In Any Language)') }}</p>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <input type="text" class="input-field" name="title"
-                                        placeholder="{{ __('Title') }}" id="title" autocomplete="off" value="{{ $data->title }}">
-                                        </div>
+                                         <div class="col-lg-12">
+                                             <input type="text" class="input-field" name="title"
+                                         placeholder="{{ __('Title') }}" id="title" autocomplete="off" value="{{ $data->title }}">
+
+                                             <div id="title-ai-prompt-wrap" class="mt-2 p-2 border rounded" style="display:none; background-color:#f0f9ff; border-color:#bae6fd !important; font-size:13px;">
+                                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                                     <span style="color:#0369a1; font-weight:600;">
+                                                         <i class="icofont-robot"></i> ChatGPT-এর জন্য শিরোনাম নির্দেশিকা (Prompt):
+                                                     </span>
+                                                     <div style="display:flex; gap:6px;">
+                                                         <button type="button" id="copy-title-prompt-btn" class="btn btn-xs btn-outline-info py-0 px-2" style="font-size:12px; padding:2px 8px;">
+                                                             <i class="icofont-copy"></i> কপি করুন
+                                                         </button>
+                                                         <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="btn btn-xs btn-primary py-0 px-2" style="font-size:12px; padding:2px 8px;">
+                                                             ChatGPT-এ যান <i class="icofont-external-link"></i>
+                                                         </a>
+                                                     </div>
+                                                 </div>
+                                                 <div id="title-prompt-text" style="user-select:all; border:1px solid #cbd5e1 !important; background:#fff; padding:6px 10px; border-radius:4px; margin-top:4px; font-size:13px; color:#1e293b; font-style:italic;">
+                                                 </div>
+                                                 <small style="font-size:11px; color:#64748b; margin-top:4px; display:block;">
+                                                     💡 <em>কপি বাটনে ক্লিক করে ChatGPT-এ পেস্ট করে আরও সুন্দর ও প্রফেশনাল শিরোনামের পরামর্শ নিন।</em>
+                                                 </small>
+                                             </div>
+                                         </div>
                                     </div>
 
                                     <div class="row">
@@ -430,6 +451,57 @@
 <script src="{{asset('assets/admin/js/tagify.js')}}"></script>
 <script>
     $('.tags').tagify();
+
+    function updateTitlePrompt() {
+        var titleVal = $("#title").val() ? $("#title").val().trim() : '';
+        if (titleVal.length > 0) {
+            var promptText = 'একটি নিউজ পোর্টালের জন্য এই শিরোনামটিকে আরও নির্ভুল, সংক্ষিপ্ত এবং পরিমার্জিত/আনুষ্ঠানিক রূপ দান করুন। মূল শিরোনাম: "' + titleVal + '"';
+            $("#title-prompt-text").text(promptText);
+            $("#title-ai-prompt-wrap").show();
+        } else {
+            $("#title-ai-prompt-wrap").hide();
+        }
+    }
+
+    $("#title").on('keyup input change', function () {
+        updateTitlePrompt();
+    });
+
+    updateTitlePrompt();
+
+    $(document).on('click', '#copy-title-prompt-btn', function () {
+        var promptText = $("#title-prompt-text").text();
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(promptText).then(function () {
+                showCopiedFeedback();
+            }).catch(function() {
+                fallbackCopy(promptText);
+            });
+        } else {
+            fallbackCopy(promptText);
+        }
+    });
+
+    function showCopiedFeedback() {
+        var btn = $('#copy-title-prompt-btn');
+        var origHTML = btn.html();
+        btn.html('<i class="icofont-check"></i> কপি হয়েছে!');
+        btn.css('background-color', '#22c55e').css('color', '#fff');
+        setTimeout(function () {
+            btn.html(origHTML);
+            btn.css('background-color', '').css('color', '');
+        }, 2000);
+    }
+
+    function fallbackCopy(text) {
+        var tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showCopiedFeedback();
+    }
 </script>
 <script>
 document.getElementById('image-upload').addEventListener('change', function () {
