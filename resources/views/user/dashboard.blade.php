@@ -344,14 +344,19 @@
                     display: flex;
                     align-items: flex-start;
                     gap: 15px;
-                    padding-bottom: 15px;
+                    padding: 12px 15px;
                     margin-bottom: 15px;
-                    border-bottom: 1px solid #f1f5f9;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    background: #f8fafc;
+                    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                }
+                .notice-item-box:hover {
+                    border-color: #cbd5e1;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
                 }
                 .notice-item-box:last-child {
-                    border-bottom: none;
                     margin-bottom: 0;
-                    padding-bottom: 0;
                 }
                 .notice-item-icon-img {
                     width: 50px;
