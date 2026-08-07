@@ -3395,17 +3395,22 @@ tczJqAPSbQAAAABJRU5ErkJggg=="
 
     <script>
         $(document).ready(function() {
+            // Load only division 1 on page load
             loadDivision(1);
-            setTimeout(function() {
-                @foreach (is_division($default_language->id) as $division)
-                    loadDivision({{ $division->id + 1 }});
-                @endforeach
-            }, 1000); // 1000ms = 1 second
 
+            // Lazy load other divisions only when their respective tab is clicked
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                let href = $(e.target).attr('href');
+                if (href && href.startsWith('#custom-tab-')) {
+                    let division_id = href.replace('#custom-tab-', '');
+                    let container = $('.load_tab' + division_id);
+                    if (container.find('.loading-text').text().trim() === 'Loading...') {
+                        loadDivision(division_id);
+                    }
+                }
+            });
 
             function loadDivision(division_id) {
-
-
                 $.ajax({
                     url: "{{ route('news.division.fetch') }}",
                     type: 'POST',
@@ -3414,7 +3419,6 @@ tczJqAPSbQAAAABJRU5ErkJggg=="
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-
                         if (response.html) {
                             if (division_id == 1) {
                                 $('.load_tab1').html(response.html);
@@ -3422,18 +3426,16 @@ tczJqAPSbQAAAABJRU5ErkJggg=="
                                 $('.load_tab' + response.division_id).html(response.html);
                             }
                         } else {
-                            $('.load_tab' + response.division_id).html(
-                                "<div class='loading-text'>No data found for " + title + "</div>");
+                            $('.load_tab' + division_id).html(
+                                "<div class='loading-text'>No data found.</div>");
                         }
                     },
                     error: function() {
-                        $('.load_tab' + response.division_id).find('.loading-text').text(
+                        $('.load_tab' + division_id).find('.loading-text').text(
                             'Failed to load news.');
-
                     }
                 });
             }
-
         });
     </script>
 

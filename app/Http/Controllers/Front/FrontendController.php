@@ -513,6 +513,7 @@ class FrontendController extends Controller
 
 	public function fetchDivisionNews(Request $request)
 	{
+		session_write_close();
 
 		$division_id = $request->get('division_id');
 		if (session()->has('language')) {
@@ -521,24 +522,28 @@ class FrontendController extends Controller
 			$default_language = Language::where('is_default', 1)->first();
 		}
 
-		$q =  Post::orderBy('id', 'desc')
-			->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
-			->whereIn('post_type', ['article', 'audio'])
-			->where('is_pending', 0)
-			->where('language_id', '=', $default_language->id)
-			->where('status', true);
-		if ($division_id == 1) {
-			$q->where('division_id', '>', 0);
-		} else {
-			$division_ids = $division_id - 1;
-			$q->where('division_id', $division_ids);
-		}
+		$cacheKey = 'fetch_division_news_' . $division_id . '_lang_' . $default_language->id;
 
-		$news = $q->take(9)->get();
+		$html = cache()->remember($cacheKey, 180, function () use ($division_id, $default_language) {
+			$q =  Post::orderBy('id', 'desc')
+				->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
+				->whereIn('post_type', ['article', 'audio'])
+				->where('is_pending', 0)
+				->where('language_id', '=', $default_language->id)
+				->where('status', true);
+			if ($division_id == 1) {
+				$q->where('division_id', '>', 0);
+			} else {
+				$division_ids = $division_id - 1;
+				$q->where('division_id', $division_ids);
+			}
 
-		$html = view('partial.front2.division-news', [
-			'newsItems' => $news
-		])->render();
+			$news = $q->take(9)->get();
+
+			return view('partial.front2.division-news', [
+				'newsItems' => $news
+			])->render();
+		});
 
 		return response()->json([
 			'html' => $html,
@@ -548,6 +553,8 @@ class FrontendController extends Controller
 
 	public function fetchNews(Request $request)
 	{
+		session_write_close();
+
 		$categoryId = $request->get('category_id');
 		$section = $request->get('section');
 		$title = $request->get('title');
@@ -557,83 +564,86 @@ class FrontendController extends Controller
 			$default_language = Language::where('is_default', 1)->first();
 		}
 
+		$cacheKey = 'fetch_news_cat_' . $categoryId . '_sec_' . $section . '_lang_' . $default_language->id . '_' . md5($title ?? '');
 
-		$cat_section_list = $newsl = $news = [];
-		if ($section == 3 || $section == 4) {
+		$html = cache()->remember($cacheKey, 180, function () use ($categoryId, $section, $title, $default_language) {
+			$cat_section_list = $newsl = $news = [];
+			if ($section == 3 || $section == 4) {
 
-			if ($default_language->id == 1) {
-				$home_setion = GeneralSettings::select('home_category_section')->first(1);
-			} else {
-				$home_setion = GeneralSettings::select('home_category_section_en AS home_category_section')->first(1);
-			}
+				if ($default_language->id == 1) {
+					$home_setion = GeneralSettings::select('home_category_section')->first(1);
+				} else {
+					$home_setion = GeneralSettings::select('home_category_section_en AS home_category_section')->first(1);
+				}
 
 
-			if (isset($home_setion->home_category_section) && $home_setion->home_category_section) {
-				$get_cat_explode = json_decode($home_setion->home_category_section, true);
-				if (isset($get_cat_explode[3]) && $section == 3) {
-					$cat_section_list = $get_cat_explode[3];
-					$kl = 0;
-					foreach ($cat_section_list as $get_cat) {
-						if ($kl == 0) {
-							$limit = 10;
-						} else {
-							$limit = 3;
+				if (isset($home_setion->home_category_section) && $home_setion->home_category_section) {
+					$get_cat_explode = json_decode($home_setion->home_category_section, true);
+					if (isset($get_cat_explode[3]) && $section == 3) {
+						$cat_section_list = $get_cat_explode[3];
+						$kl = 0;
+						foreach ($cat_section_list as $get_cat) {
+							if ($kl == 0) {
+								$limit = 10;
+							} else {
+								$limit = 3;
+							}
+							$kl++;
+							$newsl[$get_cat] = Post::orderBy('id', 'desc')
+								->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
+								->whereIn('post_type', ['article', 'audio'])
+								->where('is_pending', 0)
+								->where('language_id', '=', $default_language->id)
+								->where('status', true)
+								->where(function ($query) use ($get_cat) {
+									$query->where('category_id', $get_cat)
+										->orWhere('subcategories_id', $get_cat);
+								})
+								->take($limit)
+								->get();
 						}
-						$kl++;
-						$newsl[$get_cat] = Post::orderBy('id', 'desc')
-							->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
-							->whereIn('post_type', ['article', 'audio'])
-							->where('is_pending', 0)
-							->where('language_id', '=', $default_language->id)
-							->where('status', true)
-							->where(function ($query) use ($get_cat) {
-								$query->where('category_id', $get_cat)
-									->orWhere('subcategories_id', $get_cat);
-							})
-							->take($limit)
-							->get();
-					}
-				} else  if (isset($get_cat_explode[4]) && $section == 4) {
-					$cat_section_list = $get_cat_explode[4];
-					foreach ($cat_section_list as $get_cat) {
-						$newsl[$get_cat] = Post::orderBy('id', 'desc')
-							->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
-							->whereIn('post_type', ['article', 'audio'])
-							->where('is_pending', 0)
-							->where('language_id', '=', $default_language->id)
-							->where('status', true)
-							->where(function ($query) use ($get_cat) {
-								$query->where('category_id', $get_cat)
-									->orWhere('subcategories_id', $get_cat);
-							})
-							->take(6)
-							->get();
+					} else  if (isset($get_cat_explode[4]) && $section == 4) {
+						$cat_section_list = $get_cat_explode[4];
+						foreach ($cat_section_list as $get_cat) {
+							$newsl[$get_cat] = Post::orderBy('id', 'desc')
+								->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
+								->whereIn('post_type', ['article', 'audio'])
+								->where('is_pending', 0)
+								->where('language_id', '=', $default_language->id)
+								->where('status', true)
+								->where(function ($query) use ($get_cat) {
+									$query->where('category_id', $get_cat)
+										->orWhere('subcategories_id', $get_cat);
+								})
+								->take(6)
+								->get();
+						}
 					}
 				}
+			} else {
+				$news =  Post::orderBy('id', 'desc')
+					->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
+					->whereIn('post_type', ['article', 'audio'])
+					->where('is_pending', 0)
+					->where('language_id', '=', $default_language->id)
+					->where('status', true)
+					->where(function ($query) use ($categoryId) {
+						$query->where('category_id', $categoryId)
+							->orWhere('subcategories_id', $categoryId);
+					})
+					->take(6)
+					->get();
 			}
-		} else {
-			$news =  Post::orderBy('id', 'desc')
-				->where('schedule_post_date', '<=', date('Y-m-d H:i:s'))
-				->whereIn('post_type', ['article', 'audio'])
-				->where('is_pending', 0)
-				->where('language_id', '=', $default_language->id)
-				->where('status', true)
-				->where(function ($query) use ($categoryId) {
-					$query->where('category_id', $categoryId)
-						->orWhere('subcategories_id', $categoryId);
-				})
-				->take(6)
-				->get();
-		}
 
-		$html = view('partial.front2.category-news', [
-			'newsItems' => $news,
-			'newsItemsL' => $newsl,
-			'section' => $section,
-			'title' => $title,
-			'cat' => $categoryId,
-			'cat_section_list' => $cat_section_list
-		])->render();
+			return view('partial.front2.category-news', [
+				'newsItems' => $news,
+				'newsItemsL' => $newsl,
+				'section' => $section,
+				'title' => $title,
+				'cat' => $categoryId,
+				'cat_section_list' => $cat_section_list
+			])->render();
+		});
 
 		return response()->json([
 			'html' => $html
@@ -829,27 +839,7 @@ class FrontendController extends Controller
                     }
                 }
 
-                if (!empty($get_cat_explode[6])) {
-                    foreach ($get_cat_explode[6] as $title => $cat) {
-                        $posts = Post::where('schedule_post_date', '<=', $now)
-                            ->whereIn('post_type', ['article', 'audio'])
-                            ->where('is_pending', 0)
-                            ->where('status', true)
-                            ->where('language_id', $lid)
-                            ->where(function ($q) use ($cat) {
-                                $q->where('category_id', $cat)
-                                  ->orWhere('subcategories_id', $cat);
-                            })
-                            ->latest()
-                            ->take(10)
-                            ->get();
-    
-                        if ($posts->isNotEmpty()) {
-                            $cat_section_list6[$title] = $cat;
-                            $sections6[$cat] = $posts;
-                        }
-                    }
-                }
+
             }
         
             $home_video_slider = Post::select('embed_video')
