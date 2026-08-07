@@ -129,11 +129,11 @@ class ArticleController extends Controller
             'language_id' => 'required',
             'title' => 'required',
             'slug' => 'required|unique:posts',
-            'image_big' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'image_big' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'image_note' => 'nullable | max:100',
             'description' => 'required',
             'category_id' => 'required',
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
@@ -241,7 +241,7 @@ class ArticleController extends Controller
             'language_id' => 'required',
             'title' => 'required',
             'slug' => 'required|unique:posts,slug,'.$id,
-            'image_big' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'image_big' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'required',
             'category_id' => 'required',
         ];

@@ -482,8 +482,22 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
                                                             <input type="file" name="image_big" id="image-upload" style="display:none;">
                                                         </div>
                                                     
+                                                    <p class="text mt-2">{{__('Prefered Size: (600x600) or Square Sized Image')}}</p>
+
+                                                    <div class="mt-2 text-center">
+                                                        <small class="d-block font-weight-bold text-danger mb-1">
+                                                            <i class="icofont-warning"></i> {{ __('Max file size: 2MB') }} (ছবির আকার সর্বোচ্চ ২ মেগাবাইট)
+                                                        </small>
+                                                        <div class="p-2 border rounded bg-light mt-1 text-left" style="font-size:12px;">
+                                                            <span class="text-muted d-block mb-1">💡 <strong>ছবি বড় হলে সাইজ কমাতে পারেন:</strong></span>
+                                                            <div class="d-flex flex-wrap align-items-center" style="gap:5px;">
+                                                                <a href="https://tinypng.com" target="_blank" rel="noopener noreferrer" class="badge badge-info px-2 py-1">TinyPNG <i class="icofont-external-link"></i></a>
+                                                                <a href="https://squoosh.app" target="_blank" rel="noopener noreferrer" class="badge badge-primary px-2 py-1">Squoosh <i class="icofont-external-link"></i></a>
+                                                                <a href="https://www.iloveimg.com/compress-image" target="_blank" rel="noopener noreferrer" class="badge badge-success px-2 py-1">iLoveIMG <i class="icofont-external-link"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div id="image-size-warning" class="alert alert-danger p-2 mt-2 font-weight-bold" style="display:none; font-size:12px; text-align:left;"></div>
                                                     </div>
-                                                        <p class="text">{{__('Prefered Size: (600x600) or Square Sized Image')}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -710,27 +724,43 @@ document.getElementById('pgDeliveryZone') && document.getElementById('pgDelivery
         const previewImg = document.getElementById('preview-img');
 
         if (fileInput && previewImg) {
-
             fileInput.addEventListener('change', function () {
+                const warningEl = document.getElementById('image-size-warning');
 
                 if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    const maxSize = 2 * 1024 * 1024; // 2MB
+
+                    if (file.size > maxSize) {
+                        const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                        if (warningEl) {
+                            warningEl.style.display = 'block';
+                            warningEl.innerHTML = `<i class="icofont-warning-alt"></i> <strong>আপলোড ত্রুটি:</strong> আপনার বাছাইকৃত ছবির সাইজ <strong>${sizeMB} MB</strong>, যা ২ MB এর বেশি।<br>অনুগ্রহ করে <strong><a href="https://tinypng.com" target="_blank" style="color:#721c24;text-decoration:underline;">TinyPNG</a></strong>, <strong><a href="https://squoosh.app" target="_blank" style="color:#721c24;text-decoration:underline;">Squoosh</a></strong> অথবা <strong><a href="https://www.iloveimg.com/compress-image" target="_blank" style="color:#721c24;text-decoration:underline;">iLoveIMG</a></strong> দিয়ে ছবি কম্প্রেস করে আপলোড করুন।`;
+                        }
+                        this.value = '';
+                        previewImg.src = "{{ asset('assets/admin/images/upload.png') }}";
+                        return false;
+                    }
+
+                    if (warningEl) {
+                        warningEl.style.display = 'none';
+                        warningEl.innerHTML = '';
+                    }
 
                     const reader = new FileReader();
-
                     reader.onload = function (e) {
                         previewImg.src = e.target.result;
                     };
-
-                    reader.readAsDataURL(this.files[0]);
+                    reader.readAsDataURL(file);
 
                 } else {
-
+                    if (warningEl) {
+                        warningEl.style.display = 'none';
+                        warningEl.innerHTML = '';
+                    }
                     previewImg.src = "{{ asset('assets/admin/images/upload.png') }}";
-
                 }
-
             });
-
         }
 
     });
