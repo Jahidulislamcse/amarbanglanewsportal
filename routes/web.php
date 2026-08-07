@@ -274,6 +274,12 @@ Route::prefix('admin')->group(function(){
         Route::group(['middleware' => 'permissions:product_orders'], function () {
             Route::get('/orders', [OrderController::class, 'index'])
                 ->name('admin.orders.index');
+            Route::get('/orders/create-manual', [OrderController::class, 'createManual'])
+                ->name('admin.orders.createManual');
+            Route::get('/orders/search-users', [OrderController::class, 'searchUsers'])
+                ->name('admin.orders.searchUsers');
+            Route::post('/orders/create-manual', [OrderController::class, 'storeManual'])
+                ->name('admin.orders.storeManual');
             Route::post('/orders/{order}/status', [OrderController::class, 'updateStatus'])
                 ->name('admin.orders.updateStatus');
         });
