@@ -109,6 +109,52 @@
     <link rel="stylesheet" id="archive-style-css" href="{{asset('assets/front2/css/archive-style.css')}}" type="text/css" media="all">
     
     <link rel="stylesheet" id="style-css" href="{{asset('assets/front2/css/style.css')}}" type="text/css" media="all">
+    <style>
+    @media (min-width: 768px) {
+        .section_one > .container > .row,
+        .section_two > .container > .row,
+        .section_three > .container > .row,
+        .section_four > .container > .row,
+        .section_five > .container > .row,
+        .section_six > .container > .row,
+        .section_seven > .container > .row,
+        .section_eight > .container > .row,
+        .section_nine > .container > .row,
+        .section_ten > .container > .row,
+        .section_eleven > .container > .row,
+        .widget_section > .container > .row,
+        #category-200000,
+        #category-100000 {
+            display: flex !important;
+            flex-wrap: wrap !important;
+        }
+
+        .section_one > .container > .row::before, .section_one > .container > .row::after,
+        .section_two > .container > .row::before, .section_two > .container > .row::after,
+        .section_three > .container > .row::before, .section_three > .container > .row::after,
+        .section_four > .container > .row::before, .section_four > .container > .row::after,
+        .section_five > .container > .row::before, .section_five > .container > .row::after,
+        .section_six > .container > .row::before, .section_six > .container > .row::after,
+        .section_seven > .container > .row::before, .section_seven > .container > .row::after,
+        .section_eight > .container > .row::before, .section_eight > .container > .row::after,
+        .section_nine > .container > .row::before, .section_nine > .container > .row::after,
+        .section_ten > .container > .row::before, .section_ten > .container > .row::after,
+        .section_eleven > .container > .row::before, .section_eleven > .container > .row::after,
+        .widget_section > .container > .row::before, .widget_section > .container > .row::after,
+        #category-200000::before, #category-200000::after,
+        #category-100000::before, #category-100000::after {
+            display: none !important;
+        }
+
+        .section_four .box-shadow,
+        .section_eleven .box-shadow,
+        .section_six .section_six_bg,
+        .section_three .section_three_bg {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
+    </style>
     
     <link rel="stylesheet" id="mo_customer_validation_form_main_css-css" href="{{asset('assets/front2/css/mo_forms_css.min.css')}}" type="text/css" media="all">
     
