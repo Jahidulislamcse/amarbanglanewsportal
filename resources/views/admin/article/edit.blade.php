@@ -305,8 +305,6 @@
                                                                 <div class="p-2 border rounded bg-light mt-1 text-left" style="font-size:12px;">
                                                                     <span class="text-muted d-block mb-1">💡 <strong>ছবি বড় হলে সাইজ কমাতে পারেন:</strong></span>
                                                                     <div class="d-flex flex-wrap align-items-center" style="gap:5px;">
-                                                                        <a href="https://tinypng.com" target="_blank" rel="noopener noreferrer" class="badge badge-info px-2 py-1">TinyPNG <i class="icofont-external-link"></i></a>
-                                                                        <a href="https://squoosh.app" target="_blank" rel="noopener noreferrer" class="badge badge-primary px-2 py-1">Squoosh <i class="icofont-external-link"></i></a>
                                                                         <a href="https://www.iloveimg.com/compress-image" target="_blank" rel="noopener noreferrer" class="badge badge-success px-2 py-1">iLoveIMG <i class="icofont-external-link"></i></a>
                                                                     </div>
                                                                 </div>
@@ -1213,7 +1211,7 @@
                     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
                     if (warningEl) {
                         warningEl.style.display = 'block';
-                        warningEl.innerHTML = `<i class="icofont-warning-alt"></i> <strong>আপলোড ত্রুটি:</strong> আপনার বাছাইকৃত ছবির সাইজ <strong>${sizeMB} MB</strong>, যা ২ MB এর বেশি।<br>অনুগ্রহ করে <strong><a href="https://tinypng.com" target="_blank" style="color:#721c24;text-decoration:underline;">TinyPNG</a></strong>, <strong><a href="https://squoosh.app" target="_blank" style="color:#721c24;text-decoration:underline;">Squoosh</a></strong> অথবা <strong><a href="https://www.iloveimg.com/compress-image" target="_blank" style="color:#721c24;text-decoration:underline;">iLoveIMG</a></strong> দিয়ে ছবি কম্প্রেস করে আপলোড করুন।`;
+                        warningEl.innerHTML = `<i class="icofont-warning-alt"></i> <strong>আপলোড ত্রুটি:</strong> আপনার বাছাইকৃত ছবির সাইজ <strong>${sizeMB} MB</strong>, যা ২ MB এর বেশি।<br>অনুগ্রহ করে <strong><a href="https://www.iloveimg.com/compress-image" target="_blank" style="color:#721c24;text-decoration:underline;">iLoveIMG</a></strong> দিয়ে ছবি কম্প্রেস/রিডিউস করে আপলোড করুন।`;
                     }
                     this.value = '';
                     previewImg.src = "{{ asset('assets/images/post/' . $data->image_big) }}";
