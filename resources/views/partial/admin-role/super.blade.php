@@ -1,4 +1,10 @@
 <li>
+    <a href="{{ route('admin.notice.index') }}">
+        <i class="fas fa-bullhorn"></i>{{ __('Notice Board') }}
+    </a>
+</li>
+
+<li>
     <a href="{{ route('admin.menu.builder') }}" >
         <i class="fas fa-bars"></i>{{ __('Menu Builder') }}
     </a>
@@ -284,9 +290,6 @@
         </li>
         <li>
             <a href="{{route('admin.generalsettings.logo')}}"><span><i class="fas fa-angle-double-right"></i>{{__('Logo')}}</span></a>
-        </li>
-        <li>
-            <a href="{{route('admin.notice.index')}}"><span><i class="fas fa-angle-double-right"></i>{{__('Notice Board')}}</span></a>
         </li>
         <li>
             <a href="{{route('admin.languagelogo.index')}}"><span><i class="fas fa-angle-double-right"></i>{{__('Language Base Logo')}}</span></a>

@@ -1,3 +1,11 @@
+@if(Auth::guard('admin')->user()->sectionCheck('general_settings'))
+<li>
+    <a href="{{ route('admin.notice.index') }}">
+        <i class="fas fa-bullhorn"></i>{{ __('Notice Board') }}
+    </a>
+</li>
+@endif
+
 @if(Auth::guard('admin')->user()->sectionCheck('menu_builder'))
 <li>
     <a href="{{ route('admin.menu.builder') }}" >
@@ -240,9 +248,6 @@
     <ul class="collapse list-unstyled" id="general" data-parent="#accordion">
         <li>
             <a href="{{route('admin.generalsettings.logo')}}"><span>Logo</span></a>
-        </li>
-        <li>
-            <a href="{{route('admin.notice.index')}}"><span>Notice Board</span></a>
         </li>
         <li>
             <a href="{{route('admin.languagelogo.index')}}"><span><i class="fas fa-angle-double-right"></i>{{__('Language Base Logo')}}</span></a>
