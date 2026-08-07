@@ -492,7 +492,7 @@
                                     {{ __('কিভাবে আমার বাংলা ২৪-এ নিউজ পোস্ট করবেন') }}
                                 </h5>
                             </div>
-                            <div class="card-body p-4 text-center d-flex flex-column justify-content-between">
+                            <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
                                 <div class="embed-responsive embed-responsive-16by9 mx-auto"
                                     style="max-width: 720px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
                                     <iframe class="embed-responsive-item"
@@ -501,10 +501,6 @@
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted font-weight-bold" style="font-size: 14px;">
-                                    <i class="fas fa-info-circle mr-1 text-primary"></i>
-                                    আপনার রিপোর্টার প্যানেল থেকে সংবাদ পোস্ট করার নিয়মাবলী বিস্তারিত জানতে উপরের ভিডিও টিউটোরিয়ালটি সম্পূর্ণ দেখুন।
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -560,11 +556,6 @@
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
-                            <p class="mt-3 text-muted font-weight-bold" style="font-size: 14px;">
-                                <i class="fas fa-info-circle mr-1 text-primary"></i>
-                                আপনার রিপোর্টার প্যানেল থেকে সংবাদ পোস্ট করার নিয়মাবলী বিস্তারিত জানতে উপরের ভিডিও টিউটোরিয়ালটি
-                                সম্পূর্ণ দেখুন।
-                            </p>
                         </div>
                     </div>
                 </div>
