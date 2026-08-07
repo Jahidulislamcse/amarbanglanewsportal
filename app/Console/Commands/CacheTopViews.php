@@ -28,7 +28,7 @@ class CacheTopViews extends Command
             ->take($limit)
             ->get();
 
-        Cache::put('top_views', $top_views, 604800); // cache for 1 week
+        // Cache::put('top_views', $top_views, 604800); // caching disabled per request
         $this->info('Top views cached successfully!');
     }
 }

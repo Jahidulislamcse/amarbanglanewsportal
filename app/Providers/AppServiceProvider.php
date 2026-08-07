@@ -25,13 +25,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Post::saved(function () {
             cache()->forget('home_index_data_lang_1');
-            cache()->forget('details_recents_1');
-            cache()->forget('details_trendings_1');
+            // cache()->forget('details_recents_1');
+            // cache()->forget('details_trendings_1');
         });
         Post::deleted(function () {
             cache()->forget('home_index_data_lang_1');
-            cache()->forget('details_recents_1');
-            cache()->forget('details_trendings_1');
+            // cache()->forget('details_recents_1');
+            // cache()->forget('details_trendings_1');
         });
 
         View::composer('partial.front2.header', function ($view) {

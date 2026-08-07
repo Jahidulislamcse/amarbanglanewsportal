@@ -1087,9 +1087,7 @@ class FrontendController extends Controller
             }
         }  
    
-        $recents = cache()->remember("details_recents_{$lid}", 600, function() use ($lid) {
-            return collect(is_recents($lid));
-        });
+        $recents = collect(is_recents($lid));
 
         $trendings = cache()->remember("details_trendings_{$lid}", 600, function() use ($lid) {
             $trendingsIds = is_trendings($lid);
