@@ -379,7 +379,7 @@ class PostController extends Controller
         @unlink('assets/images/post/'.$data->image_big);
         $data->delete();
         $msg = 'Data Successfully Deleted';
-        return response()->json($msg);
+        return redirect()->back()->with('success', $msg);
     }
 
     public function bulkdelete(Request $request){
