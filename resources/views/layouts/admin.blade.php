@@ -321,7 +321,7 @@
 		<!-- Custom Js-->
 		<script src="{{asset('assets/admin/js/custom.js')}}"></script>
 		<!-- AJAX Js-->
-		<script src="{{asset('assets/admin/js/myscript.js')}}"></script>
+		<script src="{{asset('assets/admin/js/myscript.js')}}?v=1.0.1"></script>
 		<!--bootstrap-taginput-->
 		<script src="{{asset('assets/admin/js/bootstrap-tagsinput.js')}}"></script>
 		<script src="{{asset('assets/admin/js/jquery.validate.min.js')}}"></script>

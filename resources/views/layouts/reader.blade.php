@@ -478,7 +478,7 @@ body{
 <script src="{{asset('assets/admin/js/load.js')}}"></script>
 <script src="{{asset('assets/admin/js/custom.js')}}"></script>
 <script src="{{asset('assets/front/js/login.js')}}"></script>
-<script src="{{asset('assets/admin/js/myscript.js')}}"></script>
+<script src="{{asset('assets/admin/js/myscript.js')}}?v=1.0.1"></script>
 <script src="{{asset('assets/admin/js/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('assets/admin/js/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/additional-methods.min.js')}}"></script>
