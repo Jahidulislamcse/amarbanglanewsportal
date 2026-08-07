@@ -455,7 +455,7 @@
     function updateTitlePrompt() {
         var titleVal = $("#title").val() ? $("#title").val().trim() : '';
         if (titleVal.length > 0) {
-            var promptText = 'একটি নিউজ পোর্টালের জন্য এই শিরোনামটিকে আরও নির্ভুল, সংক্ষিপ্ত এবং পরিমার্জিত/আনুষ্ঠানিক রূপ দান করুন। মূল শিরোনাম: "' + titleVal + '"';
+            var promptText = 'একটি নিউজ পোর্টালের জন্য এই শিরোনামটিকে সর্বোচ্চ ৭০ অক্ষরের মধ্যে আরও নির্ভুল, সংক্ষিপ্ত এবং প্রফেশনাল রূপ দান করুন। মূল শিরোনাম: "' + titleVal + '"';
             $("#title-prompt-text").text(promptText);
             $("#title-ai-prompt-wrap").show();
         } else {
