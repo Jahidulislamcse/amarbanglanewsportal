@@ -365,6 +365,7 @@ Route::prefix('admin')->group(function(){
 
 
 		Route::get('/idcard/{id?}/{type}', 'Admin\DashboardController@idcard')->name('admin.idcard');
+		Route::get('/visitingcard/{id?}/{type}', 'Admin\DashboardController@visitingcard')->name('admin.visitingcard');
 		
 		Route::get('/applicationform/{id?}/{type}', 'Admin\DashboardController@applicationform')->name('admin.applicationform');
 		
@@ -1148,6 +1149,7 @@ Route::middleware(['auth', 'payment.active'])->group(function () {
      
         	
         	Route::get('/idcard/{id?}', 'User\DashboardController@idcard')->name('user.idcard');
+        	Route::get('/visitingcard/{id?}', 'User\DashboardController@visitingcard')->name('user.visitingcard');
         	Route::get('/applicationform/{id?}', 'User\DashboardController@applicationform')->name('user.applicationform');
         	
 

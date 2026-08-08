@@ -259,7 +259,7 @@ class AdministerController extends Controller
                                 }else{
                                     $delete = '';
                                 }
-                                return '<div class="action-list"><a target="_blank" href="'.route('admin.idcard',[base64_encode($data->id),2]).'" ><i class="fas fa-credit-card"></i> ID Card</a><a data-href="'.route('admin.administator.edit',$data->id) .'" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a>'.$delete.'</div>';
+                                return '<div class="action-list"><a target="_blank" href="'.route('admin.idcard',[base64_encode($data->id),2]).'" ><i class="fas fa-credit-card"></i> ID Card</a><a target="_blank" href="'.route('admin.visitingcard',[base64_encode($data->id),2]).'" ><i class="fas fa-address-card"></i> Visiting Card</a><a data-href="'.route('admin.administator.edit',$data->id) .'" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a>'.$delete.'</div>';
                             })
                             ->editColumn('role_id',function(Admin $data){
                                 return $role = $data->role_id ? $data->role->name:'';

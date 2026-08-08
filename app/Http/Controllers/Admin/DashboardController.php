@@ -171,6 +171,92 @@ class DashboardController extends Controller
         return view('user.profile.idcard', compact('data', 'reportcategories', 'type', 'areaName'));
     }
 
+    public function visitingcard($id = null, $type = null)
+    {
+        $reportcategories = DB::table('reportcategories')->pluck('title_bn', 'id');
+    
+        if ($id) {
+            $id = base64_decode($id);
+    
+            if ($type == 1) {
+                $data = User::select(
+                    'users.id',
+                    'users.name',
+                    'users.photo',
+                    'users.blood',
+                    'users.phone',
+                    'users.email',
+                    'users.address',
+                    'users.report_type',
+                    'users.division_id',
+                    'users.district_id',
+                    'users.thana_id',
+                    'users.union_id'
+                )->where('id', $id)->first();
+            } else {
+                $data = Admin::join('roles', 'admins.role_id', '=', 'roles.id')
+                    ->where('admins.id', $id)
+                    ->select(
+                        'admins.id',
+                        'admins.name',
+                        'admins.photo',
+                        'admins.phone',
+                        'admins.email',
+                        'admins.address',
+                        'admins.blood',
+                        'roles.name_bn AS report_type'
+                    )
+                    ->first();
+            }
+        } else {
+            $data = auth()->user();
+            $type = 1;
+        }
+    
+        $areaName = '';
+        if ($type == 1 && !empty($data->report_type)) {
+            $types = json_decode($data->report_type, true);
+            if (is_array($types) && isset($types[0])) {
+                $typeId = (int) $types[0];
+                if (in_array($typeId, [29, 31, 37]) && !empty($data->division_id)) {
+                    $areaName = DB::table('divisions')->where('id', $data->division_id)->value('bn_name');
+                } elseif (in_array($typeId, [30, 36]) && !empty($data->district_id)) {
+                    $areaName = DB::table('districts')->where('id', $data->district_id)->value('bn_name');
+                } elseif (in_array($typeId, [32, 35]) && !empty($data->thana_id)) {
+                    $areaName = DB::table('upazilas')->where('id', $data->thana_id)->value('bn_name');
+                } elseif ($typeId == 34 && !empty($data->union_id)) {
+                    $areaName = DB::table('unions')->where('id', $data->union_id)->value('bn_name');
+                }
+            }
+        }
+
+        $addressParts = [];
+        if (!empty($data->address)) {
+            $addressParts[] = $data->address;
+        }
+        if (!empty($data->union_id)) {
+            $unionName = DB::table('unions')->where('id', $data->union_id)->value('bn_name');
+            if ($unionName && !in_array($unionName, $addressParts)) {
+                $addressParts[] = $unionName;
+            }
+        }
+        if (!empty($data->thana_id)) {
+            $upazilaName = DB::table('upazilas')->where('id', $data->thana_id)->value('bn_name');
+            if ($upazilaName && !in_array($upazilaName, $addressParts)) {
+                $addressParts[] = $upazilaName;
+            }
+        }
+        if (!empty($data->district_id)) {
+            $districtName = DB::table('districts')->where('id', $data->district_id)->value('bn_name');
+            if ($districtName && !in_array($districtName, $addressParts)) {
+                $addressParts[] = $districtName;
+            }
+        }
+        $fullAddress = implode(', ', $addressParts);
+
+        return view('user.profile.visitingcard', compact('data', 'reportcategories', 'type', 'areaName', 'fullAddress'));
+    }
+
 	
 	
 	  public function applicationform($id=null,$type=null)

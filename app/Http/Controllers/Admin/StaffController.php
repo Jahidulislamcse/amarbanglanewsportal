@@ -243,8 +243,12 @@ class StaffController extends Controller
                 $count_detail = '<a target="_blank" href="' . route('admin.idcard', [base64_encode($data->id), 1]) . '">
                                     <i class="fas fa-credit-card"></i> ID Card
                                  </a>
+                                 <a target="_blank" href="' . route('admin.visitingcard', [base64_encode($data->id), 1]) . '">
+                                    <i class="fas fa-address-card"></i> Visiting Card
+                                 </a>
                                  <a target="_blank" href="' . route('admin.applicationform', [base64_encode($data->id), 1]) . '">
-                                    <i class="fas fa-credit-card"></i> Form
+                                    <i class="fas fa-file-alt"></i> Form
+                                 </a>
                                  <a target="_blank" href="' . route('admin.staff.user_income_detail', $data->id) . '">
                                     <i class="fas fa-search"></i> View Income
                                  </a>';

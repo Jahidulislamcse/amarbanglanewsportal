@@ -1381,6 +1381,64 @@ class DashboardController extends Controller
         }
     }
 
+    public function visitingcard($id = null)
+    {
+        $session_pin = Session::get('session_pin');
+    
+        if (auth()->user()->is_approve == 1 && auth()->user()->id == $session_pin) {
+            $reportcategories = DB::table('reportcategories')->pluck('title_bn', 'id');
+            $data = auth()->user();
+            $type = 1;
+
+            $areaName = '';
+            if (!empty($data->report_type)) {
+                $types = json_decode($data->report_type, true);
+                if (is_array($types) && isset($types[0])) {
+                    $typeId = (int)$types[0];
+                    if (in_array($typeId, [29, 31, 37]) && !empty($data->division_id)) {
+                        $areaName = DB::table('divisions')->where('id', $data->division_id)->value('bn_name');
+                    } elseif (in_array($typeId, [30, 36]) && !empty($data->district_id)) {
+                        $areaName = DB::table('districts')->where('id', $data->district_id)->value('bn_name');
+                    } elseif (in_array($typeId, [32, 35]) && !empty($data->thana_id)) {
+                        $areaName = DB::table('upazilas')->where('id', $data->thana_id)->value('bn_name');
+                    } elseif ($typeId == 34 && !empty($data->union_id)) {
+                        $areaName = DB::table('unions')->where('id', $data->union_id)->value('bn_name');
+                    }
+                }
+            }
+
+            $addressParts = [];
+            if (!empty($data->address)) {
+                $addressParts[] = $data->address;
+            }
+            if (!empty($data->union_id)) {
+                $unionName = DB::table('unions')->where('id', $data->union_id)->value('bn_name');
+                if ($unionName && !in_array($unionName, $addressParts)) {
+                    $addressParts[] = $unionName;
+                }
+            }
+            if (!empty($data->thana_id)) {
+                $upazilaName = DB::table('upazilas')->where('id', $data->thana_id)->value('bn_name');
+                if ($upazilaName && !in_array($upazilaName, $addressParts)) {
+                    $addressParts[] = $upazilaName;
+                }
+            }
+            if (!empty($data->district_id)) {
+                $districtName = DB::table('districts')->where('id', $data->district_id)->value('bn_name');
+                if ($districtName && !in_array($districtName, $addressParts)) {
+                    $addressParts[] = $districtName;
+                }
+            }
+            $fullAddress = implode(', ', $addressParts);
+
+            return view('user.profile.visitingcard', compact('data', 'reportcategories', 'type', 'areaName', 'fullAddress'));
+        } else {
+            $type = "";
+            $data = [];
+            return view('user.profile.pincard', compact('data', 'type'));
+        }
+    }
+
 	
 	 public function applicationform($id=null)
     {
