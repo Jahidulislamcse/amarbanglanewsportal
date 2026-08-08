@@ -101,13 +101,13 @@
             line-height: 1.3;
         }
 
-        /* Contact Items aligned center with icons */
+        /* Contact Items aligned exactly with icon centers */
         .v-contact-phone {
             position: absolute;
-            top: 50.5%;
-            right: 12.8%;
+            top: 56.66%;
+            transform: translateY(-50%);
+            right: 12%;
             width: 440px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -115,14 +115,15 @@
             font-weight: 700;
             color: #111111;
             text-align: right;
+            line-height: 1;
         }
 
         .v-contact-email {
             position: absolute;
-            top: 64%;
-            right: 12.8%;
+            top: 68.14%;
+            transform: translateY(-50%);
+            right: 12%;
             width: 440px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -130,14 +131,15 @@
             font-weight: 700;
             color: #111111;
             text-align: right;
+            line-height: 1;
         }
 
         .v-contact-address {
             position: absolute;
-            top: 76.5%;
-            right: 12.8%;
+            top: 78.80%;
+            transform: translateY(-50%);
+            right: 12%;
             width: 440px;
-            height: 46px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
