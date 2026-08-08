@@ -241,11 +241,13 @@ class StaffController extends Controller
                            </a>';
     
                 $visitingCardLink = '';
+                /*
                 if (Auth::guard('admin')->check() && in_array(Auth::guard('admin')->id(), [1, 55])) {
                     $visitingCardLink = '<a target="_blank" href="' . route('admin.visitingcard', [base64_encode($data->id), 1]) . '">
                                             <i class="fas fa-address-card"></i> Visiting Card
                                          </a>';
                 }
+                */
 
                 $count_detail = '<a target="_blank" href="' . route('admin.idcard', [base64_encode($data->id), 1]) . '">
                                     <i class="fas fa-credit-card"></i> ID Card

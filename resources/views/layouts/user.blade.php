@@ -305,9 +305,11 @@
 											@if(auth()->user()->is_approve == 1)
 											<li><a href="{{route('user.idcard')}}" target="_blank"><i class="fas fa-credit-card"></i> {{ __('ID Card') }}</a></li>
 											@endif
+											{{--
 											@if(auth()->guard('admin')->check() && in_array(auth()->guard('admin')->user()->id, [1, 55]))
 											<li><a href="{{route('user.visitingcard')}}" target="_blank"><i class="fas fa-address-card"></i> {{ __('Visiting Card') }}</a></li>
 											@endif
+											--}}
 											<li><a href="{{route('user.applicationform')}}" target="_blank"><i class="fas fa-user"></i> {{ __('Application Form') }}</a></li>
 											<li><a href="{{ route('user.logout') }}"><i class="fas fa-power-off"></i> Logout</a></li>
 										</ul>
