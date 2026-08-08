@@ -45,8 +45,10 @@
             background-repeat: no-repeat;
             background-size: 100% 100%;
             background-position: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border-radius: 6px;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            border: none !important;
+            outline: none !important;
             overflow: hidden;
             background-color: #ffffff;
         }
@@ -189,7 +191,8 @@
                 padding: 0;
             }
             .visiting-card {
-                box-shadow: none;
+                box-shadow: none !important;
+                border: none !important;
                 page-break-after: always;
             }
         }

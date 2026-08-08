@@ -42,7 +42,7 @@
                 <div class="v-role">
                     {{ $title }}
                     @if(!empty($areaName))
-                        <span>{{ $areaName }}</span>
+                        <span>({{ $areaName }})</span>
                     @endif
                 </div>
             </div>
