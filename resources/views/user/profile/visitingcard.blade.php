@@ -28,7 +28,7 @@
         <div id="visitingFrontCard" class="visiting-card front">
             <!-- QR CODE -->
             <div class="v-qr-code {{ $isRestrictedUser ? 'crossed-qr' : '' }}">
-                {!! QrCode::size(190)->generate($url) !!}
+                {!! QrCode::size(140)->generate($url) !!}
                 @if($isRestrictedUser)
                     <svg class="qr-cross-line" viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99;">
                         <line x1="0" y1="100" x2="100" y2="0" stroke="red" stroke-width="4" />
@@ -55,7 +55,7 @@
                 {{ $data->email ? $data->email : '-' }}
             </div>
             <div class="v-contact-address">
-                {{ !empty($fullAddress) ? $fullAddress : ($data->address ? $data->address : '-') }}
+                {{ !empty($fullAddress) ? $fullAddress : '-' }}
             </div>
         </div>
 

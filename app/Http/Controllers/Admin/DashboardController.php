@@ -232,7 +232,12 @@ class DashboardController extends Controller
 
         $addressParts = [];
         if (!empty($data->address)) {
-            $addressParts[] = $data->address;
+            preg_match_all('/[\x{0980}-\x{09FF}\s,|-]+/u', $data->address, $matches);
+            $banglaAddrStr = trim(implode('', $matches[0] ?? []));
+            $banglaAddrStr = trim(preg_replace('/\s+/', ' ', $banglaAddrStr), " \t\n\r\0\x0B,-");
+            if (!empty($banglaAddrStr)) {
+                $addressParts[] = $banglaAddrStr;
+            }
         }
         if (!empty($data->union_id)) {
             $unionName = DB::table('unions')->where('id', $data->union_id)->value('bn_name');
@@ -252,7 +257,7 @@ class DashboardController extends Controller
                 $addressParts[] = $districtName;
             }
         }
-        $fullAddress = implode(', ', $addressParts);
+        $fullAddress = implode(', ', array_filter($addressParts));
 
         return view('user.profile.visitingcard', compact('data', 'reportcategories', 'type', 'areaName', 'fullAddress'));
     }

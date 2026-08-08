@@ -62,10 +62,10 @@
         /* Overlay Elements for Front Card */
         .v-qr-code {
             position: absolute;
-            top: 36%;
-            left: 9.6%;
-            width: 195px;
-            height: 195px;
+            top: 37%;
+            left: 13.5%;
+            width: 140px;
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,7 +86,7 @@
         }
 
         .v-name {
-            font-size: 38px;
+            font-size: 36px;
             font-weight: 700;
             color: #0b7c4a;
             margin: 0;
@@ -94,45 +94,58 @@
         }
 
         .v-role {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 700;
             color: #1a1a1a;
-            margin-top: 6px;
+            margin-top: 5px;
             line-height: 1.3;
         }
 
+        /* Contact Items aligned center with icons */
         .v-contact-phone {
             position: absolute;
-            top: 55%;
-            right: 12%;
-            font-size: 21px;
+            top: 50.5%;
+            right: 12.8%;
+            width: 440px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 20px;
             font-weight: 700;
             color: #111111;
             text-align: right;
-            line-height: 1;
         }
 
         .v-contact-email {
             position: absolute;
-            top: 67.5%;
-            right: 12%;
+            top: 64%;
+            right: 12.8%;
+            width: 440px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
             font-size: 19px;
             font-weight: 700;
             color: #111111;
             text-align: right;
-            line-height: 1;
         }
 
         .v-contact-address {
             position: absolute;
-            top: 79%;
-            right: 12%;
-            font-size: 18px;
+            top: 76.5%;
+            right: 12.8%;
+            width: 440px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 17px;
             font-weight: 700;
             color: #111111;
             text-align: right;
-            line-height: 1.2;
-            max-width: 440px;
+            line-height: 1.25;
         }
 
         .print-btn-wrapper {
