@@ -64,10 +64,12 @@
         </div>
     </div>
 
+    @if(!$isRestrictedUser)
     <!-- DOWNLOAD BUTTON -->
     <div class="print-btn-wrapper no-print">
         <button id="download_visiting_pdf" class="btn-download-pdf">
             <i class="fas fa-file-pdf"></i> Download PDF
         </button>
     </div>
+    @endif
 @endsection
